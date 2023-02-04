@@ -1,0 +1,849 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="d-grid gap-2">
+    <button class="btn btn-primary" type="button" (click)="searchForm = !searchForm">
+      Tìm kiếm theo tên nhân viên hoặc địa chỉ hoặc chứng minh nhân dân hoặc tên đơn vị công tác</button>
+  </div>
+
+  <div class="input-group list-inputsearch" *ngIf="searchForm">
+    <input type="search" class="form-control rounded" placeholder="tên nhân viên cần tìm" #name id="nameSearch"
+           (change)="name_search = name.value.trim()"/>
+    <input type="search" class="form-control rounded" placeholder="chứng minh nhân dân cần tìm" #cmnd id="cmndSearch"
+           (change)="cmnd_search=cmnd.value.trim()"/>
+    <input type="search" class="form-control rounded" placeholder="địa chỉ tìm" #address id="addressSearch"
+           (change)="address_search = address.value.trim()"/>
+    <input type="search" class="form-control rounded" placeholder="tên bộ phận tìm" #department id="departmentSearch"
+           (change)="department_search = department.value.trim()"/>
+    <button type="button" class="btn btn-primary"
+            (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button class="btn btn-success" (click)="refreshPage()">
+      <i class="fa-solid fa-arrows-rotate"></i>
+    </button>
+  </div>
+  <div class="header">
+    <h2>Quản Lý Nhân Viên</h2>
+    <div class="button-delete-all">
+      <button class="btn btn-danger" [disabled]="employees.length == 0" data-bs-toggle="modal"
+              data-bs-target="#statusModal">
+        <i class="fa-solid fa-eraser"></i> xóa tất cả
+      </button>
+
+    </div>
+    <div class="button-create">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="fa-solid fa-file-circle-plus"></i> thêm mới nhân viên
+      </button>
+    </div>
+    <div class="button-go-home">
+      <a routerLink="/home">
+        <button class="btn btn-info" >
+          <i class="fa-solid fa-house-user"></i> về trang chủ
+        </button>
+      </a>
+    </div>
+  </div>
+  <div style="width: 100%">
+    <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%" >
+      <thead>
+      <th>Hình đại diện</th>
+      <th>Họ tên</th>
+      <th>CMND</th>
+      <th>Email</th>
+      <th>Số Điện Thoại</th>
+      <th>Ngày Sinh</th>
+      <th>Giới Tính</th>
+      <th>Địa Chỉ</th>
+      <th>Lương</th>
+      <th>Cấp Lương</th>
+      <th>Bộ Phận Làm Việc</th>
+      <th>Ngày làm việc</th>
+      <th>Tài khoản</th>
+      <th>
+      </th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of employees">
+        <td><img src="{{item.avatar}}"></td>
+        <td>{{item.name}}</td>
+        <td>{{item.id_card}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.birthday | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.gender}}</td>
+        <td>{{item.address.length > 10 ? item.address.substring(0,10) + ' ...'  : item.address}}</td>
+        <td>{{item.salary| currency: "VND": "symbol"}}</td>
+        <td>{{item.salaryScale}}</td>
+        <td>{{item.department}}</td>
+        <td>{{ item.dateBegin }}</td>
+        <td>{{ item.account}}</td>
+        <td>
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="fa-solid fa-user-pen"></i>
+          </button>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                  (click)="findById(item.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<!--page-->
+
+<div>
+  <ul class="pagination justify-content-right">
+    <li class="page-item">
+      <a class="page-link">
+        <i class="fa-solid fa-backward-fast"
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
+      </a>
+    </li>
+    <li>
+      <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''">
+        <i class="fa-solid fa-backward"
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,pageNumber - 1)"></i>
+      </a>
+    </li>
+    <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
+      <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
+         (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,i)">
+        {{i + 1}}
+      </a>
+    </li>
+    <li>
+      <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
+        <i class="fa-solid fa-forward"
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,pageNumber + 1)"></i>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link"
+         (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,totalPages - 1)">
+        <i class="fa-solid fa-forward-fast"></i> </a>
+    </li>
+    <li class="page-item">
+      <span class="page-link">{{pageNumber + 1}} / {{totalPages}}</span>
+    </li>
+    <li class="page-item">
+      <div class="input-group rounded">
+        <input type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
+               aria-label="Search" aria-describedby="search-addon"/>
+        <span class="input-group-text border-0" id="search-addon">
+           <i class="fas fa-search"
+              (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,+element.value - 1)"></i>
+        </span>
+      </div>
+    </li>
+
+  </ul>
+</div>
+<!-- Delete modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title">Xóa Nhân Viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Xóa đi nhân viên này <span id="name_delete"></span> ?
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> đây là hành động không thể hoàn tác</p>
+        <input hidden id="id_delete" #id_delete>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger" (click)="deleteById(id_delete.value)">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--alert message -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+<div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+    <use xlink:href="#exclamation-triangle-fill"/>
+  </svg>
+  <div>
+    {{message}}
+  </div>
+</div>
+
+<!--xóa all modal-->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn chắc chắn muốn xóa tất cả nhân viên ?
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> đây là hành động không thể hoàn tác</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger" (click)="deleteAll()">Xóa tất cả</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--create modal-->
+<div class="modal fade" id="createModal"  tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Tạo mới nhân viên</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="h-100 h-custom gradient-custom-2">
+            <div class="container">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                  <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                      <div class="row g-0">
+                        <div class="col-lg-6">
+                          <div class="p-5">
+                            <h3 class="fw-normal mb-5" style="color: #4835d4;">Thông Tin Cá Nhân</h3>
+                            <div class="row">
+                              <!--                              tên-->
+                              <div class="mb-4 pb-2">
+                                <div class="form-outline">
+                                  <label class="form-label" for="name">Họ Tên</label>
+                                  <input type="text" id="name" name="name" formControlName="name"
+                                         class="form-control form-control-lg"/>
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.name.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      có thể sử dụng tên này
+                                    </div>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    Mời nhập họ tên vào
+                                  </span>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.name.hasError('pattern') &&  formGroup.controls.name.touched)">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    Họ tên không được có số
+                                  </span>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.name.hasError('minlength')) ">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    họ tên nên nhiều hơn 5 kí tự
+                                  </span>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.name.hasError('maxlength')) ">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    họ tên nên ít hơn 200 kí tự
+                                  </span>
+                                  </div>
+                                </div>
+                              </div>
+<!--                              dia chi-->
+                              <div class="mb-4 pb-2">
+                                <div class="form-outline">
+                                  <label class="form-label" for="name">Địa Chỉ</label>
+                                  <input type="text" id="address" name="address" formControlName="address"
+                                         class="form-control form-control-lg"/>
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.address.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      có thể sử dụng địa chỉ này
+                                    </div>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.address.hasError('required')||
+                                        formGroup.controls.address.hasError('trim'))">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    Mời nhập địa chỉ vào
+                                  </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <!--                              hình đại diện-->
+                              <div class="mb-4 pb-2">
+                                <div class="form-outline">
+                                  <label class="form-label" for="avatar">Hình Đại Diện</label>
+                                  <!--                                  <input type="file" id="avatar" name="avatar"-->
+                                  <!--                                         formControlName="avatar"-->
+                                  <!--                                         class="form-control form-control-lg"/>-->
+                                  <input type="file"
+                                         id="avatar" name="avatar"
+                                         class="form-control form-control-lg"
+                                         (change)="fileChose = $event.target.files[0]"
+                                         formControlName="avatar"
+                                         autocomplete="off"
+                                  />
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.avatar.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      có thể sử dụng hình ảnh này
+                                    </div>
+                                  </div>
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                       *ngIf="(formGroup.controls.avatar.hasError('required'))">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    Mời chọn hình ảnh đại diện
+                                  </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--ngày tháng năm sinh -->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline">
+                                <label class="form-label" for="birthday">Ngày tháng năm sinh</label>
+                                <input type="date" id="birthday" name="birthday"
+                                       formControlName="birthday" class="form-control form-control-lg"/>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.birthday.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    có thể sử dụng ngày sinh này
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.birthday.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập ngày sinh vào
+                                  </span>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.birthday.hasError('birthdaypast')) && formGroup.controls.birthday.touched">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    người đăng kí nên trên 18 tuổi
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <!--                            email -->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline">
+                                <label class="form-label" for="birthday">Email</label>
+                                <input type="text" id="email" name="email"
+                                       formControlName="email"
+                                       (change)="changeEmail()"
+                                       class="form-control form-control-lg"/>
+                                <div id="successEmail">
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.email.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                        đã nhập xong email!
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.email.hasError('required')">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập email vào
+                                  </span>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.email.hasError('pattern'))
+                                     &&formGroup.controls.email.touched  ">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                      email chưa đúng định dạng
+                                  </span>
+                                </div>
+                                <div style="display: none" id="emailExists">
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    email đã tồn tại
+                                  </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--                            phone-->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline">
+                                <label class="form-label" for="birthday">Phone</label>
+                                <input type="text" id="phone" name="phone"
+                                       formControlName="phone"
+                                       (change)="changePhone()"
+                                       class="form-control form-control-lg"/>
+                                <div id="successPhone">
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.phone.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      đã nhập xong số điện thoại
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.phone.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập số điện thoại vào
+                                  </span>
+                                </div>
+                                <div style="display: none" id="phoneExists">
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    số điện thoại này đã được sử dụng
+                                  </span>
+                                  </div>
+                                </div>
+
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.phone.hasError('pattern')) && formGroup.controls.phone.touched">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    số điện thoại của bạn chưa đúng định dạng
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <!--giới tính -->
+                            <div class="row">
+                              <div class="form-outline">
+                                <label class="form-label" for="birthday">Giới tính</label>
+                                <ul type="none">
+                                  <li *ngFor="let item of genders">
+                                    <input type="radio" name="gender" formControlName="gender"
+                                           value="{{item.id}}"/> {{item.name}}
+                                  </li>
+                                </ul>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.gender.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    đã chọn giới tính xong
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.gender.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập giới tính vào
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-lg-6 bg-indigo text-white">
+                          <div class="p-5">
+                            <h3 class="fw-normal mb-5">Thông tin việc làm</h3>
+                            <!--lương-->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline form-white">
+                                <label class="form-label" for="form3Examplea2">Lương</label>
+                                <input type="number" id="form3Examplea2"
+                                       formControlName="salary"
+                                       class="form-control form-control-lg"/>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.salary.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    đã nhập lương thành công
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.salary.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập lương vào
+                                  </span>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.salary.hasError('min'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập lương lớn hơn 1
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <!--đơn vị công tác-->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline form-white">
+                                <label class="form-label">Đơn vị công tác</label>
+                                <br>
+                                <select formControlName="department" class="form-select"
+                                        aria-label="Default select example">
+                                  <option value="">Chọn Đơn Vị</option>
+                                  <option *ngFor="let item of departments" value="{{item.id}}">{{item.name}}</option>
+                                </select>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.department.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    đã chọn xong đơn vị công tác
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.department.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời chọn đơn vị công tác
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <!--cmnd-->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline">
+                                <label class="form-label" for="id_card">Chứng minh nhân dân</label>
+                                <input type="text" id="id_card" name="id_card"
+                                       formControlName="id_card"
+                                       (change)="changeCMND()"
+                                       class="form-control form-control-lg"/>
+                                <div id="successCMND">
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="formGroup.controls.id_card.valid">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      đã nhập chứng minh nhân dân thành công!
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.id_card.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập số chứng minh nhân dân
+                                  </span>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.id_card.hasError('pattern'))
+                                      && formGroup.controls.id_card.touched">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Số chứng minh nhân dân nên có 12 chữ số
+                                  </span>
+                                </div>
+                                <div style="display: none" id="cmndExists">
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    chứng minh nhân dân này đã được sử dụng
+                                  </span>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                            <!--bậc lương-->
+                            <div class="mb-4 pb-2">
+                              <div class="form-outline form-white">
+                                <label class="form-label">Bậc lương</label>
+                                <br>
+                                <select formControlName="salaryScale" class="form-select"
+                                        aria-label="Default select example">
+                                  <option value="">Chọn bậc lương</option>
+                                  <option *ngFor="let item of salaries" value="{{item.id}}">{{item.name}}</option>
+                                </select>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.salaryScale.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    đã chọn xong bậc lương
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.salaryScale.hasError('required'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời chọn bậc lương cho nhân viên
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <!--                              account-->
+                              <div class="form-outline form-white">
+                                <label class="form-label">Tài khoản đăng kí</label>
+                                <input type="text" id="account"
+                                       (change)="changeUsername()"
+                                       formControlName="account"
+                                       class="form-control form-control-lg"/>
+                                <div id="successName">
+                                  <div class="alert alert-success d-flex align-items-center" role="alert"
+                                       *ngIf="!formGroup.controls.account.invalid && formGroup.controls.account.touched">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Success:">
+                                      <use xlink:href="#check-circle-fill"/>
+                                    </svg>
+                                    <div>
+                                      đã nhập xong tên tài khoản
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="((formGroup.controls.account.hasError('required'))
+                                     || formGroup.controls.account.hasError('trim'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập tên tài khoản
+                                  </span>
+                                </div>
+                                <div style="display: none" id="nameExists">
+                                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                         aria-label="Danger:">
+                                      <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <span>
+                                    tài khoản đã tồn tại. xin chọn tài khoản khác
+                                  </span>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <!--                              password-->
+                              <div class="form-outline form-white">
+                                <label class="form-label">Mật khẩu</label>
+                                <input type="password" id="password"
+                                       formControlName="password"
+                                       class="form-control form-control-lg"/>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.password.valid">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    đã nhập xong mật khẩu
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="(formGroup.controls.password.hasError('required'))
+|| formGroup.controls.password.hasError('trim')">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    Mời nhập mật khẩu
+                                  </span>
+                                </div>
+                              </div>
+                              <!--                              password confirm-->
+                              <div class="form-outline form-white">
+                                <label class="form-label">Xác nhận mật khẩu</label>
+                                <input type="password" id="passwordConfirm"
+                                       formControlName="passwordConfirm"
+                                       class="form-control form-control-lg"/>
+                                <div class="alert alert-success d-flex align-items-center" role="alert"
+                                     *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Success:">
+                                    <use xlink:href="#check-circle-fill"/>
+                                  </svg>
+                                  <div>
+                                    mật khẩu trùng khớp
+                                  </div>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.passwordConfirm.touched &&
+                                     (formGroup.hasError('passworderror'))">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    xin xác nhận lại mật khẩu
+                                  </span>
+                                </div>
+                                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                                     *ngIf="formGroup.controls.passwordConfirm.hasError('required')">
+                                  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img"
+                                       aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill"/>
+                                  </svg>
+                                  <span>
+                                    xin nhập và xác nhận lại mật khẩu
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-ripple-color="dark" data-bs-dismiss="modal">Hủy
+          </button>
+          <button type="submit" class="btn btn-success" data-mdb-ripple-color="dark" [disabled]="formGroup.invalid">Tạo
+            mới
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cap_nhat">Đang được cập nhật chức năng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Chức năng đang được cập nhật. Xin quay lại sau!!!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
