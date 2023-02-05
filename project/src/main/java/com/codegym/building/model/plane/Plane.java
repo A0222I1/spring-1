@@ -33,4 +33,8 @@ public class Plane {
     @ManyToOne
     @JoinColumn(name = "plane_type_id", nullable = false, referencedColumnName = "id")
     PlaneType planeType;
+
+    public Plane(Integer planeId) {
+        this.id = planeId;
+    }
 }

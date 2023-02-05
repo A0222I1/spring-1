@@ -62,4 +62,8 @@ public class Employee extends Person {
         this.salaryScale = new SalaryScale(Integer.parseInt(employeeDTO.getSalaryScale()));
         this.salary= employeeDTO.getSalary();
     }
+
+    public Employee(String employeeId) {
+        this.id = employeeId;
+    }
 }

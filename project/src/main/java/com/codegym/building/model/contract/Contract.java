@@ -1,5 +1,6 @@
 package com.codegym.building.model.contract;
 
+import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.model.plane.Plane;
@@ -35,6 +36,8 @@ public class Contract {
 
     Date start_date;
 
+
+
     @ManyToOne
     @JoinColumn(
             name = "customer_id",
@@ -55,4 +58,16 @@ public class Contract {
             nullable = false,
             referencedColumnName = "id")
     Plane plane;
+    public Contract (ContractDTO contractDTO) {
+        this.id = contractDTO.getId();
+        this.term = new Term(contractDTO.getTermId());
+        this.price = contractDTO.getPrice();
+        this.total = contractDTO.getTotal();
+        this.information = contractDTO.getInformation();
+        this.start_date = contractDTO.getStart_date();
+        this.customer = new Customer(contractDTO.getCustomerId());
+        this.employee = new Employee(contractDTO.getEmployeeId());
+        this.plane = new Plane(contractDTO.getPlaneId());
+
+    }
 }
