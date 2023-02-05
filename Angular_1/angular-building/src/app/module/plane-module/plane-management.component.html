@@ -1,0 +1,53 @@
+
+<h4 class="list-ground-title">DANH SÁCH MẶT BẰNG</h4>
+
+<div class="list-inputsearch">
+  <input type="text" placeholder="Tìm kiếm theo tên tầng">
+  <input type="text" placeholder="Tìm kiếm theo mã mặt bằng">
+  <input type="text" placeholder="Tìm kiếm theo diện tích">
+  <input type="text" placeholder="Tìm kiếm theo loại mặt bằng">
+  <div class="list-inputsearch-icon">
+    <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"></i>
+    <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true"></i>
+  </div>
+</div>
+<div class="ground-button-chose">
+  <button type="button" class="btn btn-success">Thêm mới</button>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">Xóa tất cả</button>
+  <select id="select-floor" class="select-choose-floor" name="" id="">
+    <option value="">Tên tầng</option>
+    <option value="">Tầng 1</option>
+    <option value="">Tầng 2</option>
+  </select>
+
+<table class="table tab">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">Mã mặt bằng(<span>*</span>)</th>
+    <th scope="col">Loại mặt bằng(<span>*</span>)</th>
+    <th scope="col">Diện tích(<span>*</span>)</th>
+    <th scope="col">Trạng thái(<span>*</span>)</th>
+    <th scope="col">Giá bán(<span>*</span>)</th>
+    <th scope="col">Phí quản lý(<span>*</span>)</th>
+    <th scope="col">Khách hàng(<span>*</span>)</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of planes">
+    <td scope="row">MB-{{item.id}}</td>
+    <td scope="row">{{item.planeType.name}}</td>
+    <td scope="row">{{item.area}}m<sup>2</sup></td>
+    <td scope="row">{{item.planeStatus.name}}</td>
+    <td scope="row">{{item.price}}</td>
+    <td scope="row">{{item.management_costs}}</td>
+    <td scope="row"><button type="button" class="btn btn-info">Xem</button></td>
+    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>
+    <td scope="row"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+      Xóa
+    </button></td>
+  </tr>
+  </tbody>
+</table>

@@ -2,6 +2,7 @@ package com.codegym.building.model.plane;
 
 import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.model.typeClass.PlaneType;
+import com.codegym.building.model.typeClass.Stage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,4 +34,8 @@ public class Plane {
     @ManyToOne
     @JoinColumn(name = "plane_type_id", nullable = false, referencedColumnName = "id")
     PlaneType planeType;
+
+    @ManyToOne
+    @JoinColumn(name = "stage_id",nullable = false, referencedColumnName = "id")
+    Stage stage;
 }
