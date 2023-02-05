@@ -1,9 +1,15 @@
 package com.codegym.building.service;
 
+import com.codegym.building.model.account.Roles;
+
 import java.util.List;
 
 public interface TypeService<E>{
    List<E> findAll();
 
-   void save(E e);
+   E save(E e);
+
+   default List<Roles> findListRoles(String username){
+      return null;
+   }
 }

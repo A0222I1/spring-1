@@ -34,12 +34,10 @@ public class Account {
     @CreatedDate
     Date dateCreate;
 
-    @ManyToMany
-    @JoinTable(
-            name = "account_role",
-            joinColumns = @JoinColumn(name = "user_name"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    List<Roles> list;
+//    @Column(name="account_name")
+//    String account_name;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user_name")
+//    List<AccountRole> list;
 
     public Account(AccountDTO accountDTO) {
         this.user_name = accountDTO.getUsername();
@@ -47,14 +45,13 @@ public class Account {
 
     }
 
+
+
     public Account(String account, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        List<Roles> role = new ArrayList<>();
-        role.add(new Roles(3L));
         this.user_name = account;
         this.password = bCryptPasswordEncoder.encode(password);
         this.dateCreate = Date.valueOf(LocalDate.now());
-        this.list = role;
         this.status = "on";
     }
 }
