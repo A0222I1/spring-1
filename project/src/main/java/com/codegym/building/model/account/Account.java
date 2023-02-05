@@ -34,18 +34,11 @@ public class Account {
     @CreatedDate
     Date dateCreate;
 
-//    @Column(name="account_name")
-//    String account_name;
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user_name")
-//    List<AccountRole> list;
-
     public Account(AccountDTO accountDTO) {
         this.user_name = accountDTO.getUsername();
         this.password = accountDTO.getPassword();
 
     }
-
-
 
     public Account(String account, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -53,5 +46,6 @@ public class Account {
         this.password = bCryptPasswordEncoder.encode(password);
         this.dateCreate = Date.valueOf(LocalDate.now());
         this.status = "on";
+        this.
     }
 }
