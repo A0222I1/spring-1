@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +21,15 @@ public class PlaneControllerApi {
     @GetMapping("")
     public ResponseEntity<List<Plane>> findAllPlane(){
         return new ResponseEntity<>(planeServices.findAll(), HttpStatus.OK);
+    }
+    @DeleteMapping("{id}")
+    private ResponseEntity deletePlane(@PathVariable String id){
+        try{
+            this.planeServices.deletePlane(this.planeServices.findPlaneById(Integer.parseInt(id)));
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            e.getMessage();
+            return  new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -7,19 +7,15 @@
   <input type="text" placeholder="Tìm kiếm theo diện tích">
   <input type="text" placeholder="Tìm kiếm theo loại mặt bằng">
   <div class="list-inputsearch-icon">
+    <i class="icon-addnew fa-solid fa-plus"></i>
     <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"></i>
     <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true"></i>
   </div>
-</div>
-<div class="ground-button-chose">
-  <button type="button" class="btn btn-success">Thêm mới</button>
-  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">Xóa tất cả</button>
-  <select id="select-floor" class="select-choose-floor" name="" id="">
+  <select id="exampleFormControlSelect2">
     <option value="">Tên tầng</option>
-    <option value="">Tầng 1</option>
-    <option value="">Tầng 2</option>
+    <option *ngFor="let stage of stages;let i = index">Tầng {{i+1}}: {{stage.name}}</option>
   </select>
-
+</div>
 <table class="table tab">
   <thead class="thead-dark">
   <tr>
@@ -31,8 +27,6 @@
     <th scope="col">Phí quản lý(<span>*</span>)</th>
     <th scope="col">Khách hàng(<span>*</span>)</th>
     <th scope="col"></th>
-    <th scope="col"></th>
-    <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
@@ -43,11 +37,33 @@
     <td scope="row">{{item.planeStatus.name}}</td>
     <td scope="row">{{item.price}}</td>
     <td scope="row">{{item.management_costs}}</td>
-    <td scope="row"><button type="button" class="btn btn-info">Xem</button></td>
-    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>
-    <td scope="row"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-      Xóa
-    </button></td>
+    <td scope="row">Đỗ Lê Luận</td>
+    <td scope="row">
+      <i class="action-icon action-icon-info  fa-solid fa-circle-info"></i>
+      <i class="action-icon action-icon-edit fa-solid fa-pen-to-square"></i>
+      <i (click)="getInfo(item)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+<!--    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>-->
+    </td>
   </tr>
   </tbody>
 </table>
+<!-- Delete modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title">Xóa Mặt Bằng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa mặt bằng <span id="name_delete">MB-{{plane?.id}}</span> ?
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Đây là hành động không thể hoàn tác</p>
+        <input hidden id="id_delete" #id_delete>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button"  class="btn btn-danger" (click)="deletePlane(plane?.id)" data-bs-dismiss="modal">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>

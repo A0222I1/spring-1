@@ -13,4 +13,7 @@ export class PlaneService {
   findAll():Observable<Plane[]>{
     return this.httpClient.get<Plane[]>(this.url);
   }
+  deletePlane(id){
+    return this.httpClient.delete(`${this.url}/${id}`)
+  }
 }
