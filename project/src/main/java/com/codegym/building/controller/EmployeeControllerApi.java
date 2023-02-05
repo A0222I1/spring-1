@@ -1,10 +1,13 @@
 package com.codegym.building.controller;
 
+import com.codegym.building.dto.AccountDTO;
 import com.codegym.building.dto.EmployeeDTO;
 import com.codegym.building.dto.EmployeeViewDTO;
+import com.codegym.building.model.account.AccountRole;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.repos.EmployeeRepos;
 import com.codegym.building.service.PersonService;
+import com.codegym.building.service.impl.AccountRoleImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,9 @@ public class EmployeeControllerApi {
 
     @Autowired
     PersonService<Employee> employeePersonService;
+
+    @Autowired
+    AccountRoleImpl roleRepos;
 
     @GetMapping("")
     public ResponseEntity<Page<EmployeeViewDTO>> findAllByCondition(@RequestParam(name = "name", defaultValue = "") String name,
@@ -49,6 +55,8 @@ public class EmployeeControllerApi {
 
     @PostMapping("")
     private ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        System.out.println(employeeDTO);
+        roleRepos.save(new AccountRole(new AccountDTO(employeeDTO.getAccount(),employeeDTO.getPassword())));
         return new ResponseEntity<>(employeePersonService.save(new Employee(employeeDTO)), HttpStatus.OK);
     }
 

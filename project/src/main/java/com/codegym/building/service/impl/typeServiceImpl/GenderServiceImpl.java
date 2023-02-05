@@ -29,7 +29,7 @@ public class GenderServiceImpl implements TypeService<Gender> {
     }
 
     @Override
-    public void save(Gender gender) {
-        repos.save(gender);
+    public Gender save(Gender gender) {
+         return repos.save(gender);
     }
 }

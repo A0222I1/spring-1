@@ -28,7 +28,7 @@ public class SalaryScaleServiceImpl implements TypeService<SalaryScale> {
     }
 
     @Override
-    public void save(SalaryScale salaryScale) {
-        repos.save(salaryScale);
+    public SalaryScale save(SalaryScale salaryScale) {
+        return repos.save(salaryScale);
     }
 }
