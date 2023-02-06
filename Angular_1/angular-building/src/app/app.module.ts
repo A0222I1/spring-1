@@ -7,7 +7,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {EmployeeModuleModule} from "./module/employee-module/employee-module.module";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
-import {environment} from "../environments/environment";
+import {environment} from '../environments/environment';
+import {ContractModuleModule} from './module/contract-module/contract-module.module';
 
  @NgModule({
   declarations: [
@@ -17,10 +18,10 @@ import {environment} from "../environments/environment";
     BrowserModule,
     HttpClientModule,
     EmployeeModuleModule,
+    ContractModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
-    AppRoutingModule
-  ],
+    AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
