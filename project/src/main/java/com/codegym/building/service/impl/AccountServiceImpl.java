@@ -7,6 +7,8 @@ import com.codegym.building.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
@@ -21,5 +23,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account save(AccountDTO accountDTO) {
         return repos.save(new Account(accountDTO));
+    }
+
+    @Override
+    public List<Account> findAll() {
+        return repos.findAll();
     }
 }
