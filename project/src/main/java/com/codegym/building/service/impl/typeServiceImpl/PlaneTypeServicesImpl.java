@@ -1,7 +1,6 @@
 package com.codegym.building.service.impl.typeServiceImpl;
 
 import com.codegym.building.model.typeClass.PlaneType;
-import com.codegym.building.repos.typeRepos.PlaneStatusRepos;
 import com.codegym.building.repos.typeRepos.PlaneTypeRepos;
 import com.codegym.building.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,8 @@ public class PlaneTypeServicesImpl implements TypeService<PlaneType> {
     }
 
     @Override
-    public void save(PlaneType planeType) {
+    public PlaneType save(PlaneType planeType) {
         this.planeTypeRepos.save(planeType);
+        return planeType;
     }
 }

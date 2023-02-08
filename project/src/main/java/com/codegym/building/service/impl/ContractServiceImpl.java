@@ -35,7 +35,7 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
 
     @Override
     public boolean delete(Integer id) {
-        final Contract contract =findById(id);
+        final Contract contract = findById(id);
         if(contract == null) {
             System.out.println("Failed to delete entity with ID" + id +  "as it does not exist");
             return false;

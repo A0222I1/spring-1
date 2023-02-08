@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {parse} from 'ts-node';
+import {Plane} from '../plane-module/model/Plane';
+import {PlaneService} from '../plane-module/services/plane.service';
 
 @Component({
   selector: 'app-contract-component',
@@ -10,7 +12,8 @@ import {parse} from 'ts-node';
 export class ContractComponentComponent implements OnInit {
   formGroup: FormGroup;
   formattedNumber: any;
-  constructor() { }
+  plane: Plane[];
+  constructor(private planeService: PlaneService) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -28,6 +31,7 @@ export class ContractComponentComponent implements OnInit {
       planeId: new FormControl('')
     });
   }
+ 
 
   saveAllForm() {
 

@@ -16,25 +16,6 @@ import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
-   declarations: [
-     AppComponent,
-
-   ],
-   imports: [
-     BrowserModule,
-     HttpClientModule,
-     EmployeeModuleModule,
-     ContractModuleModule,
-     AngularFireStorageModule,
-     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
-     AppRoutingModule],
-   providers: [],
-   exports: [],
-   bootstrap: [AppComponent]
- })
- // @ts-ignore
-// @ts-ignore
-@NgModule({
   declarations: [
     AppComponent,
     CustomPipeVND
@@ -43,6 +24,7 @@ import {FormsModule} from '@angular/forms';
     BrowserModule,
     HttpClientModule,
     EmployeeModuleModule,
+    ContractModuleModule,
     PlaneModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),

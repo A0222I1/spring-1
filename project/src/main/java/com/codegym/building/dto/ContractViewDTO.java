@@ -28,6 +28,6 @@ public class ContractViewDTO {
         this.start_date = contract.getStart_date();
         this.customerName = contract.getCustomer().getName();
         this.employeeName = contract.getEmployee().getName();
-        this.planeId = contract.getId();
+        this.planeId = contract.getPlane().getId();
     }
 }
