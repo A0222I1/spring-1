@@ -3,6 +3,7 @@ import {PlaneService} from "./services/plane.service";
 import {Plane} from "./model/Plane";
 import {StageService} from "./services/stage.service";
 import {Stage} from "./model/Stage";
+import {EmployeeViewDTO} from "../employee-module/dto/EmployeeViewDTO";
 
 @Component({
   selector: 'app-plane-management',
@@ -13,15 +14,19 @@ export class PlaneManagementComponent implements OnInit {
   planes : Plane[];
   stages : Stage[];
   plane : Plane;
+  pageNumber: number;
+  totalPages: number;
   constructor(private planeService : PlaneService,private stageService : StageService) { }
 
   ngOnInit(): void {
-    this.getAll();
+    this.getAll(0);
     this.getStage();
   }
-  getAll(){
-    this.planeService.findAll().subscribe(data=>{
-      this.planes = data;
+  getAll(numberPage:number){
+    this.planeService.findAll(numberPage).subscribe(data=>{
+      this.planes = data.content;
+      this.pageNumber = data.number;
+      this.totalPages = data.totalPages;
       console.log(this.planes)
     })
   }
@@ -40,3 +45,4 @@ export class PlaneManagementComponent implements OnInit {
     })
   }
 }
+

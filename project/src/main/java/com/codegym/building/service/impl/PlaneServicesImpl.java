@@ -4,6 +4,8 @@ import com.codegym.building.model.plane.Plane;
 import com.codegym.building.repos.PlaneRepos;
 import com.codegym.building.service.PlaneServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +15,8 @@ public class PlaneServicesImpl implements PlaneServices {
     @Autowired
     private PlaneRepos planeRepos;
     @Override
-    public List<Plane> findAll() {
-        return this.planeRepos.findAll();
+    public Page<Plane> findAll(Pageable pageable) {
+        return this.planeRepos.findAll(pageable);
     }
 
     @Override

@@ -18,7 +18,8 @@ public class PlaneStatusServicesImpl implements TypeService<PlaneStatus> {
         return planeStatusRepos.findAll();
     }
     @Override
-    public void save(PlaneStatus planeStatus) {
+    public PlaneStatus save(PlaneStatus planeStatus) {
         this.planeStatusRepos.save(planeStatus);
+        return planeStatus;
     }
 }

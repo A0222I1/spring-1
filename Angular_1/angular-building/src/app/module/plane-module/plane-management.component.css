@@ -1,6 +1,21 @@
 .tab span {
   color: red;
 }
+table{
+  width: 90%;
+  margin: 20px auto;
+  background-color: white;
+  box-shadow:1px 1px 4px 1px grey;
+  position: static;
+}
+.page-link:hover{
+  cursor: pointer;
+  opacity: 0.9;
+}
+.current {
+  background-color: green;
+  color: white;
+}
 table > tbody >tr>td{
   vertical-align: middle !important;
 }
@@ -39,7 +54,7 @@ table > tbody >tr>td p{
   display: flex;
 }
 .list-inputsearch-icon i{
-  background-color: #888787;
+
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
@@ -49,7 +64,7 @@ table > tbody >tr>td p{
   opacity: 0.8;
 }
 .list-inputsearch-icon-search{
-  color: red;
+  color: white;
 }
 .list-inputsearch-icon-undo{
   color: white;
@@ -101,7 +116,7 @@ table > tbody >tr>td p{
   background-color: #ffd43b;
 }
 .list-inputsearch-icon .icon-addnew{
-  background-color: #12b886;
+  background-color: #40c057;
   border-radius: 50%;
   color: white;
   padding: 12px 13px;

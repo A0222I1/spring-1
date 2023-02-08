@@ -19,7 +19,8 @@ public class StageServicesImpl implements TypeService<Stage> {
     }
 
     @Override
-    public void save(Stage stage) {
+    public Stage save(Stage stage) {
         this.stageRepos.save(stage);
+        return stage;
     }
 }
