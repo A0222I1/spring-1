@@ -31,7 +31,7 @@ export class ContractComponentComponent implements OnInit {
       planeId: new FormControl('')
     });
   }
- 
+
 
   saveAllForm() {
 
