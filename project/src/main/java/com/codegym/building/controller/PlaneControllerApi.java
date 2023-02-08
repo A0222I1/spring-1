@@ -6,6 +6,10 @@ import com.codegym.building.service.PlaneServices;
 import com.codegym.building.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +20,12 @@ import java.util.List;
 @RequestMapping("/plane")
 @CrossOrigin("http://localhost:4200/")
 public class PlaneControllerApi {
+    private static final int MAX_DISPLAY = 5;
     @Autowired
     private PlaneServices planeServices;
     @GetMapping("")
-    public ResponseEntity<List<Plane>> findAllPlane(){
-        return new ResponseEntity<>(planeServices.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<Plane>> findAllPlane( @PageableDefault(size = MAX_DISPLAY, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+        return new ResponseEntity<>(planeServices.findAll(pageable),HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     private ResponseEntity deletePlane(@PathVariable String id){

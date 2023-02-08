@@ -10,10 +10,15 @@ import {Plane} from "../model/Plane";
 export class PlaneService {
   url="http://localhost:8080/plane"
   constructor(private httpClient : HttpClient) { }
-  findAll():Observable<Plane[]>{
-    return this.httpClient.get<Plane[]>(this.url);
+  findAll(numberPage:number):Observable<GetResponse>{
+    return this.httpClient.get<GetResponse>(`${this.url}?page=${numberPage}`);
   }
   deletePlane(id){
     return this.httpClient.delete(`${this.url}/${id}`)
   }
+}
+interface GetResponse {
+  content: Plane[];
+  totalPages: number;
+  number: number;
 }
