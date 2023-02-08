@@ -1,0 +1,7 @@
+/*.form-control:focus {*/
+/*  border-color: #9d00ff;*/
+/*  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(106, 0, 255, 0.6);*/
+/*}*/
+span {
+  color: red;
+}

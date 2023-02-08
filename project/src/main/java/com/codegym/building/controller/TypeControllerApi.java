@@ -1,12 +1,12 @@
 package com.codegym.building.controller;
 
-import com.codegym.building.model.typeClass.Department;
-import com.codegym.building.model.typeClass.Gender;
-import com.codegym.building.model.typeClass.SalaryScale;
+import com.codegym.building.model.typeClass.*;
+import com.codegym.building.service.TypeService;
 import com.codegym.building.service.impl.typeServiceImpl.DepartmentServiceImpl;
 import com.codegym.building.service.impl.typeServiceImpl.GenderServiceImpl;
 import com.codegym.building.service.impl.typeServiceImpl.SalaryScaleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +29,35 @@ public class TypeControllerApi {
     @Autowired
     SalaryScaleServiceImpl salaryScaleService;
 
+    @Autowired
+    @Qualifier("planeStatusServices")
+    TypeService planeStatusServices;
+
+
+    @Autowired
+    @Qualifier("planeTypeServices")
+    TypeService planeTypeServices;
+
+
+    @Autowired
+    @Qualifier("stageServices")
+
+    TypeService stageServices;
+
+
+    @GetMapping("planeStatus")
+    public ResponseEntity<List<PlaneStatus>> findAllPlaneStatus(){
+        return new ResponseEntity<>(planeStatusServices.findAll(),HttpStatus.OK);
+    }
+    @GetMapping("planeType")
+    public ResponseEntity<List<PlaneType>> findAllPlaneType(){
+        return new ResponseEntity<>(planeTypeServices.findAll(),HttpStatus.OK);
+    }
+
+    @GetMapping("stage")
+    public ResponseEntity<List<PlaneStatus>> findAllPlane(){
+        return new ResponseEntity<>(stageServices.findAll(),HttpStatus.OK);
+    }
     @GetMapping("gender")
     public ResponseEntity<List<Gender>> findAllGender() {
         return new ResponseEntity<>(genderService.findAll(), HttpStatus.OK);
