@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("account")
 @CrossOrigin("http://localhost:4200/")
@@ -18,6 +20,11 @@ public class AccountControlApi {
     @GetMapping("/{username}")
     public ResponseEntity<Boolean> checkExists(@PathVariable String username) {
         return new ResponseEntity<>(accountService.findByUserName(username), HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<Account>> findAll(){
+        return new ResponseEntity<>(accountService.findAll(),HttpStatus.OK);
     }
 
     @PostMapping("")

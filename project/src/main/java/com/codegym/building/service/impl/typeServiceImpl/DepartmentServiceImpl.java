@@ -27,7 +27,7 @@ public class DepartmentServiceImpl implements TypeService<Department> {
     }
 
     @Override
-    public void save(Department department) {
-        repos.save(department);
+    public Department save(Department department) {
+         return repos.save(department);
     }
 }

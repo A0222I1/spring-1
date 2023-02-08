@@ -59,10 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
                 .rememberMe().tokenRepository(this.persistentTokenRepository())
-                .tokenValiditySeconds(24 * 60 * 60)
-                .and()
-                .addFilterBefore(new JWTLoginFilter("/j_spring_security", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .tokenValiditySeconds(24 * 60 * 60);
+//                .and()
+//                .addFilterBefore(new JWTLoginFilter("/j_spring_security", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 
