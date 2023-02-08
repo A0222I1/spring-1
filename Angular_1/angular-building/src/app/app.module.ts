@@ -9,20 +9,23 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
 import {environment} from '../environments/environment';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
+import {FormsModule} from '@angular/forms';
 
- @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    EmployeeModuleModule,
-    ContractModuleModule,
-    AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
-    AppRoutingModule],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({
+   declarations: [
+     AppComponent,
+
+   ],
+   imports: [
+     BrowserModule,
+     HttpClientModule,
+     EmployeeModuleModule,
+     ContractModuleModule,
+     AngularFireStorageModule,
+     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+     AppRoutingModule],
+   providers: [],
+   exports: [],
+   bootstrap: [AppComponent]
+ })
 export class AppModule { }

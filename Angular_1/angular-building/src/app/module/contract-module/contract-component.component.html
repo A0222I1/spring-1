@@ -1,49 +1,52 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Thêm mới hợp đồng
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewContract">
+  Thêm Mới Hợp Đồng
 </button>
 
+
+
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div class="modal fade" id="addNewContract" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="  modal-dialog modal-xl">
+    <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
+      <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="addNewContractLabel">Thêm Mới Hợp Đồng</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="width: 800px">
+      <div class="modal-body">
         <div class="row">
           <div class="col-3">
-            <label>Mặt bằng</label>
-            <select class="form-control">
+            <label>Tên Nhân Viên</label>
+            <input type="text" formControlName="employeeId" class="form-control " value="Trà Tấn Thuận" disabled>
+          </div>
+          <div class="col-4">
+            <label>Số Chứng Minh Nhân Dân Khách Hàng (<span>*</span>)</label>
+            <input type="text" formControlName="customerId" class="form-control" value="" required>
+            <span style="color: red"> </span>
+          </div>
+          <div class="col-3">
+            <label>Tên Khách Hàng</label>
+            <input type="text"  class="form-control name" value="" disabled>
+            <span style="color: red">&nbsp; </span>
+          </div>
+          <div class="col-2">
+            <label>Mặt Bằng (<span>*</span>)</label>
+            <select class="form-control" formControlName="termId">
               <option>MB001</option>
               <option>MB002</option>
               <option>MB003</option>
               <option>MB004</option>
               <option>MB005</option>
             </select>
-            <span style="color: red">Chọn Mã Mặt Bằng</span>
-          </div>
-          <div class="col-3">
-            <label>Tên khách hàng</label>
-            <input type="text" class="form-control" value="Thomas Hardy" required>
-            <span style="color: red">Nhập tên</span>
-          </div>
-          <div class="col-3">
-            <label>Số CMND</label>
-            <input type="text" class="form-control" value="SVMD000124781" required>
-            <span style="color: red">Nhập CMND </span>
-          </div>
-          <div class="col-3">
-            <label>Nhân Viên</label>
-            <input type="text" class="form-control" value="Trà Tấn Thuận" required>
-
+            <span style="color: red"></span>
           </div>
         </div>
         <div class="row">
           <div class="col-4">
-            <label>Kỳ hạn (Tháng)</label>
-            <select class="form-control">
+            <label>Kỳ Hạn (Tháng) (<span>*</span>)</label>
+            <select class="form-control" formControlName="termId">
               <option>3 Tháng</option>
               <option>6 Tháng</option>
               <option>12 Tháng</option>
@@ -51,134 +54,46 @@
               <option>24 Tháng</option>
               <option>36 Tháng</option>
             </select>
-            <span style="color: red">Chọn Kỳ Hạng </span>
+            <span style="color: red">&nbsp;</span>
+          </div>
+          <div class="col-4" >
+            <label>Ngày Bắt Đầu Thuê (<span>*</span>)</label>
+            <input type="date" formControlName="startDate" class="form-control" required>
+            <span style="color: red"></span>
           </div>
           <div class="col-4">
-            <label>Ngày bắt đầu thuê</label>
-            <input type="date" class="form-control" required>
-            <span style="color: red">Chọn Bắt Đầu</span>
-          </div>
-          <div class="col-4">
-            <label>Ngày kết thúc thuê</label>
-            <input type="date" class="form-control" required>
-            <span style="color: red">Chọn Ngày Kết Thúc </span>
+            <label>Ngày Kết Thúc Thuê</label>
+            <input type="date" class="form-control" disabled>
+            <span style="color: red"> </span>
           </div>
         </div>
         <div class="row">
           <div class="col-6">
-            <label>Gía tiền thuê mỗi tháng (VNĐ)</label>
-            <input type="text" class="form-control" value="5.000.000 đ" required>
-            <span style="color: red">Nhập tiền thuê mỗi tháng </span>
+            <label>Giá Tiền Thuê Mỗi Tháng (VNĐ) (<span>*</span>)</label>
+            <input type="text" formControlName="price" class="form-control" (keyup)="forMatNumber($event.target.value)" required>
+
+
           </div>
           <div class="col-6">
-            <label>Tổng tiền</label>
-            <input type="text" class="form-control" value="100.000.000 đ" required>
-            <span style="color: red"></span>
+            <label>Tổng Tiền</label>
+            <input type="text" class="form-control" value="" disabled>
+            <span style="color: red">&nbsp;</span>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <label>Nội dung hợp đồng</label>
-            <textarea class="form-control" required></textarea>
-            <span style="color: red">Nhập nội dung</span>
+            <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
+            <textarea style="height: 150px" class="form-control" formControlName="information" required></textarea>
+            <span style="color: red"></span>
           </div>
         </div>
       </div>
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy Bỏ</button>
+        <button type="button" class="btn btn-primary">Làm Lại</button>
+        <button type="button" class="btn btn-info text-white" data-bs-dismiss="modal">Lưu</button>
       </div>
     </div>
+    </form>
   </div>
 </div>
-<!--<div id="addModal" class="modal fade">-->
-<!--  <div class="modal-dialog modal-lg">-->
-<!--    <div class="modal-content">-->
-<!--      <form>-->
-<!--        <div class="modal-header">-->
-<!--          <h4 class="modal-title">Thêm Mới Hợp Đồng</h4>-->
-<!--          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-<!--        </div>-->
-<!--        <div class="modal-body">-->
-<!--          <div class="row">-->
-<!--            <div class="col-3">-->
-<!--              <label>Mặt bằng</label>-->
-<!--              <select class="form-control">-->
-<!--                <option>MB001</option>-->
-<!--                <option>MB002</option>-->
-<!--                <option>MB003</option>-->
-<!--                <option>MB004</option>-->
-<!--                <option>MB005</option>-->
-<!--              </select>-->
-<!--              <span style="color: red">Chọn Mã Mặt Bằng</span>-->
-<!--            </div>-->
-<!--            <div class="col-3">-->
-<!--              <label>Tên khách hàng</label>-->
-<!--              <input type="text" class="form-control" value="Thomas Hardy" required>-->
-<!--              <span style="color: red">Nhập tên</span>-->
-<!--            </div>-->
-<!--            <div class="col-3">-->
-<!--              <label>Số CMND</label>-->
-<!--              <input type="text" class="form-control" value="SVMD000124781" required>-->
-<!--              <span style="color: red">Nhập CMND </span>-->
-<!--            </div>-->
-<!--            <div class="col-3">-->
-<!--              <label>Nhân Viên</label>-->
-<!--              <input type="text" class="form-control" value="Trà Tấn Thuận" required>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row">-->
-<!--            <div class="col-4">-->
-<!--              <label>Kỳ hạn (Tháng)</label>-->
-<!--              <select class="form-control">-->
-<!--                <option>3 Tháng</option>-->
-<!--                <option>6 Tháng</option>-->
-<!--                <option>12 Tháng</option>-->
-<!--                <option>18 Tháng</option>-->
-<!--                <option>24 Tháng</option>-->
-<!--                <option>36 Tháng</option>-->
-<!--              </select>-->
-<!--              <span style="color: red">Chọn Kỳ Hạng </span>-->
-<!--            </div>-->
-<!--            <div class="col-4">-->
-<!--              <label>Ngày bắt đầu thuê</label>-->
-<!--              <input type="date" class="form-control" required>-->
-<!--              <span style="color: red">Chọn Bắt Đầu</span>-->
-<!--            </div>-->
-<!--            <div class="col-4">-->
-<!--              <label>Ngày kết thúc thuê</label>-->
-<!--              <input type="date" class="form-control" required>-->
-<!--              <span style="color: red">Chọn Ngày Kết Thúc </span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row">-->
-<!--            <div class="col-6">-->
-<!--              <label>Gía tiền thuê mỗi tháng (VNĐ)</label>-->
-<!--              <input type="text" class="form-control" value="5.000.000 đ" required>-->
-<!--              <span style="color: red">Nhập tiền thuê mỗi tháng </span>-->
-<!--            </div>-->
-<!--            <div class="col-6">-->
-<!--              <label>Tổng tiền</label>-->
-<!--              <input type="text" class="form-control" value="100.000.000 đ" required>-->
-<!--              <span style="color: red"></span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="row">-->
-<!--            <div class="col-12">-->
-<!--              <label>Nội dung hợp đồng</label>-->
-<!--              <textarea class="form-control" required></textarea>-->
-<!--              <span style="color: red">Nhập nội dung</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="modal-footer">-->
-<!--          <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">-->
-<!--          <input type="submit" class="btn btn-info" value="Thêm Mới">-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!---->
