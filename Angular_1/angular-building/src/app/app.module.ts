@@ -9,10 +9,13 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
 import {PlaneModuleModule} from "./module/plane-module/plane-module.module";
+import {CommonModule} from "@angular/common";
+import {CustomPipeVND} from "./module/plane-module/utils/customPipeVND";
 
  @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomPipeVND
   ],
   imports: [
     BrowserModule,
@@ -21,7 +24,8 @@ import {PlaneModuleModule} from "./module/plane-module/plane-module.module";
     PlaneModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
