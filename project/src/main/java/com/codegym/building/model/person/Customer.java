@@ -26,4 +26,8 @@ public class Customer extends Person {
     String website;
 
     String company;
+
+    public Customer (String id) {
+        this.id = id;
+    }
 }

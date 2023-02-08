@@ -11,8 +11,11 @@ import {environment} from "../environments/environment";
 import {PlaneModuleModule} from "./module/plane-module/plane-module.module";
 import {CommonModule} from "@angular/common";
 import {CustomPipeVND} from "./module/plane-module/utils/customPipeVND";
+import {ContractModuleModule} from './module/contract-module/contract-module.module';
 
- @NgModule({
+ // @ts-ignore
+// @ts-ignore
+@NgModule({
   declarations: [
     AppComponent,
     CustomPipeVND
@@ -26,7 +29,10 @@ import {CustomPipeVND} from "./module/plane-module/utils/customPipeVND";
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
     AppRoutingModule,
     CommonModule,
-  ],
+    ContractModuleModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),
+    AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
