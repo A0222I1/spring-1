@@ -1,1 +1,249 @@
-<p>customer-module works!</p>
+<header style="background-image: url('https://i.stack.imgur.com/oslRB.png')">
+
+  <div id="new-task-form">
+    <input type="text" id="new-task-input" placeholder="Tìm Kiếm Thông Tin Khách hàng"/>
+    <input type="submit" id="new-task-submit" value="Search" />
+  </div>
+  <br>
+
+  <div class="form-group row" style="text-align: match-parent" >
+    <label  class="col-md-2 col-form-label" style="text-align: right">Tên khách hàng:</label>
+    <div class="col-md-2">
+      <input type="text" class="form-control" placeholder="Tên khách hàng">
+    </div>
+    <label  class="col-md-3 col-form-label" style="text-align: right">CMND:</label>
+    <div class="col-md-3">
+      <input type="text" class="form-control" placeholder="Số chứng minh nhân dân">
+    </div>
+
+    <div class="col-md-2">
+      <button type="submit" class="btn h-75 py-0">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+      <a class="btn btn-light" href="#"><i class="material-icons refresh"></i></a>
+    </div>
+
+  </div>
+
+</header>
+<body style="background-image: url('https://i.stack.imgur.com/oslRB.png')">
+<div>
+  <div style="background: #6B7280; width: 100%"  >
+    <div>
+      <p style="background: #6B7280; color: white; font-size: 30px" align="center"  >DANH SÁCH KHÁCH HÀNG</p>
+      <div class="col-3">
+        <button class="btn btn-success" >
+          Thêm mới
+        </button>
+        <button class="btn btn-danger" >
+          Xóa Tất Cả
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+  <div style="width: 100%">
+    <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%" >
+      <thead>
+      <tr style="background: bisque">
+        <th scope="col">Họ Tên (<span style="color: red">*</span>)</th>
+        <th scope="col">CMND (<span style="color: red">*</span>)</th>
+        <th scope="col">Email (<span style="color: red">*</span>)</th>
+        <th scope="col">SỐ ĐIỆN THOẠI (<span style="color: red">*</span>)</th>
+        <th scope="col">Ngày Sinh</th>
+        <th scope="col">Địa Chỉ (<span style="color: red">*</span>)</th>
+        <th scope="col">Website</th>
+        <th scope="col">Công Ty (<span style="color: red">*</span>)</th>
+        <th scope="col">Mặt Bằng </th>
+        <th ></th>
+        <th ></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr >
+        <td>Nguyễn Đình Hòa</td>
+        <td>343432423</td>
+        <td>hoadeptrai@mgail.com</td>
+        <td>096543453</td>
+        <td>05/05/1994</td>
+        <td>12 Lê Qúy Kỳ, Đà Nẵng</td>
+        <td>hoaminnzy.com</td>
+        <td>Hoa Thiên Phú</td>
+        <td>
+          <button type="button" class="btn btn-primary" >
+            Chi Tiết
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" >
+            Xem dịch vụ
+          </button>
+        </td>
+        <td>
+          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Xóa
+            </button>
+          </a>
+        </td>
+
+      </tr>
+      <tr >
+        <td>Lê Đình Quốc</td>
+        <td>343432423</td>
+        <td>John@mgail.com</td>
+        <td>0905123456</td>
+        <td>12/2/1990</td>
+        <td>123 Nguyễn Tất Thành</td>
+        <td>codeGym.com.vn</td>
+        <td>Hoa Thiên Phú</td>
+        <td>
+          <button type="button" class="btn btn-primary" >
+            Chi Tiết
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" >
+            Xem dịch vụ
+          </button>
+        </td>
+        <td>
+          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Xóa
+            </button>
+          </a>
+        </td>
+
+      </tr>
+      <tr >
+        <td>Nguyễn Minh Hùng</td>
+        <td>0905123456</td>
+        <td>hung@mgail.com</td>
+        <td>0905123456</td>
+        <td>05/05/1994</td>
+        <td>12 Lê Duẩn, Đà Nẵng</td>
+        <td>caphedanang.com.vn</td>
+        <td>Hoa Hướng Dương</td>
+        <td>
+          <button type="button" class="btn btn-primary" >
+            Chi Tiết
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" >
+            Xem dịch vụ
+          </button>
+        </td>
+        <td>
+          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Xóa
+            </button>
+          </a>
+        </td>
+      </tr>
+      <tr >
+        <td>Phạm Minh Hưng</td>
+        <td>201435645</td>
+        <td>hungmapdeptrai@mgail.com</td>
+        <td>0935123456</td>
+        <td>01/12/1992</td>
+        <td>12 Trường Chinh, Đà Nẵng</td>
+        <td>vipnha.com.vn</td>
+        <td>Hoa Vạn Thọ</td>
+        <td>
+          <button type="button" class="btn btn-primary" >
+            Chi Tiết
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" >
+            Xem dịch vụ
+          </button>
+        </td>
+        <td>
+          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Xóa
+            </button>
+          </a>
+        </td>
+
+      </tr>
+      <tr >
+        <td>Nguyễn Văn Tiến</td>
+        <td>201435645</td>
+        <td>tieni@mgail.com</td>
+        <td>0374300391</td>
+        <td>10/11/1995</td>
+        <td>12 Lê Văn Qúy, Đà Nẵng</td>
+        <td>build.com.vn</td>
+        <td>Hoa Cúc</td>
+        <td>
+          <button type="button" class="btn btn-primary" >
+            Chi Tiết
+          </button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" >
+            Xem dịch vụ
+          </button>
+        </td>
+        <td>
+          <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
+            <button  type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Xóa
+            </button>
+          </a>
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+
+  <!--phan trang-->
+  <div  style="text-align: center" >
+    <div class="pagination1">
+      <a href="#">Trang đầu</a>
+      <a href="#">&laquo;</a>
+      <a href="#">1</a>
+      <a class="active" href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">&raquo;</a>
+      <a href="#">Trang cuối</a>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Delete Modal HTML -->
+<div id="deleteEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <h4 class="modal-title">Xác nhận xóa khách hàng</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có muốn xoá khách hàng có tên <span style="color: red;"><b>Nguyễn Đình Hòa</b></span> không?</p>
+          <p class="text-warning" style="color: red"><small style="color: red">Lưu ý: Hành động này sẽ không đươc hoàn tác.</small></p>
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-primary" data-dismiss="modal" value="Huỷ">
+          <input type="submit" class="btn btn-danger" value="Xoá">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+
