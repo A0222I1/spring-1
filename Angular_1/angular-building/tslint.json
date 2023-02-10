@@ -11,7 +11,7 @@
     "directive-class-suffix": true,
     "directive-selector": [
       true,
-      "attribute",
+//      "attribute",
       "app",
       "camelCase"
     ],
@@ -68,7 +68,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "quotemark": [
-      true,
+      false,
       "single"
     ],
     "trailing-comma": false,

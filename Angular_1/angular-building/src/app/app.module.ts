@@ -8,10 +8,12 @@ import {EmployeeModuleModule} from "./module/employee-module/employee-module.mod
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
 import {environment} from "../environments/environment";
+import { CustomerModuleComponent } from './module/customer-module/customer-module.component';
 
- @NgModule({
+@NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomerModuleComponent
   ],
   imports: [
     BrowserModule,
