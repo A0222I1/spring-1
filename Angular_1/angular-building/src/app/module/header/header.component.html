@@ -1,5 +1,4 @@
 <div class="wrap">
-  <!--    <div class="container">-->
   <div class="row justify-content-between">
     <div class=" col d-flex align-items-center">
       <p class="mb-0 ms-2 phone"><span class="mailus">Số điện thoại:</span> <a href="#">+00 1234 567</a> hoặc
@@ -9,14 +8,9 @@
     <div class="col d-flex justify-content-end">
       <div class="social-media">
         <p class="mb-0 me-2 d-flex">
-          <a href="#" class="d-flex"><span
-            class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-          <a href="#" class="d-flex "><span
-            class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-          <a href="#" class="d-flex "><span
-            class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-          <a href="#" class="d-flex"><span
-            class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+          <a href="#" class="d-flex"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="d-flex "><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="d-flex "><i class="fa-brands fa-instagram"></i></a>
         </p>
       </div>
     </div>
@@ -41,8 +35,8 @@
   <button
     class="navbar-toggler"
     type="button"
-    data-mdb-toggle="collapse"
-    data-mdb-target="#navbarButtonsExample"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarButtonsExample"
     aria-controls="navbarButtonsExample"
     aria-expanded="false"
     aria-label="Toggle navigation"
@@ -55,7 +49,7 @@
     <!-- Left links -->
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Trang chủ</a>
+        <a class="nav-link" routerLink="home">Trang chủ</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Giới thiệu</a>
@@ -63,16 +57,16 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
            aria-expanded="false">
-          Khai thác và vận hành
+          Toà nhà
         </a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Lotus Office</a></li>
-          <li><a class="dropdown-item" href="#">Tiktak Co-Working Space</a></li>
-          <li><a class="dropdown-item" href="#">Căn hộ dịch vụ cao cấp</a></li>
+          <li><a class="dropdown-item" routerLink="plan">Mặt bằng</a></li>
+          <li><a class="dropdown-item" routerLink="employee">Nhân viên</a></li>
+          <li><a class="dropdown-item" routerLink="customer">Khách hàng</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#">Trung tâm thương mại</a></li>
+          <li><a class="dropdown-item" routerLink="contract">Hợp đồng</a></li>
         </ul>
       </li>
       <li class="nav-item">

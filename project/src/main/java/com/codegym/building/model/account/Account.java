@@ -46,6 +46,5 @@ public class Account {
         this.password = bCryptPasswordEncoder.encode(password);
         this.dateCreate = Date.valueOf(LocalDate.now());
         this.status = "on";
-        this.
     }
 }

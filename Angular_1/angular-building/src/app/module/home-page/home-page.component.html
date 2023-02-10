@@ -1,5 +1,3 @@
-
-
 <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
@@ -9,11 +7,10 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active" data-bs-interval="5000">
-      <img src="assets/home-img/image_1.jpg" class="d-block w-100" alt="...">
+      <img src="assets/home-img/image-carosel.jpeg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <p style="font-weight: bold">A0222I1 RENTAL</p>
-        <p style="font-size: 18px">Mang phong cách kiến trúc hiện đại, Tòa nhà phức hợp Diamond Time – 35 Thái
-          Phiên – Đà Nẵng sở hữu
+        <p style="font-size: 18px">Mang phong cách kiến trúc hiện đại, Tòa nhà phức hợp A0222I1 Rental – Đà Nẵng sở hữu
           nội thất gỗ tự nhiên được thiết kế tinh tế, trau chuốt tỉ mỉ đảm bảo mang đến sự hài lòng cho khách
           hàng.</p>
       </div>
@@ -22,7 +19,7 @@
       <img src="assets/home-img/image_2.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <p>DIỆN TÍCH SỬ DỤNG LỚN</p>
-        <p>Tòa nhà phức hợp DIAMOND TIME – 35 Thái Phiên với diện tích sử dụng lên đến gần 5.000m2 được đánh giá
+        <p>Tòa nhà phức hợp A0222I1 Rental với diện tích sử dụng lên đến gần 5.000m2 được đánh giá
           là một trong những tòa nhà phức hợp hiện đại tại Thành phố Đà Nẵng,</p>
       </div>
     </div>
@@ -30,7 +27,7 @@
       <img src="assets/home-img/image_3.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <p>HỨNG TRỌN ÁNH SÁNG THIÊN NHIÊN</p>
-        <p>Tại DIAMOND TIME sở hữu khoảng không giếng trời mang lại sự cân bằng, hài hoà, tăng khả năng kết nối giữa
+        <p>Tại A0222I1 Rental sở hữu khoảng không giếng trời mang lại sự cân bằng, hài hoà, tăng khả năng kết nối giữa
           thiên nhiên và con người. Mọi góc không gian đều trở nên tươi mát, thoáng đãng nhờ đón nguồn gió và ánh sáng
           tự nhiên.</p>
       </div>
@@ -55,64 +52,28 @@
   </div>
 </div>
 
+<div class="container spin" *ngIf="listNews.length == 0">
+  <div class="spinner-border text-dark" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
 <div class="container">
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
+    <div class="col" *ngFor="let item of listNews">
       <div class="card">
-        <img src="assets/home-img/room-1.jpg" class="card-img-top" alt="...">
+        <img src="{{item.avatar}}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Sự kiện “Frohes Fest” tại Tiktak Coworking Space</h5>
-          <p class="card-text">Kính gửi Quý khách hàng, Nhằm tri ân và hòa mình cùng không khí lễ</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="assets/home-img/room-2.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Mừng Giáng sinh, tưng bừng ưu đãi lớn</h5>
-          <p class="card-text"> Mua 4 chỗ ngồi linh hoạt chỉ tính tiền 3 CNLH, cùng hàng loạt</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="assets/home-img/room-3.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Ưu đãi 50% căn hộ chuẩn hạng A – Diamond Time Complex</h5>
-          <p class="card-text">✈ BẠN SẮP TỚI ĐÀ NẴNG ✈ ? Ưu đãi lên đến 50% căn hộ</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="assets/home-img/room-4.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Không khí ngày đầu tuần tại Tiktak Coworking Space – Đà Nẵng có
-            gì???</h5>
-          <p class="card-text">Hầu hết chúng ta dành gần một phần ba cuộc đời mình ở nơi làm</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="assets/home-img/room-5.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Diamond Time đón nhận “mùa Đông Hà Nội” bằng cả một sự chân tình</h5>
-          <p class="card-text">Khi thời tiết còn đang “dùng dằng”, Thu “lưu luyến” chưa đi mà Đông .</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <img src="assets/home-img/room-6.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Căn hộ dịch vụ tiêu chuẩn 5 sao ngay tại Trung tâm thành phố Đà Nẵng</h5>
-          <p class="card-text">Toạ lạc tại 35 Thái Phiên, Diamond Time hứa hẹn sẽ mang đến sự tiện</p>
+          <h5 class="card-title">{{item.title}}</h5>
+          <p class="card-text">{{item.content | slice:0:150}}...</p>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="container spin mt-3" *ngIf="listNews.length >= 6">
+  <div><button class="btn btn-violet1">Xem thêm</button></div>
 </div>
 
 <div class="container mt-5 place">
@@ -120,7 +81,7 @@
     <div class="col-8">
       <p class="heading_text">Mang không gian chuyên nghiệp & thoải mái nhất tới khách hàng.
       </p>
-      <p> Mang phong cách kiến trúc hiện đại, Tòa nhà phức hợp Diamond Time – 35 Thái Phiên – Đà Nẵng sở hữu nội
+      <p> Mang phong cách kiến trúc hiện đại, Tòa nhà phức hợp A0222I1 Rental – 280 Trần Hưng Đạo – Đà Nẵng sở hữu nội
         thất
         gỗ tự nhiên được thiết kế tinh tế, trau chuốt tỉ mỉ đảm bảo mang đến sự hài lòng cho khách hàng.</p>
 

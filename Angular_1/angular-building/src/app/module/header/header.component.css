@@ -27,7 +27,7 @@
   align-items: center;
 }
 
-.collapse ul li {
+.collapse .nav-item {
   padding-right: 50px;
 }
 
@@ -81,3 +81,12 @@
   background-color: #6A2C70;
   border-color: #6A2C70;
 }
+.dropdown-menu {
+  min-width: auto;
+}
+
+nav{
+  border-bottom: 2px chartreuse;
+}
+
+

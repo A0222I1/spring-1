@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NewsService} from './service/news.service';
+import {News} from './model/news';
 
 @Component({
   selector: 'app-home-page',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  listNews: News[] = [];
 
-  ngOnInit(): void {
+  constructor(private newsService: NewsService) {
+  }
+
+  ngOnInit() {
+    this.newsService.findAll().subscribe(data => {
+      this.listNews = data;
+    }, error => {
+      console.log("err");
+    });
   }
 
 }

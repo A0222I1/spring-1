@@ -104,7 +104,6 @@
 }
 
 
-
 .fix-img {
   display: flex;
   justify-content: center;
@@ -137,6 +136,7 @@
   filter: brightness(100%);
   color: rgba(255, 255, 255, 0.8);
 }
+
 .ftco-intro .overlay {
   position: absolute;
   top: 0;
@@ -147,11 +147,13 @@
   opacity: .4;
   background: #551556;
 }
+
 @media (max-width: 991.98px) {
   .ftco-intro {
     background-position: center center !important;
   }
 }
+
 .ftco-intro div div p {
   filter: brightness(100%);
 }
@@ -161,11 +163,12 @@
   font-weight: bold;
   color: white;
 }
+
 .card {
   transition: background-color 0.5s ease-out 100ms;
 }
 
-.card:hover{
+.card:hover {
   background-color: #6A2C70;
   cursor: pointer;
   color: white;
@@ -184,3 +187,21 @@
   background-color: transparent !important;
 }
 
+.card-img-top {
+  width: 354px;
+  height: 300px;
+}
+.spin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-violet1 {
+  color: #fff;
+  background-color: #6A2C70;
+  border-color: #6A2C70;
+}
+.btn-violet1:hover {
+  border-color: #6A2C70 !important;
+  background-color: #501556 !important;
+}

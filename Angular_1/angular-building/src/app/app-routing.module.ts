@@ -6,7 +6,7 @@ import {HomePageComponent} from './module/home-page/home-page.component';
 
 const routes: Routes = [
   {
-    path: '', pathMatch: 'full', redirectTo: 'employee'
+    path: '', pathMatch: 'full', redirectTo: 'home'
   },
   {
     path: 'employee', component: EmployeeModuleModule
