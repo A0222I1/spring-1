@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ContractComponentComponent } from './contract-component.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {RouterModule, Routes} from "@angular/router";
-import {EmployeeComponentComponent} from "../employee-module/employee-component.component";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ContractComponentComponent} from './contract-component.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
+import {EmployeeComponentComponent} from '../employee-module/employee-component.component';
 
 const routes: Routes = [
   {
-    path: "contract", component: ContractComponentComponent
+    path: 'contract', component: ContractComponentComponent
   }
-]
+];
 
 @NgModule({
   declarations: [ContractComponentComponent],
@@ -19,4 +19,5 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
-export class ContractModuleModule { }
+export class ContractModuleModule {
+}
