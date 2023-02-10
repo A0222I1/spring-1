@@ -1,6 +1,7 @@
+// @ts-ignore
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -11,10 +12,15 @@ import {environment} from '../environments/environment';
 import {HomePageComponent} from './module/home-page/home-page.component';
 import {HeaderComponent} from './module/header/header.component';
 import {FooterComponent} from './module/footer/footer.component';
+import {PlaneModuleModule} from './module/plane-module/plane-module.module';
+import {CommonModule} from '@angular/common';
+import {CustomPipeVND} from './module/plane-module/utils/customPipeVND';
+import {ContractModuleModule} from './module/contract-module/contract-module.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CustomPipeVND,
     HomePageComponent,
     HeaderComponent,
     FooterComponent
@@ -23,6 +29,13 @@ import {FooterComponent} from './module/footer/footer.component';
     BrowserModule,
     HttpClientModule,
     EmployeeModuleModule,
+    ContractModuleModule,
+    PlaneModuleModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    AppRoutingModule,
+    CommonModule,
+    ContractModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
     AppRoutingModule
@@ -30,5 +43,6 @@ import {FooterComponent} from './module/footer/footer.component';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }
