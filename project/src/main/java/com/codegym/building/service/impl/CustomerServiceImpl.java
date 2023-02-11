@@ -1,5 +1,6 @@
 package com.codegym.building.service.impl;
 
+import com.codegym.building.dto.CustomerViewDTO;
 import com.codegym.building.error.NotFoundById;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.repos.CustomerRepos;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -64,4 +67,11 @@ public class CustomerServiceImpl implements PersonService<Customer> {
     public Boolean findByEmail(String email) {
         return repos.findByEmail(email).isPresent();
     }
+
+    @Override
+    public List<Customer> getAll() {
+        return repos.findAll();
+    }
+
+
 }

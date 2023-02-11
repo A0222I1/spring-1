@@ -56,7 +56,6 @@ export class EmployeeComponentComponent implements OnInit {
               private genderService: GenderServiceService,
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
-
               private storage: AngularFireStorage,
               private salaryService: SalaryScaleServiceService) {
     this.genderService.findAll().subscribe(value => this.genders = value);
@@ -67,8 +66,7 @@ export class EmployeeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
-    setTimeout(() => this.alert = false, 3000);
-  }
+   }
 
   findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {
     if (page > this.totalPages) return;

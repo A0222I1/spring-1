@@ -30,6 +30,7 @@ export class PlaneManagementComponent implements OnInit {
       console.log(this.planes)
     })
   }
+
   getStage(){
     this.stageService.findAll().subscribe(data=>{
       this.stages = data;
