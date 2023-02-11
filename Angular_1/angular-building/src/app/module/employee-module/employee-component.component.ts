@@ -9,7 +9,7 @@ import {SalaryScale} from './model/SalaryScale';
 import {Department} from './model/Department';
 import {
   checkBirthday,
-  checkEmailExists,
+  checkEmailExists, checkFile,
   checkIdCardExists,
   checkNameExists,
   checkPasswordConfirm,
@@ -45,12 +45,6 @@ export class EmployeeComponentComponent implements OnInit {
   department_search: string = '';
   fileChose: File = null;
 
-
-  searchForm: boolean = false;
-  message: string = '';
-
-  alert: boolean = false;
-
   constructor(private employeeService: EmployeeServiceService,
               private genderService: GenderServiceService,
               private formBuilder: FormBuilder,
@@ -65,7 +59,7 @@ export class EmployeeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
-    setTimeout(() => this.alert = false, 3000);
+
   }
 
   findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {
@@ -93,8 +87,6 @@ export class EmployeeComponentComponent implements OnInit {
 
   deleteAll() {
     this.employeeService.updateAllStatusIsOff().subscribe(value => {
-      this.message = 'xóa tất cả thành công!!!';
-      this.alert = true;
       document.getElementById('statusModal').click();
       this.ngOnInit();
     });
@@ -102,8 +94,6 @@ export class EmployeeComponentComponent implements OnInit {
 
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
-      this.message = `xóa nhân viên với id ${id} thành công!!!`;
-      this.alert = true;
       document.getElementById('deleteModal').click();
       this.ngOnInit();
     });
@@ -115,15 +105,13 @@ export class EmployeeComponentComponent implements OnInit {
         (<HTMLInputElement> document.getElementById('id_delete')).value = value.id;
       },
       error => {
-        this.message = error.error;
-        this.alert = true;
         this.ngOnInit();
       });
   }
 
   buildForm() {
     this.formGroup = this.formBuilder.group({
-      avatar: ['', [Validators.required]],
+      avatar: ["", [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
         Validators.minLength(5),
         Validators.pattern('^[A-Za-z úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
@@ -137,11 +125,11 @@ export class EmployeeComponentComponent implements OnInit {
       salaryScale: ['', [Validators.required]],
       department: ['', [Validators.required]],
       gender: ['', [Validators.required]],
-      salary: ['', [Validators.required, Validators.min(1)]],
+      salary: ['', [Validators.required, Validators.min(1000000)]],
       id_card: ['', [Validators.required,
-        Validators.pattern('^([0-9]{12})$')]],
-      account: ['', [Validators.required, checkTrim]],
-      password: ['', [Validators.required, checkTrim, Validators.pattern('')]],
+        Validators.pattern("^([0-9]{12})$")]],
+      account: ['', [Validators.required, checkTrim, Validators.minLength(5), Validators.maxLength(15)]],
+      password: ['', [Validators.required, checkTrim, Validators.minLength(5), Validators.maxLength(15)]],
       passwordConfirm: ['', [Validators.required]]
     }, {
       validator: [checkPasswordConfirm]
@@ -149,49 +137,49 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   saveForm() {
-
-    this.employeeService.save(this.formGroup).subscribe(value => {
-      this.message = `tạo mới thành công nhân viên tên ${value.name}`;
-      document.getElementById('createModal').click();
-      this.alert = true;
-      this.ngOnInit();
-    });
-
+    console.log(this.formGroup.value);
+    console.log(this.fileChose);
+    // this.employeeService.save(this.formGroup).subscribe(value => {
+    //   this.message = `tạo mới thành công nhân viên tên ${value.name}`;
+    //   document.getElementById("addNewContract").click();
+    //   this.alert = true;
+    //   this.ngOnInit();
+    // });
   }
 
   saveAllForm() {
-    let flag: boolean = true;
-    if (checkIdCardExists != null) {
-      flag = false;
-      document.getElementById('successCMND').style.display = 'none';
-      document.getElementById('cmndExists').style.display = 'block';
-      console.log('id card here');
-    }
+    // let flag: boolean = true;
+    // if (checkIdCardExists != null) {
+    //   flag = false;
+    //   document.getElementById("successCMND").style.display = 'none';
+    //   document.getElementById("cmndExists").style.display = 'block';
+    //   console.log('id card here');
+    // }
+    //
+    // if (checkEmailExists != null) {
+    //   document.getElementById("successEmail").style.display = 'none';
+    //   document.getElementById("emailExists").style.display = 'block';
+    //   flag = false;
+    //   console.log('email here');
+    // }
+    //
+    //
+    // if (checkPhoneExists != null) {
+    //   document.getElementById("successPhone").style.display = 'none';
+    //   document.getElementById("phoneExists").style.display = 'block';
+    //   console.log('phone here');
+    //   flag = false;
+    // }
+    //
+    // if (checkNameExists != null) {
+    //   document.getElementById("successAccount").style.display = 'none';
+    //   document.getElementById("accountExists").style.display = 'block';
+    //   console.log('name here');
+    //   flag = false;
+    // }
 
-    if (checkEmailExists != null) {
-      document.getElementById('successEmail').style.display = 'none';
-      document.getElementById('emailExists').style.display = 'block';
-      flag = false;
-      console.log('email here');
-    }
 
-
-    if (checkPhoneExists != null) {
-      document.getElementById('successPhone').style.display = 'none';
-      document.getElementById('phoneExists').style.display = 'block';
-      console.log('phone here');
-      flag = false;
-    }
-
-    if (checkNameExists != null) {
-      document.getElementById('successName').style.display = 'none';
-      document.getElementById('nameExists').style.display = 'block';
-      console.log('name here');
-      flag = false;
-    }
-
-
-    if (flag) {
+    // if (flag) {
       // đặt tên cho file nên thêm tiền tố ngày đăng để tránh trùng lập tên file sẽ gây mất dữ liệu
       // employeeAvatar/ là để tách folder lưu ra cho dễ kiểm soát
       const filePath = `employeeAvatar/${Date.now()}${this.fileChose.name}`;
@@ -212,26 +200,35 @@ export class EmployeeComponentComponent implements OnInit {
         )
         .subscribe();
       // this.saveForm();
+    // }
+  }
+
+  // changeCMND() {
+  //   document.getElementById("successCMND").style.display = 'block';
+  //   document.getElementById("cmndExists").style.display = 'none';
+  // }
+  //
+  // changeEmail() {
+  //   document.getElementById("successEmail").style.display = 'block';
+  //   document.getElementById("emailExists").style.display = 'none';
+  // }
+  //
+  // changePhone() {
+  //   document.getElementById("successPhone").style.display = 'block';
+  //   document.getElementById("phoneExists").style.display = 'none';
+  // }
+  //
+  // changeUsername() {
+  //   document.getElementById("successName").style.display = 'block';
+  //   document.getElementById("nameExists").style.display = 'none';
+  // }
+  changeFile(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+    if (fileList[0].size < 5000000) {
+      this.fileChose = fileList[0];
+      return;
     }
-  }
-
-  changeCMND() {
-    document.getElementById('successCMND').style.display = 'block';
-    document.getElementById('cmndExists').style.display = 'none';
-  }
-
-  changeEmail() {
-    document.getElementById('successEmail').style.display = 'block';
-    document.getElementById('emailExists').style.display = 'none';
-  }
-
-  changePhone() {
-    document.getElementById('successPhone').style.display = 'block';
-    document.getElementById('phoneExists').style.display = 'none';
-  }
-
-  changeUsername() {
-    document.getElementById('successName').style.display = 'block';
-    document.getElementById('nameExists').style.display = 'none';
+    document.getElementById("bigSize").style.display = "inline";
   }
 }
