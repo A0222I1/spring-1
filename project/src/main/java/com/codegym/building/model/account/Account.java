@@ -42,7 +42,6 @@ public class Account {
     public Account(AccountDTO accountDTO) {
         this.user_name = accountDTO.getUsername();
         this.password = accountDTO.getPassword();
-
     }
 
 

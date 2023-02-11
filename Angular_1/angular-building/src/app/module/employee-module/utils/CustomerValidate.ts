@@ -23,9 +23,21 @@ export function checkPasswordConfirm(abstractControl: AbstractControl): Validati
 
 export function checkTrim(abstractControl: AbstractControl): ValidationErrors | null {
   let check = abstractControl.value;
-  if (check.trim() == '') return {trim: true}
+  if (check.trim() === '') return {trim: true};
   return null;
 }
+export function checkFile(abstractControl: AbstractControl): ValidationErrors | null {
+  let check = abstractControl.value;
+  console.log(check.trim().toLowerCase());
+  if (!check.trim().toLowerCase().endsWith(".jpg") && !check.trim().toLowerCase().endsWith(".png")) return {filewrong: true};
+  return null;
+}
+
+// export function checkSize(file: File): ValidationErrors | null {
+  // if(file == null) return  null;
+ // if (file.size > 5000000 ) return {filesize: true};
+ //  return null;
+// }
 
 export function checkNameExists(accountService: EmployeeServiceService): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors> => {
@@ -33,7 +45,7 @@ export function checkNameExists(accountService: EmployeeServiceService): AsyncVa
       .findByName(control.value)
       .pipe(
         map((result: boolean) => {
-            return result ? {usernameAlreadyExists: true} : null
+            return result ? {usernameAlreadyExists: true} : null;
           }
         )
       );
@@ -74,7 +86,7 @@ export function checkIdCardExists(accountService: EmployeeServiceService): Async
       .pipe(
         map((result: boolean) => {
 
-            return result ? {idCardAlreadyExists: true} : null
+            return result ? {idCardAlreadyExists: true} : null;
           }
         )
       );
