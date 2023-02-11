@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {EmployeeServiceService} from "./service/employee-service.service";
-
-import {GenderServiceService} from "./service/gender-service.service";
-import {DepartmentServiceService} from "./service/department-service.service";
-import {SalaryScaleServiceService} from "./service/salary-scale-service.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Gender} from "./model/Gender";
-import {SalaryScale} from "./model/SalaryScale";
-import {Department} from "./model/Department";
+import {EmployeeServiceService} from './service/employee-service.service';
+import {GenderServiceService} from './service/gender-service.service';
+import {DepartmentServiceService} from './service/department-service.service';
+import {SalaryScaleServiceService} from './service/salary-scale-service.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Gender} from './model/Gender';
+import {SalaryScale} from './model/SalaryScale';
+import {Department} from './model/Department';
 import {
   checkBirthday,
   checkEmailExists, checkFile,
@@ -16,10 +15,10 @@ import {
   checkPasswordConfirm,
   checkPhoneExists,
   checkTrim
-} from "./utils/CustomerValidate";
-import {AngularFireStorage} from "@angular/fire/storage";
-import {finalize} from "rxjs/operators";
-import {EmployeeViewDTO} from "./dto/EmployeeViewDTO";
+} from './utils/CustomerValidate';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {finalize} from 'rxjs/operators';
+import {EmployeeViewDTO} from './dto/EmployeeViewDTO';
 
 @Component({
   selector: 'app-employee-component',
@@ -50,7 +49,6 @@ export class EmployeeComponentComponent implements OnInit {
               private genderService: GenderServiceService,
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
-
               private storage: AngularFireStorage,
               private salaryService: SalaryScaleServiceService) {
     this.genderService.findAll().subscribe(value => this.genders = value);
@@ -65,7 +63,9 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {
-    if (page > this.totalPages) { return; }
+    if (page > this.totalPages) {
+      return;
+    }
     this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, page).subscribe(value => {
       this.employees = value.content;
       this.pageNumber = value.number;
@@ -74,10 +74,10 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   refreshPage() {
-    (<HTMLInputElement> document.getElementById("nameSearch")).value = '';
-    (<HTMLInputElement> document.getElementById("cmndSearch")).value = '';
-    (<HTMLInputElement> document.getElementById("addressSearch")).value = '';
-    (<HTMLInputElement> document.getElementById("departmentSearch")).value = '';
+    (<HTMLInputElement> document.getElementById('nameSearch')).value = '';
+    (<HTMLInputElement> document.getElementById('cmndSearch')).value = '';
+    (<HTMLInputElement> document.getElementById('addressSearch')).value = '';
+    (<HTMLInputElement> document.getElementById('departmentSearch')).value = '';
     this.department_search = '';
     this.address_search = '';
     this.cmnd_search = '';
@@ -87,27 +87,24 @@ export class EmployeeComponentComponent implements OnInit {
 
   deleteAll() {
     this.employeeService.updateAllStatusIsOff().subscribe(value => {
-
-      document.getElementById("statusModal").click();
+      document.getElementById('statusModal').click();
       this.ngOnInit();
     });
   }
 
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
-
-      document.getElementById("deleteModal").click();
+      document.getElementById('deleteModal').click();
       this.ngOnInit();
     });
   }
 
   findById(id: string) {
     this.employeeService.findById(id).subscribe(value => {
-        document.getElementById("name_delete").innerText = value.name;
-        (<HTMLInputElement> document.getElementById("id_delete")).value = value.id;
+        document.getElementById('name_delete').innerText = value.name;
+        (<HTMLInputElement> document.getElementById('id_delete')).value = value.id;
       },
       error => {
-
         this.ngOnInit();
       });
   }
@@ -117,14 +114,14 @@ export class EmployeeComponentComponent implements OnInit {
       avatar: ["", [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
         Validators.minLength(5),
-        Validators.pattern("^[A-Za-z úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$"),
+        Validators.pattern('^[A-Za-z úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
       birthday: ['', [Validators.required, checkBirthday]],
       email: ['', [Validators.required,
-        Validators.pattern("^[\\w\\-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")]],
+        Validators.pattern('^[\\w\\-.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       phone: ['', [Validators.required,
-        Validators.pattern("^([0]|(\\+84))([0-9]{9})$")]],
+        Validators.pattern('^([0]|(\\+84))([0-9]{9})$')]],
       salaryScale: ['', [Validators.required]],
       department: ['', [Validators.required]],
       gender: ['', [Validators.required]],
@@ -148,7 +145,6 @@ export class EmployeeComponentComponent implements OnInit {
     //   this.alert = true;
     //   this.ngOnInit();
     // });
-
   }
 
   saveAllForm() {

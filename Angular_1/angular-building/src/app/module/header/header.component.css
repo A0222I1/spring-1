@@ -1,0 +1,92 @@
+.wrap {
+  background-color: #6A2C70;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+
+}
+
+.social-media p a {
+  padding-left: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+}
+
+.wrap p a {
+  text-decoration: none;
+  color: white;
+}
+
+.wrap p {
+  color: #bfc7dc;
+}
+
+.social-media {
+  display: flex;
+  align-items: center;
+}
+
+.collapse .nav-item {
+  padding-right: 50px;
+}
+
+.navbar-brand {
+  padding-left: 100px;
+}
+
+.navbar-color {
+  background-color: whitesmoke;
+}
+
+.card img {
+  width: 100%;
+  height: 232.31px;
+  background-size: cover;
+}
+
+@media (max-width: 1200px) {
+  .card img {
+    width: auto;
+    height: auto;
+  }
+
+  .card h5 {
+    font-size: x-small;
+  }
+
+  .card p {
+    font-size: xx-small;
+  }
+}
+
+.btn-violet {
+  color: #fff;
+  background-color: #6A2C70;
+  border-color: #6A2C70;
+}
+
+.btn-violet:hover {
+  color: #fff;
+  border-color: #6A2C70;
+}
+
+.btn-outline-violet {
+  color: #6A2C70;
+  border-color: #6A2C70;
+}
+
+.btn-outline-violet:hover {
+  color: #fff;
+  background-color: #6A2C70;
+  border-color: #6A2C70;
+}
+.dropdown-menu {
+  min-width: auto;
+}
+
+nav{
+  border-bottom: 2px chartreuse;
+}
+
+
