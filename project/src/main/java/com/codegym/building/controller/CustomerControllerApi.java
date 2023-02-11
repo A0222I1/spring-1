@@ -1,5 +1,6 @@
 package com.codegym.building.controller;
 
+import com.codegym.building.dto.CustomerViewDTO;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.service.PersonService;
@@ -11,6 +12,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customer")
@@ -30,10 +34,16 @@ public class CustomerControllerApi {
         return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/dto")
+    public ResponseEntity<List<CustomerViewDTO>> getAllCustomerViewDto() {
+        return new ResponseEntity<>(customerPersonService.getAll().stream().map(CustomerViewDTO::new).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private ResponseEntity<Customer> findById(@PathVariable String id) {
         return new ResponseEntity<>(customerPersonService.findById(id), HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {

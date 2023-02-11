@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~9.0.7",
+    "@angular/animations": "^9.0.7",
     "@angular/common": "~9.0.7",
     "@angular/compiler": "~9.0.7",
     "@angular/core": "~9.0.7",
@@ -24,7 +24,8 @@
     "moment": "^2.29.4",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "ngx-toastr": "^12.1.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": ">= 0.900 < 0.1300",

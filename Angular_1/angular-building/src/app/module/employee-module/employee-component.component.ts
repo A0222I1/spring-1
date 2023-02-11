@@ -59,7 +59,6 @@ export class EmployeeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
-
   }
 
   findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {

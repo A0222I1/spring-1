@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PlaneStatus} from "../model/PlaneStatus";
 import {Plane} from "../model/Plane";
+import {PlaneDTO} from '../dto/PlaneDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,14 @@ export class PlaneService {
   deletePlane(id){
     return this.httpClient.delete(`${this.url}/${id}`)
   }
+  getALlPlaneDTO() {
+    return this.httpClient.get<PlaneDTO[]>(this.url + "/dto")
+  }
+
 }
 interface GetResponse {
   content: Plane[];
   totalPages: number;
   number: number;
 }
+

@@ -1,5 +1,6 @@
 package com.codegym.building.service.impl;
 
+import com.codegym.building.dto.PlanDTO;
 import com.codegym.building.model.plane.Plane;
 import com.codegym.building.repos.PlaneRepos;
 import com.codegym.building.service.PlaneServices;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaneServicesImpl implements PlaneServices {
@@ -33,5 +35,10 @@ public class PlaneServicesImpl implements PlaneServices {
     @Override
     public Plane findPlaneById(int id) {
         return this.planeRepos.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<PlanDTO> getAllPlane() {
+        return planeRepos.findAll().stream().map(PlanDTO::new).collect(Collectors.toList());
     }
 }
