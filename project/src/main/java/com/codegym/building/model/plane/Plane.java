@@ -1,5 +1,6 @@
 package com.codegym.building.model.plane;
 
+import com.codegym.building.model.contract.Contract;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.model.typeClass.PlaneType;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "plane")
@@ -42,6 +44,11 @@ public class Plane {
     @ManyToOne
     @JoinColumn(name = "customer_id",nullable = false, referencedColumnName = "customer_id")
     Customer customer;
+
+//    @OneToMany(mappedBy = "plane", cascade = CascadeType.ALL)
+//    @Transient
+//    List<Contract> list;
+
     public Plane(Integer planeId) {
         this.id = planeId;
     }

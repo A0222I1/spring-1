@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'contract', component: ContractComponentComponent
   }
-]
+];
 
 @NgModule({
   declarations: [ContractComponentComponent,
@@ -26,4 +26,5 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ]
 })
-export class ContractModuleModule { }
+export class ContractModuleModule {
+}

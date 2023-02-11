@@ -37,7 +37,6 @@ public class Account {
     public Account(AccountDTO accountDTO) {
         this.user_name = accountDTO.getUsername();
         this.password = accountDTO.getPassword();
-
     }
 
     public Account(String account, String password) {
@@ -46,6 +45,5 @@ public class Account {
         this.password = bCryptPasswordEncoder.encode(password);
         this.dateCreate = Date.valueOf(LocalDate.now());
         this.status = "on";
-
     }
 }
