@@ -12,21 +12,20 @@ const routes: Routes = [
   },
   {
     path: 'employee', component: EmployeeModuleModule
-  }, {
-    path: '', pathMatch: 'full', redirectTo: 'plane'
   },
   {
     path: 'employee', component: EmployeeModuleModule
   },
   {
     path: 'plane', component: PlaneModuleModule,
-    // path: "", pathMatch: "full", redirectTo: "contract"
   },
   {
     path: 'employee', component: EmployeeModuleModule
-  }, {
+  },
+  {
     path: 'contract', component: ContractModuleModule
-  }, {
+  },
+  {
     path: 'home', component: HomePageComponent
   }
 ];
