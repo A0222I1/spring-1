@@ -19,8 +19,8 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    // required animations module
-    // ToastrModule added
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ]
 })
 export class EmployeeModuleModule {

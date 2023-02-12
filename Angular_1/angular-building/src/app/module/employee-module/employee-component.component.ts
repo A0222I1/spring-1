@@ -12,6 +12,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {EmployeeViewDTO} from './dto/EmployeeViewDTO';
 import {forkJoin} from "rxjs";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-employee-component',
@@ -46,6 +47,8 @@ export class EmployeeComponentComponent implements OnInit {
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
               private salaryService: SalaryScaleServiceService,
+
+              private toastr: ToastrService
 
               ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
@@ -87,6 +90,7 @@ export class EmployeeComponentComponent implements OnInit {
 
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
+      this.toastr.success('Đã xóa thành công!!!', 'Thông báo');
       this.deleteClose.nativeElement.click();
       this.ngOnInit();
     });
@@ -135,6 +139,7 @@ export class EmployeeComponentComponent implements OnInit {
   saveForm() {
     this.employeeService.save(this.formGroup).subscribe(value => {
       this.closeAddExpenseModal.nativeElement.click();
+      this.toastr.success(`Đã tạo mới nhân viên ${value.name} thành công!!!`, 'Thông báo');
       this.ngOnInit();
     });
   }
