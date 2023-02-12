@@ -1,10 +1,13 @@
 package com.codegym.building.repos;
+
 import com.codegym.building.model.plane.Plane;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
+
 import org.springframework.data.repository.query.Param;
 
 public interface PlaneRepos extends JpaRepository<Plane, Integer> {
@@ -18,4 +21,6 @@ public interface PlaneRepos extends JpaRepository<Plane, Integer> {
     @Query(value = "select  p from  Plane  p where  p.planeStatus = '3'")
     List<Plane> getAllRentedPlane();
 
+    @Query(value = "select sum(p.area) as total_area from Plane p")
+    Integer totalArea();
 }
