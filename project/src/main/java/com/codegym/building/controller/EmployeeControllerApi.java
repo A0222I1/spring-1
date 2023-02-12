@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -38,8 +39,8 @@ public class EmployeeControllerApi {
         return new ResponseEntity<>(employeePersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable).map(EmployeeViewDTO::new), HttpStatus.OK);
     }
 
-    @GetMapping("/find")
-    private ResponseEntity<Employee> findById(@RequestParam String id) {
+    @GetMapping("/{id}")
+    private ResponseEntity<Employee> findById(@PathVariable String id) {
         return new ResponseEntity<>(employeePersonService.findById(id), HttpStatus.OK);
     }
 
@@ -48,21 +49,21 @@ public class EmployeeControllerApi {
         return new ResponseEntity<>(employeePersonService.updateStatusById(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/all")
     private ResponseEntity<Integer> updateStatusAll() {
         return new ResponseEntity<>(employeePersonService.updateStatusAll(), HttpStatus.OK);
     }
 
     @PostMapping("")
-    private ResponseEntity<EmployeeViewDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    private ResponseEntity<EmployeeViewDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeViewDTO employeeViewDTO = new EmployeeViewDTO(employeePersonService.save(new Employee(employeeDTO)));
         roleRepos.updateDefaultRolesOffAccountRegister(employeeViewDTO.getAccount());
         return new ResponseEntity<>(employeeViewDTO, HttpStatus.OK);
     }
 
     @PatchMapping("")
-    private ResponseEntity<Employee> editEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<>(employeePersonService.save(employee), HttpStatus.OK);
+    private ResponseEntity<Employee> editEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        return new ResponseEntity<>(employeePersonService.save(new Employee(employeeDTO)), HttpStatus.OK);
     }
 
     @PatchMapping("/{username}")

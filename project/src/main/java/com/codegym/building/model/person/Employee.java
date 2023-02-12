@@ -60,7 +60,7 @@ public class Employee extends Person {
                 "on");
         this.department = new Department(Integer.parseInt(employeeDTO.getDepartment()));
         this.salaryScale = new SalaryScale(Integer.parseInt(employeeDTO.getSalaryScale()));
-        this.salary = employeeDTO.getSalary();
+        this.salary = Double.parseDouble(employeeDTO.getSalary());
     }
 
     public Employee(String employeeId) {
