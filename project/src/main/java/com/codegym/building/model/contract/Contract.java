@@ -31,7 +31,6 @@ public class Contract {
     Double price;
 
     Double total;
-    @Transient
     String information;
 
     Date start_date;

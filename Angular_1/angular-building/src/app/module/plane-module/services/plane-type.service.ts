@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {PlaneStatus} from "../model/PlaneStatus";
 import {PlaneType} from "../model/PlaneType";
 
 @Injectable({

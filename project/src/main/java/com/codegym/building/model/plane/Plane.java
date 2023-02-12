@@ -1,7 +1,4 @@
 package com.codegym.building.model.plane;
-
-import com.codegym.building.model.contract.Contract;
-import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.model.typeClass.PlaneType;
 import com.codegym.building.model.typeClass.Stage;
@@ -9,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.List;
-
 @Entity
 @Table(name = "plane")
 @Getter
@@ -53,4 +47,6 @@ public class Plane {
     public Plane(Integer planeId) {
         this.id = planeId;
     }
+
+
 }
