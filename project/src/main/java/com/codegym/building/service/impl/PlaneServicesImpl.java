@@ -1,5 +1,6 @@
 package com.codegym.building.service.impl;
 
+import com.codegym.building.dto.PlaneDTO;
 import com.codegym.building.model.plane.Plane;
 import com.codegym.building.repos.PlaneRepos;
 import com.codegym.building.service.PlaneServices;
@@ -9,14 +10,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaneServicesImpl implements PlaneServices {
     @Autowired
     private PlaneRepos planeRepos;
+
     @Override
-    public Page<Plane> findAll(Pageable pageable) {
-        return this.planeRepos.findAll(pageable);
+    public Page<Plane> findAllByCondition(String area, String stage, String status, String type, Pageable pageable) {
+        return planeRepos.findAllByCondition(area, stage, status, type, pageable);
     }
 
     @Override
@@ -34,4 +37,20 @@ public class PlaneServicesImpl implements PlaneServices {
     public Plane findPlaneById(int id) {
         return this.planeRepos.findById(id).orElse(null);
     }
+
+    @Override
+    public List<PlaneDTO> getAllAvailablePlane() {
+        return planeRepos.getALlAvailablePlane().stream().map(PlaneDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlaneDTO> getAllRentedPlane() {
+        return planeRepos.getAllRentedPlane().stream().map(PlaneDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getTotalArea() {
+        return this.planeRepos.totalArea();
+    }
+
 }
