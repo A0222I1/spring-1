@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {EmployeeServiceService} from './service/employee-service.service';
 import {GenderServiceService} from './service/gender-service.service';
 import {DepartmentServiceService} from './service/department-service.service';
@@ -7,18 +7,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Gender} from './model/Gender';
 import {SalaryScale} from './model/SalaryScale';
 import {Department} from './model/Department';
-import {
-  checkBirthday,
-  checkEmailExists, checkFile,
-  checkIdCardExists,
-  checkNameExists,
-  checkPasswordConfirm,
-  checkPhoneExists,
-  checkTrim
-} from './utils/CustomerValidate';
+import {checkBirthday, checkFile, checkPasswordConfirm, checkTrim} from './utils/CustomValidate';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {EmployeeViewDTO} from './dto/EmployeeViewDTO';
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-employee-component',
@@ -35,22 +28,26 @@ export class EmployeeComponentComponent implements OnInit {
   salaries: SalaryScale[] = [];
 
   departments: Department[] = [];
-  totalPages: number = 0;
+  totalPages = 0;
 
-  pageNumber: number = 0;
-
-  name_search: string = '';
-  cmnd_search: string = '';
-  address_search: string = '';
-  department_search: string = '';
-  fileChose: File = null;
+  message = "";
+  pageNumber = 0;
+  @ViewChild('closeAddExpenseModal') closeAddExpenseModal: ElementRef;
+  @ViewChild('deleteClose') deleteClose: ElementRef;
+  name_search = '';
+  cmnd_search = '';
+  address_search = '';
+  department_search = '';
+  fileChose: File;
 
   constructor(private employeeService: EmployeeServiceService,
               private genderService: GenderServiceService,
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
-              private salaryService: SalaryScaleServiceService) {
+              private salaryService: SalaryScaleServiceService,
+
+              ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
     this.departmentService.findAll().subscribe(value => this.departments = value);
     this.salaryService.findAll().subscribe(value => this.salaries = value);
@@ -59,14 +56,17 @@ export class EmployeeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
-
   }
 
   findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {
-    if (page > this.totalPages) {
+    if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
       return;
     }
     this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, page).subscribe(value => {
+      if (value.content.length === 0) {
+        document.getElementById("openModalButton").click();
+        return;
+      }
       this.employees = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
@@ -74,10 +74,10 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   refreshPage() {
-    (<HTMLInputElement> document.getElementById('nameSearch')).value = '';
-    (<HTMLInputElement> document.getElementById('cmndSearch')).value = '';
-    (<HTMLInputElement> document.getElementById('addressSearch')).value = '';
-    (<HTMLInputElement> document.getElementById('departmentSearch')).value = '';
+    (document.getElementById('nameSearch') as HTMLInputElement).value = '';
+    (document.getElementById('cmndSearch') as HTMLInputElement).value = '';
+    (document.getElementById('addressSearch') as HTMLInputElement).value = '';
+    (document.getElementById('departmentSearch') as HTMLInputElement).value = '';
     this.department_search = '';
     this.address_search = '';
     this.cmnd_search = '';
@@ -85,16 +85,9 @@ export class EmployeeComponentComponent implements OnInit {
     this.ngOnInit();
   }
 
-  deleteAll() {
-    this.employeeService.updateAllStatusIsOff().subscribe(value => {
-      document.getElementById('statusModal').click();
-      this.ngOnInit();
-    });
-  }
-
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
-      document.getElementById('deleteModal').click();
+      this.deleteClose.nativeElement.click();
       this.ngOnInit();
     });
   }
@@ -102,7 +95,7 @@ export class EmployeeComponentComponent implements OnInit {
   findById(id: string) {
     this.employeeService.findById(id).subscribe(value => {
         document.getElementById('name_delete').innerText = value.name;
-        (<HTMLInputElement> document.getElementById('id_delete')).value = value.id;
+        (document.getElementById('id_delete') as HTMLInputElement).value = value.id;
       },
       error => {
         this.ngOnInit();
@@ -111,10 +104,10 @@ export class EmployeeComponentComponent implements OnInit {
 
   buildForm() {
     this.formGroup = this.formBuilder.group({
-      avatar: ["", [Validators.required, checkFile]],
+      avatar: ['', [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
-        Validators.minLength(5),
-        Validators.pattern('^[A-Za-z úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
+        Validators.minLength(8),
+        Validators.pattern('^[A-Za-z ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃúùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
       birthday: ['', [Validators.required, checkBirthday]],
@@ -128,8 +121,11 @@ export class EmployeeComponentComponent implements OnInit {
       salary: ['', [Validators.required, Validators.min(1000000)]],
       id_card: ['', [Validators.required,
         Validators.pattern("^([0-9]{12})$")]],
-      account: ['', [Validators.required, checkTrim, Validators.minLength(5), Validators.maxLength(15)]],
-      password: ['', [Validators.required, checkTrim, Validators.minLength(5), Validators.maxLength(15)]],
+      account: ['', [Validators.required, checkTrim, Validators.minLength(8), Validators.maxLength(15)]],
+      password: ['', [Validators.required, checkTrim,
+        Validators.minLength(8),
+        Validators.pattern("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,15}$"),
+        Validators.maxLength(15)]],
       passwordConfirm: ['', [Validators.required]]
     }, {
       validator: [checkPasswordConfirm]
@@ -137,98 +133,66 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   saveForm() {
-    console.log(this.formGroup.value);
-    console.log(this.fileChose);
-    // this.employeeService.save(this.formGroup).subscribe(value => {
-    //   this.message = `tạo mới thành công nhân viên tên ${value.name}`;
-    //   document.getElementById("addNewContract").click();
-    //   this.alert = true;
-    //   this.ngOnInit();
-    // });
+    this.employeeService.save(this.formGroup).subscribe(value => {
+      this.closeAddExpenseModal.nativeElement.click();
+      this.ngOnInit();
+    });
   }
-
   saveAllForm() {
-    // let flag: boolean = true;
-    // if (checkIdCardExists != null) {
-    //   flag = false;
-    //   document.getElementById("successCMND").style.display = 'none';
-    //   document.getElementById("cmndExists").style.display = 'block';
-    //   console.log('id card here');
-    // }
-    //
-    // if (checkEmailExists != null) {
-    //   document.getElementById("successEmail").style.display = 'none';
-    //   document.getElementById("emailExists").style.display = 'block';
-    //   flag = false;
-    //   console.log('email here');
-    // }
-    //
-    //
-    // if (checkPhoneExists != null) {
-    //   document.getElementById("successPhone").style.display = 'none';
-    //   document.getElementById("phoneExists").style.display = 'block';
-    //   console.log('phone here');
-    //   flag = false;
-    // }
-    //
-    // if (checkNameExists != null) {
-    //   document.getElementById("successAccount").style.display = 'none';
-    //   document.getElementById("accountExists").style.display = 'block';
-    //   console.log('name here');
-    //   flag = false;
-    // }
-
-
-    // if (flag) {
-      // đặt tên cho file nên thêm tiền tố ngày đăng để tránh trùng lập tên file sẽ gây mất dữ liệu
-      // employeeAvatar/ là để tách folder lưu ra cho dễ kiểm soát
-      const filePath = `employeeAvatar/${Date.now()}${this.fileChose.name}`;
-      const fileRef = this.storage.ref(filePath);
-      // bắt đầu upload
-      this.storage.upload(filePath, this.fileChose)
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(url => {
-              console.log(url);
-              // return về link url đã lưu trên firebase. set nó vào trong form sau khi đã lưu
-              this.formGroup.value.avatar = url;
-              // và lưu form
-              this.saveForm();
-            });
-          })
-        )
-        .subscribe();
-      // this.saveForm();
-    // }
+    let flag = true;
+    forkJoin(this.employeeService.findByPhone(this.formGroup.value.phone),
+      this.employeeService.findByName(this.formGroup.value.account),
+      this.employeeService.findByEmail(this.formGroup.value.email),
+      this.employeeService.findByIdCard(this.formGroup.value.id_card)
+    ).
+    subscribe((result) => {
+      if (result[0] === true) {
+        this.formGroup.controls.phone.setErrors({phoneexists: true});
+        flag = false;
+      }
+      if (result[1] === true) {
+        this.formGroup.controls.account.setErrors({accountexists: true});
+        flag = false;
+      }
+      if (result[2] === true) {
+        this.formGroup.controls.email.setErrors({emailexists: true});
+        flag = false;
+      }
+      if (result[3] === true) {
+        this.formGroup.controls.id_card.setErrors({idcardexists: true});
+        flag = false;
+      }
+      if (flag) {
+        // đặt tên cho file nên thêm tiền tố ngày đăng để tránh trùng lập tên file sẽ gây mất dữ liệu
+        // employeeAvatar/ là để tách folder lưu ra cho dễ kiểm soát
+        const filePath = `employeeAvatar/${Date.now()}${this.fileChose.name}`;
+        const fileRef = this.storage.ref(filePath);
+        // bắt đầu upload
+        this.storage.upload(filePath, this.fileChose)
+          .snapshotChanges()
+          .pipe(
+            finalize(() => {
+              fileRef.getDownloadURL().subscribe(url => {
+                console.log(url);
+                // return về link url đã lưu trên firebase. set nó vào trong form sau khi đã lưu
+                this.formGroup.value.avatar = url;
+                // và lưu form
+                this.saveForm();
+              });
+            })
+          )
+          .subscribe();
+        // this.saveForm();
+      }
+    });
   }
-
-  // changeCMND() {
-  //   document.getElementById("successCMND").style.display = 'block';
-  //   document.getElementById("cmndExists").style.display = 'none';
-  // }
-  //
-  // changeEmail() {
-  //   document.getElementById("successEmail").style.display = 'block';
-  //   document.getElementById("emailExists").style.display = 'none';
-  // }
-  //
-  // changePhone() {
-  //   document.getElementById("successPhone").style.display = 'block';
-  //   document.getElementById("phoneExists").style.display = 'none';
-  // }
-  //
-  // changeUsername() {
-  //   document.getElementById("successName").style.display = 'block';
-  //   document.getElementById("nameExists").style.display = 'none';
-  // }
   changeFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
-    if (fileList[0].size < 5000000) {
-      this.fileChose = fileList[0];
+    if (fileList[0].size > 5000000) {
+      this.formGroup.controls.avatar.setErrors({filesize: true});
       return;
     }
-    document.getElementById("bigSize").style.display = "inline";
+    this.fileChose = fileList[0];
   }
 }
