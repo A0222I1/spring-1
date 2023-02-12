@@ -55,8 +55,9 @@ findAllByCondition(nameCustomer: string, employeeName: string, planeId: string, 
       employeeId: control.value.employeeId,
       planeId: control.value.planeId
     };
-
-
+  }
+  getContractPlane():Observable<ContractViewDTO[]>{
+    return this.httpClient.get<ContractViewDTO[]>("http://localhost:8080/contract/contractViewDTO")
   }
 }
 interface GetResponse {
@@ -64,3 +65,4 @@ interface GetResponse {
   totalPages: number,
   number: number
 }
+

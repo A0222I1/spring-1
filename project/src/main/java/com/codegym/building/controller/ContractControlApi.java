@@ -39,6 +39,10 @@ public class ContractControlApi {
                                                               @PageableDefault(size = 5) Pageable pageable) {
         return new ResponseEntity<>(contractService.findAll(customerName, employeeName, planeId, dateStart, pageable).map(item -> new ContractViewDTO((Contract) item)), HttpStatus.OK);
     }
+    @GetMapping("/contractViewDTO")
+    public ResponseEntity<List<ContractViewDTO>> getAll(){
+        return  new ResponseEntity<List<ContractViewDTO>>(contractService.listDtoView(),HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ContractDTO> findById(@PathVariable Integer id) {
