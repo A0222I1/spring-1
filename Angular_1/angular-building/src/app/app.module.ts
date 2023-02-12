@@ -16,8 +16,7 @@ import {PlaneModuleModule} from './module/plane-module/plane-module.module';
 import {CommonModule} from '@angular/common';
 import {CustomPipeVND} from './module/plane-module/utils/customPipeVND';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
-import {ToastrModule} from "ngx-toastr";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
 
 @NgModule({
     declarations: [
@@ -36,9 +35,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
       CommonModule,
         PlaneModuleModule,
         AngularFireStorageModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
-      // BrowserAnimationsModule,
-      // ToastrModule.forRoot()
+      AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud')
     ],
     providers: [],
     exports: [
