@@ -1,24 +1,18 @@
-<!-- Button trigger modal -->
-<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewContract">-->
-<!--  Thêm Mới Hợp Đồng-->
-<!--</button>-->
-<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-bs-target="#addNewContract">-->
-<!--  Thêm Mới Hợp Đồng-->
-<!--</button>-->
+
 
 
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
 
 <div class="list-inputsearch">
-  <input type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tìm kiếm theo tên khách hàng.">
-  <input type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tìm kiếm theo tên nhân viên">
-  <input type="text" #planeId (change)="planeIdSearch = planeId.value" placeholder="Tìm kiếm theo mã mặt bằng..">
-  <input type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
+  <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tìm kiếm theo tên khách hàng.">
+  <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tìm kiếm theo tên nhân viên">
+  <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Tìm kiếm theo mã mặt bằng..">
+  <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
 
   <div class="list-inputsearch-icon">
     <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
     <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true"></i>
+    <i class="fa fa-undo list-inputsearch-icon-undo" (click)="refreshPage()" aria-hidden="true"></i>
   </div>
 </div>
 <table class="table tab">
@@ -26,8 +20,10 @@
   <tr>
     <th scope="col">ID(<span>*</span>)</th>
     <th scope="col">Tên Khách Hàng(<span>*</span>)</th>
+    <th scope="col">Tên Nhân Viên(<span>*</span>)</th>
     <th scope="col">Tên mặt Bằng(<span>*</span>)</th>
-    <th scope="col">Tình Trạng(<span>*</span>)</th>
+    <th scope="col">Tình Trạng Mặt Bằng(<span>*</span>)</th>
+    <th scope="col">Ngày Bắt Đầu(<span>*</span>)</th>
     <th scope="col"></th>
   </tr>
   </thead>
@@ -35,8 +31,10 @@
   <tr *ngFor="let contract of contracts ; index as i">
     <td scope="row">{{contract.id}}</td>
     <td scope="row">{{contract.customerName}}</td>
-    <td scope="row">MB{{contract.planeId}}</td>
+    <td scope="row">{{contract.employeeName}}</td>
+    <td scope="row">MB_{{contract.planeId}}</td>
     <td scope="row">{{contract.planeStatus}}</td>
+    <td scope="row">{{contract.start_date  | date: 'dd/MM/yyyy'}}</td>
     <td scope="row">
       <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal"
          data-bs-target="#contractFunction"
@@ -52,30 +50,7 @@
   </tbody>
 
 </table>
-<!--<div *ngIf="(employees.totalElements> 0); else isEmpty">-->
-<!--<div>-->
-<!--  &lt;!&ndash;  <div style="font-size: 20px" >Hiển thị <b>{{employees.numberOfElements}}</b> trong số <b>{{employees.totalElements}}</b> nhân viên</div>&ndash;&gt;-->
-<!--  <ul class="pagination">-->
-<!--    <li class="page-item" *ngIf="indexPagination > 0"><a style="font-size: 20px" (click)="firstPage()"-->
-<!--                                                         class="page-link">Trang đầu</a></li>-->
-<!--    <li class="page-item" *ngIf="indexPagination > 1"><a style="font-size: 20px" (click)="previousTwoPage()"-->
-<!--                                                         class="page-link">{{indexPagination - 1}}</a></li>-->
-<!--    <li class="page-item" *ngIf="indexPagination > 0"><a style="font-size: 20px" (click)="previousPage()"-->
-<!--                                                         class="page-link">{{indexPagination}}</a></li>-->
-<!--    <li class="page-item active"><a style="font-size: 20px" class="page-link">{{indexPagination + 1}}</a></li>-->
-<!--    <li class="page-item" *ngIf="indexPagination + 1 < contracts?.totalPages"><a style="font-size: 20px"-->
-<!--                                                                                 (click)="nextPage()"-->
-<!--                                                                                 class="page-link">{{indexPagination + 2}}</a>-->
-<!--    </li>-->
-<!--    <li class="page-item" *ngIf="indexPagination + 2 < contracts?.totalPages"><a style="font-size: 20px"-->
-<!--                                                                                 (click)="nextTwoPage()"-->
-<!--                                                                                 class="page-link">{{indexPagination + 3}}</a>-->
-<!--    </li>-->
-<!--    <li class="page-item" *ngIf="indexPagination + 1 < contracts?.totalPages"><a style="font-size: 20px"-->
-<!--                                                                                 (click)="lastPage()" class="page-link">Trang-->
-<!--      cuối</a></li>-->
-<!--  </ul>-->
-<!--</div>-->
+
 <!-- Delete modal-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -103,7 +78,7 @@
 
 
 <div>
-  <ul class="pagination justify-content-right">
+  <ul class="pagination justify-content-center">
     <li class="page-item">
       <a class="page-link">
         <i class="fa-solid fa-backward-fast"
@@ -164,7 +139,7 @@
         <h5>Thông tin khách hàng</h5>
           <div class="row">
             <div class="col-4">
-              <label>Chứng Minh Nhân Dân</label>
+              <label>Chứng Minh Nhân Dân(<span>*</span>)</label>
               <input type="text" (change)="checkIdentifyNumber()" formControlName="customerId" class="form-control"
                      value="{{name}}" required  [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
@@ -213,7 +188,8 @@
             <div class="col-4">
               <label>Mã mặt bằng (<span>*</span>)</label>
               <select class="form-control" formControlName="planeId" [attr.disabled]="disabled  == true ? '' : null" >
-                <option *ngFor="let p of planeList" [ngValue]="p.id">MB_0{{p.id}}</option>
+                <option value="">Chọn mã mặt bằng</option>
+                <option *ngFor="let p of planeList" [ngValue]="p.id">MB_{{p.id}}</option>
               </select>
               <span style="color: red"
                     *ngIf="formGroup.controls.planeId.hasError('required') && formGroup.controls.planeId.touched">
@@ -224,7 +200,7 @@
             </span>
             </div>
             <div class="col-4">
-              <label>Kỳ hạn</label>
+              <label>Kỳ hạn (<span>*</span>)</label>
               <select (change)="calculateEndDate()" class="form-control" formControlName="termId" [attr.disabled]="disabled  == true ? '' : null">
                 <option *ngFor="let t of termList" [ngValue]="t.id">{{t.name}}</option>
               </select>
@@ -259,7 +235,7 @@
             </div>
             <div class="col-4">
               <label>Giá tiền mỗi tháng</label>
-              <input type="text" (change)="calculateTotalPrice()" formControlName="price" class="form-control"
+              <input type="text" (keyup)="calculateTotalPrice()" formControlName="price" class="form-control"
                      (keyup)="forMatNumber($event.target.value)" required [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
                     *ngIf="formGroup.controls.price.hasError('required') && formGroup.controls.price.touched">
@@ -293,7 +269,7 @@
             </div>
 
             <hr style="margin-top: 10px">
-            <h5>Nội dung hợp đồng</h5>
+            <h5>Nội dung hợp đồng (<span>*</span>)</h5>
             <div class="row">
               <div class="col-12">
                 <textarea class="form-control" formControlName="information" required [attr.disabled]="disabled  == true ? '' : null"></textarea>
@@ -311,7 +287,7 @@
 
       </div>
       <div class="modal-footer" [hidden]="flagHidden">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Hủy Bỏ</button>
+        <button type="button" class="btn btn-danger" id="endModal" data-bs-dismiss="modal">Hủy Bỏ</button>
         <button type="button" class="btn btn-primary" (click)="refresh()">Làm Lại</button>
         <button type="submit" class="btn btn-info text-white" >Lưu</button>
       </div>

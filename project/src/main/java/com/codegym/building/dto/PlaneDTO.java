@@ -7,10 +7,10 @@ import lombok.Setter;
 import javax.persistence.criteria.CriteriaBuilder;
 @Getter
 @Setter
-public class PlanDTO {
+public class PlaneDTO {
     public Integer id;
 
-    public PlanDTO(Plane plane) {
+    public PlaneDTO(Plane plane) {
         this.id = plane.getId();
     }
 }

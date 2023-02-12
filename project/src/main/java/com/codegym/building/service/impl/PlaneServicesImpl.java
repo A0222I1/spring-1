@@ -1,6 +1,6 @@
 package com.codegym.building.service.impl;
 
-import com.codegym.building.dto.PlanDTO;
+import com.codegym.building.dto.PlaneDTO;
 import com.codegym.building.model.plane.Plane;
 import com.codegym.building.repos.PlaneRepos;
 import com.codegym.building.service.PlaneServices;
@@ -38,7 +38,12 @@ public class PlaneServicesImpl implements PlaneServices {
     }
 
     @Override
-    public List<PlanDTO> getAllPlane() {
-        return planeRepos.findAll().stream().map(PlanDTO::new).collect(Collectors.toList());
+    public List<PlaneDTO> getAllAvailablePlane() {
+        return planeRepos.getALlAvailablePlane().stream().map(PlaneDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlaneDTO> getAllRentedPlane() {
+        return planeRepos.getAllRentedPlane().stream().map(PlaneDTO::new).collect(Collectors.toList());
     }
 }

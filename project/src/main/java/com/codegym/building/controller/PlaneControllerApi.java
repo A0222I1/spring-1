@@ -1,6 +1,6 @@
 package com.codegym.building.controller;
 
-import com.codegym.building.dto.PlanDTO;
+import com.codegym.building.dto.PlaneDTO;
 import com.codegym.building.model.plane.Plane;
 import com.codegym.building.service.PlaneServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,14 @@ public class PlaneControllerApi {
     public ResponseEntity<Page<Plane>> findAllPlane( @PageableDefault(size = MAX_DISPLAY, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return new ResponseEntity<>(planeServices.findAll(pageable),HttpStatus.OK);
     }
-    @GetMapping("/dto")
-    public ResponseEntity<List<PlanDTO>> getAllWithContractDto() {
-        return new ResponseEntity<>(planeServices.getAllPlane(),HttpStatus.OK);
+    @GetMapping("/available")
+    public ResponseEntity<List<PlaneDTO>> getAllWithContractDto() {
+        return new ResponseEntity<>(planeServices.getAllAvailablePlane(),HttpStatus.OK);
+    }
+
+    @GetMapping("/rented")
+    public ResponseEntity<List<PlaneDTO>> getAllRentedPlane() {
+        return new ResponseEntity<>(planeServices.getAllRentedPlane(),HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     private ResponseEntity deletePlane(@PathVariable String id){

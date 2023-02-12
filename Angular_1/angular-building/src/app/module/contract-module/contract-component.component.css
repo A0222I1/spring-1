@@ -118,3 +118,128 @@ table > tbody >tr>td p{
 .current {
   background-color: #4CAF50;
 }
+.tab span {
+  color: red;
+}
+table{
+  width: 90%;
+  margin: 20px auto;
+  background-color: white;
+  box-shadow:1px 1px 4px 1px grey;
+  position: static;
+}
+.page-link:hover{
+  cursor: pointer;
+  opacity: 0.9;
+}
+.current {
+  background-color: green;
+  color: white;
+}
+table > tbody >tr>td{
+  vertical-align: middle !important;
+}
+table > tbody >tr>td p{
+  margin: 0;
+}
+.ground-button-chose button{
+  margin: 10px 8px;
+}
+.select-ground{
+  background-color: black;
+}
+.list-ground-title{
+  text-align: center;
+  margin: 10px 0;
+}
+.list-inputsearch{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+  align-items: center;
+}
+.list-inputsearch input{
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow:1px 1px 4px 1px grey;
+  padding: 5px 20px 5px 10px;
+  font-size: 14px;
+}
+.list-inputsearch input::placeholder{
+  font-size: 14px;
+}
+.list-inputsearch-icon{
+  display: flex;
+}
+.list-inputsearch-icon i{
+
+  margin: 0 10px;
+  padding: 12px;
+  border-radius: 50%;
+}
+.list-inputsearch-icon i:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+.list-inputsearch-icon-search{
+  color: white;
+}
+.list-inputsearch-icon-undo{
+  color: white;
+}
+.select-choose-floor{
+  color: white;
+  background-color: #424141;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.select-choose-floor option{
+  background-color: white;
+  color: black;
+}
+.pagination1 {
+  display: inline-block;
+  text-align: center;
+}
+.pagination1 a {
+  text-align: center;
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+.pagination1 a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+.action-icon:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+.action-icon{
+  padding: 12px;
+  font-size: 20px;
+  margin: 0 8px;
+  border-radius: 30%;
+  color: white;
+}
+.action-icon-delete{
+  background-color: red;
+}
+.action-icon-info{
+  background-color: #40c057;
+}
+.action-icon-edit{
+  background-color: #ffd43b;
+}
+.list-inputsearch-icon .icon-addnew{
+  background-color: #40c057;
+  border-radius: 50%;
+  color: white;
+  padding: 12px 13px;
+  margin: 0 10px;
+}
+
+
