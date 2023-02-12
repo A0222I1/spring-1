@@ -32,7 +32,6 @@ export class ContractComponentComponent implements OnInit {
   customerList: CustomerViewDTO[];
   customerView: CustomerViewDTO;
   contractDTO: ContractFormCreateDTO;
-  static idCustomer: string;
   title: string;
   disabled = false;
   flagHidden: boolean;
@@ -40,7 +39,7 @@ export class ContractComponentComponent implements OnInit {
   id: number;
   name = "abc";
   indexPagination = 0;
-  totalPages: number = 0;
+  totalPages = 0;
   public value = '';
   contracts: ContractViewDTO[] = [];
 
@@ -51,55 +50,48 @@ export class ContractComponentComponent implements OnInit {
 
   constructor(private planeService: PlaneService,
               private termServiceService: TermServiceService,
-              private customerService:CustomerServiceService,
+              private customerService: CustomerServiceService,
               private contractService: ContractServiceService,
               private datePipe: DatePipe,
               private toastrService: ToastrService) { }
 
   ngOnInit(): void {
-    this.buildForm();
-    this.findAllByCondition(this.customerNameSearch,this.employeeNameSearch,this.planeIdSearch,this.dateStartSearch,0)
     this.getAllPlane();
-    this.getAllTerm()
+    this.getAllTerm();
     this.getAllCustomer();
+    this.buildForm();
+    this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch,0);
 
-    // this.getAll(this.indexPagination);
+
   }
 
   findAllByCondition(customerName: string, employeeName: string, planeId: string, startDay: string, page: number){
+    // tslint:disable-next-line:radix
+    // planeId = parseInt(planeId).toString();
     this.contractService.findAllByCondition(customerName, employeeName, planeId, startDay, page).subscribe(value => {
+
       console.log(value);
-       this.contracts = value.content;
+      this.contracts = value.content;
       this.indexPagination = value.number;
       this.totalPages = value.totalPages;
-     })
+     });
   }
 
 
-  // getAll(indexPagination) {
-  //   this.contractService.getAll(indexPagination).subscribe(
-  //     data => {
-  //       this.contracts = data;
-  //       console.log(data);
-  //     }
-  //   );
-  // }
-  //
+
   changeId(id: number, name: string) {
     this.id = id;
     this.name = name;
   }
-  //
+
   delete(id: number) {
     this.contractService.delete(id).subscribe(check => {
-      if(check) {
+      if (check) {
         this.toastrService.success('Xóa hợp đồng thành công.', 'Thông báo' );
         this.ngOnInit();
       } else  {
-        this.toastrService.error("Xóa hợp đồng thât bại")
+        this.toastrService.error("Xóa hợp đồng thât bại");
       }
-
-
     });
   }
 
@@ -107,32 +99,39 @@ export class ContractComponentComponent implements OnInit {
 
   buildForm() {
     this.formGroup = new FormGroup({
-      id : new FormControl(this.contractDTO == undefined ? "" : this.contractDTO.id),
-      termId : new FormControl(this.contractDTO == undefined ? "" : this.contractDTO.termId,[Validators.required]),
-      price: new FormControl(this.contractDTO == undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.price).toString(),[Validators.required]),
-      total: new FormControl(this.contractDTO == undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.total).toString()),
-      information: new FormControl(this.contractDTO == undefined ? '' : this.contractDTO.information,[Validators.required]),
-      startDate: new FormControl(this.contractDTO == undefined ? this.getDateNow() : this.contractDTO.start_date,[Validators.required,isFuture]),
+      id : new FormControl(this.contractDTO === undefined ? "" : this.contractDTO.id),
+      termId : new FormControl(this.contractDTO === undefined ? "" : this.contractDTO.termId, [Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      price: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.price).toString(), [Validators.required]),
+      total: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.total).toString()),
+      information: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.information, [Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.start_date,[Validators.required, isFuture]),
       endDate: new FormControl(""),
-      customerId: new FormControl(this.contractDTO == undefined ? '' : this.contractDTO.customerId,[Validators.required,Validators.pattern("^([0-9]{12})$")]),
-      employeeId: new FormControl(this.contractDTO == undefined ? 'NV-0003' : this.contractDTO.employeeId),
-      planeId: new FormControl(this.contractDTO == undefined ? '' : this.contractDTO.planeId,[Validators.required])
+      // tslint:disable-next-line:max-line-length
+      customerId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.customerId, [Validators.required, Validators.pattern("^([0-9]{12})$")]),
+      employeeId: new FormControl(this.contractDTO === undefined ? 'NV-0003' : this.contractDTO.employeeId),
+      planeId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.planeId, [Validators.required])
     });
   }
 
 
   saveAllForm() {
     console.log(this.formGroup);
-    if(this.formGroup.invalid) {
-      this.toastrService.error("Xin mời bạn nhập tất cả các trường còn lại")
+    if (this.formGroup.invalid) {
+      this.toastrService.error("Xin mời bạn nhập tất cả các trường còn lại");
     } else {
-      this.formGroup.value.customerId = this.customerList.find(x => x.id_card = this.formGroup.value.customerId).id;
+      this.formGroup.value.customerId = this.customerView.id;
+      console.log(this.formGroup.value.customerId);
       this.contractService.save(this.formGroup).subscribe(data => {
         console.log(data);
-        document.getElementById(  "contractFunction").click();
-        this.toastrService.success("Thêm mới thành công")
-        // this.getAll(this.indexPagination);
-      })
+        this.toastrService.success("Cập nhật thành công");
+        this.ngOnInit();
+        // tslint:disable-next-line:max-line-length
+        document.getElementById(  "endModal").click();
+      }, error => {
+        console.log("HTTP Error Thuan Create", error);
+      });
     }
 
 
@@ -140,18 +139,18 @@ export class ContractComponentComponent implements OnInit {
   getAllPlane() {
     this.planeService.getALlPlaneDTO().subscribe(data => {
       this.planeList = data;
-    })
+    });
   }
   getAllCustomer() {
     this.customerService.getAllCustomer().subscribe(data => {
       this.customerList = data;
-    })
+    });
 
   }
   getAllTerm() {
     this.termServiceService.getAlL().subscribe(data => {
       this.termList = data;
-    })
+    });
   }
 
   forMatNumber(value: any) {
@@ -162,9 +161,10 @@ export class ContractComponentComponent implements OnInit {
   }
 
   checkIdentifyNumber() {
-    let indentifyNumber = this.formGroup.value.customerId;
-    this.customerView = this.customerList.find(item => item.id_card == indentifyNumber);
-    if(this.customerView == undefined) {
+    const indentifyNumber = this.formGroup.value.customerId;
+    this.getAllCustomer();
+    this.customerView = this.customerList.find(item => item.id_card === indentifyNumber);
+    if (this.customerView === undefined) {
       this.toastrService.error("Xin lỗi thông tin của khách hàng chưa được lưu trên hệ thống của chúng tôi")
     } else  {
       this.toastrService.success("Thông khách đã tìm được xin mời bạn kiểm tra!!!")
@@ -175,94 +175,119 @@ export class ContractComponentComponent implements OnInit {
   }
 
   calculateEndDate() {
-    this.getEndDate(this.formGroup.value.startDate,this.getTermNameInInt() )
+    this.getEndDate(this.formGroup.value.startDate, this.getTermNameInInt());
     this.calculateTotalPrice();
 
   }
-  getDateNow() : string {
+  getDateNow(): string {
     return  this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
-  getEndDate(startDate,term) {
-    var endDate = new Date(startDate);
+  getEndDate(startDate, term) {
+    // tslint:disable-next-line:prefer-const
+    let endDate = new Date(startDate);
     if (endDate.toString() !== "Invalid Date") {
-      endDate.setMonth(endDate.getMonth()  + term)
+      endDate.setMonth(endDate.getMonth()  + term);
       this.formGroup.patchValue({
-        endDate: this.datePipe.transform(endDate,'yyyy-MM-dd')
-      })
+        endDate: this.datePipe.transform(endDate, 'yyyy-MM-dd')
+      });
     }
 
   }
 
 
   calculateTotalPrice() {
-    let price = parseFloat(this.formGroup.value.price.replace(/,/g, '')) * this.getTermNameInInt()
-    if(!isNaN(price)) {
+    const price = parseFloat(this.formGroup.value.price.replace(/,/g, '')) * this.getTermNameInInt()
+    if (!isNaN(price)) {
       this.formGroup.patchValue({
         total: new Intl.NumberFormat().format(price)
-      })
+      });
     }
 
   }
 
-  getTermNameInInt() : number {
-    let term = this.formGroup.value.termId
-    if(term !== "") {
+  getTermNameInInt(): number {
+    const term = this.formGroup.value.termId;
+    if (term !== "") {
       let name;
-      for (let i = 0; i <this.termList.length ; i++) {
-        if(this.termList[i].id == term) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.termList.length ; i++) {
+        if (this.termList[i].id === term) {
           name = this.termList[i].name;
         }
       }
-      return parseInt(name.slice(0,2));
+      // tslint:disable-next-line:radix
+      return parseInt(name.slice(0, 2));
     }
 
   }
 
   editContract(id: number, idCard: string) {
-    this.title = "Chỉnh Sửa Hợp Đồng"
+    this.title = "Chỉnh Sửa Hợp Đồng";
     this.disabled = false;
     this.flagHidden = false;
-    this.fillForm(id,idCard);
+    this.fillForm(id, idCard);
+
 
   }
-  fillForm(id: number, idCard: string) {
+  fillForm(id: number, idCard: string ) {
     this.contractService.findById(id).subscribe(data => {
+
+      // get all contract information
       this.contractDTO = data;
-      this.customerView = this.customerList.find(item => item.id_card == idCard)
       this.contractDTO.customerId = idCard;
+      // fill customer infomation by [value]
+      this.getAllCustomer();
+      this.customerView = this.customerList.find(item => item.id_card === idCard);
+      // update term
+      const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
+      this.planeList.push(planeEdit);
+     // fill information
       this.buildForm();
       this.calculateEndDate();
-    })
+    });
 
 
   }
 
   add() {
-    this.title = "Thêm Mới Hợp Đồng"
+    this.title = "Thêm Mới Hợp Đồng";
     this.disabled = false;
     this.flagHidden = false;
-    this.contractDTO = undefined;
     this.refresh();
   }
 
   refresh() {
+    this.getAllPlane();
+    console.log("refresh");
+    console.log(this.planeList);
     this.contractDTO = undefined;
     this.buildForm();
-    this.customerView = undefined
+    console.log(this.formGroup);
+    this.customerView = undefined;
+    // this.getAllPlane();
   }
 
+  // tslint:disable-next-line:variable-name
   detail(id: any, id_card: any) {
-    this.title = "Chi Tiết Hợp Đồng"
+    this.title = "Chi Tiết Hợp Đồng";
     this.disabled = true;
     this.flagHidden = true;
-    this.fillForm(id,id_card)
+
+    this.fillForm(id, id_card);
 
 
   }
 
-  // changeId(id: number, customerName: string) {
-  //
-  // }
 
-
+  refreshPage() {
+    (document.getElementById('nameCustomer') as HTMLInputElement).value = '';
+    (document.getElementById('nameEmployee') as HTMLInputElement).value = '';
+    (document.getElementById('planeId') as HTMLInputElement).value = '';
+    (document.getElementById('startDate') as HTMLInputElement).value = '';
+    this.employeeNameSearch = '';
+    this.customerNameSearch = '';
+    this.planeIdSearch = '';
+    this.dateStartSearch = '';
+    this.ngOnInit();
+  }
 }

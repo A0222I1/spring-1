@@ -28,15 +28,17 @@ export class ContractServiceService {
   getAll(page): Observable<any[]> {
     return this.httpClient.get<any[]>(this.url + '?page=' + page);
   }
-findAllByCondition(nameCustomer: string, employeeName: string, planeId: string, daystart: string, page: number): Observable<GetResponse>{
-  console.log(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
-    return this.httpClient.get<GetResponse>(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`)
-}
-  // delete(id: number): Observable<Contract> {
-  //   return this.httpClient.delete<Contract>(this.url + '/' + id);
-  // }
-  delete(id: number) : Observable<Boolean> {
-    return  this.httpClient.delete<Boolean>(this.url + "/" + id)
+
+  findAllByCondition(nameCustomer: string, employeeName: string, planeId: string, daystart: string, page: number): Observable<GetResponse> {
+    // tslint:disable-next-line:max-line-length
+    console.log(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
+    return this.httpClient.get<GetResponse>(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
+  }
+
+  // tslint:disable-next-line:ban-types
+  delete(id: number): Observable<Boolean> {
+    // tslint:disable-next-line:ban-types
+    return this.httpClient.delete<Boolean>(this.url + '/' + id);
   }
 
   findById(id: number): Observable<ContractFormCreateDTO> {
@@ -60,8 +62,9 @@ findAllByCondition(nameCustomer: string, employeeName: string, planeId: string, 
     return this.httpClient.get<ContractViewDTO[]>("http://localhost:8080/contract/contractViewDTO")
   }
 }
+
 interface GetResponse {
-  content : ContractViewDTO[],
+  content: ContractViewDTO[],
   totalPages: number,
   number: number
 }

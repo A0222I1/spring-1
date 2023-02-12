@@ -11,9 +11,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,12 +61,25 @@ public class CustomerControllerApi {
     }
 
     @PostMapping("")
-    private ResponseEntity<Customer> createEmployee(@RequestBody Customer customer) {
+    private ResponseEntity<Customer> createEmployee(@Valid @RequestBody  Customer customer) {
         return new ResponseEntity<>(customerPersonService.save(customer), HttpStatus.OK);
     }
 
     @PatchMapping("")
     private ResponseEntity<Customer> editEmployee(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerPersonService.save(customer), HttpStatus.OK);
+    }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
     }
 }
