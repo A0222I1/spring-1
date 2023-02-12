@@ -13,4 +13,10 @@ public interface PlaneRepos extends JpaRepository<Plane,Integer> {
      @Query(value = "select * from plane where area like concat('%',:area,'%') and  stage_id like concat('%',:stage,'%') and plane_status_id like concat('%',:status,'%') and plane_type_id like concat('%',:type,'%')" , nativeQuery = true)
     Page<Plane> findAllByCondition(@Param("area") String area, @Param("stage") String stage_name, @Param("status")String status,
                                    @Param("type")String type, Pageable pageable);
+
+//    @Query(value = " select plane.id,plane.management_costs,plane.area,plane.price,plane.plane_status_id,plane.plane_type_id,plane.stage_id from plane where area like concat('%',:area,'%') and  plane.stage_id like plane.concat('%',:stage,'%') and plane.plane_status_id like concat('%',:status,'%') and plane.plane_type_id like concat('%',:type,'%')" , nativeQuery = true)
+//    Page<Plane> findAllByCondition(@Param("area") String area, @Param("stage") String stage_name, @Param("status")String status,
+//                                   @Param("type")String type, Pageable pageable);
+
+
 }

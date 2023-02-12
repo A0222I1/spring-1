@@ -1,11 +1,9 @@
 package com.codegym.building.controller;
 
+import com.codegym.building.dto.PlanDTO;
 import com.codegym.building.model.plane.Plane;
-import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.service.PlaneServices;
-import com.codegym.building.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,8 +27,12 @@ public class PlaneControllerApi {
             @RequestParam(name="stage",defaultValue = "") String stage,
             @RequestParam(name="status",defaultValue = "") String status,
             @RequestParam(name="type",defaultValue = "") String type,
-            @PageableDefault(size = MAX_DISPLAY, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+            @PageableDefault(size = MAX_DISPLAY) Pageable pageable){
         return new ResponseEntity<>(planeServices.findAllByCondition(area, stage, status, type, pageable),HttpStatus.OK);
+    }
+    @GetMapping("/dto")
+    public ResponseEntity<List<PlanDTO>> getAllWithContractDto() {
+        return new ResponseEntity<>(planeServices.getAllPlane(),HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     private ResponseEntity deletePlane(@PathVariable String id){

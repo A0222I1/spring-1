@@ -1,9 +1,7 @@
 package com.codegym.building.controller;
 
-import com.codegym.building.dto.AccountDTO;
 import com.codegym.building.dto.EmployeeDTO;
 import com.codegym.building.dto.EmployeeViewDTO;
-import com.codegym.building.model.account.AccountRole;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.repos.EmployeeRepos;
 import com.codegym.building.service.PersonService;
@@ -16,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -31,15 +31,15 @@ public class EmployeeControllerApi {
 
     @GetMapping("")
     public ResponseEntity<Page<EmployeeViewDTO>> findAllByCondition(@RequestParam(name = "name", defaultValue = "") String name,
-                                                             @RequestParam(name = "id_card", defaultValue = "") String id_card,
-                                                             @RequestParam(name = "address", defaultValue = "") String address,
-                                                             @RequestParam(name = "department", defaultValue = "") String department,
-                                                             @PageableDefault(size = MAX_DISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+                                                                    @RequestParam(name = "id_card", defaultValue = "") String id_card,
+                                                                    @RequestParam(name = "address", defaultValue = "") String address,
+                                                                    @RequestParam(name = "department", defaultValue = "") String department,
+                                                                    @PageableDefault(size = MAX_DISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
         return new ResponseEntity<>(employeePersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable).map(EmployeeViewDTO::new), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    private ResponseEntity<Employee> findById(@PathVariable String id) {
+    @GetMapping("/find")
+    private ResponseEntity<Employee> findById(@RequestParam String id) {
         return new ResponseEntity<>(employeePersonService.findById(id), HttpStatus.OK);
     }
 
@@ -54,10 +54,10 @@ public class EmployeeControllerApi {
     }
 
     @PostMapping("")
-    private ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        System.out.println(employeeDTO);
-        roleRepos.save(new AccountRole(new AccountDTO(employeeDTO.getAccount(),employeeDTO.getPassword())));
-        return new ResponseEntity<>(employeePersonService.save(new Employee(employeeDTO)), HttpStatus.OK);
+    private ResponseEntity<EmployeeViewDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        EmployeeViewDTO employeeViewDTO = new EmployeeViewDTO(employeePersonService.save(new Employee(employeeDTO)));
+        roleRepos.updateDefaultRolesOffAccountRegister(employeeViewDTO.getAccount());
+        return new ResponseEntity<>(employeeViewDTO, HttpStatus.OK);
     }
 
     @PatchMapping("")
@@ -79,6 +79,7 @@ public class EmployeeControllerApi {
     private ResponseEntity<Boolean> isExistsPhone(@RequestParam("phone") String phone) {
         return new ResponseEntity<>(employeePersonService.findByPhone(phone), HttpStatus.OK);
     }
+
     @GetMapping("/existsEmail")
     private ResponseEntity<Boolean> isExistsEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(employeePersonService.findByEmail(email), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.codegym.building.service;
 
+import com.codegym.building.dto.PlanDTO;
 import com.codegym.building.model.plane.Plane;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,4 +12,5 @@ public interface PlaneServices {
     void savePlane(Plane plane);
     void deletePlane(Plane plane);
     Plane findPlaneById(int id);
+    List<PlanDTO> getAllPlane();
 }

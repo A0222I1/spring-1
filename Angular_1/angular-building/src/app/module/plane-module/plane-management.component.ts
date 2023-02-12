@@ -8,6 +8,9 @@ import {PlaneType} from "./model/PlaneType";
 import {PlaneTypeService} from "./services/plane-type.service";
 import {PlaneStatusService} from "./services/plane-status.service";
 import {PlaneStatus} from "./model/PlaneStatus";
+import {ContractViewDTO} from "../contract-module/dto/ContractViewDTO";
+import {ContractServiceService} from "../contract-module/service/contract-service.service";
+import {isUndefined} from "util";
 
 
 @Component({
@@ -20,6 +23,7 @@ export class PlaneManagementComponent implements OnInit {
   stages : Stage[];
   planeTypes : PlaneType[];
   planeStatus : PlaneStatus[];
+  contracts: ContractViewDTO[]=[];
   plane : Plane;
   pageNumber: number;
   totalPages: number;
@@ -28,12 +32,13 @@ export class PlaneManagementComponent implements OnInit {
   stageSearch: string = "";
   statusSearch: string = "";
   typeSearch: string = "";
-  constructor(private planeService : PlaneService,private stageService : StageService, private planeTypeService :PlaneTypeService,private planeStatusService : PlaneStatusService) { }
+  constructor(private contractService :ContractServiceService,private planeService : PlaneService,private stageService : StageService, private planeTypeService :PlaneTypeService,private planeStatusService : PlaneStatusService) { }
 
   ngOnInit(): void {
     this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,0);
     this.getStage();
     this.getPlaneType();
+    this.getContracts();
     this.getPlaneStatus();
   }
 
@@ -43,6 +48,13 @@ export class PlaneManagementComponent implements OnInit {
       this.planes = data.content;
       this.pageNumber = data.number;
       this.totalPages = data.totalPages;
+    })
+  }
+  getContracts(){
+    this.contractService.getContractPlane().subscribe(data=>{
+      this.contracts = data;
+      console.log(data);
+
     })
   }
   getStage(){
@@ -69,12 +81,20 @@ export class PlaneManagementComponent implements OnInit {
       this.ngOnInit();
     })
   }
-
   changeArea(value: string) {
     if(+value < 0){
       return;
     }
     this.areaSearch = value;
+  }
+
+  getCustomerName(id) {
+    let contractViewDTO : ContractViewDTO;
+    contractViewDTO = this.contracts.find(item=>{
+      return item.planeId == id;
+    })
+    if(contractViewDTO) return contractViewDTO.customerName;
+    return "Not Found";
   }
 }
 
