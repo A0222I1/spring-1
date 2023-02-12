@@ -16,4 +16,4 @@ public interface ContractService <ENTITY extends Contract,DTO extends ContractDT
     Page<ENTITY> findAll(String customerName,String employeeName, String planeId, String dateStart, Pageable pageable);
     boolean delete(Integer id);
     List<DTOView> listDtoView();
-}   
+}

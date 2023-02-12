@@ -10,7 +10,7 @@ import {PlaneStatusService} from "./services/plane-status.service";
 import {PlaneStatus} from "./model/PlaneStatus";
 import {ContractViewDTO} from "../contract-module/dto/ContractViewDTO";
 import {ContractServiceService} from "../contract-module/service/contract-service.service";
-import {isUndefined} from "util";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -32,7 +32,9 @@ export class PlaneManagementComponent implements OnInit {
   stageSearch: string = "";
   statusSearch: string = "";
   typeSearch: string = "";
-  constructor(private contractService :ContractServiceService,private planeService : PlaneService,private stageService : StageService, private planeTypeService :PlaneTypeService,private planeStatusService : PlaneStatusService) { }
+  constructor(private contractService :ContractServiceService,
+              private toast: ToastrService,
+              private planeService : PlaneService,private stageService : StageService, private planeTypeService :PlaneTypeService,private planeStatusService : PlaneStatusService) { }
 
   ngOnInit(): void {
     this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,0);
@@ -79,6 +81,7 @@ export class PlaneManagementComponent implements OnInit {
   deletePlane(id: number) {
     this.planeService.deletePlane(id).subscribe(data=>{
       this.ngOnInit();
+      this.toast.success("Xóa thành công ");
     })
   }
   changeArea(value: string) {
@@ -95,6 +98,13 @@ export class PlaneManagementComponent implements OnInit {
     })
     if(contractViewDTO) return contractViewDTO.customerName;
     return "Not Found";
+  }
+  resetSearch(){
+    this.getAll('','','','',0);
+    this.areaSearch='';
+    this.statusSearch='';
+    this.typeSearch='';
+    this.stageSearch='';
   }
 }
 
