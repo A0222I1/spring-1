@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
+
+
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
     @Autowired
     ContractRepos contractRepos;
@@ -68,6 +70,11 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<ContractViewDTO> listDtoView() {
+        return contractRepos.findAll().stream().map(ContractViewDTO::new).collect(Collectors.toList());
     }
 
     private Contract findById(final Integer id) {

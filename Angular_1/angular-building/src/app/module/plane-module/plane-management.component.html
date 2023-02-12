@@ -2,19 +2,25 @@
   <h4 class="list-ground-title">DANH SÁCH MẶT BẰNG</h4>
 
   <div class="list-inputsearch">
-    <input type="text" placeholder="Tìm kiếm theo tên tầng">
-    <input type="text" placeholder="Tìm kiếm theo mã mặt bằng">
-    <input type="text" placeholder="Tìm kiếm theo diện tích">
-    <input type="text" placeholder="Tìm kiếm theo loại mặt bằng">
+    <input type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
+    <select id="exampleFormControlSelect2" #stage (change)="stageSearch = stage.value">
+      <option value="">Tên tầng</option>
+      <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i+1}}: {{stage.name}}</option>
+    </select>
+    <select id="exampleFormControlSelect3" #status (change)="statusSearch = status.value">
+      <option value="">Trạng thái mặt bằng</option>
+        <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
+    </select>
+    <select id="exampleFormControlSelect1" #type (change)="typeSearch = type.value">
+      <option value="">Loại mặt bằng</option>
+      <option *ngFor="let planeType of planeTypes" value="{{planeType.id}}"> {{planeType.name}}</option>
+    </select>
     <div class="list-inputsearch-icon">
       <i class="icon-addnew fa-solid fa-plus"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
-      <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
+      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
+      <i (click)="getAll('','','','',0)" class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
     </div>
-    <select id="exampleFormControlSelect2">
-      <option value="">Tên tầng</option>
-      <option *ngFor="let stage of stages;let i = index">Tầng {{i+1}}: {{stage.name}}</option>
-    </select>
+
   </div>
   <table class="table tab">
     <thead class="thead-dark">
@@ -26,6 +32,7 @@
       <th scope="col">Giá bán(<span>*</span>)</th>
       <th scope="col">Phí quản lý(<span>*</span>)</th>
       <th scope="col">Khách hàng(<span>*</span>)</th>
+      <th scope="col">Tầng(<span>*</span>)</th>
       <th scope="col"></th>
     </tr>
     </thead>
@@ -37,7 +44,8 @@
       <td scope="row">{{item.planeStatus.name }}</td>
       <td scope="row">{{item.price}}</td>
       <td scope="row">{{item.management_costs}}</td>
-      <td scope="row">Đỗ Lê Luận</td>
+      <td scope="row">{{getCustomerName(item.id)}}</td>
+      <td scope="row">{{item.stage.name}}</td>
       <td scope="row">
         <i class="action-icon action-icon-info  fa-solid fa-circle-info"></i>
         <i class="action-icon action-icon-edit fa-solid fa-pen-to-square"></i>
@@ -56,17 +64,17 @@
         </a>
       </li>
       <li>
-        <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''" (click)="getAll(pageNumber-1)">
+        <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber-1)">
           <i class="fa-solid fa-backward"></i>
         </a>
       </li>
       <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
-        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(i)">
+        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">
           {{i + 1}}
         </a>
       </li>
       <li>
-        <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''" (click)="getAll(pageNumber+1)">
+        <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber+1)">
           <i class="fa-solid fa-forward"></i>
         </a>
       </li>
@@ -111,3 +119,5 @@
   </div>
 
 </div>
+
+

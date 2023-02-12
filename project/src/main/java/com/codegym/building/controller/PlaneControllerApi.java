@@ -22,8 +22,13 @@ public class PlaneControllerApi {
     @Autowired
     private PlaneServices planeServices;
     @GetMapping("")
-    public ResponseEntity<Page<Plane>> findAllPlane( @PageableDefault(size = MAX_DISPLAY, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
-        return new ResponseEntity<>(planeServices.findAll(pageable),HttpStatus.OK);
+    public ResponseEntity<Page<Plane>> findAllPlane(
+            @RequestParam(name="area",defaultValue = "") String area,
+            @RequestParam(name="stage",defaultValue = "") String stage,
+            @RequestParam(name="status",defaultValue = "") String status,
+            @RequestParam(name="type",defaultValue = "") String type,
+            @PageableDefault(size = MAX_DISPLAY) Pageable pageable){
+        return new ResponseEntity<>(planeServices.findAllByCondition(area, stage, status, type, pageable),HttpStatus.OK);
     }
     @GetMapping("/available")
     public ResponseEntity<List<PlaneDTO>> getAllWithContractDto() {

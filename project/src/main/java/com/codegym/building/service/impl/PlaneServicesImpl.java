@@ -16,9 +16,10 @@ import java.util.stream.Collectors;
 public class PlaneServicesImpl implements PlaneServices {
     @Autowired
     private PlaneRepos planeRepos;
+
     @Override
-    public Page<Plane> findAll(Pageable pageable) {
-        return this.planeRepos.findAll(pageable);
+    public Page<Plane> findAllByCondition(String area, String stage, String status, String type, Pageable pageable) {
+        return planeRepos.findAllByCondition(area, stage, status, type, pageable);
     }
 
     @Override
