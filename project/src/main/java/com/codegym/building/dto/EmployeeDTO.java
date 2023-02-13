@@ -1,5 +1,6 @@
 package com.codegym.building.dto;
 
+import com.codegym.building.utils.validate.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,49 +10,59 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class EmployeeDTO {
-    @NotBlank
-    @Length(max = 255, message = "độ dài không quá 255 kí tự")
+    @NotBlank(message = "avatar nên nhập không nên để trống!")
+    @Length(min = 5, max = 255, message = "độ dài nên lớn hơn 5 kí tự và không quá 255 kí tự!")
     String avatar;
 
-    @NotBlank
+    @Pattern(regexp = "^[A-Za-z ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃúùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$", message = "tên không được có số!")
+    @Size(min = 8, max = 200, message = "độ dài tên từ 8 kí tự đến 200 kí tự!")
     String name;
 
-    @NotBlank
+    @CheckAgeBigger18
     String birthday;
 
-    @NotBlank
+
+    @Pattern(regexp = "^[1234]$", message = "giới tính không phù hợp!")
     String gender;
 
-    @Min(value = 1, message = "lương phải lớn hơn 1")
-    Double salary;
 
-    @NotBlank
+    @Pattern(regexp = "^([0-9]{7,})$", message = "lương phải có kiểu số và lớn hơn 1 triệu!")
+    String salary;
+
+    @ExistsIdCard
+    @Pattern(regexp = "^([0-9]{12})$", message = "chứng minh nhân dân không đúng định dạng!")
     String id_card;
 
-    @NotBlank
+    @NotBlank(message = "địa chỉ nên nhập không nên để trống!")
+    @Size(max = 200, message = "địa chỉ không dài quá 200 kí tự!")
     String address;
 
-    @NotBlank
+    @Pattern(regexp = "^([0]|(\\+84))([0-9]{9})$", message = "số điện thoại chưa đúng định dạng!")
+    @ExistsPhone
     String phone;
 
-    @NotBlank
+    @ExistsEmail
+    @Pattern(regexp = "^[\\w\\-.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "email chưa đúng định dạng!")
     String email;
 
-    @NotBlank
+    @Pattern(regexp = "^[1234]$", message = "bậc lương không phù hợp!")
     String salaryScale;
 
-    @NotBlank
+    @Pattern(regexp = "^[123]$", message = "bộ phận làm việc không phù hợp!")
     String department;
 
-    @NotBlank
+    @ExistsAccount
+    @NotBlank(message = "tài khoản nên nhập không nên để trống!")
+    @Size(min = 8, max = 15, message = "tài khoản chỉ nên từ 8 đến 15 kí tự!")
     String account;
 
-    @NotBlank
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,15}$", message = "mật khẩu phải có 1 chữ hoa,1 chữ thường 1 kí tự đặt biệt, 1 số và từ 8 đến 15 kí tự!")
     String password;
 }

@@ -4,7 +4,7 @@ import {Account} from "../../employee-module/model/Account";
 
 export interface Customer {
   id?: string;
-  idCard? : string;
+  idCard?: string;
   name?: string;
   email?: string;
   phone?: string;
