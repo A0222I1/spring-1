@@ -36,7 +36,7 @@ export class CustomerManagementComponent implements OnInit {
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
-              // private toastr: ToastrService
+              private toastr: ToastrService
   ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
     this.departmentService.findAll().subscribe(value => this.departments = value);
@@ -62,8 +62,12 @@ export class CustomerManagementComponent implements OnInit {
   refreshPage() {
     (<HTMLInputElement>document.getElementById("nameSearch")).value = '';
     (<HTMLInputElement>document.getElementById("cmndSearch")).value = '';
+    (<HTMLInputElement>document.getElementById("addressSearch")).value = '';
+    (<HTMLInputElement>document.getElementById("departmentSearch")).value = '';
     this.cmnd_search = '';
     this.name_search = '';
+    this.address_search = '';
+    this.department_search ='';
     this.ngOnInit();
   }
 
@@ -78,10 +82,10 @@ export class CustomerManagementComponent implements OnInit {
 
   deleteById(id: string) {
     this.customerService.updateStatusById(id).subscribe(value => {
-      this.message = `xóa nhân viên với id ${id} thành công!!!`;
+      // this.message = `xóa nhân viên với id ${id} thành công!!!`;
       // this.alert = true;
-      // this.toastr.success('Hello world!', 'Toastr fun!');
-      document.getElementById("deleteModal").click();
+      this.toastr.success('Cảm ơn!', 'Đã xóa thành công');
+      document.getElementById("cancle").click();
       this.ngOnInit();
     })
   };
@@ -116,12 +120,12 @@ export class CustomerManagementComponent implements OnInit {
       account: ['', [Validators.required, checkTrim]]
     })
   }
-  saveForm() {
-    this.customerService.save(this.formGroup).subscribe(value => {
-      this.message = `tạo mới thành công khách hàng tên ${value.name}`;
-      document.getElementById("createModal").click();
-      this.alert = true;
-      this.ngOnInit();
-    });
-  }
+  // saveForm() {
+  //   this.customerService.save(this.formGroup).subscribe(value => {
+  //     this.message = `tạo mới thành công khách hàng tên ${value.name}`;
+  //     document.getElementById("createModal").click();
+  //     this.alert = true;
+  //     this.ngOnInit();
+  //   });
+  // }
 }
