@@ -5,9 +5,9 @@ import {GenderServiceService} from "./service/gender-service.service";
 import {DepartmentServiceService} from "./service/department-service.service";
 import {SalaryScaleServiceService} from "./service/salary-scale-service.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Gender} from "./model/Gender";
-import {SalaryScale} from "./model/SalaryScale";
-import {Department} from "./model/Department";
+import {Gender} from "../../model/Gender";
+import {SalaryScale} from "../../model/SalaryScale";
+import {Department} from "../../model/Department";
 import {
   checkBirthday,
   checkEmailExists,

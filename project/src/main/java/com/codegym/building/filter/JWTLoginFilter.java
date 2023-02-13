@@ -2,6 +2,7 @@ package com.codegym.building.filter;
 
 import com.codegym.building.dto.AccountDTO;
 import com.codegym.building.service.impl.TokenAuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,8 @@ import java.util.Collections;
 
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+    @Autowired
+    TokenAuthenticationService tokenAuthenticationService;
     public JWTLoginFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authManager);
@@ -37,7 +40,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        TokenAuthenticationService.addAuthentication(response, authResult.getName());
+        tokenAuthenticationService.addAuthentication(response, authResult.getName());
     }
 }
 

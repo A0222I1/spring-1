@@ -1,7 +1,6 @@
 export interface Account {
-  user_name?: string;
-  password?: string;
+  username: string;
+  password: string;
   dateCreate?: Date;
-
   status?: string;
 }

@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
-public class AccountDTO {
-    String username;
-    String password;
+@Getter
+public class TokenAPI {
+    String key;
+    String token;
 }

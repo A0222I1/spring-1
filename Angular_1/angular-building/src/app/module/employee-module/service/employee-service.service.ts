@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Employee} from "../model/Employee";
+import {Employee} from "../../../model/Employee";
 import {Observable} from "rxjs";
 import {EmployeeFormCreateDTO} from "../dto/EmployeeFormCreateDTO";
 import {AbstractControl} from "@angular/forms";
