@@ -3,21 +3,13 @@ export interface EmployeeFormCreateDTO {
   name?: string;
   birthday?: string;
   gender?: string;
-
-  salary?: number;
-
   salary?: string;
-
   id_card?: string;
   address?: string;
   phone?: string;
   email?: string;
   salaryScale?: string;
   department?: string;
-
   account?: string;
-// =======
-  account?: string;
-
   password?: string;
 }

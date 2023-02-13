@@ -1,6 +1,6 @@
 export interface CustomerViewDTO {
   id: string;
-  idCard: string;
+  id_card: string;
   name: string;
   email: string;
   phone: string;

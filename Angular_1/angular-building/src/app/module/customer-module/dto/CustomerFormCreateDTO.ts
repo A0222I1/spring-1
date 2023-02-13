@@ -1,5 +1,5 @@
 export interface CustomerFormCreateDTO {
-  idCard?: string;
+  id_card?: string;
   name?: string;
   email?: string;
   phone?: string;
