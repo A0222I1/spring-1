@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/statistics")
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin(origins = "http://localhost:4200/")
 public class StatisticsController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class StatisticsController {
     @GetMapping("/getdata")
     ResponseEntity<resultsDTO> getData(@RequestParam(name = "startDate", required = false) String startDate,
                                        @RequestParam(name = "finishDate", required = false) String finishDate,
-                                       @RequestParam(name = "checkHighLow", required = false) Boolean checkHighLow,
+                                       @RequestParam(name = "checkHighLow", required = false) String checkHighLow,
                                        @RequestParam(name = "rows", required = false) Integer rows,
                                        @RequestParam(name = "page", defaultValue = "1") Integer page,
                                        @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){

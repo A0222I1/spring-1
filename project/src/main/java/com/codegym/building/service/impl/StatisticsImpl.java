@@ -15,7 +15,7 @@ public class StatisticsImpl implements StatisticsService {
 
 
     @Override
-    public resultsDTO findAll(String startDate, String finishDate, Boolean checkHighLow, Integer rows, Integer page,  Integer pageSize ){
+    public resultsDTO findAll(String startDate, String finishDate, String checkHighLow, Integer rows, Integer page,  Integer pageSize ){
         try {
             resultsDTO dtos = new resultsDTO();
 
@@ -23,6 +23,7 @@ public class StatisticsImpl implements StatisticsService {
             List<Object[]> getData = dao.getData(startDate, finishDate, checkHighLow, rows, page, pageSize);
             dtos.setPageSize(pageSize);
             dtos.setPage(page);
+            dtos.setPageTotal(pageTotal);
             dtos.setListData(getData);
             return dtos;
         } catch (Exception e) {

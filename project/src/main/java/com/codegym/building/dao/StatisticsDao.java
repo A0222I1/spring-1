@@ -14,12 +14,12 @@ public class StatisticsDao {
     @Autowired
     private EntityManager entity;
 
-    public List<Object[]> getData(String startDateString, String finishDateString, Boolean checkHighLow, Integer rows, Integer page,  Integer pageSize ){
+    public List<Object[]> getData(String startDateString, String finishDateString, String checkHighLow, Integer rows, Integer page,  Integer pageSize ){
         try {
             List<Object[]> listResult = new ArrayList<>();
 
             StringBuilder sql = new StringBuilder();
-            sql.append(" select total, pl.id as planid from contract contract ");
+            sql.append(" select total, pl.id as planid ,information from contract contract ");
             sql.append(" inner join plane pl on pl.id = contract.plane_id ");
             sql.append(" where 1=1 ");
 
@@ -28,23 +28,20 @@ public class StatisticsDao {
                 sql.append(" and start_date < " + finishDateString);
             }
 
-            if (null != checkHighLow && null != rows) {
+            if (null != checkHighLow && !"null".equals(checkHighLow) && null != rows) {
                 page = 1;
                 pageSize = rows;
                 /*
                 * true high
                 * false low
                 * */
-                if (checkHighLow){
+                if (checkHighLow.equals("true")){
                     sql.append(" order by total desc");
-//                    sql.append(" limit " + rows);
 
                 } else{
                     sql.append(" order by total asc");
-//                    sql.append(" limit " + rows);
                 }
             }
-
             Query query = entity.createNativeQuery(sql.toString());
 
             query.setFirstResult((page-1) * pageSize);
@@ -62,7 +59,7 @@ public class StatisticsDao {
         try {
 
             StringBuilder sql = new StringBuilder();
-            sql.append(" select count(*) from contract contract ");
+            sql.append(" select count(*) from contract ");
             sql.append(" inner join plane pl on pl.id = contract.plane_id ");
             sql.append(" where 1=1 ");
 
