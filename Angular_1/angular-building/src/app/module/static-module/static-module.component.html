@@ -1,0 +1,31 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="header">
+    <h2>Thống kê số liệu</h2>
+
+    <div class="button-go-home">
+      <a routerLink="/home">
+        <button class="btn btn-info" >
+          <i class="fa-solid fa-house-user" routerLink="
+hone"></i> về trang chủ
+        </button>
+      </a>
+    </div>
+  </div>
+  <div style="width: 100%">
+    <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%" >
+      <thead>
+      <th>STT</th>
+      <th>Số Tiền</th>
+      <th>Số Phòng</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of static; let i = index">
+        <td scope="row">{{i}}</td>
+        <td scope="row">{{item[0]}}</td>
+        <td scope="row">{{item[1]}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

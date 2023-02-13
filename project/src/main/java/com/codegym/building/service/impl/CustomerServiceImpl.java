@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements PersonService<Customer> {
 
     @SneakyThrows
     @Override
-    public Customer findById(String id) {
+    public Customer findById(String id) throws NotFoundById {
         Optional<Customer> customer = repos.findById(id);
         if (customer.isPresent()) {
             return customer.get();

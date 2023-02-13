@@ -7,17 +7,30 @@ import {HttpClientModule} from "@angular/common/http";
 import {EmployeeModuleModule} from "./module/employee-module/employee-module.module";
 import {AngularFireStorageModule} from "@angular/fire/storage";
 import {AngularFireModule} from "@angular/fire";
-import {environment} from '../environments/environment';
+import {environment} from "../environments/environment";
+import {PlaneModuleModule} from "./module/plane-module/plane-module.module";
+import {CommonModule} from "@angular/common";
+import {CustomPipeVND} from "./module/plane-module/utils/customPipeVND";
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
+import { StaticModuleComponent } from './module/static-module/static-module.component';
 
- @NgModule({
+ // @ts-ignore
+// @ts-ignore
+@NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomPipeVND,
+    StaticModuleComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     EmployeeModuleModule,
+    PlaneModuleModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    AppRoutingModule,
+    CommonModule,
     ContractModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, "cloud"),

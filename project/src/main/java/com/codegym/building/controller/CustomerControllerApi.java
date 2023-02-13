@@ -1,5 +1,6 @@
 package com.codegym.building.controller;
 
+import com.codegym.building.error.NotFoundById;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.service.PersonService;
@@ -31,7 +32,7 @@ public class CustomerControllerApi {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Customer> findById(@PathVariable String id) {
+    private ResponseEntity<Customer> findById(@PathVariable String id) throws NotFoundById {
         return new ResponseEntity<>(customerPersonService.findById(id), HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.codegym.building.service;
 
+import com.codegym.building.error.NotFoundById;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.model.person.Person;
 import com.codegym.building.repos.EmployeeRepos;
@@ -11,7 +12,7 @@ public interface PersonService<E extends Person> {
 
     E save(E e);
 
-    E findById(String id);
+    E findById(String id) throws NotFoundById;
 
     Integer updateStatusById(String id);
 
