@@ -47,10 +47,8 @@ export class EmployeeComponentComponent implements OnInit {
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
               private salaryService: SalaryScaleServiceService,
-
               private toastr: ToastrService
-
-              ) {
+  ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
     this.departmentService.findAll().subscribe(value => this.departments = value);
     this.salaryService.findAll().subscribe(value => this.salaries = value);
@@ -143,14 +141,14 @@ export class EmployeeComponentComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
   saveAllForm() {
     let flag = true;
     forkJoin(this.employeeService.findByPhone(this.formGroup.value.phone),
       this.employeeService.findByName(this.formGroup.value.account),
       this.employeeService.findByEmail(this.formGroup.value.email),
       this.employeeService.findByIdCard(this.formGroup.value.id_card)
-    ).
-    subscribe((result) => {
+    ).subscribe((result) => {
       if (result[0] === true) {
         this.formGroup.controls.phone.setErrors({phoneexists: true});
         flag = false;
@@ -191,6 +189,7 @@ export class EmployeeComponentComponent implements OnInit {
       }
     });
   }
+
   changeFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
