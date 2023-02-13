@@ -4,6 +4,7 @@ import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.dto.ContractViewDTO;
 import com.codegym.building.model.contract.Contract;
 import com.codegym.building.service.ContractService;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +12,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/contract")
@@ -55,11 +61,24 @@ public class ContractControlApi {
     }
 
     @PostMapping("")
-    public ResponseEntity<ContractDTO> addContract(@RequestBody ContractDTO contractDTO) {
+    public ResponseEntity<ContractDTO> addContract(@Valid @RequestBody ContractDTO contractDTO) {
         return new ResponseEntity<>(contractService.save(contractDTO),HttpStatus.OK);
     }
     @PutMapping ("")
-    public ResponseEntity<ContractDTO> editContract(@RequestBody ContractDTO contractDTO) {
+    public ResponseEntity<ContractDTO> editContract(@Valid @RequestBody ContractDTO contractDTO) {
         return new ResponseEntity<>(contractService.save(contractDTO),HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
  }

@@ -16,6 +16,7 @@ import {checkNegativeNumber, isFuture} from './utils/ContractCustomeValidate';
 import {ContractFormCreateDTO} from './dto/ContractFormCreateDTO';
 import {ToastrService} from 'ngx-toastr';
 import {ContractViewDTO} from './dto/ContractViewDTO';
+import {fakeAsync} from '@angular/core/testing';
 
 
 
@@ -48,6 +49,8 @@ export class ContractComponentComponent implements OnInit {
   planeIdSearch: string = "";
   dateStartSearch:string = "";
 
+  checkStartDate = false;
+
   constructor(private planeService: PlaneService,
               private termServiceService: TermServiceService,
               private customerService: CustomerServiceService,
@@ -61,8 +64,6 @@ export class ContractComponentComponent implements OnInit {
     this.getAllCustomer();
     this.buildForm();
     this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch,0);
-
-
   }
 
   findAllByCondition(customerName: string, employeeName: string, planeId: string, startDay: string, page: number){
@@ -106,7 +107,7 @@ export class ContractComponentComponent implements OnInit {
       total: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.total).toString()),
       information: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.information, [Validators.required]),
       // tslint:disable-next-line:max-line-length
-      startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.start_date,[Validators.required, isFuture]),
+      startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.start_date,[Validators.required]),
       endDate: new FormControl(""),
       // tslint:disable-next-line:max-line-length
       customerId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.customerId, [Validators.required, Validators.pattern("^([0-9]{12})$")]),
@@ -221,10 +222,15 @@ export class ContractComponentComponent implements OnInit {
 
   }
 
+  // @ts-ignore
+  // @ts-ignore
   editContract(id: number, idCard: string) {
     this.title = "Chỉnh Sửa Hợp Đồng";
     this.disabled = false;
+    this.checkStartDate = true;
     this.flagHidden = false;
+    // @ts-ignore
+    // this.formGroup.controls.startDate.clearValidators();
     this.fillForm(id, idCard);
 
 
@@ -253,7 +259,9 @@ export class ContractComponentComponent implements OnInit {
     this.title = "Thêm Mới Hợp Đồng";
     this.disabled = false;
     this.flagHidden = false;
+    this.checkStartDate = false;
     this.refresh();
+    this.formGroup.controls.startDate.setValidators(isFuture);
   }
 
   refresh() {
