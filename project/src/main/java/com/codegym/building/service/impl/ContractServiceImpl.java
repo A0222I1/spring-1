@@ -12,32 +12,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 
 
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
+    static final Integer AVAILABLE_PLANE = 2;
+    static final Integer RENTED_PLANE = 3;
+
     @Autowired
     ContractRepos contractRepos;
     @Autowired
-    AbstractContractDTOConvert<Contract,ContractDTO> converter;
+    AbstractContractDTOConvert<Contract, ContractDTO> converter;
     @Autowired
     PlaneServicesImpl planeServices;
+
     @Override
     public ContractDTO save(ContractDTO dto) {
+        Contract contract = null;
         Plane plane = planeServices.findPlaneById(dto.getPlaneId());
-        PlaneStatus planeStatus = new PlaneStatus(3);
-        plane.setPlaneStatus(planeStatus);
+        if(dto.getId() != null) {
+            Contract contractOld = findById(dto.getId());
+            Plane planOLd = planeServices.findPlaneById(contractOld.getPlane().getId());
+            if(planOLd.getId() != plane.getId()) {
+                planOLd.setPlaneStatus(new PlaneStatus(AVAILABLE_PLANE));
+                planeServices.savePlane(planOLd);
+            }
+        }
+        plane.setPlaneStatus(new PlaneStatus(RENTED_PLANE));
         planeServices.savePlane(plane);
-        Contract contract = contractRepos.save(new Contract(dto));
+        contract = contractRepos.save(new Contract(dto));
+
+
         return converter.convertDetail(contract);
     }
 
     @Override
     public ContractDTO getById(Integer id) {
-
         return converter.convertDetail(findById(id));
     }
 
@@ -48,15 +64,15 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
 
     @Override
     public Page<Contract> findAll(String customerName, String employeeName, String planeId, String dateStart, Pageable pageable) {
-        return contractRepos.getAllCustom(customerName,employeeName,planeId,dateStart,pageable);
+        return contractRepos.getAllCustom(customerName, employeeName, planeId, dateStart, pageable);
     }
 
 
     @Override
     public boolean delete(Integer id) {
         final Contract contract = findById(id);
-        if(contract == null) {
-            System.out.println("Failed to delete entity with ID " + id +  "as it does not exist");
+        if (contract == null) {
+            System.out.println("Failed to delete entity with ID " + id + "as it does not exist");
             return false;
         }
         try {
@@ -66,7 +82,7 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
             planeServices.savePlane(plane);
             contractRepos.delete(contract);
             return true;
-        }catch (final Exception e) {
+        } catch (final Exception e) {
             System.out.println(e.getMessage());
             return false;
         }

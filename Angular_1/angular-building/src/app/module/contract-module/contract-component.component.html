@@ -11,8 +11,8 @@
 
   <div class="list-inputsearch-icon">
     <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
-    <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-inputsearch-icon-undo" (click)="refreshPage()" aria-hidden="true"></i>
+    <i class="fa fa-search list-inputsearch-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+    <i class="fa fa-undo list-inputsearch-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
   </div>
 </div>
 <table class="table tab">
@@ -213,7 +213,8 @@
             <div class="col-4">
               <label>Ngày Bắt Đầu Thuê (<span>*</span>)</label>
               <input type="date" (change)="calculateEndDate()" formControlName="startDate" class="form-control"
-                     required [attr.disabled]="disabled  == true ? '' : null">
+                     required [attr.disabled]="disabled || checkStartDate ? '' : null"
+              >
               <span style="color: red"
                     *ngIf="formGroup.controls.startDate.hasError('required') && formGroup.controls.startDate.touched">
               Chọn ngày bắt đầu thuê
