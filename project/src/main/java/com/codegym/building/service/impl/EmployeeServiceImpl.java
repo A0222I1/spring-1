@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -64,5 +65,10 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
     @Override
     public Boolean findByEmail(String email) {
         return repos.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public List<Employee> getAll() {
+        return null;
     }
 }

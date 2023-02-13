@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AccountService} from "../service/account.service";
 import {Router} from "@angular/router";
-import {Account} from "../../model/Account";
+import {Account} from "../../module/employee-module/model/Account";
 
 @Component({
   selector: 'app-admin',

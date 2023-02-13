@@ -51,15 +51,19 @@ public class Employee extends Person {
         super(employeeDTO.getName(),
                 Date.valueOf(employeeDTO.getBirthday()),
                 new Gender(Integer.parseInt(employeeDTO.getGender())),
-                        employeeDTO.getAddress(),
-                        employeeDTO.getId_card(),
-                        employeeDTO.getPhone(),
-                        employeeDTO.getEmail(),
-                        new Account(employeeDTO.getAccount(),employeeDTO.getPassword()),
-                        employeeDTO.getAvatar(),
-                       "on");
+                employeeDTO.getAddress(),
+                employeeDTO.getId_card(),
+                employeeDTO.getPhone(),
+                employeeDTO.getEmail(),
+                new Account(employeeDTO.getAccount(), employeeDTO.getPassword()),
+                employeeDTO.getAvatar(),
+                "on");
         this.department = new Department(Integer.parseInt(employeeDTO.getDepartment()));
         this.salaryScale = new SalaryScale(Integer.parseInt(employeeDTO.getSalaryScale()));
-        this.salary= employeeDTO.getSalary();
+        this.salary = Double.parseDouble(employeeDTO.getSalary());
+    }
+
+    public Employee(String employeeId) {
+        this.id = employeeId;
     }
 }

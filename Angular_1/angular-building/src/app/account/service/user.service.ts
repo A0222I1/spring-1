@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
-import {Account} from "../../model/Account";
-import {AccountDTO} from "../../model/dto/AccountDTO";
-import {TokenApi} from "../../model/dto/TokenApi";
+import {Account} from "../../module/employee-module/model/Account";
+import {AccountDTO} from "../../module/employee-module/model/dto/AccountDTO";
+import {TokenApi} from "../../module/employee-module/model/dto/TokenApi";
 
 const API_URL = "http://localhost:8080/account";
 

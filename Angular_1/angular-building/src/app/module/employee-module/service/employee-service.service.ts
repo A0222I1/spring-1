@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Employee} from "../../../model/Employee";
+import {Employee} from "../model/Employee";
 import {Observable} from "rxjs";
 import {EmployeeFormCreateDTO} from "../dto/EmployeeFormCreateDTO";
 import {AbstractControl} from "@angular/forms";
@@ -15,20 +15,21 @@ export class EmployeeServiceService {
   constructor(private http: HttpClient) {
   }
 
+
   findAllByNameAndIdCardAndAddressAndDepartment(name: string, id_card: string, address: string, department: string, page: number): Observable<GetResponse> {
     return this.http.get<GetResponse>(`${this.url}?name=${name}&id_card=${id_card}&address=${address}&department=${department}&page=${page}`);
   }
 
   updateAllStatusIsOff(): Observable<number> {
-    return this.http.delete<number>(`${this.url}`);
+    return this.http.delete<number>(`${this.url}/all`);
   }
 
   updateStatusById(id: string): Observable<number> {
+    console.log(`${this.url}/${id}`);
     return this.http.delete<number>(`${this.url}/${id}`);
   }
 
   findById(id: string): Observable<Employee> {
-    console.log(id);
     return this.http.get<Employee>(`${this.url}/${id}`);
   }
 
@@ -64,7 +65,7 @@ export class EmployeeServiceService {
       department: control.value.department,
       account: control.value.account.trim(),
       password: control.value.password.trim()
-    }
+    };
   }
 
   findByEmail(value: string): Observable<boolean> {

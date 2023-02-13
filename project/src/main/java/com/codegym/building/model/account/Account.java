@@ -1,12 +1,10 @@
 package com.codegym.building.model.account;
-
 import com.codegym.building.detail.AccountDetail;
 import com.codegym.building.dto.AccountDTO;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -38,7 +36,6 @@ public class Account extends AccountDetail {
     public Account(AccountDTO accountDTO) {
         this.user_name = accountDTO.getUsername();
         this.password = accountDTO.getPassword();
-
     }
 
     public Account(String account, String password) {

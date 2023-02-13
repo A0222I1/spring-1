@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // @ts-ignore
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -28,11 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // @ts-ignore
     this.userService.login(this.loginForm.value).subscribe(data => {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
-      this.router.navigate(['/admin']).then(r => {
+      this.router.navigate(['/home']).then(r => {
       });
     }, err => {
       console.log(err)
