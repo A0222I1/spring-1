@@ -5,6 +5,7 @@ import {HomePageComponent} from './module/home-page/home-page.component';
 import {PlaneModuleModule} from './module/plane-module/plane-module.module';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
 import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
+import {LoginComponent} from "./account/login/login.component";
 
 
 const routes: Routes = [
@@ -18,13 +19,7 @@ const routes: Routes = [
     path: "customer", component: CustomerModuleModule
   },
   {
-    path: 'employee', component: EmployeeModuleModule
-  },
-  {
     path: 'plane', component: PlaneModuleModule,
-  },
-  {
-    path: 'employee', component: EmployeeModuleModule
   },
   {
     path: 'contract', component: ContractModuleModule
@@ -32,6 +27,9 @@ const routes: Routes = [
   {
     path: 'home', component: HomePageComponent
   }
+  , {
+    path: 'login',component: LoginComponent
+  },
 ];
 
 @NgModule({
