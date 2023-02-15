@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
+    id "org.sonarqube" version "3.0"
 }
 
 group = 'com.codegym'
@@ -45,4 +46,13 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://3.14.79.1:9000'
+        property 'sonar.login', 'f4570cffe1dd5bf39ecbeed0ef04eef921709b5a'
+        property 'sonar.projectKey', 'Cxx2xG1_ReviewCode_AccountName'
+        property 'sonar.projectName', 'Cxx2xG1_ReviewCode_AccountName'
+    }
 }

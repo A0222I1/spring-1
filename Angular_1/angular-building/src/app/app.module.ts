@@ -42,7 +42,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
       {
         timeOut: 2000,
         positionClass: 'toast-top-right'
-
       }
     )
   ],
