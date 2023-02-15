@@ -1,14 +1,14 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH KHÁCH HÀNG</h4>
   <div class="list-inputsearch">
-    <input type="text" placeholder="tên khách hàng cần tìm"  #name id="nameSearch"
+    <input type="text" placeholder="tên khách hàng"  #name id="nameSearch"
            (change)="name_search = name.value.trim()" >
-    <input type="text" placeholder="chứng minh nhân dân cần tìm" #cmnd id="cmndSearch"
+    <input type="text" placeholder="chứng minh nhân dân" #cmnd id="cmndSearch"
            (change)="cmnd_search=cmnd.value.trim()">
-    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"
-           (change)="address_search = address.value.trim()">
-    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"
-           (change)="department_search = department.value.trim()">
+<!--    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"-->
+<!--           (change)="address_search = address.value.trim()">-->
+<!--    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"-->
+<!--           (change)="department_search = department.value.trim()">-->
     <div class="list-inputsearch-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
       <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
@@ -20,6 +20,7 @@
   <div style="width: 100%">
     <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%" >
       <thead>
+      <th>STT</th>
       <th>Họ tên</th>
       <th>CMND</th>
       <th>Email</th>
@@ -29,11 +30,13 @@
       <th>Website</th>
       <th>Công ty</th>
       <th>Mặt bằng</th>
+      <th></th>
       <th>
       </th>
       </thead>
       <tbody>
-      <tr *ngFor="let item of customers">
+      <tr *ngFor="let item of customers, let i = index" >
+        <td>{{i + 1}}</td>
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
         <td scope="row">{{item.email | slice: 4: 10}}...</td>
@@ -43,13 +46,22 @@
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
         <td scope="row">
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
-            <i class="fa-solid fa-user-pen"></i>
-          </button>
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                  (click)="findById(item.id)">
-            <i class="fa-solid fa-trash"></i>
-          </button>
+          <button type="button" class="btn btn-primary">Chi tiết</button>
+        </td>
+        <td scope="row">
+          <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+          <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+          <i (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+<!--          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">-->
+<!--            <i class="fa-solid fa-circle-info"></i>-->
+<!--          </button>-->
+<!--          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">-->
+<!--            <i class="fa-solid fa-user-pen"></i>-->
+<!--          </button>-->
+<!--          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"-->
+<!--                  (click)="findById(item.id)">-->
+<!--            <i class="fa-solid fa-trash"></i>-->
+<!--          </button>-->
         </td>
       </tr>
       </tbody>
@@ -115,7 +127,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Xóa đi khách hàng này <span id="name_delete"></span> ?
+        Bạn muốn xóa khách hàng có tên <span id="name_delete" style="color: red"></span> ?
         <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> đây là hành động không thể hoàn tác</p>
         <input hidden id="id_delete" #id_delete>
       </div>
