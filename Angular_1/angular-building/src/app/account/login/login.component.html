@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="screen">
+    <div class="screen__content">
+      <div class="head">
+        <img src="https://scontent.fdad1-4.fna.fbcdn.net/v/t1.15752-9/329387180_684535520071583_3274748792371997917_n.png?_nc_cat=100&ccb=1-7&_nc_sid=ae9488&_nc_ohc=2QP6nk-03KsAX_XkhtL&_nc_ht=scontent.fdad1-4.fna&oh=03_AdTMUbd33wNhS7mEXLFHqN_cSZOeubaPoHAkbb2cpdbThg&oe=64097867" alt="Img">
+      </div>
+      <div>
+        <h2>Đăng nhập</h2>
+      </div>
+      <form class="login" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+        <div class="login__field">
+          <i class="login__icon fas fa-user"></i>
+          <input type="text" class="login__input" formControlName="username" placeholder="Tài khoản hoặc email">
+          <div *ngIf="loginForm.controls.username.hasError('required')&&loginForm.controls.username.touched" class="error"><span>&nbsp;Tài khoản không được để trống bạn nhé</span></div>
+        </div>
+        <div class="login__field">
+          <i class="login__icon fas fa-lock"></i>
+          <input style="display: block" type="password" class="login__input" formControlName="password" placeholder="Mật khẩu">
+          <div *ngIf="loginForm.controls.password.hasError('required')&&loginForm.controls.password.touched" class="error"><span>&nbsp;Mật khẩu không được để trống bạn nhé</span></div>
+        </div>
+        <div class="error" *ngIf="errorMessage">
+          <span>&nbsp;{{errorMessage}}</span>
+        </div>
+        <div class="remember_me">
+          <label class="checkbox">
+            <input type="checkbox" name="checkbox" checked>
+            <i>Lưu tài khoản</i>
+          </label>
+        </div>
+        <table class="login_button">
+          <tr>
+            <td>
+              <button class="button login__submit" type="submit">
+                <span class="button__text">Đăng nhập</span>
+                <i class="button__icon fas fa-chevron-right"></i>
+              </button>
+            </td>
+            <td>
+              <button class="button login__submit" type="button" routerLink="">
+                <span class="button__text" >Thoát</span>
+                <i class="button__icon fas fa-chevron-right"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div class="screen__background">
+      <span class="screen__background__shape screen__background__shape3"></span>
+      <span class="screen__background__shape screen__background__shape2"></span>
+      <span class="screen__background__shape screen__background__shape1"></span>
+    </div>
+  </div>
+</div>

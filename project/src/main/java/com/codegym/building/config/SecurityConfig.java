@@ -15,7 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin("http://localhost:4200/")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -49,15 +51,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Các trang không yêu cầu login
         http.authorizeRequests().antMatchers("/", "/login", "/logout", "/api").permitAll();
 
-        // Cấu hình cho Login Form.
-        http.authorizeRequests().and().formLogin()//
-                // Submit URL của trang login
-                .loginProcessingUrl("/j_spring_security") // Submit URL
-                .loginPage("/login")//
-                .defaultSuccessUrl("/")//
-                .failureUrl("/login?error=true")//
-                .usernameParameter("username")//
-                .passwordParameter("password")
+
+        http.authorizeRequests()
+                .antMatchers("/", "/login", "/logout", "/api")
+//                .hasAuthority("ADMIN")
+                .permitAll()
+
+//        // Cấu hình cho Login Form.
+//        http.authorizeRequests().and().formLogin()//
+//                // Submit URL của trang login
+//                .loginProcessingUrl("/j_spring_security") // Submit URL
+//                .loginPage("/login")//
+//                .defaultSuccessUrl("/")//
+//                .failureUrl("/login?error=true")//
+//                .usernameParameter("username")//
+//                .passwordParameter("password")
                 // Cấu hình cho Logout Page.
                 .and()
                 .logout()

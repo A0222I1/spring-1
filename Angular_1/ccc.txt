@@ -1,8 +1,0 @@
-@Query(value = "select * from customer where (customer_name like %:nameSearch% and customer_address like %:addressSearch%" +
-        " and customer_phone like %:phoneSearch% ) and is_delete = 0 ", nativeQuery = true,
-        countQuery = "select count(*) from (select * from customer where (customer_name like %:nameSearch% " +
-                "and customer_address like %:addressSearch% " +
-                "             and customer_phone like %:phoneSearch%) and is_delete = 0) temp_table")
-Page<Customer> search(Pageable pageable, @Param("nameSearch") String nameSearch,
-                      @Param("addressSearch") String addressSearch,
-                      @Param("phoneSearch") String phoneSearch);

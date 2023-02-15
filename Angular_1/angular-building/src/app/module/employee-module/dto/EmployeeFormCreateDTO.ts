@@ -10,6 +10,6 @@ export interface EmployeeFormCreateDTO {
   email?: string;
   salaryScale?: string;
   department?: string;
-  account? : string;
+  account?: string;
   password?: string;
 }
