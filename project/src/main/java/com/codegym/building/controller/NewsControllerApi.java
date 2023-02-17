@@ -1,7 +1,5 @@
 package com.codegym.building.controller;
-
 import com.codegym.building.dto.NewsViewDTO;
-import com.codegym.building.model.news.News;
 import com.codegym.building.service.impl.NewsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

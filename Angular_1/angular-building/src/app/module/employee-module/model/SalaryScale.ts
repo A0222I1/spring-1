@@ -1,4 +1,4 @@
-export interface SalaryScale{
-  id? : number,
-  name?: string
+export interface SalaryScale {
+  id?: number;
+  name?: string;
 }

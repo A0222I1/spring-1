@@ -28,8 +28,6 @@ public class PlaneViewDTO {
 
     String customerName;
 
-
-
     public PlaneViewDTO(Plane plane) {
         this.id = plane.getId();
         this.area = plane.getArea();

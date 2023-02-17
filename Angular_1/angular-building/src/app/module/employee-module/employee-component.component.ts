@@ -31,7 +31,6 @@ export class EmployeeComponentComponent implements OnInit {
   departments: Department[] = [];
   totalPages = 0;
 
-  message = "";
   pageNumber = 0;
   @ViewChild('closeAddExpenseModal') closeAddExpenseModal: ElementRef;
   @ViewChild('deleteClose') deleteClose: ElementRef;
@@ -165,6 +164,7 @@ export class EmployeeComponentComponent implements OnInit {
         this.formGroup.controls.id_card.setErrors({idcardexists: true});
         flag = false;
       }
+      console.log(this.formGroup)
       if (flag) {
         // đặt tên cho file nên thêm tiền tố ngày đăng để tránh trùng lập tên file sẽ gây mất dữ liệu
         // employeeAvatar/ là để tách folder lưu ra cho dễ kiểm soát
@@ -198,5 +198,9 @@ export class EmployeeComponentComponent implements OnInit {
       return;
     }
     this.fileChose = fileList[0];
+  }
+
+  reset() {
+    // this.formGroup.form.reset();
   }
 }
