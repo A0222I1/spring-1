@@ -14,13 +14,7 @@ const routes: Routes = [
     path: 'employee', component: EmployeeModuleModule
   },
   {
-    path: 'employee', component: EmployeeModuleModule
-  },
-  {
     path: 'plane', component: PlaneModuleModule,
-  },
-  {
-    path: 'employee', component: EmployeeModuleModule
   },
   {
     path: 'contract', component: ContractModuleModule

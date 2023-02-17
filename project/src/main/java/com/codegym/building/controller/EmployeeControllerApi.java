@@ -16,13 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
 @CrossOrigin("http://localhost:4200/")
 public class EmployeeControllerApi {
-    private final int MAX_DISPLAY = 5;
+    private static final int MAXDISPLAY = 5;
 
     @Autowired
     PersonService<Employee> employeePersonService;
@@ -32,57 +31,57 @@ public class EmployeeControllerApi {
 
     @GetMapping("")
     public ResponseEntity<Page<EmployeeViewDTO>> findAllByCondition(@RequestParam(name = "name", defaultValue = "") String name,
-                                                                    @RequestParam(name = "id_card", defaultValue = "") String id_card,
+                                                                    @RequestParam(name = "id_card", defaultValue = "") String idCard,
                                                                     @RequestParam(name = "address", defaultValue = "") String address,
                                                                     @RequestParam(name = "department", defaultValue = "") String department,
-                                                                    @PageableDefault(size = MAX_DISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        return new ResponseEntity<>(employeePersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable).map(EmployeeViewDTO::new), HttpStatus.OK);
+                                                                    @PageableDefault(size = MAXDISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return new ResponseEntity<>(employeePersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, idCard, address, department, pageable).map(EmployeeViewDTO::new), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Employee> findById(@PathVariable String id) {
+    public ResponseEntity<Employee> findById(@PathVariable String id) {
         return new ResponseEntity<>(employeePersonService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {
+    public ResponseEntity<Integer> updateStatusById(@PathVariable String id) {
         return new ResponseEntity<>(employeePersonService.updateStatusById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/all")
-    private ResponseEntity<Integer> updateStatusAll() {
+    public ResponseEntity<Integer> updateStatusAll() {
         return new ResponseEntity<>(employeePersonService.updateStatusAll(), HttpStatus.OK);
     }
 
     @PostMapping("")
-    private ResponseEntity<EmployeeViewDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeViewDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeViewDTO employeeViewDTO = new EmployeeViewDTO(employeePersonService.save(new Employee(employeeDTO)));
         roleRepos.updateDefaultRolesOffAccountRegister(employeeViewDTO.getAccount());
         return new ResponseEntity<>(employeeViewDTO, HttpStatus.OK);
     }
 
     @PatchMapping("")
-    private ResponseEntity<Employee> editEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> editEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         return new ResponseEntity<>(employeePersonService.save(new Employee(employeeDTO)), HttpStatus.OK);
     }
 
     @PatchMapping("/{username}")
-    private ResponseEntity<Employee> beGranted(@PathVariable String username) {
+    public ResponseEntity<Employee> beGranted(@PathVariable String username) {
         return new ResponseEntity<>(employeePersonService.beGranted((EmployeeRepos) employeePersonService, username), HttpStatus.OK);
     }
 
     @GetMapping("/existsIdCard")
-    private ResponseEntity<Boolean> isExistsIdCard(@RequestParam("id_card") String id_card) {
-        return new ResponseEntity<>(employeePersonService.findByIdCard(id_card), HttpStatus.OK);
+    public ResponseEntity<Boolean> isExistsIdCard(@RequestParam("id_card") String idCard) {
+        return new ResponseEntity<>(employeePersonService.findByIdCard(idCard), HttpStatus.OK);
     }
 
     @GetMapping("/existsPhone")
-    private ResponseEntity<Boolean> isExistsPhone(@RequestParam("phone") String phone) {
+    public ResponseEntity<Boolean> isExistsPhone(@RequestParam("phone") String phone) {
         return new ResponseEntity<>(employeePersonService.findByPhone(phone), HttpStatus.OK);
     }
 
     @GetMapping("/existsEmail")
-    private ResponseEntity<Boolean> isExistsEmail(@RequestParam("email") String email) {
+    public ResponseEntity<Boolean> isExistsEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(employeePersonService.findByEmail(email), HttpStatus.OK);
     }
 }
