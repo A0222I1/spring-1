@@ -4,7 +4,6 @@ import {EmployeeModuleModule} from './module/employee-module/employee-module.mod
 import {HomePageComponent} from './module/home-page/home-page.component';
 import {PlaneModuleModule} from './module/plane-module/plane-module.module';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
-import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
 import {LoginComponent} from "./account/login/login.component";
 
 
@@ -13,10 +12,7 @@ const routes: Routes = [
     path: '', pathMatch: 'full', redirectTo: 'home'
   },
   {
-  path: "employee", component: EmployeeModuleModule
-},
-  {
-    path: "customer", component: CustomerModuleModule
+    path: "employee", component: EmployeeModuleModule
   },
   {
     path: 'plane', component: PlaneModuleModule,
@@ -28,7 +24,7 @@ const routes: Routes = [
     path: 'home', component: HomePageComponent
   }
   , {
-    path: 'login',component: LoginComponent
+    path: 'login', component: LoginComponent
   },
 ];
 
