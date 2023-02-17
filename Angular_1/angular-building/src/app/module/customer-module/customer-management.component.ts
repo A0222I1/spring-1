@@ -26,7 +26,7 @@ export class CustomerManagementComponent implements OnInit {
   name_search: string = '';
   cmnd_search: string = '';
   address_search: string = '';
-  department_search: string = '';
+  company_search: string = '';
   fileChose: File = null;
   searchForm: boolean = false;
   message: string = '';
@@ -44,13 +44,13 @@ export class CustomerManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search,0);
+    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.company_search,0);
     setTimeout(() => this.alert = false, 3000);
   }
 
-  findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number){
+  findAllWithCondition(name: string, id_card: string, address: string, company: string, page: number){
     if (page > this.totalPages) return;
-    this.customerService.findAllByNameAndIdCard(name,id_card,address,department,page).subscribe(value => {
+    this.customerService.findAllByNameAndIdCard(name,id_card,address,company,page).subscribe(value => {
       this.customers = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
@@ -63,11 +63,11 @@ export class CustomerManagementComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("nameSearch")).value = '';
     (<HTMLInputElement>document.getElementById("cmndSearch")).value = '';
     (<HTMLInputElement>document.getElementById("addressSearch")).value = '';
-    (<HTMLInputElement>document.getElementById("departmentSearch")).value = '';
+    (<HTMLInputElement>document.getElementById("companySearch")).value = '';
     this.cmnd_search = '';
     this.name_search = '';
     this.address_search = '';
-    this.department_search ='';
+    this.company_search ='';
     this.ngOnInit();
   }
 

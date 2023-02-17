@@ -2,7 +2,7 @@
   color: red;
 }
 table{
-  width: 90%;
+  width: 92%;
   margin: 20px auto;
   background-color: white;
   box-shadow:1px 1px 4px 1px grey;
@@ -16,9 +16,15 @@ table{
   background-color: green;
   color: white;
 }
+
 table > tbody >tr>td{
   vertical-align: middle !important;
 }
+
+table > thead > th{
+  text-align: center;
+}
+
 table > tbody >tr>td p{
   margin: 0;
 }
@@ -33,6 +39,7 @@ table > tbody >tr>td p{
   margin: 10px 0;
 }
 .list-inputsearch{
+  /*width: 90%;*/
   display: flex;
   padding: 0 20px;
   align-items: center;
@@ -126,3 +133,7 @@ img{
   padding: 12px 13px;
   margin: 0 10px;
 }
+
+/*#id_detailButton{*/
+/*  width: 50px;*/
+/*}*/

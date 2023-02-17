@@ -5,13 +5,13 @@
            (change)="name_search = name.value.trim()" >
     <input type="text" placeholder="chứng minh nhân dân" #cmnd id="cmndSearch"
            (change)="cmnd_search=cmnd.value.trim()">
-<!--    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"-->
-<!--           (change)="address_search = address.value.trim()">-->
-<!--    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"-->
-<!--           (change)="department_search = department.value.trim()">-->
+    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"
+           (change)="address_search = address.value.trim()">
+    <input type="text" placeholder="tên công ty cần tìm" #company id="companySearch"
+           (change)="company_search = company.value.trim()">
     <div class="list-inputsearch-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
+      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
       <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()">
       </i>
     </div>
@@ -20,7 +20,7 @@
   <div >
     <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%" >
       <thead>
-      <th>STT</th>
+<!--      <th>STT</th>-->
       <th>Họ tên</th>
       <th>CMND</th>
       <th>Email</th>
@@ -31,12 +31,11 @@
       <th>Công ty</th>
       <th>Mặt bằng</th>
       <th></th>
-      <th>
-      </th>
+<!--      <th></th>-->
       </thead>
       <tbody>
       <tr *ngFor="let item of customers, let i = index" >
-        <td>{{i + 1}}</td>
+<!--        <td>{{i + 1}}</td>-->
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
         <td scope="row">{{item.email | slice: 4: 10}}...</td>
@@ -46,22 +45,12 @@
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
         <td scope="row">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Chi tiết</button>
+          <button id="id_detailButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Chi tiết</button>
         </td>
         <td scope="row">
           <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
           <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
           <i (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
-<!--          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">-->
-<!--            <i class="fa-solid fa-circle-info"></i>-->
-<!--          </button>-->
-<!--          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">-->
-<!--            <i class="fa-solid fa-user-pen"></i>-->
-<!--          </button>-->
-<!--          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"-->
-<!--                  (click)="findById(item.id)">-->
-<!--            <i class="fa-solid fa-trash"></i>-->
-<!--          </button>-->
         </td>
       </tr>
       </tbody>
@@ -76,30 +65,30 @@
     <li class="page-item">
       <a class="page-link">
         <i class="fa-solid fa-backward-fast"
-           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
       </a>
     </li>
     <li>
       <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''">
         <i class="fa-solid fa-backward"
-           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,pageNumber - 1)"></i>
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,pageNumber - 1)"></i>
       </a>
     </li>
     <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
       <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
-         (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,i)">
+         (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,i)">
         {{i + 1}}
       </a>
     </li>
     <li>
       <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
-           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,pageNumber + 1)"></i>
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,pageNumber + 1)"></i>
       </a>
     </li>
     <li class="page-item">
       <a class="page-link"
-         (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,totalPages - 1)">
+         (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,totalPages - 1)">
         <i class="fa-solid fa-forward-fast"></i> </a>
     </li>
     <li class="page-item">
@@ -111,7 +100,7 @@
                aria-label="Search" aria-describedby="search-addon"/>
         <span class="input-group-text border-0" id="search-addon">
            <i class="fas fa-search"
-              (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,+element.value - 1)"></i>
+              (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,+element.value - 1)"></i>
         </span>
       </div>
     </li>
