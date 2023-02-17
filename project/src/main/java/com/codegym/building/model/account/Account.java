@@ -38,6 +38,10 @@ public class Account extends AccountDetail {
         this.password = accountDTO.getPassword();
     }
 
+    public Account(String user_name) {
+        this.user_name = user_name;
+    }
+
     public Account(String account, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         this.user_name = account;

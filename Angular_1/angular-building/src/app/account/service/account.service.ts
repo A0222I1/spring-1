@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Account} from "../../module/employee-module/model/Account";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {EmployeeViewDTO} from '../../module/employee-module/dto/EmployeeViewDTO';
 
 const API_URL = "http://localhost:8080/account";
 
@@ -24,4 +25,9 @@ export class AccountService {
   findAllUsers(): Observable<any> {
     return this.http.get(API_URL + "", {headers: this.headers});
   }
+  // @ts-ignore
+  parseTokenToEmployee(token: string) : Observable<EmployeeViewDTO> {
+    return this.http.get<EmployeeViewDTO>(`${API_URL}/checkToken/${token}`);
+  }
 }
+
