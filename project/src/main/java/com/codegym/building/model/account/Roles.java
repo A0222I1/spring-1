@@ -19,7 +19,6 @@ public class Roles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     String name;
 
 //    @ManyToMany(mappedBy = "list")

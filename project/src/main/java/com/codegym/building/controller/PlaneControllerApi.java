@@ -49,4 +49,8 @@ public class PlaneControllerApi {
             return  new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("totalArea")
+    private ResponseEntity<Integer> getTotalArea(){
+        return new ResponseEntity<>(this.planeServices.getTotalArea(),HttpStatus.OK);
+    }
 }

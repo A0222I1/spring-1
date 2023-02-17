@@ -25,7 +25,9 @@ export class PlaneService {
   getAllRentedPlane() {
     return this.httpClient.get<PlaneDTO[]>(this.url + "/rented");
   }
-
+  getTotalArea(){
+    return this.httpClient.get<number>(this.url+'/totalArea')
+  }
 }
 interface GetResponse {
   content: Plane[];

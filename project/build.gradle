@@ -4,7 +4,6 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.0"
 }
-
 group = 'com.codegym'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -54,3 +53,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+

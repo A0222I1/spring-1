@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: 'plane', component: PlaneManagementComponent
   }
-]
+];
 @NgModule({
   declarations: [PlaneManagementComponent],
   imports: [

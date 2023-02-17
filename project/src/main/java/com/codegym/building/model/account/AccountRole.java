@@ -21,8 +21,7 @@ public class AccountRole {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_name", nullable = false, referencedColumnName = "user_name")
     private Account account;
 
