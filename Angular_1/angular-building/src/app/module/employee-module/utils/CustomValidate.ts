@@ -29,7 +29,9 @@ export function checkTrim(abstractControl: AbstractControl): ValidationErrors | 
 }
 export function checkFile(abstractControl: AbstractControl): ValidationErrors | null {
   const check = abstractControl.value;
-  return !check.trim().toLowerCase().endsWith(".jpg") && !check.trim().toLowerCase().endsWith(".png") ? {filewrong: true} : null;
+  return !check.trim().toLowerCase().endsWith(".jpg") &&
+  !check.trim().toLowerCase().endsWith(".png") ?
+    {filewrong: true} : null;
 }
 
 export function fileSizeValidator(files: FileList) {
