@@ -29,8 +29,11 @@ public class AccountRole {
     @JoinColumn(name = "role_id", nullable = false, referencedColumnName = "id")
     private Roles roles;
 
+
+
     public AccountRole (AccountDTO accountDTO){
         this.account = new Account(accountDTO.getUsername(),accountDTO.getPassword());
         this.roles = new Roles(3L);
     }
+
 }

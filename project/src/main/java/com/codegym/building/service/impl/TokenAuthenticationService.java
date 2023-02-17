@@ -1,6 +1,10 @@
 package com.codegym.building.service.impl;
 
+import com.codegym.building.dto.EmployeeViewDTO;
+import com.codegym.building.model.account.Account;
+import com.codegym.building.model.person.Employee;
 import com.codegym.building.service.AccountService;
+import com.codegym.building.service.PersonService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static java.util.Collections.emptyList;
 @Service
@@ -24,6 +30,9 @@ public class TokenAuthenticationService {
     @Autowired
     AccountService accountService;
 
+    @Autowired
+    PersonService<Employee> employeeService;
+
     public String addAuthentication(HttpServletResponse res, String username) {
         String id = accountService.findIdEmployeeByAccount(username);
         return Jwts.builder()
@@ -32,6 +41,7 @@ public class TokenAuthenticationService {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
     }
+
     // autherwide để lấy id
     public Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
@@ -48,6 +58,18 @@ public class TokenAuthenticationService {
                     null;
         }
         return null;
+    }
+
+    public EmployeeViewDTO parse(String token) {
+        String user = Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                .getBody()
+                .getSubject();
+        List<String> userName = Arrays.asList(user.split("-"));
+        Employee employee = employeeService.findByUserName(userName.get(0).trim());
+        System.out.println(employee.getId());
+        return new EmployeeViewDTO(employee);
     }
 
 }
