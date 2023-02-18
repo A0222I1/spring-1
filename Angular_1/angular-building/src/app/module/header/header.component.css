@@ -60,15 +60,16 @@
   background-color: #6A2C70;
   border-color: #6A2C70;
 }
+
 .dropdown-menu {
   min-width: auto;
 }
 
-nav{
+nav {
   border-bottom: 2px chartreuse;
 }
 
-.rowTop{
+.rowTop {
   display: flex;
   justify-content: center;
 }
