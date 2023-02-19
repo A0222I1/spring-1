@@ -1,6 +1,7 @@
 package com.codegym.building.model.account;
 import com.codegym.building.detail.AccountDetail;
 import com.codegym.building.dto.AccountDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ public class Account extends AccountDetail {
     Date dateCreate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    @JsonIgnore
     List<AccountRole> accountRoles;
 
     public Account(AccountDTO accountDTO) {

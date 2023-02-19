@@ -32,6 +32,11 @@ public class AccountControlApi {
        return new ResponseEntity<>(new TokenAPI("token",tokenAuthenticationService.addAuthentication(res,userDetails.getUsername()) ), HttpStatus.OK);
     }
 
+    @GetMapping("/{account}")
+    public ResponseEntity<Boolean> checkExists(@PathVariable String account){
+        return new ResponseEntity<>(accountService.findByUserName(account),HttpStatus.OK);
+    }
+
 //    @GetMapping("")
 //    public ResponseEntity<List<Account>> findAll(){
 //        return new ResponseEntity<>(accountService.findAll(),HttpStatus.OK);

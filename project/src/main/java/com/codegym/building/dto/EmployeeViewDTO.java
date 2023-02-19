@@ -42,7 +42,7 @@ public class EmployeeViewDTO {
         this.email = employee.getEmail();
         this.salaryScale = employee.getSalaryScale().getName();
         this.department = employee.getDepartment().getName();
-        this.account = employee.getAccount() == null ? "chưa có tài khoản":employee.getAccount().getUser_name();
-        this.dateBegin = employee.getAccount() == null ? "chưa có tài khoản" :new SimpleDateFormat("dd/MM/yyyy").format(employee.getAccount().getDateCreate()) ;
+        this.account = employee.getAccount() == null ? "chưa có tài khoản" : employee.getAccount().getUser_name();
+        this.dateBegin = employee.getAccount() == null ? "chưa có tài khoản" : new SimpleDateFormat("dd/MM/yyyy").format(employee.getAccount().getDateCreate()) ;
     }
 }
