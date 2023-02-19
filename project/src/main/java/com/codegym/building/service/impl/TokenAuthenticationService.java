@@ -68,7 +68,6 @@ public class TokenAuthenticationService {
                 .getSubject();
         List<String> userName = Arrays.asList(user.split("-"));
         Employee employee = employeeService.findByUserName(userName.get(0).trim());
-        System.out.println(employee.getId());
         return new EmployeeViewDTO(employee);
     }
 

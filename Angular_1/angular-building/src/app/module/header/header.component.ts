@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AccountService} from '../../account/service/account.service';
+import {TokenApi} from '../employee-module/model/dto/TokenApi';
+import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +10,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  public token: TokenApi;
+  employee: EmployeeViewDTO;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private accountService: AccountService,
+              private pageTitle: Title) {
   }
 
+  ngOnInit(): void {
+    this.getEmployee();
+  }
+
+  getEmployee() {
+    this.token = JSON.parse(localStorage.getItem('token'));
+    this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
+      this.employee = data;
+      console.log(this.employee);
+    });
+  }
+
+  setPageTitle(title: string) {
+    this.pageTitle.setTitle(title);
+  }
 }
