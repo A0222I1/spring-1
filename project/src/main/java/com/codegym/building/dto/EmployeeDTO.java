@@ -28,16 +28,14 @@ public class EmployeeDTO {
     @CheckAgeBigger18
     String birthday;
 
-
     @Pattern(regexp = "^[1234]$", message = "giới tính không phù hợp!")
     String gender;
-
 
     @Pattern(regexp = "^([0-9]{7,})$", message = "lương phải có kiểu số và lớn hơn 1 triệu!")
     String salary;
 
-    @ExistsIdCard
     @Pattern(regexp = "^([0-9]{12})$", message = "chứng minh nhân dân không đúng định dạng!")
+    @ExistsIdCard
     String id_card;
 
     @NotBlank(message = "địa chỉ nên nhập không nên để trống!")
@@ -48,8 +46,8 @@ public class EmployeeDTO {
     @ExistsPhone
     String phone;
 
-    @ExistsEmail
     @Pattern(regexp = "^[\\w\\-.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "email chưa đúng định dạng!")
+    @ExistsEmail
     String email;
 
     @Pattern(regexp = "^[1234]$", message = "bậc lương không phù hợp!")

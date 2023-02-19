@@ -31,4 +31,6 @@ public interface PersonService<E extends Person> {
     Boolean findByEmail(String email);
 
     List<E> getAll();
+
+    E findByUserName(String username);
 }

@@ -4,15 +4,6 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.0"
 }
-sonarqube {
-    properties {
-        property 'sonar.host.url', 'http://3.14.79.1:9000'
-        property 'sonar.login', 'f4570cffe1dd5bf39ecbeed0ef04eef921709b5a'
-        property 'sonar.projectKey', 'A0222I1_ReviewCode_AccountName'
-        property 'sonar.projectName', 'A0222I1_ReviewCode_AccountName'
-    }
-}
-
 group = 'com.codegym'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -22,7 +13,14 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://3.14.79.1:9000'
+        property 'sonar.login', 'f4570cffe1dd5bf39ecbeed0ef04eef921709b5a'
+        property 'sonar.projectKey', 'A0222I1_ReviewCode_TuanLN'
+        property 'sonar.projectName', 'A0222I1_ReviewCode_TuanLN'
+    }
+}
 repositories {
     mavenCentral()
 }
