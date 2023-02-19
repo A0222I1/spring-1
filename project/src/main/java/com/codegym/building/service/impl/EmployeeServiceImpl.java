@@ -71,4 +71,9 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
     public List<Employee> getAll() {
         return null;
     }
+
+    @Override
+    public Employee findByUserName(String username) {
+        return repos.findByUserName(username);
+    }
 }

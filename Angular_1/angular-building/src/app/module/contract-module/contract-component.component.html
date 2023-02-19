@@ -3,16 +3,16 @@
 
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
 
-<div class="list-inputsearch">
+<div class="list-input-search">
   <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tìm kiếm theo tên khách hàng.">
   <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tìm kiếm theo tên nhân viên">
   <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Tìm kiếm theo mã mặt bằng..">
   <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
 
-  <div class="list-inputsearch-icon">
-    <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
-    <i class="fa fa-search list-inputsearch-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-inputsearch-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
+  <div class="list-input-search-icon">
+    <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
+    <i class="fa fa-search list-input-search-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+    <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
   </div>
 </div>
 <table class="table tab">
@@ -39,12 +39,17 @@
       <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal"
          data-bs-target="#contractFunction"
       (click)="detail(contract.id,contract.idCardCustomer)"></i>
-      <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
-         data-bs-target="#contractFunction"
-         (click)="editContract(contract.id,contract.idCardCustomer)"></i>
+      <i hidden class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
+         data-bs-target="#contractFunction" id="edit"></i>
 
-      <i (click)="changeId(contract.id,contract.customerName)" id="close" class="action-icon action-icon-delete fa-solid fa-trash"
+      <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
+         (click)="editContract(contract.id,contract.idCardCustomer,contract.employeeName)"></i>
+
+      <i hidden id="close" class="action-icon action-icon-delete fa-solid fa-trash"
          data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+
+      <i (click)="changeId(contract.id,contract.customerName,contract.employeeName)"  class="action-icon action-icon-delete fa-solid fa-trash"
+         data-bs-toggle="modal" ></i>
     </td>
   </tr>
   </tbody>
@@ -56,7 +61,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="title">Xóa Hợp đồng</h5>
+        <h5 class="modal-title" id="title">Xóa Hợp Đồng</h5>
         <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -67,6 +72,31 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         <button type="button" class="btn btn-danger" (click)="delete(id)" data-bs-dismiss="modal">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button id="notificationModalButton" hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notificationModal">
+  notification
+</button>
+
+
+<!-- Notification Modal-->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notification">Xin Thông Báo</h5>
+        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Tài khoản hiện tại là của {{employee.name}}. Bạn không có quyên thay đổi cái này.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+
       </div>
     </div>
   </div>
@@ -257,15 +287,16 @@
             <div class="row">
               <div class="col-4">
                 <label>Nhân viên</label>
-                <input type="text" class="form-control" formControlName="employeeId" disabled required>
+
+                <input value="{{employee?.name}}" type="text" class="form-control"  disabled required>
               </div>
               <div class="col-4">
                 <label>SĐT nhân viên</label>
-                <input type="text" class="form-control" disabled required>
+                <input value="{{employee?.phone}}" type="text" class="form-control" disabled required>
               </div>
               <div class="col-4">
                 <label>Email Nhân viên</label>
-                <input type="text" class="form-control" disabled required>
+                <input value="{{employee?.email}}" type="text" class="form-control" disabled required>
               </div>
             </div>
 

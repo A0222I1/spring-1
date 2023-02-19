@@ -1,6 +1,7 @@
 package com.codegym.building.controller;
 
 import com.codegym.building.dto.AccountDTO;
+import com.codegym.building.dto.EmployeeViewDTO;
 import com.codegym.building.dto.TokenAPI;
 import com.codegym.building.model.account.Account;
 import com.codegym.building.service.impl.AccountDetailImpl;
@@ -9,6 +10,8 @@ import com.codegym.building.service.impl.TokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,4 +44,10 @@ public class AccountControlApi {
 //    public ResponseEntity<List<Account>> findAll(){
 //        return new ResponseEntity<>(accountService.findAll(),HttpStatus.OK);
 //    }
+
+    @GetMapping("/checkToken/{token}")
+    public ResponseEntity<EmployeeViewDTO> checkToken(@PathVariable String token) {
+
+        return new ResponseEntity<>(tokenAuthenticationService.parse(token), HttpStatus.OK);
+    }
 }
