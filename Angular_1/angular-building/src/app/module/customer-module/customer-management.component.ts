@@ -44,9 +44,8 @@ export class CustomerManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.company_search,0);
-    setTimeout(() => this.alert = false, 3000);
-  }
+    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.company_search,this.pageNumber);
+   }
 
   findAllWithCondition(name: string, id_card: string, address: string, company: string, page: number){
     if (page > this.totalPages) return;
@@ -86,6 +85,8 @@ export class CustomerManagementComponent implements OnInit {
       // this.alert = true;
       this.toastr.success('Cảm ơn!', 'Đã xóa thành công');
       document.getElementById("cancle").click();
+      if(this.customers.length == 1)
+      {this.pageNumber  = this.pageNumber - 1;}
       this.ngOnInit();
     })
   };
