@@ -32,14 +32,14 @@ table > tbody >tr>td p{
   text-align: center;
   margin: 10px 0;
 }
-.list-inputsearch{
+.list-input-search{
   display: flex;
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
   margin: 0 0 20px 0;
 }
-.list-inputsearch input{
+.list-input-search input{
   outline: none;
   border-radius: 5px;
   border: none;
@@ -47,26 +47,26 @@ table > tbody >tr>td p{
   padding: 5px 20px 5px 10px;
   font-size: 14px;
 }
-.list-inputsearch input::placeholder{
+.list-input-search input::placeholder{
   font-size: 14px;
 }
-.list-inputsearch-icon{
+.list-input-search-icon{
   display: flex;
 }
-.list-inputsearch-icon i{
+.list-input-search-icon i{
 
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
 }
-.list-inputsearch-icon i:hover{
+.list-input-search-icon i:hover{
   cursor: pointer;
   opacity: 0.8;
 }
-.list-inputsearch-icon-search{
+.list-input-search-icon-search{
   color: white;
 }
-.list-inputsearch-icon-undo{
+.list-input-search-icon-undo{
   color: white;
 }
 .select-choose-floor{
@@ -119,7 +119,7 @@ img{
 .action-icon-edit{
   background-color: #ffd43b;
 }
-.list-inputsearch-icon .icon-addnew{
+.list-input-search-icon .icon-addnew{
   background-color: #40c057;
   border-radius: 50%;
   color: white;

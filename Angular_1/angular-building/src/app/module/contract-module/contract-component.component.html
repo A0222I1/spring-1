@@ -3,16 +3,16 @@
 
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
 
-<div class="list-inputsearch">
+<div class="list-input-search">
   <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tìm kiếm theo tên khách hàng.">
   <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tìm kiếm theo tên nhân viên">
   <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Tìm kiếm theo mã mặt bằng..">
   <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
 
-  <div class="list-inputsearch-icon">
-    <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
-    <i class="fa fa-search list-inputsearch-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-inputsearch-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
+  <div class="list-input-search-icon">
+    <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
+    <i class="fa fa-search list-input-search-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+    <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
   </div>
 </div>
 <table class="table tab">

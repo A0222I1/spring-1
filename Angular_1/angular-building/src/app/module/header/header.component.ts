@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
       this.employee = data;
-      console.log(this.employee);
     });
   }
 

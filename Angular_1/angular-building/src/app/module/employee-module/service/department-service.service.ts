@@ -16,7 +16,7 @@ export class DepartmentServiceService {
     return this.http.get<Department[]>(this.url);
   }
 
-  findById(id: number | Object): Observable<Department>{
+  findById(id: number): Observable<Department> {
     return this.http.get<Department>(`${this.url}/department/${id}`);
   }
 }

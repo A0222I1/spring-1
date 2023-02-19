@@ -1,6 +1,6 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH KHÁCH HÀNG</h4>
-  <div class="list-inputsearch">
+  <div class="list-input-search">
     <input type="text" placeholder="tên khách hàng"  #name id="nameSearch"
            (change)="name_search = name.value.trim()" >
     <input type="text" placeholder="chứng minh nhân dân" #cmnd id="cmndSearch"
@@ -9,10 +9,10 @@
 <!--           (change)="address_search = address.value.trim()">-->
 <!--    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"-->
 <!--           (change)="department_search = department.value.trim()">-->
-    <div class="list-inputsearch-icon">
-      <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
-      <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()">
+    <div class="list-input-search-icon">
+      <i class="icon-add-new fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()">
       </i>
     </div>
   </div>

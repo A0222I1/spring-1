@@ -1,6 +1,6 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH NHÂN VIÊN</h4>
-  <div class="list-inputsearch">
+  <div class="list-input-search">
     <input type="text" placeholder="tên nhân viên cần tìm" #name id="nameSearch"
            (change)="name_search = name.value.trim()">
     <input type="text" placeholder="chứng minh nhân dân cần tìm" #cmnd id="cmndSearch"
@@ -9,38 +9,36 @@
            (change)="address_search = address.value.trim()">
     <input type="text" placeholder="tên bộ phận tìm" #department id="departmentSearch"
            (change)="department_search = department.value.trim()">
-    <div class="list-inputsearch-icon">
+    <div class="list-input-search-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewContract"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"
+      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
-      <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"
+      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"
          (click)="refreshPage()">
       </i>
     </div>
   </div>
-  <button id="openModalButton" [hidden]="true" data-bs-toggle="modal" data-bs-target="#listEmpty">Open Modal</button>
   <div>
-    <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%">
-      <thead style="text-align: center">
-      <th>Hình</th>
-      <th>Họ tên</th>
-      <th>CMND</th>
-      <th>Email</th>
-      <th>Điện Thoại</th>
-      <th>Ngày Sinh</th>
-      <th>Giới Tính</th>
-      <th>Địa Chỉ</th>
-      <th>Lương</th>
-      <th>Cấp Lương</th>
-      <th>Bộ Phận</th>
-      <th>Ngày vào</th>
-      <th>Tài khoản</th>
-      <th>
-      </th>
+    <table class="table table-striped" style="font-size: 12px" bgcolor="white" width="100%">
+      <thead>
+      <td>Họ tên<span>(<span class="special">*</span>)</span></td>
+      <td>CMND<span>(<span class="special">*</span>)</span></td>
+      <td>Email<span>(<span class="special">*</span>)</span></td>
+      <td>Điện Thoại<span>(<span class="special">*</span>)</span></td>
+      <td>Ngày Sinh</td>
+      <td>Giới Tính</td>
+      <td>Địa Chỉ<span>(<span class="special">*</span>)</span></td>
+      <td>Lương<span>(<span class="special">*</span>)</span></td>
+      <td>Cấp Lương</td>
+      <td>Bộ Phận<span>(<span class="special">*</span>)</span></td>
+      <td>Ngày vào</td>
+      <td>Tài khoản<span>(<span class="special">*</span>)</span></td>
+      <td>
+        Thao tác
+      </td>
       </thead>
       <tbody>
       <tr *ngFor="let item of employees">
-        <td scope="row"><img src="{{item.avatar}}"></td>
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
         <td scope="row">{{item.email}} </td>
@@ -262,9 +260,9 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <ul>
+              <ul style=" list-style: none">
                 <li style="margin-right: 5px">Giới tính: </li>
-                <li *ngFor="let item of genders"  style="margin-right: 10px">
+                <li *ngFor="let item of genders"  style="margin-right: 10px; display: inline; list-style: none">
                   <input type="radio" name="gender" formControlName="gender" class="form-check-input"
                          value="{{item.id}}"/> {{item.name}}
                 </li>
@@ -297,11 +295,12 @@
           <div class="row">
             <div class="col-4">
               <label>Lương</label>
-              <input type="text" class="form-control" formControlName="salary" required>
+              <input type="number" class="form-control" formControlName="salary" required>
               <span style="color: red" *ngIf="formGroup.controls.salary.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.salary.valid">đã nhập lương thành công</span>
               <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('min')&&formGroup.controls.salary.touched">Mời nhập lương lớn hơn 1 triệu</span>
               <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('required')&&formGroup.controls.salary.touched">lương không nên để trống</span>
+<!--              <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('pattern')&&formGroup.controls.salary.touched">lương không nên để trống</span>-->
             </div>
 
             <div class="col-4">
@@ -371,7 +370,7 @@
               <label>mật khẩu xác nhận</label>
               <input type="password" class="form-control" formControlName="passwordConfirm"  required>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.untouched">&nbsp; </span>
-              <span style="color: green" *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched">mật khẩu trùng khớp</span>
+              <span style="color: green" *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched && !formGroup.controls.password.hasError('required')">mật khẩu trùng khớp</span>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.hasError('required') && formGroup.controls.passwordConfirm.touched">xin nhập và xác nhận lại mật khẩu</span>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.touched &&
                                       !formGroup.controls.passwordConfirm.hasError('required') &&

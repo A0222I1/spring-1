@@ -34,7 +34,7 @@ public class EmployeeViewDTO {
     String dateBegin;
     Long maxRole;
 
-    public EmployeeViewDTO(Employee employee){
+    public EmployeeViewDTO(Employee employee) {
         this.id = employee.getId();
         this.avatar = employee.getAvatar();
         this.name = employee.getName();
@@ -53,9 +53,9 @@ public class EmployeeViewDTO {
     }
 
     public Long getMaxRole(List<AccountRole> listAccountRole) {
-        Roles roles = listAccountRole.stream().map(item -> item.getRoles()).min(Comparator.comparing(Roles::getId)).orElse(null);
-        if(roles == null) {
-            return Long.valueOf(0);
+        Roles roles = listAccountRole.stream().map(AccountRole::getRoles).min(Comparator.comparing(Roles::getId)).orElse(null);
+        if (roles == null) {
+            return 0L;
         }
         return roles.getId();
     }
