@@ -47,6 +47,4 @@ public class Plane {
     public Plane(Integer planeId) {
         this.id = planeId;
     }
-
-
 }
