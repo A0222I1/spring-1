@@ -49,6 +49,20 @@ public class PlaneControllerApi {
             return  new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("{id}")
+    private Plane findById(@PathVariable Integer id){
+        return  this.planeServices.findPlaneById(id);
+    }
+    @PostMapping("/add")
+    private ResponseEntity savePlane(@RequestBody Plane plane){
+        try{
+            this.planeServices.savePlane(plane);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("totalArea")
     private ResponseEntity<Integer> getTotalArea(){
         return new ResponseEntity<>(this.planeServices.getTotalArea(),HttpStatus.OK);

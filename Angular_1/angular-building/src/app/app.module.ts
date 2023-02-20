@@ -24,10 +24,10 @@ import {AccountModule} from "./account/account.module";
 @NgModule({
   declarations: [
     AppComponent,
-    CustomPipeVND,
     HomePageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+
   ],
   imports: [
     BrowserModule,

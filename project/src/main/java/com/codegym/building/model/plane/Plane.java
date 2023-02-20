@@ -23,7 +23,8 @@ public class Plane {
     Double price;
 
     Double management_costs;
-
+    @JoinColumn(name = "imgs")
+    String imgs;
     @ManyToOne
     @JoinColumn(name = "plane_status_id", nullable = false, referencedColumnName = "id")
     PlaneStatus planeStatus;
