@@ -32,8 +32,8 @@ public class Contract {
 
     Double total;
     String information;
-
-    Date start_date;
+    @Column(name = "start_date")
+    Date startDate;
 
     @ManyToOne
     @JoinColumn(
@@ -55,13 +55,14 @@ public class Contract {
             nullable = false,
             referencedColumnName = "id")
     Plane plane;
-    public Contract (ContractDTO contractDTO) {
+
+    public Contract(ContractDTO contractDTO) {
         this.id = contractDTO.getId();
         this.term = new Term(contractDTO.getTermId());
         this.price = contractDTO.getPrice();
         this.total = contractDTO.getTotal();
         this.information = contractDTO.getInformation();
-        this.start_date = contractDTO.getStart_date();
+        this.startDate = contractDTO.getStartDate();
         this.customer = new Customer(contractDTO.getCustomerId());
         this.employee = new Employee(contractDTO.getEmployeeId());
         this.plane = new Plane(contractDTO.getPlaneId());
