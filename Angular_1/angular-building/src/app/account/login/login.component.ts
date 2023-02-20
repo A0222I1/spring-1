@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AccountModule} from "../account.module";
-import {UserService} from "../service/user.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpXsrfTokenExtractor} from "@angular/common/http";
+import {Router} from '@angular/router';
+import {AccountModule} from '../account.module';
+import {UserService} from '../service/user.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpXsrfTokenExtractor} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']).then(r => {
       });
     }, err => {
-      console.log(err)
-      this.errorMessage = "Tên tài khoản hoặc mật khẩu không chính xác.";
+      console.log(err);
+      this.errorMessage = 'Tên tài khoản hoặc mật khẩu không chính xác.';
     });
   }
 }

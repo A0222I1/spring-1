@@ -78,13 +78,15 @@
     </ul>
     <!-- Left links -->
     <div class="d-flex align-items-center">
-      <button type="button" class="btn btn-outline-violet px-3 me-2" routerLink="login">
+      <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"
+              routerLink="login" *ngIf="!token">
         Đăng nhập
       </button>
-      <button type="button" class="btn btn-outline-violet me-3">
+      <button type="button" class="btn btn-outline-violet me-3" *ngIf="!token">
         Đăng ký
       </button>
-
+      <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>
+      <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"></i>
     </div>
   </div>
   <!-- Collapsible wrapper -->

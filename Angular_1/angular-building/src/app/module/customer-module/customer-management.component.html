@@ -1,6 +1,6 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH KHÁCH HÀNG</h4>
-  <div class="list-inputsearch">
+  <div class="list-input-search">
     <input type="text" placeholder="tên khách hàng"  #name id="nameSearch"
            (change)="name_search = name.value.trim()" >
     <input type="text" placeholder="chứng minh nhân dân" #cmnd id="cmndSearch"
@@ -9,11 +9,15 @@
            (change)="address_search = address.value.trim()">
     <input type="text" placeholder="tên công ty cần tìm" #company id="companySearch"
            (change)="company_search = company.value.trim()">
-    <div class="list-inputsearch-icon">
+    <div class="list-input-search-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
-      <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()">
-      </i>
+      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()"></i>
+
+<!--    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"-->
+<!--           (change)="address_search = address.value.trim()">-->
+<!--    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"-->
+<!--           (change)="department_search = department.value.trim()">-->
     </div>
   </div>
 
@@ -29,7 +33,7 @@
       <th>Địa Chỉ<span>(<span class="special">*</span>)</span></th>
       <th>Website</th>
       <th>Công ty<span>(<span class="special">*</span>)</span></th>
-      <th>Mặt bằng</th>
+<!--      <th>Mặt bằng</th>-->
       <th></th>
 <!--      <th></th>-->
       </thead>
@@ -45,9 +49,9 @@
 <!--        .length > 10 ? item.address.substring(0,10) + ' ...'  : item.address-->
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
-        <td scope="row" class="responsiveItem">
-          <button id="id_detailButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Chi tiết</button>
-        </td>
+<!--        <td scope="row" class="responsiveItem">-->
+<!--          <button id="id_detailButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Chi tiết</button>-->
+<!--        </td>-->
         <td scope="row" class="responsiveItem">
           <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
           <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
