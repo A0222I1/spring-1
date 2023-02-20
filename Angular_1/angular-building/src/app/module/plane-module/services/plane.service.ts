@@ -12,6 +12,7 @@ export class PlaneService {
   url ="http://localhost:8080/plane"
   constructor(private httpClient : HttpClient) { }
   findAll(area:string, stage: string, status: string, type: string,numberPage:number):Observable<GetResponse>{
+    console.log(`${this.url}?area=${area}&stage=${stage}&status=${status}&type=${type}&page=${numberPage}`)
     return this.httpClient.get<GetResponse>(`${this.url}?page=${numberPage}&area=${area}&stage=${stage}&status=${status}&type=${type}`);
   }
   deletePlane(id){
@@ -23,13 +24,6 @@ export class PlaneService {
 
   getAllRentedPlane() {
     return this.httpClient.get<PlaneDTO[]>(this.url + "/rented");
-  }
-  savePlane(plane){
-    console.log(plane)
-    return this.httpClient.post(`${this.url}/add`,plane);
-  }
-  findById(id) {
-    return this.httpClient.get<Plane>(`${this.url}/{id}`)
   }
   getTotalArea(){
     return this.httpClient.get<number>(this.url+'/totalArea')
