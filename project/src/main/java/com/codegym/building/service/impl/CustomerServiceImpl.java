@@ -24,8 +24,8 @@ public class CustomerServiceImpl implements PersonService<Customer> {
 
 
     @Override
-    public Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(String name, String id_card, String address, String department, Pageable pageable) {
-        return repos.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, pageable);
+    public Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(String name, String id_card, String address, String company, Pageable pageable) {
+        return repos.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card,address,company, pageable);
     }
 
     @Override

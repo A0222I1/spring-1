@@ -10,7 +10,7 @@
   <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
 
   <div class="list-input-search-icon">
-    <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
+    <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
     <i class="fa fa-search list-input-search-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
     <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
   </div>
