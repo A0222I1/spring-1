@@ -3,23 +3,24 @@
 
   <div class="list-input-search">
     <input type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
-    <select id="exampleFormControlSelect1" #stage (change)="stageSearch = stage.value">
+    <select id="exampleFormControlSelect2" #stage (change)="stageSearch = stage.value">
       <option value="">Tên tầng</option>
       <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i+1}}: {{stage.name}}</option>
     </select>
-    <select id="exampleFormControlSelect2" #status (change)="statusSearch = status.value">
+    <select id="exampleFormControlSelect3" #status (change)="statusSearch = status.value">
       <option value="">Trạng thái mặt bằng</option>
         <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
     </select>
-    <select id="exampleFormControlSelect3" #type (change)="typeSearch = type.value">
+    <select id="exampleFormControlSelect1" #type (change)="typeSearch = type.value">
       <option value="">Loại mặt bằng</option>
       <option *ngFor="let planeType of planeTypes" value="{{planeType.id}}"> {{planeType.name}}</option>
     </select>
-    <div class="list-inputsearch-icon">
+    <div class="list-input-search-icon">
       <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
-      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
-      <i (click)="resetSearch()" class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
+      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
+      <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
   </div>
+    </div>
   <table class="table tab">
     <thead class="thead-dark">
     <tr>
@@ -206,7 +207,6 @@
     </div>
   </div>
 </div>
-
 
 
 
