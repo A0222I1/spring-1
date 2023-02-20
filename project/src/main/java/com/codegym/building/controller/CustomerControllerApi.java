@@ -1,6 +1,6 @@
 package com.codegym.building.controller;
-
 import com.codegym.building.error.NotFoundById;
+import com.codegym.building.dto.CustomerViewDTO;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.service.PersonService;
@@ -11,7 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customer")
@@ -31,10 +39,16 @@ public class CustomerControllerApi {
         return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/dto")
+    public ResponseEntity<List<CustomerViewDTO>> getAllCustomerViewDto() {
+        return new ResponseEntity<>(customerPersonService.getAll().stream().map(CustomerViewDTO::new).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private ResponseEntity<Customer> findById(@PathVariable String id) throws NotFoundById {
         return new ResponseEntity<>(customerPersonService.findById(id), HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {
@@ -47,12 +61,25 @@ public class CustomerControllerApi {
     }
 
     @PostMapping("")
-    private ResponseEntity<Customer> createEmployee(@RequestBody Customer customer) {
+    private ResponseEntity<Customer> createEmployee(@Valid @RequestBody  Customer customer) {
         return new ResponseEntity<>(customerPersonService.save(customer), HttpStatus.OK);
     }
 
     @PatchMapping("")
     private ResponseEntity<Customer> editEmployee(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerPersonService.save(customer), HttpStatus.OK);
+    }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
     }
 }

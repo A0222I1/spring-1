@@ -8,8 +8,4 @@ public interface TypeService<E>{
    List<E> findAll();
 
    E save(E e);
-
-   default List<Roles> findListRoles(String username){
-      return null;
-   }
 }

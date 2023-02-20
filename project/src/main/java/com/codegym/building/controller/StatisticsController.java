@@ -1,13 +1,14 @@
 package com.codegym.building.controller;
 
-import com.codegym.building.dto.resultsDTO;
+import com.codegym.building.model.contract.Contract;
 import com.codegym.building.service.StatisticsService;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -19,23 +20,73 @@ public class StatisticsController {
     private StatisticsService service;
 
     @GetMapping("/getdata")
-    ResponseEntity<resultsDTO> getData(@RequestParam(name = "startDate", required = false) String startDate,
-                                       @RequestParam(name = "finishDate", required = false) String finishDate,
-                                       @RequestParam(name = "checkHighLow", required = false) String checkHighLow,
-                                       @RequestParam(name = "rows", required = false) Integer rows,
-                                       @RequestParam(name = "page", defaultValue = "1") Integer page,
-                                       @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize){
-        return new ResponseEntity<>(service.findAll(startDate, finishDate, checkHighLow, rows, page, pageSize), HttpStatus.OK);
+    ResponseEntity<List<Contract>> getData(@RequestParam(name = "startDate", required = false) String startDate,
+                                           @RequestParam(name = "finishDate", required = false) String finishDate) {
+        return new ResponseEntity<>(service.findAllByDayStart(startDate, finishDate), HttpStatus.OK);
     }
 
-/*
-    @GetMapping("/pdf")
-    public ResponseEntity<InputStreamResource> generatePDF() throws IOException {
-        String[] data = customerRepository.findAllPotentialCustomer();
-        ByteArrayInputStream bais = pdfStatisticCustomer.export(data);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition","inline;filename=cart.pdf");
-        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bais));
+    @GetMapping("/getdata/high")
+    ResponseEntity<List<Contract>> findAllByHigh(@RequestParam(name = "startDate", required = false) String startDate,
+                                                 @RequestParam(name = "finishDate", required = false) String finishDate,
+                                                 @RequestParam(name = "rowNumber", required = false, defaultValue = "10") Integer rowNumber) {
+        return new ResponseEntity<>(service.findAllByHigh(startDate, finishDate, rowNumber), HttpStatus.OK);
     }
-*/
+
+    @GetMapping("/getdata/low")
+    ResponseEntity<List<Contract>> findAllByLow(@RequestParam(name = "startDate", required = false) String startDate,
+                                                @RequestParam(name = "finishDate", required = false) String finishDate,
+                                                @RequestParam(name = "rowNumber", required = false, defaultValue = "10") Integer rowNumber) {
+        return new ResponseEntity<>(service.findAllByLow(startDate, finishDate, rowNumber), HttpStatus.OK);
+    }
+
+    //print
+    @GetMapping("/getdata/print")
+    public void printData(HttpServletResponse response, @RequestParam(name = "startDate", required = false) String startDate,
+                          @RequestParam(name = "finishDate", required = false) String finishDate) {
+        try {
+            XSSFWorkbook wb = service.XuatBaoCaoTongHop(startDate, finishDate);
+            response.setHeader("Content-Type", "application/excel");
+            response.setHeader("Content-Disposition", "attachment; filename=BaoCaoTongHop.xlsx");
+            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            wb.write(response.getOutputStream());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+    @GetMapping("/getdata/printhigh")
+    public void printAllByHigh(HttpServletResponse response, @RequestParam(name = "startDate", required = false) String startDate,
+                               @RequestParam(name = "finishDate", required = false) String finishDate,
+                               @RequestParam(name = "rowNumber", required = false, defaultValue = "10") Integer rowNumber) {
+        try {
+            XSSFWorkbook wb = service.XuatBaoCaoTongHop(startDate, finishDate);
+            response.setHeader("Content-Type", "application/excel");
+            response.setHeader("Content-Disposition", "attachment; filename=BaoCaoThuNhapCao.xlsx");
+            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            wb.write(response.getOutputStream());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+    @GetMapping("/getdata/printlow")
+    public void printAllByLow(HttpServletResponse response, @RequestParam(name = "startDate", required = false) String startDate,
+                              @RequestParam(name = "finishDate", required = false) String finishDate,
+                              @RequestParam(name = "rowNumber", required = false, defaultValue = "10") Integer rowNumber) {
+        try {
+            XSSFWorkbook wb = service.XuatBaoCaoTongHop(startDate, finishDate);
+            response.setHeader("Content-Type", "application/excel");
+            response.setHeader("Content-Disposition", "attachment; filename=BaoCaoThuNhapThap.xlsx");
+            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            wb.write(response.getOutputStream());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
 }

@@ -1,13 +1,6 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {StaticsviewDTO} from "../dto/StaticsviewDTO";
-
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     'Content-Type': 'application/json',
-//     'Access-Control-Allow-Origin': '*',
-//   }),
-// };
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +12,20 @@ export class StaticServiceService {
   constructor(private http: HttpClient) {
   }
 
-  getAllData(startDateString: String, finishDateString: String, checkHighLow: Boolean, page: number, pageSize: number) {
-    return this.http.get<GetResponse>(`${this.url}?startDate=${startDateString}&finishDate=${finishDateString}&checkHighLow=${checkHighLow}&page=${page}&pageSize=${pageSize}`);
+  getAllData(startDateString: String, finishDateString: String) {
+    return this.http.get<StaticsviewDTO[]>(`${this.url}?startDate=${startDateString}&finishDate=${finishDateString}`);
+  }
+
+  public printAllData(startDateString: String, finishDateString: String) {
+    return this.http.get(`${this.url}/print?startDate=${startDateString}&finishDate=${finishDateString}`, {
+      observe: 'response',
+      responseType: 'blob'
+    });
   }
 }
 
 interface GetResponse {
-  content: StaticsviewDTO;
+  content: StaticsviewDTO[];
+  totalPages: number,
+  number: number
 }

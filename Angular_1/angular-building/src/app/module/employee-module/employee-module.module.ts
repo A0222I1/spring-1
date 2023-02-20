@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { EmployeeComponentComponent } from './employee-component.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {EmployeeComponentComponent} from './employee-component.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
-
-
+import {PipeCurrencyCustomPipe} from "./utils/PipeCurrencyCustom";
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   {
@@ -13,11 +14,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [EmployeeComponentComponent],
+  declarations: [EmployeeComponentComponent, PipeCurrencyCustomPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ]
 })
-export class EmployeeModuleModule { }
+export class EmployeeModuleModule {
+}

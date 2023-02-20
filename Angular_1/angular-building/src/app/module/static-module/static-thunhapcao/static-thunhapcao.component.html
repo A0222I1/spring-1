@@ -1,0 +1,52 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="header">
+    <h2>Thống kê số liệu phòng thu nhập cao</h2>
+    <div class="list-inputsearch">
+      <label>Ngày bắt đầu</label>
+      <input id="startHighDate" type="date" #startHighDate (change)="startDateHighString = startHighDate.value"
+             placeholder="Tìm kiếm theo ngày bắt đầu...">
+      <label>Ngày kết thúc</label>
+      <input id="finalHighDate" type="date" #finalHighDate (change)="finishDateHighString = finalHighDate.value"
+             placeholder="Tìm kiếm theo ngày bắt đầu..." >
+
+      <label>Số lượng</label>
+      <input id="rowNumbers" type="text" #rowNumbers (change)="rowNumber = rowNumbers.value"
+             placeholder="số lượng xuất">
+      <div class="list-inputsearch-icon">
+        <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
+           (click)="findAllHighWithCondition(startDateHighString,finishDateHighString,rowNumber)"></i>
+      </div>
+    </div>
+  </div>
+
+  <table class="table tab">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Tên mặt Bằng</th>
+      <th scope="col">Ngày bắt đầu</th>
+      <th scope="col">Tổng thu</th>
+      <th scope="col">Ghi chú</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let i of static; let z =index">
+      <td scope="row">{{z+1}}</td>
+      <td scope="row">MB_{{i.plane.id}}</td>
+      <td scope="row">{{i.start_date| date: 'dd/MM/yyyy'}}</td>
+      <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
+      <td scope="row">{{i.information}}</td>
+    </tr>
+    <tr>
+      <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
+    </tr>
+    </tbody>
+  </table>
+  <div class="list-inputsearch-icon">
+    <i class="fa fa-print list-inputsearch-icon-search" aria-hidden="true"
+       (click)="dowloadFile(startDateHighString,finishDateHighString,rowNumber)"></i>
+  </div>
+  <div class="chart-container">
+    <canvas  id="ChartRent" >{{ chart }}</canvas>
+  </div>
+</div>
