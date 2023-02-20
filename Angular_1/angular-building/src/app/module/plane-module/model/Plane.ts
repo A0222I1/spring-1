@@ -10,4 +10,5 @@ export interface Plane {
   planeStatus?:PlaneStatus,
   planeType?:PlaneType,
   stage?:Stage
+  imgs?:string
 }

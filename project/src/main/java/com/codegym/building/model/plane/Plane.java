@@ -1,7 +1,5 @@
 package com.codegym.building.model.plane;
 
-import com.codegym.building.model.contract.Contract;
-import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.model.typeClass.PlaneType;
 import com.codegym.building.model.typeClass.Stage;
@@ -11,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "plane")
@@ -29,7 +26,8 @@ public class Plane {
     Double price;
 
     Double management_costs;
-
+    @JoinColumn(name = "imgs")
+    String imgs;
     @ManyToOne
     @JoinColumn(name = "plane_status_id", nullable = false, referencedColumnName = "id")
     PlaneStatus planeStatus;

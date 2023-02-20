@@ -10,7 +10,9 @@ const routes: Routes = [
   }
 ]
 @NgModule({
-  declarations: [PlaneManagementComponent],
+  declarations: [PlaneManagementComponent,
+    CustomPipeVND
+    ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
