@@ -12,25 +12,22 @@ import {Title} from '@angular/platform-browser';
 export class HeaderComponent implements OnInit {
   public token: TokenApi;
   employee: EmployeeViewDTO;
-  isLoad = false;
-  constructor(private accountService: AccountService,
-              private cdf: ChangeDetectorRef,
-              private pageTitle: Title) {
-  }
+   constructor(private accountService: AccountService,
+               private cdf: ChangeDetectorRef,
+               private pageTitle: Title) {
+   }
 
   ngOnInit(): void {
-    if (localStorage.getItem("token") != null) {
-      this.getEmployee();
-    }
+    this.getEmployee();
   }
+
   getEmployee() {
     this.token = JSON.parse(localStorage.getItem('token'));
-    this.accountService.parseTokenToEmployee(this.token.token).then(data => {
+    this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
       this.employee = data;
-      this.isLoad = true;
-      this.cdf.detectChanges();
     });
   }
+
   setPageTitle(title: string) {
     this.pageTitle.setTitle(title);
   }
