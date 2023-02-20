@@ -37,14 +37,6 @@ public class Plane {
     @JoinColumn(name = "stage_id",nullable = false, referencedColumnName = "id")
     Stage stage;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id",nullable = false, referencedColumnName = "customer_id")
-//    Customer customer;
-
-//    @OneToMany(mappedBy = "plane", cascade = CascadeType.ALL)
-//    @Transient
-//    List<Contract> list;
-
     public Plane(Integer planeId) {
         this.id = planeId;
     }
