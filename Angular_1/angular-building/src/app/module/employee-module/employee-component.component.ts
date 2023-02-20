@@ -75,12 +75,6 @@ export class EmployeeComponentComponent implements OnInit {
       this.totalPages = value.totalPages;
     });
   }
-
-  onCloseMember() {
-    this.formGroup.reset();
-    this.changeDetectorRef.detectChanges();
-  }
-
   refreshPage() {
     (document.getElementById('nameSearch') as HTMLInputElement).value = '';
     (document.getElementById('cmndSearch') as HTMLInputElement).value = '';
@@ -211,7 +205,7 @@ export class EmployeeComponentComponent implements OnInit {
     this.fileChose = fileList[0];
   }
 
-  reset() {
-    // this.formGroup.form.reset();
+  resetModal() {
+    this.buildForm();
   }
 }

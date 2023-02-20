@@ -20,15 +20,38 @@ table{
   color: white;
 }
 
-table > tbody >tr>td{
+.list-input-search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.list-input-search input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.list-input-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+table > tbody > tr > td {
   vertical-align: middle !important;
 }
 
-table > tbody >tr>td p{
+table > tbody > tr > td p {
   margin: 0;
 }
 
-table > tbody > tr> td button {
+table > tbody > tr > td button {
   width: 40px;
   height: 40px;
 }
@@ -53,7 +76,7 @@ table > tbody > tr> td button {
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
-  margin: 0 0 20px 10px;
+  margin:10px 0 10px 60px;
 }
 
 .list-input-search input{
@@ -148,7 +171,7 @@ table > tbody > tr> td button {
   background-color: #ffd43b;
 }
 
-.list-input-search-icon .icon-addnew{
+.list-input-search-icon .icon-add-new{
   background-color: #40c057;
   border-radius: 50%;
   color: white;
@@ -167,12 +190,7 @@ th{
 only screen and (max-width: 1092px),
 (min-device-width: 911px) and (max-device-width: 1024px)  {
 
-  input{
-    display: none;
-  }
-  .list-input-search-icon i{
-    display: none;
-  }
+
 
   /* Force table to not be like tables anymore */
   table, thead, tbody, th, td, tr {
@@ -184,7 +202,10 @@ only screen and (max-width: 1092px),
   th{
     display: none;
   }
-  tr { border: 1px solid #ccc; }
+
+  tr {
+    border: 1px solid #ccc;
+  }
 
   td {
     /* Behave  like a "row" */
@@ -192,6 +213,14 @@ only screen and (max-width: 1092px),
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
+  }
+
+  .list-input-search input {
+    flex-basis: calc(50% - 10px);
+  }
+
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
   }
 
   td:before {

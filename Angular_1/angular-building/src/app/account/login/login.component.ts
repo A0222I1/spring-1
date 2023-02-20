@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.loginForm.value).subscribe(data => {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
-      this.router.navigate(['/home']).then(r => {
+      this.router.navigateByUrl("/home").then(r => {
       });
     }, err => {
       console.log(err);

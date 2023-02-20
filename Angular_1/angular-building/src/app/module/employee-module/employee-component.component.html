@@ -10,7 +10,7 @@
     <input type="text" placeholder="tên bộ phận tìm" #department id="departmentSearch"
            (change)="department_search = department.value.trim()">
     <div class="list-input-search-icon">
-      <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewContract"></i>
+      <i class="icon-add-new fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewContract" (click)="resetModal()"></i>
       <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
       <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"
@@ -18,6 +18,7 @@
       </i>
     </div>
   </div>
+
   <div>
     <table class="table table-striped" style="font-size: 12px" bgcolor="white" width="100%">
       <thead>
@@ -281,7 +282,7 @@
                      accept="image/png, image/jpeg"
                      autocomplete="off" required>
               <span style="color: red" *ngIf="formGroup.controls.avatar.untouched">&nbsp; </span>
-              <span style="color: green" *ngIf="formGroup.controls.avatar.valid">có thể sử dụng hình ảnh này </span>
+              <span style="color: green" *ngIf="formGroup.controls.avatar.valid && formGroup.controls.avatar.touched">có thể sử dụng hình ảnh này </span>
               <span style="color: red"
                     *ngIf="formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">chọn hình ảnh đại diện</span>
               <span style="color: red"
@@ -385,7 +386,7 @@
                 Lưu lại
               </button>
               <!--              <button (click)="resetForm()" class="btn btn-warning" style="margin-right: 10px">Làm mới</button>-->
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="reset()">Hủy</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
             </div>
           </div>
         </form>

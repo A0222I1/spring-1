@@ -27,8 +27,8 @@ export class AccountService {
   }
 
   // @ts-ignore
-  parseTokenToEmployee(token: string): Observable<EmployeeViewDTO> {
-    return this.http.get<EmployeeViewDTO>(`${API_URL}/checkToken/${token}`);
+  parseTokenToEmployee(token: string): Promise<EmployeeViewDTO> {
+    return this.http.get<EmployeeViewDTO>(`${API_URL}/checkToken/${token}`).toPromise();
   }
 }
 
