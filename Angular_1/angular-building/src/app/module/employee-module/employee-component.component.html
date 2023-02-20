@@ -1,6 +1,6 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH NHÂN VIÊN</h4>
-  <div class="list-inputsearch">
+  <div class="list-input-search">
     <input type="text" placeholder="tên nhân viên cần tìm" #name id="nameSearch"
            (change)="name_search = name.value.trim()">
     <input type="text" placeholder="chứng minh nhân dân cần tìm" #cmnd id="cmndSearch"
@@ -9,46 +9,44 @@
            (change)="address_search = address.value.trim()">
     <input type="text" placeholder="tên bộ phận tìm" #department id="departmentSearch"
            (change)="department_search = department.value.trim()">
-    <div class="list-inputsearch-icon">
+    <div class="list-input-search-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewContract"></i>
-      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"
+      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
-      <i class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"
+      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"
          (click)="refreshPage()">
       </i>
     </div>
   </div>
-
-  <div style="width: 100%">
-    <table class="table table-striped" style="font-size: 15px" bgcolor="white" width="100%">
+  <div>
+    <table class="table table-striped" style="font-size: 12px" bgcolor="white" width="100%">
       <thead>
-      <th>Hình đại diện</th>
-      <th>Họ tên</th>
-      <th>CMND</th>
-      <th>Email</th>
-      <th>Số Điện Thoại</th>
-      <th>Ngày Sinh</th>
-      <th>Giới Tính</th>
-      <th>Địa Chỉ</th>
-      <th>Lương</th>
-      <th>Cấp Lương</th>
-      <th>Bộ Phận Làm Việc</th>
-      <th>Ngày làm việc</th>
-      <th>Tài khoản</th>
-      <th>
-      </th>
+      <td>Họ tên<span>(<span class="special">*</span>)</span></td>
+      <td>CMND<span>(<span class="special">*</span>)</span></td>
+      <td>Email<span>(<span class="special">*</span>)</span></td>
+      <td>Điện Thoại<span>(<span class="special">*</span>)</span></td>
+      <td>Ngày Sinh</td>
+      <td>Giới Tính</td>
+      <td>Địa Chỉ<span>(<span class="special">*</span>)</span></td>
+      <td>Lương<span>(<span class="special">*</span>)</span></td>
+      <td>Cấp Lương</td>
+      <td>Bộ Phận<span>(<span class="special">*</span>)</span></td>
+      <td>Ngày vào</td>
+      <td>Tài khoản<span>(<span class="special">*</span>)</span></td>
+      <td>
+        Thao tác
+      </td>
       </thead>
       <tbody>
       <tr *ngFor="let item of employees">
-        <td scope="row"><img src="{{item.avatar}}"></td>
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
-        <td scope="row">{{item.email | slice: 4: 10}}...</td>
+        <td scope="row">{{item.email}} </td>
         <td scope="row">{{item.phone}}</td>
         <td scope="row">{{item.birthday | date:'dd/MM/yyyy'}}</td>
         <td scope="row">{{item.gender}}</td>
-        <td scope="row">{{item.address.length > 10 ? item.address.substring(0, 10) + ' ...' : item.address}}</td>
-        <td scope="row">{{item.salary| currency: "VND": "symbol"}}</td>
+        <td scope="row">{{item.address }}</td>
+        <td scope="row">{{item.salary | pipeCurrencyCustom}}</td>
         <td scope="row">{{item.salaryScale}}</td>
         <td scope="row">{{item.department}}</td>
         <td scope="row">{{ item.dateBegin }}</td>
@@ -57,8 +55,7 @@
           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal">
             <i class="fa-solid fa-user-pen"></i>
           </button>
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                  (click)="findById(item.id)">
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="findById(item.id)">
             <i class="fa-solid fa-trash"></i>
           </button>
         </td>
@@ -71,7 +68,7 @@
 <div>
   <ul class="pagination justify-content-center">
     <li class="page-item">
-      <a class="page-link">
+      <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''">
         <i class="fa-solid fa-backward-fast"
            (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,0)"></i>
       </a>
@@ -95,7 +92,7 @@
       </a>
     </li>
     <li class="page-item">
-      <a class="page-link"
+      <a class="page-link" *ngIf="pageNumber < totalPages - 1 ? 'disable': ''"
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,totalPages - 1)">
         <i class="fa-solid fa-forward-fast"></i> </a>
     </li>
@@ -121,11 +118,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="title">Xóa Nhân Viên</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #deleteClose></button>
       </div>
       <div class="modal-body">
-        Xóa đi nhân viên này <span id="name_delete"></span> ?
-        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> đây là hành động không thể hoàn tác</p>
+        Xóa đi nhân viên <span id="name_delete"></span> này?
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>đây là hành động không thể hoàn tác!!!</p>
         <input hidden id="id_delete" #id_delete>
       </div>
       <div class="modal-footer">
@@ -136,43 +133,27 @@
   </div>
 </div>
 
-<!--alert message -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-    <path
-      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-  </symbol>
-  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
-    <path
-      d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-  </symbol>
-  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-    <path
-      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-  </symbol>
-</svg>
-
-
-<!--xóa all modal-->
-<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--list empty-->
+<div class="modal fade" id="listEmpty" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title">Thông báo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="refreshPage()"></button>
       </div>
       <div class="modal-body">
-        Bạn chắc chắn muốn xóa tất cả nhân viên ?
-        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> đây là hành động không thể hoàn tác</p>
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>không tìm thấy nhân viên nào theo kết quả
+          tìm kiếm</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-danger" (click)="deleteAll()">Xóa tất cả</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="refreshPage()">Hủy</button>
       </div>
     </div>
   </div>
 </div>
 
+<!--cap nhat sau -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -197,22 +178,27 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Chi tiết hợp đồng</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                #closeAddExpenseModal></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="formGroup" (ngSubmit)="saveForm()">
+        <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
           <h5>Thông tin nhân viên</h5>
           <div class="row">
             <div class="col-4">
-<!--              Họ tên-->
+              <!--              Họ tên-->
               <label>Họ tên</label>
               <input type="text" class="form-control" formControlName="name" required>
               <span style="color: red" *ngIf="formGroup.controls.name.untouched">&nbsp; </span>
-              <span style="color: red" *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">tên không nên để trống</span>
+              <span style="color: red"
+                    *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">tên không nên để trống</span>
               <span style="color: green" *ngIf="formGroup.controls.name.valid">có thể sử dụng tên này </span>
-              <span style="color: green" *ngIf="formGroup.controls.name.hasError('minlength') &&  formGroup.controls.name.touched">tên nên dài hơn 5 kí tự </span>
-              <span style="color: green" *ngIf="formGroup.controls.name.hasError('maxlength') &&  formGroup.controls.name.touched">tên nên ít hơn 200 kí tự </span>
-              <span style="color: red" *ngIf="(formGroup.controls.name.hasError('pattern') &&  formGroup.controls.name.touched)">tên không được có số</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.name.hasError('minlength') &&  formGroup.controls.name.touched">tên nên dài hơn 8 kí tự </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.name.hasError('maxlength') &&  formGroup.controls.name.touched">tên nên ít hơn 200 kí tự </span>
+              <span style="color: red"
+                    *ngIf="(formGroup.controls.name.hasError('pattern') &&  formGroup.controls.name.touched)">tên không được có số</span>
             </div>
 <!--            Chứng minh nhân dân-->
             <div class="col-4">
@@ -220,9 +206,12 @@
               <input type="text" class="form-control" formControlName="id_card" required>
               <span style="color: red" *ngIf="formGroup.controls.id_card.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.id_card.valid" id="successCMND">đã nhập chứng minh nhân dân thành công! </span>
-              <span style="color: red" *ngIf="formGroup.controls.id_card.touched && formGroup.controls.id_card.hasError('required')">nhập chứng minh nhân dân không nên để trống</span>
-              <span style="color: red" *ngIf="(formGroup.controls.id_card.hasError('pattern'))  && formGroup.controls.id_card.touched">số chứng minh nhân dân nên có 12 chữ số</span>
-              <span style="color: red; display: none" id="cmndExists">số chứng minh nhân dân đã tồn tại. xin nhập lại</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.id_card.touched && formGroup.controls.id_card.hasError('required')">nhập chứng minh nhân dân không nên để trống</span>
+              <span style="color: red"
+                    *ngIf="(formGroup.controls.id_card.hasError('pattern'))  && formGroup.controls.id_card.touched">số chứng minh nhân dân nên có 12 chữ số</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.id_card.hasError('idcardexists') && formGroup.controls.id_card.touched">số chứng minh nhân dân đã tồn tại. xin nhập lại</span>
             </div>
 <!--            Địa chỉ-->
             <div class="col-4">
@@ -247,29 +236,33 @@
               <label>Email</label>
               <input type="text" class="form-control" formControlName="email" required>
               <span style="color: red" *ngIf="formGroup.controls.email.untouched">&nbsp; </span>
-              <span style="color: green"  *ngIf="formGroup.controls.email.valid" id="successEmail">>có thể sử dụng email này!</span>
-              <span style="color: red" *ngIf="formGroup.controls.email.hasError('required') && formGroup.controls.email.touched">mời nhập email vào!</span>
+              <span style="color: green" *ngIf="formGroup.controls.email.valid" id="successEmail">có thể sử dụng email này!</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.email.hasError('required') && formGroup.controls.email.touched">mời nhập email vào!</span>
               <span style="color: red" *ngIf="(formGroup.controls.email.hasError('pattern'))
                                      &&formGroup.controls.email.touched">email bạn nhập sai định dạng</span>
-              <span style="color: red;display: none" id="emailExists">email đã tồn tại</span>
+              <span style="color: red" *ngIf="(formGroup.controls.email.hasError('emailexists'))
+                                     &&formGroup.controls.email.touched">email đã tồn tại</span>
             </div>
             <div class="col-4">
               <label>Số điện thoại</label>
-              <input type="text" class="form-control" formControlName="phone"   required>
+              <input type="text" class="form-control" formControlName="phone" required>
               <span style="color: red" *ngIf="formGroup.controls.phone.untouched">&nbsp; </span>
-              <span style="color: green"  *ngIf="formGroup.controls.phone.valid" id="successPhone">đã nhập xong số điện thoại này!</span>
-              <span style="color: red" *ngIf="formGroup.controls.phone.hasError('required') && formGroup.controls.phone.touched">mời nhập số điện thoại vào</span>
+              <span style="color: green" *ngIf="formGroup.controls.phone.valid" id="successPhone">đã nhập xong số điện thoại này!</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.phone.hasError('required') && formGroup.controls.phone.touched">mời nhập số điện thoại vào</span>
               <span style="color: red" *ngIf="(formGroup.controls.phone.hasError('pattern'))
                                      &&formGroup.controls.phone.touched">số điện thoại chưa đúng định dạng: 0912345678</span>
-              <span style="color: red;display: none" id="phoneExists">  số điện thoại này đã được sử dụng</span>
+              <span style="color: red" *ngIf="(formGroup.controls.phone.hasError('phoneexists'))
+                                     &&formGroup.controls.phone.touched">  số điện thoại này đã được sử dụng</span>
 
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <ul>
+              <ul style=" list-style: none">
                 <li style="margin-right: 5px">Giới tính: </li>
-                <li *ngFor="let item of genders"  style="margin-right: 10px">
+                <li *ngFor="let item of genders"  style="margin-right: 10px; display: inline; list-style: none">
                   <input type="radio" name="gender" formControlName="gender" class="form-check-input"
                          value="{{item.id}}"/> {{item.name}}
                 </li>
@@ -283,15 +276,18 @@
               <label>hình ảnh đại diện</label>
               <input type="file" class="form-control"
                      id="avatar" name="avatar"
-                     (change)="fileChose = $event.target.files[0]"
+                     (change)="changeFile($event)"
                      formControlName="avatar"
                      accept="image/png, image/jpeg"
                      autocomplete="off" required>
               <span style="color: red" *ngIf="formGroup.controls.avatar.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.avatar.valid">có thể sử dụng hình ảnh này </span>
-              <span style="color: red" *ngIf="formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">chọn hình ảnh đại diện</span>
-              <span style="color: red" *ngIf="formGroup.controls.avatar.hasError('filewrong')&& !formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">hình ảnh phải là img hay jpg hay hình ảnh tương ứng</span>
-              <span style="color: red" id="bigSize" *ngIf="formGroup.controls.avatar.hasError('filesize')&& formGroup.controls.avatar.touched">hình ảnh không được quá 5MB</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">chọn hình ảnh đại diện</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.avatar.hasError('filewrong')&& !formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">hình ảnh phải là img hay jpg hay hình ảnh tương ứng</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.avatar.hasError('filesize')&& formGroup.controls.avatar.touched">hình ảnh không được quá 5MB</span>
             </div>
           </div>
           <hr style="margin-top: 10px">
@@ -299,11 +295,12 @@
           <div class="row">
             <div class="col-4">
               <label>Lương</label>
-              <input type="text" class="form-control" formControlName="salary" required>
+              <input type="number" class="form-control" formControlName="salary" required>
               <span style="color: red" *ngIf="formGroup.controls.salary.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.salary.valid">đã nhập lương thành công</span>
               <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('min')&&formGroup.controls.salary.touched">Mời nhập lương lớn hơn 1 triệu</span>
               <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('required')&&formGroup.controls.salary.touched">lương không nên để trống</span>
+<!--              <span style="color: red"  *ngIf="formGroup.controls.salary.hasError('pattern')&&formGroup.controls.salary.touched">lương không nên để trống</span>-->
             </div>
 
             <div class="col-4">
@@ -338,12 +335,17 @@
 
             <div class="col-4">
               <label>Tài khoản muốn đăng kí</label>
-              <input type="text" class="form-control"  formControlName="account" required>
+              <input type="text" class="form-control" formControlName="account" required>
               <span style="color: red" *ngIf="formGroup.controls.account.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.account.valid" id="successAccount">đã nhập xong tên tài khoản</span>
-              <span style="color: red" *ngIf="formGroup.controls.account.hasError('required') && formGroup.controls.account.touched">mời nhập tên tài khoản</span>
-              <span style="color: red" *ngIf="formGroup.controls.account.hasError('minlength') && formGroup.controls.account.touched">tên tài khoản nên lớn hơn 5 kí tự</span>
-              <span style="color: red" *ngIf="formGroup.controls.account.hasError('maxlength') && formGroup.controls.account.touched">tên tài khoản nên ít hơn 15 kí tự</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.hasError('required') && formGroup.controls.account.touched">mời nhập tên tài khoản</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.hasError('minlength') && formGroup.controls.account.touched">tên tài khoản nên lớn hơn 8 kí tự</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.hasError('maxlength') && formGroup.controls.account.touched">tên tài khoản nên ít hơn 15 kí tự</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.hasError('accountexists') && formGroup.controls.account.touched">tên tài khoản đã được đăng kí!</span>
             </div>
 
             <div class="col-4">
@@ -351,28 +353,39 @@
               <input type="password" class="form-control" formControlName="password" required>
               <span style="color: red" *ngIf="formGroup.controls.password.untouched">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.password.valid">đã nhập xong mật khẩu</span>
-              <span style="color: red" *ngIf="(formGroup.controls.password.hasError('required')|| formGroup.controls.password.hasError('trim')) && formGroup.controls.password.touched">mời nhập mật khẩu</span>
-              <span style="color: red" *ngIf="formGroup.controls.password.hasError('minlength') && formGroup.controls.password.touched">mật khẩu nên lớn hơn 5 kí tự</span>
-              <span style="color: red" *ngIf="formGroup.controls.password.hasError('maxlength') && formGroup.controls.password.touched">mật khẩu nên ít hơn 15 kí tự</span>
+              <span style="color: red"
+                    *ngIf="(formGroup.controls.password.hasError('required')|| formGroup.controls.password.hasError('trim')) && formGroup.controls.password.touched">mời nhập mật khẩu</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.password.hasError('minlength') && formGroup.controls.password.touched">mật khẩu nên lớn hơn 8 kí tự</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.password.hasError('maxlength') && formGroup.controls.password.touched">mật khẩu nên ít hơn 15 kí tự</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.password.hasError('pattern')
+                    && !formGroup.controls.password.hasError('minlength')
+                    && !formGroup.controls.password.hasError('maxlength')
+                    && formGroup.controls.password.touched"> nên có chữ hoa, chữ thường, chữ số, kí tự đặc biệt</span>
             </div>
 
             <div class="col-4">
               <label>mật khẩu xác nhận</label>
               <input type="password" class="form-control" formControlName="passwordConfirm"  required>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.untouched">&nbsp; </span>
-              <span style="color: green" *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched">mật khẩu trùng khớp</span>
+              <span style="color: green" *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched && !formGroup.controls.password.hasError('required')">mật khẩu trùng khớp</span>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.hasError('required') && formGroup.controls.passwordConfirm.touched">xin nhập và xác nhận lại mật khẩu</span>
               <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.touched &&
-                                     (formGroup.hasError('passworderror'))">xin xác nhận lại mật khẩu</span>
+                                      !formGroup.controls.passwordConfirm.hasError('required') &&
+                                     (formGroup.hasError('passworderror'))"> xin xác nhận lại mật khẩu</span>
             </div>
           </div>
 
           <hr style="margin-top: 10px">
           <div class="row">
             <div class="col-12" style="text-align: right">
-              <button type="submit" class="btn btn-success" style="margin-right: 10px" >Lưu lại</button>
-              <button type="reset" class="btn btn-warning" style="margin-right: 10px">Làm mới</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+              <button type="submit" class="btn btn-success" style="margin-right: 10px" [disabled]="formGroup.invalid ">
+                Lưu lại
+              </button>
+              <!--              <button (click)="resetForm()" class="btn btn-warning" style="margin-right: 10px">Làm mới</button>-->
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="reset()">Hủy</button>
             </div>
           </div>
         </form>

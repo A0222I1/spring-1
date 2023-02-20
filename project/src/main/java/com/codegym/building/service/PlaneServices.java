@@ -16,4 +16,5 @@ public interface PlaneServices {
 
     List<PlaneDTO> getAllRentedPlane();
 
+    Integer getTotalArea();
 }

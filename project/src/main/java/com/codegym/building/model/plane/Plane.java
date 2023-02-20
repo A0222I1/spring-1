@@ -1,5 +1,4 @@
 package com.codegym.building.model.plane;
-
 import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.model.typeClass.PlaneType;
 import com.codegym.building.model.typeClass.Stage;
@@ -7,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-
 @Entity
 @Table(name = "plane")
 @Getter
@@ -39,6 +36,10 @@ public class Plane {
     @ManyToOne
     @JoinColumn(name = "stage_id",nullable = false, referencedColumnName = "id")
     Stage stage;
+
+//    @ManyToOne
+//    @JoinColumn(name = "customer_id",nullable = false, referencedColumnName = "customer_id")
+//    Customer customer;
 
 //    @OneToMany(mappedBy = "plane", cascade = CascadeType.ALL)
 //    @Transient

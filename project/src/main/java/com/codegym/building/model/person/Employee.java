@@ -5,6 +5,7 @@ import com.codegym.building.model.account.Account;
 import com.codegym.building.model.typeClass.Department;
 import com.codegym.building.model.typeClass.Gender;
 import com.codegym.building.model.typeClass.SalaryScale;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Employee extends Person {
     Double salary;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(
             nullable = false,
             columnDefinition = "salary_scale_id",
@@ -40,6 +42,7 @@ public class Employee extends Person {
     SalaryScale salaryScale;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(
             nullable = false,
             columnDefinition = "department_id",
@@ -60,7 +63,7 @@ public class Employee extends Person {
                 "on");
         this.department = new Department(Integer.parseInt(employeeDTO.getDepartment()));
         this.salaryScale = new SalaryScale(Integer.parseInt(employeeDTO.getSalaryScale()));
-        this.salary = employeeDTO.getSalary();
+        this.salary = Double.parseDouble(employeeDTO.getSalary());
     }
 
     public Employee(String employeeId) {

@@ -2,10 +2,10 @@
 body {
   margin: 0;
   padding: 0;
+  /*background-color: #F5F5F5;*/
   background-image: url("https://img.freepik.com/premium-vector/abstract-circle-pattern-minimal-decoration-background_121035-79.jpg?w=2000");
   background-attachment: fixed;
   background-size: 300px;
   background-repeat: repeat;
-
 }
 

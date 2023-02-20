@@ -34,6 +34,7 @@ export class PlaneManagementComponent implements OnInit {
   stageSearch: string = "";
   statusSearch: string = "";
   typeSearch: string = "";
+  files:File[]=[];
   formArray : FormArray;
   constructor(private formBuilder : FormBuilder,
               private fireStorage : AngularFireStorage,private contractService :ContractServiceService,
@@ -133,12 +134,12 @@ export class PlaneManagementComponent implements OnInit {
     })
     this.formArray = this.formBuilder.array([])
   }
-  // selectFile(event){
-  //   if(event.target.files[0]!=undefined ){
-  //     this.files.push(event.target.files[0]);
-  //     console.log(this.files);
-  //   }
-  // }
+  selectFile(event){
+    if(event.target.files[0]!=undefined ){
+      this.files.push(event.target.files[0]);
+      console.log(this.files);
+    }
+  }
   async  submit(){
     // let src = "";
     // for (let file of this.files) {

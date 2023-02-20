@@ -1,8 +1,8 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH MẶT BẰNG</h4>
 
-  <div class="list-inputsearch">
-    <input id="inputArea" type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
+  <div class="list-input-search">
+    <input type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
     <select id="exampleFormControlSelect1" #stage (change)="stageSearch = stage.value">
       <option value="">Tên tầng</option>
       <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i+1}}: {{stage.name}}</option>
@@ -19,8 +19,6 @@
       <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
       <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
       <i (click)="resetSearch()" class="fa fa-undo list-inputsearch-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
-    </div>
-
   </div>
   <table class="table tab">
     <thead class="thead-dark">

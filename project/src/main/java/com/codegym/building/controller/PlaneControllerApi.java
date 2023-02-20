@@ -63,4 +63,8 @@ public class PlaneControllerApi {
         }
     }
 
+    @GetMapping("totalArea")
+    private ResponseEntity<Integer> getTotalArea(){
+        return new ResponseEntity<>(this.planeServices.getTotalArea(),HttpStatus.OK);
+    }
 }

@@ -2,6 +2,7 @@ package com.codegym.building.model.person;
 
 import com.codegym.building.model.account.Account;
 import com.codegym.building.model.typeClass.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,6 +48,7 @@ public class Person {
 //    Timestamp dayBegin;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(
             name = "account_name",
             referencedColumnName = "user_name")

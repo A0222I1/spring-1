@@ -47,4 +47,10 @@ public class PlaneServicesImpl implements PlaneServices {
     public List<PlaneDTO> getAllRentedPlane() {
         return planeRepos.getAllRentedPlane().stream().map(PlaneDTO::new).collect(Collectors.toList());
     }
+
+    @Override
+    public Integer getTotalArea() {
+        return this.planeRepos.totalArea();
+    }
+
 }

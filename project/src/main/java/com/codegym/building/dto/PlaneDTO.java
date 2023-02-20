@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Setter
 public class PlaneDTO {
     public Integer id;
-
     public PlaneDTO(Plane plane) {
         this.id = plane.getId();
     }

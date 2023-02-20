@@ -28,8 +28,11 @@ export class PlaneService {
     console.log(plane)
     return this.httpClient.post(`${this.url}/add`,plane);
   }
-  findById(id){
+  findById(id) {
     return this.httpClient.get<Plane>(`${this.url}/{id}`)
+  }
+  getTotalArea(){
+    return this.httpClient.get<number>(this.url+'/totalArea')
   }
 }
 interface GetResponse {

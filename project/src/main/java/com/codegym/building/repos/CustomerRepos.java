@@ -4,22 +4,34 @@ import com.codegym.building.model.person.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
 public interface CustomerRepos extends JpaRepository<Customer, String> {
+    @Modifying
+    @Transactional
     @Query("update Customer c set c.status = 'off' where c.id = :id")
     Integer updateStatusById(@Param("id") String id);
 
-    @Query("select c from Customer c where c.name like concat('%',:name,'%') and c.id_card like concat('%',:id_card,'%') and c.status = 'on'")
-    Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(@Param("name") String name, @Param("id_card") String id_card, Pageable pageable);
+    @Query("select c from Customer c where c.name like concat('%',:name,'%') and c.id_card like concat('%',:id_card,'%')and c.id_card like concat('%',:id_card,'%')" +
+            "and c.address like concat('%',:address,'%') and c.company like concat('%',:company,'%') and c.status = 'on'")
+    Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(@Param("name") String name,
+                                                                 @Param("id_card") String id_card,
+                                                                 @Param("address") String address,
+                                                                 @Param("company") String company,
+                                                                 Pageable pageable);
 
+    @Modifying
+    @Transactional
     @Query("update Customer  c set c.status = 'off'")
     Integer updateStatusAll();
+
 
     @Query("select c from Customer c where c.id_card = :idCard")
     Optional<Customer> findByIdCard(@Param("idCard") String id_card);

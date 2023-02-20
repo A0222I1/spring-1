@@ -1,8 +1,9 @@
+/* tslint:disable:semicolon */
 import {Gender} from "./Gender";
 import {SalaryScale} from "./SalaryScale";
 import {Department} from "./Department";
 
-export interface Employee{
+export interface Employee {
   readonly id?: string,
   avatar?: string,
   name?: string,
