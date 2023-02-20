@@ -4,6 +4,7 @@
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
 
 
+
   <div class="list-input-search">
     <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
     <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
@@ -14,6 +15,7 @@
       <i class="fa fa-search list-input-search-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
       <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
     </div>
+
   </div>
 <table class="table tab">
   <thead class="thead-dark">

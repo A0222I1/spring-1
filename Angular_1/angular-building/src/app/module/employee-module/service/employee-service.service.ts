@@ -11,45 +11,39 @@ import {EmployeeViewDTO} from "../dto/EmployeeViewDTO";
 })
 export class EmployeeServiceService {
   url = 'http://localhost:8080/employee';
-
   constructor(private http: HttpClient) {
   }
-
-
-  findAllByNameAndIdCardAndAddressAndDepartment(name: string, id_card: string, address: string, department: string, page: number): Observable<GetResponse> {
-    return this.http.get<GetResponse>(`${this.url}?name=${name}&id_card=${id_card}&address=${address}&department=${department}&page=${page}`);
+  findAllByNameAndIdCardAndAddressAndDepartment(
+    name: string, idCard: string, address: string, department: string, page: number): Observable<GetResponse> {
+    return this.http.get<GetResponse>(
+      `${this.url}?name=${name}&id_card=${idCard}&address=${address}&department=${department}&page=${page}`
+    );
   }
-
   updateAllStatusIsOff(): Observable<number> {
     return this.http.delete<number>(`${this.url}/all`);
   }
-
   updateStatusById(id: string): Observable<number> {
-    console.log(`${this.url}/${id}`);
+    console.log(id);
+    console.log(`url: ${this.url}/${id}`);
     return this.http.delete<number>(`${this.url}/${id}`);
   }
-
   findById(id: string): Observable<Employee> {
+    console.log(`${this.url}/${id}`);
     return this.http.get<Employee>(`${this.url}/${id}`);
   }
-
   findByName(value: string): Observable<boolean> {
     return this.http.get<boolean>(`http://localhost:8080/account/${value}`);
   }
-
   findByIdCard(value: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.url}/existsIdCard?id_card=${value}`);
   }
-
   findByPhone(value: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.url}/existsPhone?phone=${value}`);
   }
-
   save(value: AbstractControl): Observable<Employee> {
     console.log(this.getEmployeeDTO(value));
     return this.http.post<Employee>(`${this.url}`, this.getEmployeeDTO(value));
   }
-
   private getEmployeeDTO(control: AbstractControl): EmployeeFormCreateDTO {
     return {
       avatar: control.value.avatar,
