@@ -53,4 +53,5 @@ public class PlaneControllerApi {
     private ResponseEntity<Integer> getTotalArea(){
         return new ResponseEntity<>(this.planeServices.getTotalArea(),HttpStatus.OK);
     }
+    
 }
