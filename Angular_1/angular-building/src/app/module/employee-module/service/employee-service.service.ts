@@ -65,6 +65,10 @@ export class EmployeeServiceService {
   findByEmail(value: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.url}/existsEmail?email=${value}`);
   }
+
+  findByUserName(userName: string): Observable<EmployeeViewDTO> {
+    return this.http.get<EmployeeViewDTO>(`${this.url}/accountName/${userName}`);
+  }
 }
 
 interface GetResponse {

@@ -6,7 +6,7 @@ export interface ContractFormCreateDTO {
   price?: number;
   total?: number;
   information?: string;
-  start_date?: Date;
+  startDate?: Date;
   customerId?: string;
   employeeId?: number;
   planeId?: number;
