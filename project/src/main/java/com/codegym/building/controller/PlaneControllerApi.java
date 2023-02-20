@@ -39,6 +39,16 @@ public class PlaneControllerApi {
     public ResponseEntity<List<PlaneDTO>> getAllRentedPlane() {
         return new ResponseEntity<>(planeServices.getAllRentedPlane(),HttpStatus.OK);
     }
+    @PostMapping("add")
+    private ResponseEntity<Plane> savePlane(@RequestBody Plane plane){
+        try {
+                this.planeServices.savePlane(plane);
+                return  new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("{id}")
     private ResponseEntity deletePlane(@PathVariable String id){
         try{

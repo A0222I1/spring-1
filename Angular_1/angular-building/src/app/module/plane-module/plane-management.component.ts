@@ -153,10 +153,10 @@ export class PlaneManagementComponent implements OnInit {
     //     src += `${url}a0222i1`;
     //   }
     // }
-    // this.rfForm.value.imgs=src;
-    // this.planeService.savePlane(this.rfForm.value).subscribe(data=>{
-    //   this.ngOnInit();
-    // })
+    this.rfForm.value.imgs="a";
+    this.planeService.savePlane(this.rfForm.value).subscribe(data=>{
+      this.ngOnInit();
+    })
   }
   addPlane() {
     this.rfForm.reset();
@@ -169,5 +169,6 @@ export class PlaneManagementComponent implements OnInit {
   }
 
   uploadImg(event: Event, i: number) {
+    
   }
 }
