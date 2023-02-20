@@ -159,7 +159,7 @@ export class PlaneManagementComponent implements OnInit {
     // })
   }
   addPlane() {
-      this.rfForm.reset();
+    this.rfForm.reset();
   }
   addPicture() {
     if (this.formArray.length<4){
@@ -171,5 +171,3 @@ export class PlaneManagementComponent implements OnInit {
   uploadImg(event: Event, i: number) {
   }
 }
-
-

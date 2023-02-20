@@ -84,4 +84,10 @@ public class EmployeeControllerApi {
     public ResponseEntity<Boolean> isExistsEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(employeePersonService.findByEmail(email), HttpStatus.OK);
     }
+
+    @GetMapping("/accountName/{name}")
+    public ResponseEntity<EmployeeViewDTO> getEmployeeFromAccountName(@PathVariable String name) {
+        return new ResponseEntity<>(new EmployeeViewDTO(employeePersonService.findByUserName(name)), HttpStatus.OK);
+    }
+
 }
