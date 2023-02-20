@@ -1,9 +1,11 @@
 export interface ContractViewDTO {
   id: number;
-  start_date: string;
+  startDate: string;
   customerName: string;
   employeeName: string;
   planeId: string;
   planeStatus: string;
   idCardCustomer: string;
+  maxRole: number;
+  accountName: string;
 }
