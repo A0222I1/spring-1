@@ -50,34 +50,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Các trang không yêu cầu login
         http.authorizeRequests().antMatchers("/", "/login", "/logout", "/api").permitAll();
-
+        // phân quyền
+//        http.cors().and()
+//                .authorizeRequests()
+//                //These can be reachable for just have admin role.
+//                .antMatchers("/**").hasRole("ADMIN")
+//                .antMatchers("/plane").hasRole("USER");
 
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/logout", "/api")
 //                .hasAuthority("ADMIN")
                 .permitAll()
-
-//        // Cấu hình cho Login Form.
-//        http.authorizeRequests().and().formLogin()//
-//                // Submit URL của trang login
-//                .loginProcessingUrl("/j_spring_security") // Submit URL
-//                .loginPage("/login")//
-//                .defaultSuccessUrl("/")//
-//                .failureUrl("/login?error=true")//
-//                .usernameParameter("username")//
-//                .passwordParameter("password")
-                // Cấu hình cho Logout Page.
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/j_security_login")
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/");
 
         // Cấu hình Remember Me.
-        http.authorizeRequests().and() //
-                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-                .tokenValiditySeconds(24 * 60 * 60); // 24h
+//        http.authorizeRequests().and() //
+//                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
+//                .tokenValiditySeconds(24 * 60 * 60); // 24h
 //        http.csrf().disable();
-//
 //
 //        http.authorizeRequests()
 //                .antMatchers("/", "/login", "/logout", "/employee")

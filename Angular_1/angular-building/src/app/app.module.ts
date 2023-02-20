@@ -18,6 +18,8 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccountModule} from "./account/account.module";
 import {FormsModule} from "@angular/forms";
+import {UserService} from "./account/service/user.service";
+import {AuthGuard} from "./account/guard/auth.guard";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,7 @@ import {FormsModule} from "@angular/forms";
       }
     )
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, AuthGuard],
   bootstrap: [AppComponent]
 })
 

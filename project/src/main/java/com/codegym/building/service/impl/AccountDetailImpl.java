@@ -22,7 +22,6 @@ public class AccountDetailImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account customerName = accountRepos.findByUsername(username);
-
         if (customerName == null) {
             System.out.println("Customer not found! " + username);
             throw new UsernameNotFoundException("Username " + username + " was not found in the database");
@@ -31,7 +30,7 @@ public class AccountDetailImpl implements UserDetailsService {
         System.out.println("Found Customer: " + customerName);
         List<GrantedAuthority> grantList = new ArrayList<>();
         grantList.add(new SimpleGrantedAuthority("Roles_Admin"));
-        return  new User(customerName.getUser_name(),
+        return new User(customerName.getUser_name(),
                 customerName.getPassword(), grantList);
     }
 }

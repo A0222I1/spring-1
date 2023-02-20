@@ -29,9 +29,8 @@ public class AccountControlApi {
     @PostMapping("/login")
     public ResponseEntity<TokenAPI> checkAllPass(@RequestBody AccountDTO accountDTO, HttpServletResponse res) {
        UserDetails userDetails = accountDetailImpl.loadUserByUsername(accountDTO.getUsername());
-       return new ResponseEntity<>(new TokenAPI("token",tokenAuthenticationService.addAuthentication(res,userDetails.getUsername()) ), HttpStatus.OK);
+       return new ResponseEntity<>(new TokenAPI("token",tokenAuthenticationService.addAuthentication(res,userDetails.getUsername(),  (accountDTO.getRememberMe())) ), HttpStatus.OK);
     }
-
 //    @GetMapping("")
 //    public ResponseEntity<List<Account>> findAll(){
 //        return new ResponseEntity<>(accountService.findAll(),HttpStatus.OK);

@@ -7,10 +7,12 @@ import {EmployeeComponentComponent} from "../employee-module/employee-component.
 import {FormatNumberPipe} from './utils/FormatNumberPipe';
 import {AppModule} from '../../app.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AuthGuard} from "../../account/guard/auth.guard";
+import {LoginComponent} from "../../account/login/login.component";
 
 const routes: Routes = [
   {
-    path: 'contract', component: ContractComponentComponent
+    path: 'contract', component: ContractComponentComponent, canActivate: [AuthGuard]
   }
 ];
 
