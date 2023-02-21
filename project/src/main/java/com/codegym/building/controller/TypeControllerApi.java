@@ -1,6 +1,9 @@
 package com.codegym.building.controller;
 
 import com.codegym.building.model.typeClass.*;
+import com.codegym.building.service.IPlaneStatusServices;
+import com.codegym.building.service.IPlaneTypeServices;
+import com.codegym.building.service.IStageServices;
 import com.codegym.building.service.TypeService;
 import com.codegym.building.service.impl.typeServiceImpl.DepartmentServiceImpl;
 import com.codegym.building.service.impl.typeServiceImpl.GenderServiceImpl;
@@ -31,18 +34,18 @@ public class TypeControllerApi {
 
     @Autowired
     @Qualifier("planeStatusServices")
-    TypeService planeStatusServices;
+    IPlaneStatusServices planeStatusServices;
 
 
     @Autowired
     @Qualifier("planeTypeServices")
-    TypeService planeTypeServices;
+    IPlaneTypeServices planeTypeServices;
 
 
     @Autowired
     @Qualifier("stageServices")
 
-    TypeService stageServices;
+    IStageServices stageServices;
 
 
     @GetMapping("planeStatus")
@@ -55,7 +58,7 @@ public class TypeControllerApi {
     }
 
     @GetMapping("stage")
-    public ResponseEntity<List<PlaneStatus>> findAllPlane(){
+    public ResponseEntity<List<Stage>> findAllPlane(){
         return new ResponseEntity<>(stageServices.findAll(),HttpStatus.OK);
     }
     @GetMapping("gender")

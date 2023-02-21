@@ -82,7 +82,6 @@ export class PlaneManagementComponent implements OnInit {
   }
   getInfo(plane){
     this.plane = plane;
-    console.log(this.plane)
     this.buidThisForm();
   }
 
@@ -169,6 +168,6 @@ export class PlaneManagementComponent implements OnInit {
   }
 
   uploadImg(event: Event, i: number) {
-    
+
   }
 }

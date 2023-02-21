@@ -40,7 +40,7 @@ public class PlaneControllerApi {
         return new ResponseEntity<>(planeServices.getAllRentedPlane(),HttpStatus.OK);
     }
     @PostMapping("add")
-    private ResponseEntity<Plane> savePlane(@RequestBody Plane plane){
+    public ResponseEntity<Plane> savePlane(@RequestBody Plane plane){
         try {
                 this.planeServices.savePlane(plane);
                 return  new ResponseEntity<>(HttpStatus.OK);
@@ -50,7 +50,7 @@ public class PlaneControllerApi {
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity deletePlane(@PathVariable String id){
+    public ResponseEntity deletePlane(@PathVariable String id){
         try{
             this.planeServices.deletePlane(this.planeServices.findPlaneById(Integer.parseInt(id)));
             return new ResponseEntity(HttpStatus.OK);
@@ -60,7 +60,7 @@ public class PlaneControllerApi {
         }
     }
     @GetMapping("totalArea")
-    private ResponseEntity<Integer> getTotalArea(){
+    public ResponseEntity<Integer> getTotalArea(){
         return new ResponseEntity<>(this.planeServices.getTotalArea(),HttpStatus.OK);
     }
     
