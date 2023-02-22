@@ -1,30 +1,4 @@
 
-.mat-tab-group {
-  margin-bottom: 48px;
-}
-/*đang fix*/
-.mat-tab-label-container.mat-tab-label-content {
-  min-width: 25px !important;
-  padding: 5px;
-  background-color: transparent;
-  color: red;
-  font-weight: 700;
-}
-
-/* Styles for the active tab label */
-.mat-tab-label.mat-tab-label-active {
-  min-width: 25px !important;
-  padding: 5px;
-  background-color: transparent;
-  color: red;
-  font-weight: 700;
-}
-/**/
-/* Styles for the ink bar */
-.mat-ink-bar {
-  background-color: green;
-}
-
 span {
   color: red;
 }

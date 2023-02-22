@@ -34,9 +34,9 @@ public class CustomerControllerApi {
     public ResponseEntity<Page<Customer>> findAllByCondition(@RequestParam(name = "name", defaultValue = "") String name,
                                                              @RequestParam(name = "id_card", defaultValue = "") String id_card,
                                                              @RequestParam(name = "address", required = false, defaultValue = "") String address,
-                                                             @RequestParam(name = "department", required = false, defaultValue = "") String department,
+                                                             @RequestParam(name = "company", required = false, defaultValue = "") String company,
                                                              @PageableDefault(size = MAX_DISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, company, pageable), HttpStatus.OK);
     }
 
     @GetMapping("/dto")

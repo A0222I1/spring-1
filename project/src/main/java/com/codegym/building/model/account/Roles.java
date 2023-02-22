@@ -21,9 +21,6 @@ public class Roles implements Serializable {
     Long id;
     String name;
 
-//    @ManyToMany(mappedBy = "list")
-//    List<Account> list;
-
     public Roles(Long id){
         this.id  = id;
     }

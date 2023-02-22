@@ -163,15 +163,45 @@ th{
 .special{
   color: red;
 }
+
+.list-input-search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.list-input-search input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.list-input-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
 @media
 only screen and (max-width: 1092px),
 (min-device-width: 911px) and (max-device-width: 1024px)  {
 
-  input{
-    display: none;
+  /*input{*/
+  /*  display: none;*/
+  /*}*/
+  /*.list-input-search-icon i{*/
+  /*  display: none;*/
+  /*}*/
+
+  .list-input-search input {
+    flex-basis: calc(50% - 10px);
   }
-  .list-input-search-icon i{
-    display: none;
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
   }
 
   /* Force table to not be like tables anymore */

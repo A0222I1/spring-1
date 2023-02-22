@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepos extends JpaRepository<Account,String> {
+public interface  AccountRepos extends JpaRepository<Account,String> {
     @Query("select r from Account r where r.user_name = :username")
     Account findByUsername(String username);
 }

@@ -17,10 +17,12 @@ const routes: Routes = [
     path: "employee", component: EmployeeModuleModule
   },
   {
-    path: 'plane', component: PlaneModuleModule,
+    path: 'plane', component: PlaneModuleModule
+    // canActivate: [AuthGuard], data: {roles: [Role.USER, Role.ADMIN, Role.EMPLOYEE]}
   },
   {
     path: 'contract', component: ContractModuleModule
+    // canActivate: [AuthGuard], data: {roles: [Role.ADMIN, Role.EMPLOYEE]}
   },
   {
     path: 'home', component: HomePageComponent

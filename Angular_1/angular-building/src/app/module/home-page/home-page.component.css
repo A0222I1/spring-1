@@ -43,7 +43,7 @@
 .area {
   background-color: #6A2C70;
   color: white;
-  width: 400px;
+  width: 100%;
   height: 100px;
   display: flex;
   justify-content: center;

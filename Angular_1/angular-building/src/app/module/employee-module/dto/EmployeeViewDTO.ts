@@ -13,4 +13,5 @@ export interface EmployeeViewDTO {
   department: string;
   account: string;
   dateBegin: Date;
+  maxRole: number;
 }

@@ -22,6 +22,8 @@ import {StaticThunhapthapComponent} from './module/static-module/static-thunhapt
 import {ReactiveFormsModule} from "@angular/forms";
 import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
 import {AccountModule} from "./account/account.module";
+import {AuthGuard} from "./account/guard/auth.guard";
+
 
 @NgModule({
   declarations: [
@@ -55,8 +57,8 @@ import {AccountModule} from "./account/account.module";
       }
     )
   ],
-  providers: [DatePipe],
-  bootstrap: [AppComponent],
+  providers: [DatePipe, AuthGuard],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule {

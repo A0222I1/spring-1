@@ -103,7 +103,7 @@ public class StatisticsImpl implements StatisticsService {
 
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
-                    String ngayBatDau = null != baoCao.getStart_date() ? dateFormat.format(baoCao.getStart_date()) : "";
+                    String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
                     Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
@@ -216,7 +216,7 @@ public class StatisticsImpl implements StatisticsService {
 
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
-                    String ngayBatDau = null != baoCao.getStart_date() ? dateFormat.format(baoCao.getStart_date()) : "";
+                    String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
                     Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
@@ -332,7 +332,7 @@ public class StatisticsImpl implements StatisticsService {
 
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
-                    String ngayBatDau = null != baoCao.getStart_date() ? dateFormat.format(baoCao.getStart_date()) : "";
+                    String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
                     Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;

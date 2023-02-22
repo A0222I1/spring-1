@@ -37,7 +37,7 @@
     <tr *ngFor="let i of static; let z =index">
       <td scope="row">{{z + 1}}</td>
       <td scope="row">MB_{{i.plane.id}}</td>
-      <td scope="row">{{i.start_date| date: 'dd/MM/yyyy'}}</td>
+      <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
       <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
       <td scope="row">{{i.information}}</td>
 
