@@ -11,9 +11,8 @@
            (change)="company_search = company.value.trim()">
     <div class="list-input-search-icon">
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
-      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;" (click)="refreshPage()"></i>
-
+      <i class="fa fa-search list-input-search-icon-search" aria-hidden="true" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" (click)="refreshPage()"></i>
 <!--    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"-->
 <!--           (change)="address_search = address.value.trim()">-->
 <!--    <input type="text" placeholder="tên bộ phận cần tìm" #department id="departmentSearch"-->
@@ -34,7 +33,7 @@
       <th>Website</th>
       <th>Công ty<span>(<span class="special">*</span>)</span></th>
 <!--      <th>Mặt bằng</th>-->
-      <th></th>
+      <th width="18%"></th>
 <!--      <th></th>-->
       </thead>
       <tbody>
@@ -49,13 +48,10 @@
 <!--        .length > 10 ? item.address.substring(0,10) + ' ...'  : item.address-->
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
-<!--        <td scope="row" class="responsiveItem">-->
-<!--          <button id="id_detailButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Chi tiết</button>-->
-<!--        </td>-->
         <td scope="row" class="responsiveItem">
-          <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-          <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-          <i (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+          <i title="Chi tiết" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+          <i title="Chỉnh sửa" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+          <i title="Xóa" (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
         </td>
       </tr>
       </tbody>

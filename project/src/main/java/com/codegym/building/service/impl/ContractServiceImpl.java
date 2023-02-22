@@ -1,5 +1,4 @@
 package com.codegym.building.service.impl;
-
 import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.dto.ContractViewDTO;
 import com.codegym.building.model.contract.Contract;
@@ -12,14 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
 
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
     static final Integer AVAILABLE_PLANE = 2;
@@ -48,7 +43,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         planeServices.savePlane(plane);
         contract = contractRepos.save(new Contract(dto));
 
-
         return converter.convertDetail(contract);
     }
 
@@ -66,7 +60,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     public Page<Contract> findAll(String customerName, String employeeName, String planeId, String dateStart, Pageable pageable) {
         return contractRepos.getAllCustom(customerName, employeeName, planeId, dateStart, pageable);
     }
-
 
     @Override
     public boolean delete(Integer id) {
@@ -96,6 +89,5 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     private Contract findById(final Integer id) {
         return contractRepos.findById(id).orElse(null);
     }
-
 
 }
