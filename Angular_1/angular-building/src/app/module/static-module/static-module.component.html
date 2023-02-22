@@ -5,18 +5,14 @@
     <form [formGroup]="formGroup">
       <div class="list-inputsearch">
         <label>Ngày bắt đầu</label>
-        <input id="startDate" type="date" #startDay (change)="startDateString = startDay.value">
-        <label>Ngày kết thúc</label>
+        <input formControlName="startDate" id="startDate" type="date" #startDay (change)="startDateString = startDay.value" required>
 
+        <label>Ngày kết thúc</label>
         <input formControlName="finalDate" id="finalDate" type="date" #finalDate
                (change)="finishDateString = finalDate.value" required>
-<!--
-        <span style="color: red" *ngIf="formGroup.controls.finalDate.untouched">&nbsp; </span>
-        <span style="color: red"
-              *ngIf="formGroup.controls.finalDate.hasError('required') && formGroup.controls.finalDate.touched"></span>
--->
 
         <span style="color: red" *ngIf="formGroup.controls.finalDate.hasError('required') && formGroup.controls.finalDate.touched">Vui lòng chọn ngày kết thúc</span>
+        <span style="color: red" *ngIf="formGroup.controls.finalDate.hasError('invalidDate') &&  formGroup.controls.finalDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
 
         <div class="list-inputsearch-icon">
           <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapThapServiceService} from "../service/static-thunhapthap-service.service";
 import Chart from 'chart.js';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {StaticServiceService} from "../service/static-service.service";
 
 @Component({
   selector: 'app-static-thunhapthap',
@@ -9,25 +11,29 @@ import Chart from 'chart.js';
   styleUrls: ['./static-thunhapthap.component.css']
 })
 export class StaticThunhapthapComponent implements OnInit {
-
+  formGroup: FormGroup;
   chartdata: any;
   labelData: any[] = [];
   readData: any[] = [];
   chart = Chart;
 
   static: StaticsviewDTO[] = [];
-  startDateLowString: String = ''; //'2023-02-10';
-  finishDateLowString: String = '';    //'2023-02-15';
-  stt: number = 1;
+  startDateLowString  = "";  //'2023-02-10';
+  finishDateLowString  = '';    //'2023-02-15';
+  stt = 1;
   totalSalary = 0;
   totalPages = 0;
-  rowNumber: String = '';
-  totalCalculate: number = 0;
+  rowNumber = '';
+  totalCalculate  = 0;
 
-  constructor(private staticsService: StaticThuNhapThapServiceService) {
+  constructor(private staticsService: StaticThuNhapThapServiceService,
+              private formBuilder: FormBuilder) {
   }
 
+
   ngOnInit(): void {
+    this.buildForm();
+
     this.findAllLowWithCondition(this.startDateLowString, this.finishDateLowString, this.rowNumber);
 
     this.staticsService.getAllDataLow(this.startDateLowString, this.finishDateLowString, this.rowNumber)
@@ -37,6 +43,21 @@ export class StaticThunhapthapComponent implements OnInit {
     this.createChart(this.labelData, this.readData);
   }
 
+  buildForm() {
+    this.formGroup = this.formBuilder.group({
+      startLowDate: ['', [Validators.required]],
+      finalLowDate: ['', [Validators.required]],
+      rowLowNumbers: ['', [Validators.required,
+        Validators.pattern("^([0-9]+)")]]
+
+      /*
+            finalLowDate: ['', [Validators.required, checkDate]]
+      */
+      // finalDate: ['', [Validators.required, checkDate]]
+
+      // finalDate: new FormControl('', [checkDate(this.startDateString, this.finishDateString)]),
+    });
+  }
   createChart(labelData: any, readData: any) {
     this.chart = new Chart('ChartRent', {
       type: 'bar',
@@ -64,7 +85,7 @@ export class StaticThunhapthapComponent implements OnInit {
     });
   }
 
-  findAllLowWithCondition(startDateLowString: String, finishDateLowString: String, rowNumber: String) {
+  findAllLowWithCondition(startDateLowString: string, finishDateLowString: string, rowNumber: string) {
     this.chartdata = [];
     this.labelData = [];
     this.readData = [];
@@ -75,22 +96,22 @@ export class StaticThunhapthapComponent implements OnInit {
 
           this.chartdata = e;
           if (null != this.chartdata) {
-            for (let i = 0; i < this.chartdata.length; i++) {
-              console.log(this.chartdata[i]);
-              this.labelData.push("MB " + this.chartdata[i].plane.id);
-              this.readData.push(this.chartdata[i].total);
+            for (const item of this.chartdata) {
+              console.log(item);
+              this.labelData.push("MB " + item.plane.id);
+              this.readData.push(item.total);
             }
           }
-        })
+        });
     this.createChart(this.labelData, this.readData);
 
   }
 
-  public dowloadFile(startDateLowString: String, finishDateLowString: String, rowNumber: String): void {
+  public dowloadFile(startDateLowString: string, finishDateLowString: string, rowNumber: string): void {
     this.staticsService.printAllDataLow(startDateLowString, finishDateLowString, rowNumber).subscribe(response => {
-      let fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
-      let blob: Blob = response.body as Blob;
-      let a = document.createElement('a');
+      const fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
+      const blob: Blob = response.body as Blob;
+      const a = document.createElement('a');
       a.download = fileName;
       a.href = window.URL.createObjectURL(blob);
       a.click();
@@ -107,3 +128,4 @@ export class StaticThunhapthapComponent implements OnInit {
     return this.totalCalculate;
   }
 }
+

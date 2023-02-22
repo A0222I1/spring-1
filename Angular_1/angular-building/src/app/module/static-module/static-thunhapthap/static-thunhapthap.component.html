@@ -1,23 +1,32 @@
 <div xmlns="http://www.w3.org/1999/html">
 <div class="header">
   <h2>Thống kê số liệu phòng thu nhập thấp</h2>
+  <form [formGroup]="formGroup">
+
   <div class="list-inputsearch">
     <label>Ngày bắt đầu</label>
-    <input id="startLowDate" type="date" #startLowDate (change)="startDateLowString = startLowDate.value"
-           placeholder="Tìm kiếm theo ngày bắt đầu...">
-    <label>Ngày kết thúc</label>
-    <input id="finalLowDate" type="date" #finalLowDate (change)="finishDateLowString = finalLowDate.value"
-           placeholder="Tìm kiếm theo ngày bắt đầu...">
-    <label>Số lượng</label>
-    <input id="rowLowNumbers" type="text" #rowLowNumbers (change)="rowNumber = rowLowNumbers.value" placeholder="số lượng xuất">
 
+    <input formControlName="startLowDate" id="startLowDate" type="date" #startLowDate (change)="startDateLowString = startLowDate.value"
+            required>
+    <label>Ngày kết thúc</label>
+    <input formControlName="finalLowDate" id="finalLowDate" type="date" #finalLowDate (change)="finishDateLowString = finalLowDate.value"
+           required>
+
+<!--
+    <span style="color: red" *ngIf="formGroup.controls.finalLowDate.hasError('required') && formGroup.controls.finalLowDate.touched">Vui lòng chọn ngày kết thúc</span>
+-->
+<!--    <span style="color: red" *ngIf="formGroup.controls.finalLowDate.hasError('invalidDate') &&  formGroup.controls.finalLowDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>-->
+    <label>Số lượng</label>
+    <input formControlName="rowLowNumbers" id="rowLowNumbers" type="text" #rowLowNumbers (change)="rowNumber = rowLowNumbers.value" required>
+    <span style="color: red" *ngIf="formGroup.controls.rowLowNumbers.hasError('pattern')  && formGroup.controls.rowLowNumbers.touched">Chỉ được chọn số</span>
     <div class="list-inputsearch-icon">
       <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
          (click)="findAllLowWithCondition(startDateLowString,finishDateLowString,rowNumber)"></i>
     </div>
   </div>
-</div>
+  </form>
 
+</div>
 <table class="table tab">
   <thead class="thead-dark">
   <tr>

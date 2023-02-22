@@ -2,8 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {StaticsviewDTO} from './dto/StaticsviewDTO';
 import {StaticServiceService} from './service/static-service.service';
 import {Chart} from "chart.js";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {checkBirthday, checkFile, checkPasswordConfirm, checkTrim} from "../employee-module/utils/CustomValidate";
+/*
+import moment = require("moment");
+*/
+import {validate} from "codelyzer/walkerFactory/walkerFn";
+import {checkDate} from "./validate/validate";
 
 @Component({
   selector: 'app-static-module',
@@ -18,15 +23,15 @@ export class StaticModuleComponent implements OnInit {
   chart = Chart;
 
   static: StaticsviewDTO[] = [];
-  startDateString: String = ''; //'2023-02-10';
-  finishDateString: String = '';    //'2023-02-15';
+  startDateString: string = '';
+  finishDateString: string = '';
   stt: number = 1;
   totalSalary = 0;
   totalPages = 0;
   totalCalculate: number = 0;
 
   constructor(private staticsService: StaticServiceService,
-              private formBuilder: FormBuilder,) {
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -36,10 +41,39 @@ export class StaticModuleComponent implements OnInit {
   }
 
   buildForm() {
+    // @ts-ignore
     this.formGroup = this.formBuilder.group({
-      finalDate: ['', [Validators.required]]
-    });
+      startDate: ['', [Validators.required]],
+      finalDate: ['', [Validators.required, checkDate]]
+      // finalDate: ['', [Validators.required, checkDate]]
+
+      // finalDate: new FormControl('', [checkDate(this.startDateString, this.finishDateString)]),
+      });
   }
+
+  dateValidator(startDate: string, finalDate: string) {
+    return( formGroup: FormGroup) => {
+      const control1 = formGroup.controls[startDate];
+      const control2 = formGroup.controls[finalDate];
+      if (control1.errors && !control2.errors.confirmedValidator) {
+        return;
+      }
+      if (control1.value > control2.value) {
+        console.log('haha');
+        control2.setErrors({ dateValidator: true});
+      } else {
+        control2.setErrors(null);
+      }
+    };
+  }
+  /*checkDayInAndDayOut(control: AbstractControl): ValidationErrors | null {
+    const startDate = moment(control.get("startDate").value);
+    const endDate = moment(control.get("endDate").value);
+    if (moment.duration(endDate.diff(startDate)).asDays() < 0) {
+      return {nomatch: true};
+    }
+    return null;
+  }*/
 
   createChart(labelData: any, readData: any) {
     this.chart = new Chart('ChartRent', {
@@ -68,10 +102,9 @@ export class StaticModuleComponent implements OnInit {
     });
   }
 
-  findAllWithCondition(startDateString: String, finishDateString: String) {
+  findAllWithCondition(startDateString: string, finishDateString: string) {
 
-    this.formGroup.markAsTouched()
-    console.log(this.formGroup);
+    this.formGroup.markAsTouched();
     this.chartdata = [];
     this.labelData = [];
     this.readData = [];
@@ -87,11 +120,11 @@ export class StaticModuleComponent implements OnInit {
               this.readData.push(this.chartdata[i].total);
             }
           }
-        })
+        });
     this.createChart(this.labelData, this.readData);
   }
 
-  public dowloadFile(startDateLowString: String, finishDateLowString: String): void {
+  public dowloadFile(startDateLowString: string, finishDateLowString: string): void {
     this.staticsService.printAllData(startDateLowString, finishDateLowString).subscribe(response => {
       let fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
       let blob: Blob = response.body as Blob;
@@ -106,11 +139,11 @@ export class StaticModuleComponent implements OnInit {
   total() {
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
-      this.totalCalculate = this.static[i].total + this.totalCalculate
-
+      this.totalCalculate = this.static[i].total + this.totalCalculate;
     }
     return this.totalCalculate;
   }
 
 
 }
+

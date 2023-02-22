@@ -17,13 +17,11 @@ import {ContractModuleModule} from './module/contract-module/contract-module.mod
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StaticModuleComponent} from "./module/static-module/static-module.component";
-// import {MatTabsModule} from '@angular/material/tabs';
-import {ChartsModule} from "ng2-charts";
-import { StaticThunhapcaoComponent } from './module/static-module/static-thunhapcao/static-thunhapcao.component';
-import { StaticThunhapthapComponent } from './module/static-module/static-thunhapthap/static-thunhapthap.component';
-import {ExcelDataType} from "xlsx";
+import {StaticThunhapcaoComponent} from './module/static-module/static-thunhapcao/static-thunhapcao.component';
+import {StaticThunhapthapComponent} from './module/static-module/static-thunhapthap/static-thunhapthap.component';
 import {ReactiveFormsModule} from "@angular/forms";
-
+import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
+import {AccountModule} from "./account/account.module";
 
 @NgModule({
   declarations: [
@@ -36,27 +34,27 @@ import {ReactiveFormsModule} from "@angular/forms";
     StaticThunhapcaoComponent,
     StaticThunhapthapComponent,
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        EmployeeModuleModule,
-        ContractModuleModule,
-        PlaneModuleModule,
-        AngularFireStorageModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
-        AppRoutingModule,
-        CommonModule,
-        BrowserAnimationsModule,
-        // MatTabsModule,
-        ToastrModule.forRoot(
-            {
-                timeOut: 2000,
-                positionClass: 'toast-top-right'
-
-            }
-        ),
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AccountModule,
+    EmployeeModuleModule,
+    ContractModuleModule,
+    PlaneModuleModule,
+    CustomerModuleModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
+    AppRoutingModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(
+      {
+        timeOut: 2000,
+        positionClass: 'toast-top-right'
+      }
+    )
+  ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
 })

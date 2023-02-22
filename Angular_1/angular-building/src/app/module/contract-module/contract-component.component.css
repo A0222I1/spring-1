@@ -25,14 +25,14 @@ table > tbody >tr>td p{
   text-align: center;
   margin: 10px 0;
 }
-.list-inputsearch{
+.list-input-search{
   display: flex;
   padding: 0 20px;
   align-items: center;
   gap: 3%;
   margin-bottom: 20px;
 }
-.list-inputsearch input{
+.list-input-search input{
   outline: none;
   border-radius: 5px;
   border: none;
@@ -40,26 +40,26 @@ table > tbody >tr>td p{
   padding: 5px 20px 5px 10px;
   font-size: 14px;
 }
-.list-inputsearch input::placeholder{
+.list-input-search input::placeholder{
   font-size: 14px;
 }
-.list-inputsearch-icon{
+.list-input-search-icon{
   display: flex;
 }
-.list-inputsearch-icon i{
+.list-input-search-icon i{
   background-color: #888787;
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
 }
-.list-inputsearch-icon i:hover{
+.list-input-search-icon i:hover{
   cursor: pointer;
   opacity: 0.8;
 }
-.list-inputsearch-icon-search{
+.list-input-search-icon-search{
   color: red;
 }
-.list-inputsearch-icon-undo{
+.list-input-search-icon-undo{
   color: white;
 }
 .select-choose-floor{
@@ -108,7 +108,7 @@ table > tbody >tr>td p{
 .action-icon-edit{
   background-color: #ffd43b;
 }
-.list-inputsearch-icon .icon-addnew{
+.list-input-search-icon .icon-addnew{
   background-color: #12b886;
   border-radius: 50%;
   color: white;
@@ -152,13 +152,13 @@ table > tbody >tr>td p{
   text-align: center;
   margin: 10px 0;
 }
-.list-inputsearch{
+.list-input-search{
   display: flex;
   justify-content: space-around;
   padding: 0 20px;
   align-items: center;
 }
-.list-inputsearch input{
+.list-input-search input{
   outline: none;
   border-radius: 5px;
   border: none;
@@ -166,26 +166,26 @@ table > tbody >tr>td p{
   padding: 5px 20px 5px 10px;
   font-size: 14px;
 }
-.list-inputsearch input::placeholder{
+.list-input-search input::placeholder{
   font-size: 14px;
 }
-.list-inputsearch-icon{
+.list-input-search-icon{
   display: flex;
 }
-.list-inputsearch-icon i{
+.list-input-search-icon i{
 
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
 }
-.list-inputsearch-icon i:hover{
+.list-input-search-icon i:hover{
   cursor: pointer;
   opacity: 0.8;
 }
-.list-inputsearch-icon-search{
+.list-input-search-icon-search{
   color: white;
 }
-.list-inputsearch-icon-undo{
+.list-input-search-icon-undo{
   color: white;
 }
 .select-choose-floor{
@@ -234,12 +234,77 @@ table > tbody >tr>td p{
 .action-icon-edit{
   background-color: #ffd43b;
 }
-.list-inputsearch-icon .icon-addnew{
+.list-input-search-icon .icon-addnew{
   background-color: #40c057;
   border-radius: 50%;
   color: white;
   padding: 12px 13px;
   margin: 0 10px;
+}
+
+
+@media
+only screen and (max-width: 900px),
+(min-device-width: 911px) and (max-device-width: 1024px)  {
+
+  input{
+    display: none;
+  }
+  .list-inputsearch-icon i{
+    display: none;
+  }
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+
+  th{
+    display: none;
+  }
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /*
+  Label the data
+  */
+  td:nth-of-type(1):before { content: "Hình ảnh"; }
+  td:nth-of-type(2):before { content: "Họ và tên"; }
+  td:nth-of-type(3):before { content: "Căn cước công dân"; }
+  td:nth-of-type(4):before { content: "Email"; }
+  td:nth-of-type(5):before { content: "Điện thoại"; }
+  td:nth-of-type(6):before { content: "Ngày sinh"; }
+  td:nth-of-type(7):before { content: "Giới tính"; }
+  td:nth-of-type(8):before { content: "Địa chỉ"; }
+  td:nth-of-type(9):before { content: "Lương"; }
+  td:nth-of-type(10):before { content: "Cấp lương"; }
+  td:nth-of-type(11):before { content: "Bộ phận"; }
+  td:nth-of-type(12):before { content: "Ngày vào"; }
+  td:nth-of-type(13):before { content: "Tài khoản"; }
+  td:nth-of-type(14):before { content: "Thao tác"; }
+}
+.action {
+  align-items: center;
 }
 
 

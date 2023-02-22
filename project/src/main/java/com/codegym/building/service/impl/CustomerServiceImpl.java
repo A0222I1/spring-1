@@ -73,7 +73,10 @@ public class CustomerServiceImpl implements PersonService<Customer> {
         return repos.findAll();
     }
 
-
+    @Override
+    public Customer findByUserName(String username) {
+        return null;
+    }
 
 
 }

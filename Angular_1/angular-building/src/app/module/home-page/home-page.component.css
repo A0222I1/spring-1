@@ -79,18 +79,25 @@
   .col-8 {
     width: 100%;
   }
+  .list-flor {
+    font-size: 15px;
+  }
 
   .area {
     width: 100%;
-    font-size: x-small;
+    font-size: 30px;
   }
+
 
   .place {
     font-size: x-small;
   }
 
   .heading_text {
-    font-size: 13px;
+    font-size: 30px;
+  }
+  .content_text{
+    font-size: 15px;
   }
 
   .col-6 {
@@ -190,6 +197,14 @@
 .card-img-top {
   width: 100%;
   height: 300px;
+}
+@media (max-width: 1200px) {
+  .card-text{
+    font-size: x-small;
+  }
+  .card-title{
+    font-size: medium;
+  }
 }
 .spin{
   display: flex;

@@ -35,8 +35,6 @@ public class Contract {
 
     Date start_date;
 
-
-
     @ManyToOne
     @JoinColumn(
             name = "customer_id",

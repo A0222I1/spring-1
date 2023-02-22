@@ -23,4 +23,5 @@ public interface ContractRepos extends JpaRepository<Contract, Integer> {
     @Query(value = "select * from contract where contract.start_date between :start_date and :endDate order by contract.total ASC limit :rowNumber", nativeQuery = true)
     List<Contract> findAllByLow(@Param("start_date") String start_date, @Param("endDate") String end_date, @Param("rowNumber") Integer rowNumber);
 
+
 }

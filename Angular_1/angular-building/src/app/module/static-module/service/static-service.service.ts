@@ -7,16 +7,16 @@ import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 })
 
 export class StaticServiceService {
-  url = 'http://localhost:8080/statistics/getdata'
+  url = 'http://localhost:8080/statistics/getdata';
 
   constructor(private http: HttpClient) {
   }
 
-  getAllData(startDateString: String, finishDateString: String) {
+  getAllData(startDateString: string, finishDateString: string) {
     return this.http.get<StaticsviewDTO[]>(`${this.url}?startDate=${startDateString}&finishDate=${finishDateString}`);
   }
 
-  public printAllData(startDateString: String, finishDateString: String) {
+  public printAllData(startDateString: string, finishDateString: string) {
     return this.http.get(`${this.url}/print?startDate=${startDateString}&finishDate=${finishDateString}`, {
       observe: 'response',
       responseType: 'blob'

@@ -7,23 +7,17 @@ import {ContractModuleModule} from './module/contract-module/contract-module.mod
 import {StaticModuleComponent} from "./module/static-module/static-module.component";
 import {StaticThunhapthapComponent} from "./module/static-module/static-thunhapthap/static-thunhapthap.component";
 import {StaticThunhapcaoComponent} from "./module/static-module/static-thunhapcao/static-thunhapcao.component";
-
+import {LoginComponent} from "./account/login/login.component";
 
 const routes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: 'home'
   },
   {
-    path: 'employee', component: EmployeeModuleModule
-  },
-  {
-    path: 'employee', component: EmployeeModuleModule
+    path: "employee", component: EmployeeModuleModule
   },
   {
     path: 'plane', component: PlaneModuleModule,
-  },
-  {
-    path: 'employee', component: EmployeeModuleModule
   },
   {
     path: 'contract', component: ContractModuleModule
@@ -39,7 +33,10 @@ const routes: Routes = [
   }
   , {
     path: "static/high", component: StaticThunhapcaoComponent
-  }
+  },
+  {
+    path: 'login', component: LoginComponent
+  },
 ];
 
 @NgModule({

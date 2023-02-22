@@ -21,8 +21,6 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-
-
     RouterModule.forChild(routes),
   ]
 })

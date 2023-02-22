@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {EmployeeServiceService} from './service/employee-service.service';
 import {GenderServiceService} from './service/gender-service.service';
 import {DepartmentServiceService} from './service/department-service.service';
@@ -30,14 +30,18 @@ export class EmployeeComponentComponent implements OnInit {
 
   departments: Department[] = [];
   totalPages = 0;
-
-  message = "";
   pageNumber = 0;
   @ViewChild('closeAddExpenseModal') closeAddExpenseModal: ElementRef;
   @ViewChild('deleteClose') deleteClose: ElementRef;
+
+  @ViewChild('addNewContract') formRecipe: ElementRef;
+  // tslint:disable-next-line:variable-name
   name_search = '';
+  // tslint:disable-next-line:variable-name
   cmnd_search = '';
+  // tslint:disable-next-line:variable-name
   address_search = '';
+  // tslint:disable-next-line:variable-name
   department_search = '';
   fileChose: File;
 
@@ -47,10 +51,9 @@ export class EmployeeComponentComponent implements OnInit {
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
               private salaryService: SalaryScaleServiceService,
-
-              private toastr: ToastrService
-
-              ) {
+              private changeDetectorRef: ChangeDetectorRef,
+              private statusService: ToastrService
+  ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
     this.departmentService.findAll().subscribe(value => this.departments = value);
     this.salaryService.findAll().subscribe(value => this.salaries = value);
@@ -58,22 +61,24 @@ export class EmployeeComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
+    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, this.pageNumber);
   }
 
-  findAllWithCondition(name: string, id_card: string, address: string, department: string, page: number) {
+  findAllWithCondition(name: string, idCard: string, address: string, department: string, page: number) {
     if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
       return;
     }
-    this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, page).subscribe(value => {
-      if (value.content.length === 0) {
-        document.getElementById("openModalButton").click();
-        return;
-      }
+
+    this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, idCard, address, department, page).subscribe(value => {
       this.employees = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
     });
+  }
+
+  onCloseMember() {
+    this.formGroup.reset();
+    this.changeDetectorRef.detectChanges();
   }
 
   refreshPage() {
@@ -90,8 +95,11 @@ export class EmployeeComponentComponent implements OnInit {
 
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
-      this.toastr.success('Đã xóa thành công!!!', 'Thông báo');
+      this.statusService.success('Đã xóa thành công!!!', 'Thông báo');
       this.deleteClose.nativeElement.click();
+      if (this.employees.length === 1) {
+        this.pageNumber = this.pageNumber - 1;
+      }
       this.ngOnInit();
     });
   }
@@ -111,7 +119,9 @@ export class EmployeeComponentComponent implements OnInit {
       avatar: ['', [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
         Validators.minLength(8),
-        Validators.pattern('^[A-Za-z ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃúùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
+        Validators.pattern('^[A-Za-z ' +
+          'ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃ' +
+          'úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
       birthday: ['', [Validators.required, checkBirthday]],
@@ -139,18 +149,18 @@ export class EmployeeComponentComponent implements OnInit {
   saveForm() {
     this.employeeService.save(this.formGroup).subscribe(value => {
       this.closeAddExpenseModal.nativeElement.click();
-      this.toastr.success(`Đã tạo mới nhân viên ${value.name} thành công!!!`, 'Thông báo');
+      this.statusService.success(`Đã tạo mới nhân viên ${value.name} thành công!!!`, 'Thông báo');
       this.ngOnInit();
     });
   }
+
   saveAllForm() {
     let flag = true;
     forkJoin(this.employeeService.findByPhone(this.formGroup.value.phone),
       this.employeeService.findByName(this.formGroup.value.account),
       this.employeeService.findByEmail(this.formGroup.value.email),
       this.employeeService.findByIdCard(this.formGroup.value.id_card)
-    ).
-    subscribe((result) => {
+    ).subscribe((result) => {
       if (result[0] === true) {
         this.formGroup.controls.phone.setErrors({phoneexists: true});
         flag = false;
@@ -178,7 +188,6 @@ export class EmployeeComponentComponent implements OnInit {
           .pipe(
             finalize(() => {
               fileRef.getDownloadURL().subscribe(url => {
-                console.log(url);
                 // return về link url đã lưu trên firebase. set nó vào trong form sau khi đã lưu
                 this.formGroup.value.avatar = url;
                 // và lưu form
@@ -191,6 +200,7 @@ export class EmployeeComponentComponent implements OnInit {
       }
     });
   }
+
   changeFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
@@ -199,5 +209,9 @@ export class EmployeeComponentComponent implements OnInit {
       return;
     }
     this.fileChose = fileList[0];
+  }
+
+  reset() {
+    // this.formGroup.form.reset();
   }
 }
