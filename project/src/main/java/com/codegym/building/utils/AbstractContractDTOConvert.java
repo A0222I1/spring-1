@@ -9,14 +9,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class AbstractContractDTOConvert<ENTITY extends Contract,DTO extends ContractDTO> {
-    public abstract DTO convertDetail(final ENTITY entity);
+public abstract class AbstractContractDTOConvert<E extends Contract,D extends ContractDTO> {
+    public abstract D convertDetail(final E entity);
 
-    public void convert(final ENTITY entity, final DTO dto) {
+    public void convert(final E entity, final D dto) {
         // convert same fields
         BeanUtils.copyProperties(entity,dto);
     }
-    public List<DTO> convertList(final List<ENTITY> contractList) {
+    public List<D> convertList(final List<E> contractList) {
         if(CollectionUtils.isEmpty(contractList)) {
             return Collections.emptyList();
         }

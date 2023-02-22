@@ -31,7 +31,6 @@ export class ContractServiceService {
 
   findAllByCondition(nameCustomer: string, employeeName: string, planeId: string, daystart: string, page: number): Observable<GetResponse> {
     // tslint:disable-next-line:max-line-length
-    console.log(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
     return this.httpClient.get<GetResponse>(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
   }
 
@@ -52,21 +51,23 @@ export class ContractServiceService {
       price: parseFloat(control.value.price.replace(/,/g, '')),
       total: parseFloat(control.value.total.replace(/,/g, '')),
       information: control.value.information,
-      start_date: control.value.startDate,
+      startDate: control.value.startDate,
       customerId: control.value.customerId,
       employeeId: control.value.employeeId,
       planeId: control.value.planeId
     };
   }
 
+
   getContractPlane(): Observable<ContractViewDTO[]> {
     return this.httpClient.get<ContractViewDTO[]>('http://localhost:8080/contract/contractViewDTO');
+
   }
 }
 
 interface GetResponse {
-  content: ContractViewDTO[],
-  totalPages: number,
-  number: number
+  content: ContractViewDTO[];
+  totalPages: number;
+  number: number;
 }
 
