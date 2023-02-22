@@ -36,6 +36,7 @@ div a {
   font-size: 13px;
   width: 200%;
   height: 15px;
+  display: inline;
 }
 
 .screen {

@@ -77,30 +77,28 @@
       </li>
     </ul>
     <!-- Left links -->
-    <div class="d-flex align-items-center">
-      <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"
-              routerLink="/login">
-        Đăng nhập
-      </button>
-      <button type="button" class="btn btn-outline-violet me-3" (click)="logOut()">
-        Đăng xuất
-      </button>
-<!--      <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>-->
-<!--      <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"  (click)="logOut()"></i>-->
-    </div>
+<!--    <div class="d-flex align-items-center">-->
+<!--      <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"-->
+<!--              routerLink="/login">-->
+<!--        Đăng nhập-->
+<!--      </button>-->
+<!--      <button type="button" class="btn btn-outline-violet me-3" (click)="logOut()">-->
+<!--        Đăng xuất-->
+<!--      </button>-->
+<!--    </div>-->
 
-<!--        <div class="d-flex align-items-center">-->
-<!--          <div *ngIf="">-->
-<!--            <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"-->
-<!--                    routerLink="login" *ngIf="!token">-->
-<!--              Đăng nhập-->
-<!--            </button>-->
-<!--            <button type="button" class="btn btn-outline-violet me-3" *ngIf="!token">-->
-<!--              Đăng ký-->
-<!--            </button>-->
-<!--          </div>-->
-<!--          <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>-->
-<!--          <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"  (click)="logOut()"></i>-->
-<!--        </div>-->
+        <div class="d-flex align-items-center">
+          <div *ngIf="!token">
+            <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"
+                    routerLink="login" *ngIf="!token">
+              Đăng nhập
+            </button>
+            <button type="button" class="btn btn-outline-violet me-3" *ngIf="!token">
+              Đăng ký
+            </button>
+          </div>
+          <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>
+          <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"  (click)="logOut()"></i>
+        </div>
   </div>
 </nav>

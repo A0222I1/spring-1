@@ -5,7 +5,6 @@ import {UserService} from "../service/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpXsrfTokenExtractor} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs";
-import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   loginForm: FormGroup;
 
-  constructor(private userService: UserService, private router: Router, private fb: FormBuilder, private authService: AuthService) {
+  constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -44,11 +43,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']).then(r => {
         console.log(this.loginForm);
       });
-      this.authService.login();
     }, err => {
-      if (!this.loginForm.value) {
-        this.errorMessage = "Tài khoản và mật khẩu không chính xác."
-      }
+        this.errorMessage = "Tài khoản hoặc mật khẩu không đúng.";
     });
   }
 }

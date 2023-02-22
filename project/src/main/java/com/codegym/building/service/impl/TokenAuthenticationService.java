@@ -49,8 +49,6 @@ public class TokenAuthenticationService {
     @Autowired
     PersonService<Employee> employeeService;
 
-
-
     // autherwide để lấy id
     public Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);

@@ -3,7 +3,6 @@ import {AccountService} from '../../account/service/account.service';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {Title} from '@angular/platform-browser';
-import {AuthService} from "../../account/service/auth.service";
 import {UserService} from "../../account/service/user.service";
 import {Router} from "@angular/router";
 
@@ -20,8 +19,7 @@ export class HeaderComponent implements OnInit {
   constructor(private accountService: AccountService,
               private pageTitle: Title,
               private userService: UserService,
-              private router: Router,
-              private authService: AuthService) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -29,7 +27,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logout();
+    // this.authService.logout();
     this.userService.logOut();
     this.router.navigate(['/login']);
   }
@@ -38,6 +36,7 @@ export class HeaderComponent implements OnInit {
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
         this.employee = data;
+        this.ngOnInit();
       }, error => {
         console.log("erross");
       },

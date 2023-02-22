@@ -41,7 +41,6 @@ export class ContractComponentComponent implements OnInit {
   title: string;
   disabled = false;
   flagHidden: boolean;
-
   token: TokenApi;
   employeeAccount: EmployeeViewDTO;
   displayEmployee: EmployeeViewDTO;
@@ -159,6 +158,7 @@ export class ContractComponentComponent implements OnInit {
 
   saveAllForm() {
     if (this.formGroup.invalid) {
+
       this.toastrService.error('Xin mời bạn nhập tất cả các trường bắt buộc');
     } else {
       this.formGroup.value.customerId = this.customerView.id;

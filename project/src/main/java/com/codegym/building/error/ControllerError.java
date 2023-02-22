@@ -1,6 +1,7 @@
 package com.codegym.building.error;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,14 @@ public class ControllerError {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UsernameNotFoundException.class)
+    private Map<String,String> getAllNotValid(UsernameNotFoundException exception){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", exception.getMessage());
         return errors;
     }
 }
