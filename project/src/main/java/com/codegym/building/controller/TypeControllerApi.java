@@ -75,5 +75,4 @@ public class TypeControllerApi {
     public ResponseEntity<List<SalaryScale>> findAllSalaryScale() {
         return new ResponseEntity<>(salaryScaleService.findAll(), HttpStatus.OK);
     }
-
 }

@@ -12,7 +12,7 @@ import {ContractViewDTO} from "../contract-module/dto/ContractViewDTO";
 import {ContractServiceService} from "../contract-module/service/contract-service.service";
 import {ToastrService} from "ngx-toastr";
 import {AngularFireStorage} from "@angular/fire/storage";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -34,7 +34,6 @@ export class PlaneManagementComponent implements OnInit {
   stageSearch: string = "";
   statusSearch: string = "";
   typeSearch: string = "";
-  files:File[]=[];
   formArray : FormArray;
   constructor(private formBuilder : FormBuilder,
               private fireStorage : AngularFireStorage,private contractService :ContractServiceService,
@@ -123,36 +122,34 @@ export class PlaneManagementComponent implements OnInit {
     this.getPlaneStatus();
     this.rfForm = this.formBuilder.group({
       id:[this.plane==undefined?"":this.plane.id],
-      area:[this.plane==undefined?"":this.plane.area],
-      price:[this.plane==undefined?"":this.plane.price],
-      management_costs:[this.plane==undefined?"":this.plane.management_costs],
-      planeStatus:[this.plane==undefined?"":this.plane.planeStatus],
-      planeType:[this.plane==undefined?"":this.plane.planeType],
-      stage:[this.plane==undefined?"":this.plane.stage],
+      area:[this.plane==undefined?"":this.plane.area,[Validators.pattern("^\\d{0,}$"),this.validThan0]],
+      price:[this.plane==undefined?"":this.plane.price,[Validators.pattern("^\\d{0,}$"),this.validThan0]],
+      management_costs:[this.plane==undefined?"":this.plane.management_costs,[Validators.pattern("^\\d{0,}$"),this.validThan0]],
+      planeStatus:[this.plane==undefined?"":this.plane.planeStatus,[Validators.required]],
+      planeType:[this.plane==undefined?"":this.plane.planeType,[Validators.required]],
+      stage:[this.plane==undefined?"":this.plane.stage,[Validators.required]],
       imgs:[this.plane==undefined?"":this.plane.imgs]
     })
     this.formArray = this.formBuilder.array([])
   }
-  selectFile(event){
-    if(event.target.files[0]!=undefined ){
-      this.files.push(event.target.files[0]);
-      console.log(this.files);
-    }
-  }
   async  submit(){
-    // let src = "";
-    // for (let file of this.files) {
-    //   if (file.type != 'image/png' && file.type != 'image/jpeg') {
-    //     console.log("sai roi")
-    //   } else {
-    //     let filePath = `avatar${new Date().toISOString()}${file.name}`
-    //     let fileRef = this.fireStorage.ref(filePath);
-    //     await this.fireStorage.upload(filePath, file).snapshotChanges().toPromise();
-    //     const url = await fileRef.getDownloadURL().toPromise();
-    //     src += `${url}a0222i1`;
-    //   }
-    // }
-    this.rfForm.value.imgs="a";
+    let src = "";
+    for (let [index,file] of this.formArray.controls.entries()) {
+      if (file.value.file.type != 'image/png' && file.value.file.type != 'image/jpeg') {
+        console.log("sai roi")
+      } else {
+        let filePath = `avatar${new Date().toISOString()}${file.value.file.name}`
+        let fileRef = this.fireStorage.ref(filePath);
+        await this.fireStorage.upload(filePath, file.value.file).snapshotChanges().toPromise();
+        const url = await fileRef.getDownloadURL().toPromise();
+        if(index == this.formArray.length-1){
+          src+=url;
+        }else {
+          src += `${url}a0222i1`;
+        }
+      }
+    }
+    this.rfForm.value.imgs=src;
     this.planeService.savePlane(this.rfForm.value).subscribe(data=>{
       this.ngOnInit();
     })
@@ -162,12 +159,23 @@ export class PlaneManagementComponent implements OnInit {
   }
   addPicture() {
     if (this.formArray.length<4){
-      this.formArray.push(new FormControl(null));
+      this.formArray.push(new FormControl(null,Validators.required));
     }
-
   }
-
-  uploadImg(event: Event, i: number) {
-
+  uploadImg(event, i: number) {
+    const fileName = event.target.files[0];
+    if (fileName){
+      this.formArray.controls[i].patchValue({"file": fileName});
+    }
+    console.log(this.formArray.controls);
+  }
+  validThan0(c:AbstractControl){
+    const v = c.value;
+    if(v<=0){
+      return{
+        "validMoreThan0":true
+      }
+    }
+    return null;
   }
 }

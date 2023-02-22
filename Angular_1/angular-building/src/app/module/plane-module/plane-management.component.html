@@ -127,10 +127,13 @@
             <div class="col-6" >
               <label>Price</label>
               <input type="text" formControlName="price" class="form-control" value="" >
+              <p *ngIf="(rfForm.controls.price.errors.pattern || rfForm.controls.price.hasError('validMoreThan0')) && rfForm.controls.price.touched" style="color: red">Price phải là số và phải lớn hơn 0</p>
+
             </div>
             <div class="col-6" >
               <label>Area</label>
               <input type="text" formControlName="area" class="form-control" value=""  required>
+              <p *ngIf="(rfForm.controls.area.hasError('pattern') || rfForm.controls.area.hasError('validMoreThan0')) && rfForm.controls.area.touched" style="color: red">Area phải là số và phải lớn hơn 0</p>
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
@@ -138,12 +141,16 @@
             <div class="col-6" >
               <label>Management Costs</label>
               <input type="text" formControlName="management_costs" class="form-control" value=""  required>
+              <p *ngIf="(rfForm.controls.management_costs.hasError('pattern') || rfForm.controls.management_costs.hasError('validMoreThan0')) && rfForm.controls.management_costs.touched" style="color: red">Management Cost phải là số và phải lớn hơn 0</p>
+
             </div>
             <div class="col-6" >
               <div>Plane Type</div>
               <select formControlName="planeType">
                 <option [ngValue]="item" *ngFor="let item of this.planeTypes">{{item.name}}</option>
               </select>
+              <p *ngIf="rfForm.controls.planeType.hasError('required') && rfForm.controls.planeType.touched" style="color: red">Plane Type không được để trống</p>
+
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
@@ -153,22 +160,28 @@
               <select formControlName="planeStatus">
                 <option [ngValue]="item" *ngFor="let item of this.planeStatus">{{item.name}}</option>
               </select>
-
+                <p *ngIf="rfForm.controls.planeStatus.errors.required && rfForm.controls.planeStatus.touched" style="color: red">Plane Status không được để trống</p>
             </div>
             <div class="col-6" >
               <div>Stages</div>
               <select formControlName="stage">
                 <option [ngValue]="item" *ngFor="let item of this.stages">{{item.name}}</option>
               </select>
+              <p *ngIf="rfForm.controls.stage.hasError('required') && rfForm.controls.stage.touched" style="color: red">Stage không được để trống</p>
+
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
             <div class="col-12">
               <div >Picture</div>
-              <label class="label-add-picture" formArrayName="{{this.formArray}}" *ngFor="let img of this.formArray.controls;index as i"  for="addPicturePlane">
-                <img  class="addPicturePlane-img" src="../../../assets/home-img/home.PNG">
-                <input (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/gif, image/jpeg" hidden id="addPicturePlane" type="file" class="form-control" value="" >
-              </label>
+              <form [formArrayName]="formArray">
+                <label class="label-add-picture"  *ngFor="let img of this.formArray.controls;index as i"  for="addPicturePlane">
+                  <!--                <img  class="addPicturePlane-img" src="">-->
+                  <input (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/jpeg"  id="addPicturePlane" type="file" class="form-control" value="" >
+                  <p *ngIf="formArray.controls[i].hasError('required') && formArray.controls[i].touched" style="color:red;">Không được bỏ trống ảnh</p>
+                </label>
+              </form>
+
             </div>
             <div class="col-6">
               <button (click)="addPicture()">Thêm ảnh</button>
@@ -177,7 +190,7 @@
           <div style="margin-bottom: 10px" class="row">
             <div class="col-6">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
+              <button [disabled]="this.rfForm.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
             </div>
           </div>
         </form>
