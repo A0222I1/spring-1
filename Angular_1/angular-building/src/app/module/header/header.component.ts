@@ -18,18 +18,21 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEmployee();
-  }
-
-  getEmployee() {
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
       this.employee = data;
-      console.log(this.employee);
     });
+  }
+
+  getEmployee() {
   }
 
   setPageTitle(title: string) {
     this.pageTitle.setTitle(title);
   }
+
+
+  // public isLogged(): boolean {
+  //   return !(window.sessionStorage.getItem("token") == null && window.localStorage.getItem("token") == null);
+  // }
 }

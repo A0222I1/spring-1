@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AccountModule} from '../account.module';
 import {UserService} from '../service/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpXsrfTokenExtractor} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
