@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'plane', component: PlaneManagementComponent, canActivate: [AuthGuard]
   }
-]
+];
 @NgModule({
   declarations: [PlaneManagementComponent],
   imports: [

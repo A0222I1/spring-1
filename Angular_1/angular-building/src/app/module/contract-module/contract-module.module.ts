@@ -12,7 +12,8 @@ import {LoginComponent} from "../../account/login/login.component";
 
 const routes: Routes = [
   {
-    path: 'contract', component: ContractComponentComponent, canActivate: [AuthGuard]
+    path: 'contract', component: ContractComponentComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
@@ -23,8 +24,6 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-
-
     RouterModule.forChild(routes),
   ]
 })

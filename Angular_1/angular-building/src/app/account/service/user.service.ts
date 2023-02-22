@@ -12,8 +12,8 @@ const API_URL = "http://localhost:8080/account";
   providedIn: 'root'
 })
 export class UserService{
-  private currentUserSubject: BehaviorSubject<Account>;
-  currentUser: Observable<Account> = this.currentUserSubject;
+  // private currentUserSubject: BehaviorSubject<Account>;
+  // currentUser: Observable<Account> = this.currentUserSubject;
 
   constructor(private http: HttpClient) {
   }
@@ -24,6 +24,5 @@ export class UserService{
 
   logOut() {
     localStorage.removeItem('token');
-    // this.currentUserSubject.next(null);
   }
 }

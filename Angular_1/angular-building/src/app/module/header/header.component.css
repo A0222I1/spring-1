@@ -39,27 +39,6 @@
   background-color: whitesmoke;
 }
 
-.card img {
-  width: 100%;
-  height: 232.31px;
-  background-size: cover;
-}
-
-@media (max-width: 1200px) {
-  .card img {
-    width: auto;
-    height: auto;
-  }
-
-  .card h5 {
-    font-size: x-small;
-  }
-
-  .card p {
-    font-size: xx-small;
-  }
-}
-
 .btn-violet {
   color: #fff;
   background-color: #6A2C70;
@@ -81,12 +60,24 @@
   background-color: #6A2C70;
   border-color: #6A2C70;
 }
+
 .dropdown-menu {
   min-width: auto;
 }
 
-nav{
+nav {
   border-bottom: 2px chartreuse;
+}
+
+.rowTop {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1051px) {
+  a {
+    font-size: 12px;
+  }
 }
 
 

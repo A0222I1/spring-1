@@ -58,8 +58,9 @@ export class ContractServiceService {
       planeId: control.value.planeId
     };
   }
-  getContractPlane():Observable<ContractViewDTO[]>{
-    return this.httpClient.get<ContractViewDTO[]>("http://localhost:8080/contract/contractViewDTO")
+
+  getContractPlane(): Observable<ContractViewDTO[]> {
+    return this.httpClient.get<ContractViewDTO[]>('http://localhost:8080/contract/contractViewDTO');
   }
 }
 

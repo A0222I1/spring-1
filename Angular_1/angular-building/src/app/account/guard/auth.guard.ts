@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import {AuthService} from "../service/auth.service";
-import {AccountDTO} from "../../module/employee-module/model/dto/AccountDTO";
 
 // @ts-ignore
 @Injectable({

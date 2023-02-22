@@ -48,18 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        // Các trang không yêu cầu login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/api").permitAll();
-        // phân quyền
-//        http.cors().and()
-//                .authorizeRequests()
-//                //These can be reachable for just have admin role.
-//                .antMatchers("/**").hasRole("ADMIN")
-//                .antMatchers("/plane").hasRole("USER");
-
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/logout", "/api")
-//                .hasAuthority("ADMIN")
                 .permitAll()
                 .and()
                 .formLogin()
@@ -71,41 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .and()
                 .logout()
-                .logoutUrl("/logout")
                 .logoutSuccessUrl("/");
-
-        // Cấu hình Remember Me.
-//        http.authorizeRequests().and() //
-//                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-//                .tokenValiditySeconds(24 * 60 * 60); // 24h
-//        http.csrf().disable();
-//
-//        http.authorizeRequests()
-//                .antMatchers("/", "/login", "/logout", "/employee")
-//                .permitAll()
-//                .and()
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin()//
-//                .loginProcessingUrl("/j_security_login")
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .failureUrl("/login?error=true")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/")
-//                .and()
-//                .rememberMe()
-//                .tokenRepository(this.persistentTokenRepository())
-//                .tokenValiditySeconds(24 * 60 * 60)
-//                .and();
-//                .addFilterBefore(new JWTLoginFilter("/j_spring_security", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

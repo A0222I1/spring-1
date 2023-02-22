@@ -16,9 +16,8 @@ import {CustomPipeVND} from './module/plane-module/utils/customPipeVND';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
 import {AccountModule} from "./account/account.module";
-import {FormsModule} from "@angular/forms";
-import {UserService} from "./account/service/user.service";
 import {AuthGuard} from "./account/guard/auth.guard";
 
 @NgModule({
@@ -36,6 +35,7 @@ import {AuthGuard} from "./account/guard/auth.guard";
     EmployeeModuleModule,
     ContractModuleModule,
     PlaneModuleModule,
+    CustomerModuleModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig, 'cloud'),
     AppRoutingModule,
@@ -45,7 +45,6 @@ import {AuthGuard} from "./account/guard/auth.guard";
       {
         timeOut: 2000,
         positionClass: 'toast-top-right'
-
       }
     )
   ],

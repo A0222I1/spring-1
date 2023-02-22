@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class AuthService {
- public isAuth = false;
+  public isAuth = false;
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
   }

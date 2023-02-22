@@ -1,6 +1,7 @@
 package com.codegym.building.model.account;
 import com.codegym.building.detail.AccountDetail;
 import com.codegym.building.dto.AccountDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,9 +22,7 @@ public class Account extends AccountDetail {
     @Id
     @Column(name = "user_name")
     String user_name;
-
     String password;
-
     String status;
 
     @Column(name = "datecreate")
@@ -31,6 +30,7 @@ public class Account extends AccountDetail {
     Date dateCreate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    @JsonIgnore
     List<AccountRole> accountRoles;
 
     public Account(AccountDTO accountDTO) {
@@ -38,15 +38,11 @@ public class Account extends AccountDetail {
         this.password = accountDTO.getPassword();
     }
 
-    public Account(String account, String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.user_name = account;
-        this.password = bCryptPasswordEncoder.encode(password);
-        this.dateCreate = Date.valueOf(LocalDate.now());
-        this.status = "on";
+    public Account(String user_name) {
+        this.user_name = user_name;
     }
 
-    public Account(String user_name, String password, List<GrantedAuthority> grantList) {
+    public Account(String user_name, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         this.user_name = user_name;
         this.password = bCryptPasswordEncoder.encode(password);

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AccountService} from '../../account/service/account.service';
+import {TokenApi} from '../employee-module/model/dto/TokenApi';
+import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
+import {Title} from '@angular/platform-browser';
+import {AuthService} from "../../account/service/auth.service";
 import {UserService} from "../../account/service/user.service";
 import {Router} from "@angular/router";
-import {AuthService} from "../../account/service/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -10,14 +14,18 @@ import {AuthService} from "../../account/service/auth.service";
 })
 export class HeaderComponent implements OnInit {
   currenUser: Account;
-  constructor(private userService: UserService, private router: Router, private authService: AuthService) {
-    this.currenUser =JSON.parse(localStorage.getItem('token'))
+  token: TokenApi;
+  employee: EmployeeViewDTO;
+
+  constructor(private accountService: AccountService,
+              private pageTitle: Title,
+              private userService: UserService,
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    // if (!this.currenUser) {
-    //   this.router.navigate(['/login']);
-    // }
+    this.getEmployee();
   }
 
   logOut() {
@@ -25,4 +33,21 @@ export class HeaderComponent implements OnInit {
     this.userService.logOut();
     this.router.navigate(['/login']);
   }
+
+  getEmployee() {
+    this.token = JSON.parse(localStorage.getItem('token'));
+    this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
+        this.employee = data;
+      }, error => {
+        console.log("erross");
+      },
+      () => {
+        console.log(" phai chay");
+      });
+  }
+
+  setPageTitle(title: string) {
+    this.pageTitle.setTitle(title);
+  }
+
 }

@@ -12,13 +12,11 @@ public class ContractDTOConverter extends AbstractContractDTOConvert<Contract, C
     public ContractDTO convertDetail(Contract contract) {
         ContractDTO contractDTO = new ContractDTO();
         super.convert(contract,contractDTO);
-
         //set another field
         contractDTO.setCustomerId(contract.getCustomer().getId());
         contractDTO.setEmployeeId(contract.getEmployee().getId());
         contractDTO.setPlaneId(contract.getPlane().getId());
         contractDTO.setTermId(contract.getTerm().getId());
-
         return contractDTO;
     }
 }
