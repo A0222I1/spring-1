@@ -6,7 +6,6 @@ import {PlaneModuleModule} from './module/plane-module/plane-module.module';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
 import {LoginComponent} from "./account/login/login.component";
 
-
 const routes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: 'home'
@@ -15,10 +14,12 @@ const routes: Routes = [
     path: "employee", component: EmployeeModuleModule
   },
   {
-    path: 'plane', component: PlaneModuleModule,
+    path: 'plane', component: PlaneModuleModule
+    // canActivate: [AuthGuard], data: {roles: [Role.USER, Role.ADMIN, Role.EMPLOYEE]}
   },
   {
     path: 'contract', component: ContractModuleModule
+    // canActivate: [AuthGuard], data: {roles: [Role.ADMIN, Role.EMPLOYEE]}
   },
   {
     path: 'home', component: HomePageComponent

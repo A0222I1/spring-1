@@ -6,10 +6,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {PipeCurrencyCustomPipe} from "./utils/PipeCurrencyCustom";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AuthGuard} from "../../account/guard/auth.guard";
+import {Role} from "./model/Role";
 
 const routes: Routes = [
   {
-    path: 'employee', component: EmployeeComponentComponent
+    path: 'employee', component: EmployeeComponentComponent, canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
   }
 ];
 
