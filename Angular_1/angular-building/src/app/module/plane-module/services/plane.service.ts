@@ -34,4 +34,3 @@ interface GetResponse {
   totalPages: number;
   number: number;
 }
-
