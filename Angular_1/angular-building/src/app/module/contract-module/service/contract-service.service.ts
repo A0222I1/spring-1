@@ -49,7 +49,7 @@ export class ContractServiceService {
       id: control.value.id,
       termId: control.value.termId,
       price: parseFloat(control.value.price.replace(/,/g, '')),
-      total: parseFloat(control.value.total.replace(/,/g, '')),
+      // total: parseFloat(control.value.total.replace(/,/g, '')),
       information: control.value.information,
       startDate: control.value.startDate,
       customerId: control.value.customerId,

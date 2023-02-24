@@ -30,7 +30,7 @@ public class Contract {
 
     Double price;
 
-    Double total;
+
     String information;
     @Column(name = "start_date")
     Date startDate;
@@ -60,7 +60,6 @@ public class Contract {
         this.id = contractDTO.getId();
         this.term = new Term(contractDTO.getTermId());
         this.price = contractDTO.getPrice();
-        this.total = contractDTO.getTotal();
         this.information = contractDTO.getInformation();
         this.startDate = contractDTO.getStartDate();
         this.customer = new Customer(contractDTO.getCustomerId());
