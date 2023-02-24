@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../service/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../service/auth.service';
-import {HeaderComponent} from '../../module/header/header.component';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService,
               private router: Router,
               private fb: FormBuilder,
-              private authService: AuthService) {
+              private toast: ToastrService) {
   }
 
   ngOnInit() {
@@ -44,8 +43,8 @@ export class LoginComponent implements OnInit {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
+        location.reload();
       });
-      this.authService.login();
     }, err => {
       if (!this.loginForm.value) {
         this.errorMessage = 'Tài khoản và mật khẩu không chính xác.';

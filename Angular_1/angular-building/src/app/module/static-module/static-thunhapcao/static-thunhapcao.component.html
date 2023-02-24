@@ -1,22 +1,36 @@
 <div xmlns="http://www.w3.org/1999/html">
   <div class="header">
     <h2>Thống kê số liệu phòng thu nhập cao</h2>
-    <div class="list-inputsearch">
-      <label>Ngày bắt đầu</label>
-      <input id="startHighDate" type="date" #startHighDate (change)="startDateHighString = startHighDate.value"
-             placeholder="Tìm kiếm theo ngày bắt đầu...">
-      <label>Ngày kết thúc</label>
-      <input id="finalHighDate" type="date" #finalHighDate (change)="finishDateHighString = finalHighDate.value"
-             placeholder="Tìm kiếm theo ngày bắt đầu..." >
+    <form [formGroup]="formGroup">
+      <div class="list-inputsearch">
+        <label>Ngày bắt đầu</label>
+        <input formControlName="startHighDate" id="startHighDate" type="date" #startHighDate
+               (change)="startDateHighString = startHighDate.value"
+               placeholder="Tìm kiếm theo ngày bắt đầu...">
 
-      <label>Số lượng</label>
-      <input id="rowNumbers" type="text" #rowNumbers (change)="rowNumber = rowNumbers.value"
-             placeholder="số lượng xuất">
-      <div class="list-inputsearch-icon">
-        <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
-           (click)="findAllHighWithCondition(startDateHighString,finishDateHighString,rowNumber)"></i>
+        <label>Ngày kết thúc</label>
+        <input formControlName="finalHighDate" id="finalHighDate" type="date" #finalHighDate
+               (change)="finishDateHighString = finalHighDate.value"
+               placeholder="Tìm kiếm theo ngày bắt đầu...">
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalHighDate.hasError('required') && formGroup.controls.finalHighDate.touched">Bạn phải chọn ngày kết thúc</span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalHighDate.hasError('invalidDate') &&  formGroup.controls.finalHighDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
+
+        <label>Số lượng</label>
+        <input formControlName="rowHighNumbers" id="rowNumbers" type="text" #rowNumbers
+               (change)="rowNumber = rowNumbers.value"
+               placeholder="số lượng xuất">
+        <span style="color: red"
+              *ngIf="formGroup.controls.rowHighNumbers.hasError('pattern')  && formGroup.controls.rowHighNumbers.touched">Chỉ được chọn số</span>
+
+        <div class="list-inputsearch-icon">
+          <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
+             (click)="findAllHighWithCondition(startDateHighString,finishDateHighString,rowNumber)"></i>
+        </div>
+
       </div>
-    </div>
+    </form>
   </div>
 
   <table class="table tab">
@@ -31,7 +45,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let i of static; let z =index">
-      <td scope="row">{{z+1}}</td>
+      <td scope="row">{{z + 1}}</td>
       <td scope="row">MB_{{i.plane.id}}</td>
       <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
       <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
@@ -42,11 +56,34 @@
     </tr>
     </tbody>
   </table>
+
   <div class="list-inputsearch-icon">
-    <i class="fa fa-print list-inputsearch-icon-search" aria-hidden="true"
-       (click)="dowloadFile(startDateHighString,finishDateHighString,rowNumber)"></i>
+    <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    </i>
   </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+<!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có muốn in dữ liệu không
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">Không
+          </button>
+          <button (click)="dowloadFile(startDateHighString,finishDateHighString, rowNumber)" type="button"
+                  class="btn btn-primary">In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="chart-container">
-    <canvas  id="ChartRent" >{{ chart }}</canvas>
+    <canvas id="ChartRentThuNhapCao">{{ chartThuNhapCao }}</canvas>
   </div>
 </div>

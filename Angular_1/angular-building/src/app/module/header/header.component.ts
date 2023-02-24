@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {AccountService} from '../../account/service/account.service';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
@@ -10,6 +10,9 @@ import {Router} from '@angular/router';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class HeaderComponent implements OnInit {
   token: TokenApi;

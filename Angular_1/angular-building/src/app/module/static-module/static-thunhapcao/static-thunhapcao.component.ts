@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapCaoServiceService} from "../service/static-thunhapcao-service.service"
 import Chart from 'chart.js';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {checkDate, checkDateHigh} from "../validate/validate";
 
 
 @Component({
@@ -14,8 +16,8 @@ export class StaticThunhapcaoComponent implements OnInit {
   chartdata: any;
   labelData: any[] = [];
   readData: any[] = [];
-  chart = Chart;
-
+  chartThuNhapCao = Chart;
+  formGroup: FormGroup;
   static: StaticsviewDTO[] = [];
   startDateHighString: String = ''; //'2023-02-10';
   finishDateHighString: String = '';    //'2023-02-15';
@@ -25,13 +27,13 @@ export class StaticThunhapcaoComponent implements OnInit {
   rowNumber: String = '';
   totalCalculate: number = 0;
 
-  constructor(private staticsService: StaticThuNhapCaoServiceService) {
+  constructor(private staticsService: StaticThuNhapCaoServiceService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
     this.findAllHighWithCondition(this.startDateHighString, this.finishDateHighString, this.rowNumber);
     this.createChart(this.labelData, this.readData);
-
+    this.buildForm();
   }
 
   findAllHighWithCondition(startDateHighString: String, finishDateLowString: String, rowNumber: String) {
@@ -55,8 +57,18 @@ export class StaticThunhapcaoComponent implements OnInit {
     this.createChart(this.labelData, this.readData);
   }
 
+
+  buildForm() {
+    this.formGroup = this.formBuilder.group({
+      startHighDate: ['', [Validators.required]],
+      finalHighDate: ['', [Validators.required, checkDateHigh]],
+      rowHighNumbers: ['', [Validators.required,
+        Validators.pattern("^([0-9]+)")]]
+    });
+  }
+
   createChart(labelData: any, readData: any) {
-    this.chart = new Chart('ChartRent', {
+    this.chartThuNhapCao = new Chart('ChartRentThuNhapCao', {
       type: 'bar',
       data: {
         labels: labelData,

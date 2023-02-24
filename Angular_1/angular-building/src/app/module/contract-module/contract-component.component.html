@@ -1,31 +1,32 @@
 
-
-
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
-
-
-
-  <div class="list-input-search">
-    <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
-    <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
-    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Mã Mặt Bằng">
-    <input  id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
-    <div class="list-input-search-icon">
-      <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-      <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()" aria-hidden="true"></i>
-      <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
-    </div>
-
+<div class="list-input-search">
+  <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value"
+         placeholder="Tên Khách Hàng">
+  <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value"
+         placeholder="Tên Nhân Viên">
+  <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]"
+         placeholder="Mã Mặt Bằng">
+  <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
+  <div class="list-input-search-icon">
+    <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true"
+       (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+    <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()"
+       aria-hidden="true"></i>
+    <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal"
+       data-bs-target="#contractFunction"></i>
   </div>
+
+</div>
 <table class="table tab">
   <thead class="thead-dark">
   <tr>
-    <th scope="col">Id </th>
-    <th scope="col">Tên Khách Hàng </th>
+    <th scope="col">Id</th>
+    <th scope="col">Tên Khách Hàng</th>
     <th scope="col">Tên Nhân Viên</th>
-    <th scope="col">Tên mặt Bằng </th>
-    <th scope="col">Tình Trạng Mặt Bằng </th>
-    <th scope="col">Ngày Bắt Đầu </th>
+    <th scope="col">Tên mặt Bằng</th>
+    <th scope="col">Tình Trạng Mặt Bằng</th>
+    <th scope="col">Ngày Bắt Đầu</th>
     <th scope="col">Hành Động</th>
   </tr>
   </thead>
@@ -41,7 +42,7 @@
     <td scope="row">
       <i id="detail" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal"
          data-bs-target="#contractFunction"
-      (click)="detail(contract.id,contract.idCardCustomer, contract.accountName)"></i>
+         (click)="detail(contract.id,contract.idCardCustomer, contract.accountName)"></i>
 
       <i hidden class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
          data-bs-target="#contractFunction" id="edit"></i>
@@ -52,8 +53,9 @@
       <i hidden id="close" class="action-icon action-icon-delete fa-solid fa-trash"
          data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
 
-      <i (click)="changeId(contract.id,contract.id,contract.accountName)"  class="action-icon action-icon-delete fa-solid fa-trash"
-         data-bs-toggle="modal" ></i>
+      <i (click)="changeId(contract.id,contract.id,contract.accountName)"
+         class="action-icon action-icon-delete fa-solid fa-trash"
+         data-bs-toggle="modal"></i>
     </td>
   </tr>
   </tbody>
@@ -66,7 +68,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="title">Xóa Hợp Đồng</h5>
-        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Bạn có muốn hợp đồng này HD_{{name}}?
@@ -82,7 +84,8 @@
 </div>
 
 <!-- Button trigger modal -->
-<button id="notificationModalButton" hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notificationModal">
+<button id="notificationModalButton" hidden type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#notificationModal">
   notification
 </button>
 
@@ -93,7 +96,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="notification">Xin Thông Báo</h5>
-        <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Tài khoản hiện tại là của {{employeeAccount?.name}}. Bạn không có quyên thay đổi cái này.
@@ -106,59 +109,6 @@
   </div>
 </div>
 
-
-
-
-
-<!--page-->
-<!--<div>-->
-<!--  <ul class="pagination justify-content-center">-->
-<!--    <li class="page-item">-->
-<!--      <a class="page-link">-->
-<!--        <i class="fa-solid fa-backward-fast"-->
-<!--           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li>-->
-<!--      <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">-->
-<!--        <i class="fa-solid fa-backward"-->
-<!--           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination - 1)"></i>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">-->
-<!--      <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"-->
-<!--         (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">-->
-<!--        {{i + 1}}-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li>-->
-<!--      <a class="page-link"  *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">-->
-<!--        <i class="fa-solid fa-forward"-->
-<!--           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination + 1)"></i>-->
-<!--      </a>-->
-<!--    </li>-->
-<!--    <li class="page-item">-->
-<!--      <a class="page-link"-->
-<!--         (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,totalPages - 1)">-->
-<!--        <i class="fa-solid fa-forward-fast"></i> </a>-->
-<!--    </li>-->
-<!--    <li class="page-item" style="width: 100px;">-->
-<!--      <span class="page-link">{{indexPagination + 1}} / {{totalPages}}</span>-->
-<!--    </li>-->
-<!--    <li class="page-item">-->
-<!--      <div class="input-group rounded">-->
-<!--        <input type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element-->
-<!--               aria-label="Search" aria-describedby="search-addon"/>-->
-<!--        <span class="input-group-text border-0" id="search-addon">-->
-<!--           <i class="fas fa-search"-->
-<!--              (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,+element.value - 1)"></i>-->
-<!--        </span>-->
-<!--      </div>-->
-<!--    </li>-->
-
-<!--  </ul>-->
-<!--</div>-->
-<!--page-->
 <div>
   <ul class="pagination justify-content-center">
     <li class="page-item">
@@ -180,7 +130,7 @@
       </a>
     </li>
     <li>
-      <a class="page-link"  *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
+      <a class="page-link" *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
            (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination + 1)"></i>
       </a>
@@ -208,7 +158,8 @@
 </div>
 
 <!-- Button trigger modal -->
-<button  id="openDetailModal" hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contractFunction">
+<button id="openDetailModal" hidden type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#contractFunction">
   notification
 </button>
 
@@ -217,18 +168,18 @@
 <div class="modal fade" id="contractFunction">
   <div class="modal-dialog modal-xl">
     <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{title}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <h5>Thông Tin Khách Hàng</h5>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{title}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h5>Thông Tin Khách Hàng</h5>
           <div class="row">
             <div class="col-4">
               <label>Chứng Minh Nhân Dân (<span>*</span>)</label>
               <input type="text" (change)="checkIdentifyNumber()" formControlName="customerId" class="form-control"
-                     value="{{name}}" required  [attr.disabled]="disabled  == true ? '' : null">
+                     value="{{name}}" required [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
                     *ngIf="(formGroup.controls.customerId.hasError('required') && formGroup.controls.customerId.touched) ||  flagDisplayValidate ">
                             Nhập chứng minh nhân dân khách hàng
@@ -275,7 +226,7 @@
           <div class="row">
             <div class="col-4">
               <label>Mã Mặt Bằng (<span>*</span>)</label>
-              <select class="form-control" formControlName="planeId" [attr.disabled]="disabled  == true ? '' : null" >
+              <select class="form-control" formControlName="planeId" [attr.disabled]="disabled  == true ? '' : null">
                 <option value="">Chọn mã mặt bằng</option>
                 <option *ngFor="let p of planeList" [ngValue]="p.id">MB_{{p.id}}</option>
               </select>
@@ -289,7 +240,8 @@
             </div>
             <div class="col-4">
               <label>Kỳ Hạn (<span>*</span>)</label>
-              <select (change)="calculateEndDate()" class="form-control" formControlName="termId" [attr.disabled]="disabled  == true ? '' : null">
+              <select (change)="calculateEndDate()" class="form-control" formControlName="termId"
+                      [attr.disabled]="disabled  == true ? '' : null">
                 <option value="">Chọn kỳ hạn</option>
                 <option *ngFor="let t of termList" [ngValue]="t.id">{{t.name}}</option>
               </select>
@@ -326,7 +278,8 @@
             <div class="col-4">
               <label>Giá Tiền Mỗi Tháng (<span>*</span>)</label>
               <input type="text" (keyup)="calculateTotalPrice()" formControlName="price" class="form-control"
-                     (keyup)="forMatNumber($event.target.value)" required [attr.disabled]="disabled  == true ? '' : null">
+                     (keyup)="forMatNumber($event.target.value)" required
+                     [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
                     *ngIf="(formGroup.controls.price.hasError('required') && formGroup.controls.price.touched)|| flagDisplayValidate">
               Nhập giá tiền thuê
@@ -344,7 +297,8 @@
             <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
             <div class="row">
               <div class="col-12">
-                <textarea style="width: 102.3%" class="form-control" formControlName="information" required [attr.disabled]="disabled  == true ? '' : null"></textarea>
+                <textarea style="width: 102.3%" class="form-control" formControlName="information" required
+                          [attr.disabled]="disabled  == true ? '' : null"></textarea>
                 <span style="color: red"
                       *ngIf="(formGroup.controls.information.hasError('required') && formGroup.controls.information.touched) || flagDisplayValidate">
               Nhập giá nội dung hợp đồng
@@ -361,7 +315,7 @@
               <div class="col-4">
                 <label>Nhân Viên</label>
 
-                <input value="{{displayEmployee?.name}}" type="text" class="form-control"  disabled required>
+                <input value="{{displayEmployee?.name}}" type="text" class="form-control" disabled required>
               </div>
               <div class="col-4">
                 <label>SĐT Nhân Viên</label>
@@ -378,15 +332,14 @@
           </div>
 
 
+        </div>
+        <div class="modal-footer" [hidden]="flagHidden">
+          <button type="button" class="btn btn-danger" id="endModal" data-bs-dismiss="modal">Hủy Bỏ</button>
+          <button type="button" class="btn btn-primary" (click)="refresh()">Làm Lại</button>
+          <button type="submit" class="btn btn-info text-white">Lưu</button>
+        </div>
 
       </div>
-      <div class="modal-footer" [hidden]="flagHidden">
-        <button type="button" class="btn btn-danger" id="endModal" data-bs-dismiss="modal">Hủy Bỏ</button>
-        <button type="button" class="btn btn-primary" (click)="refresh()">Làm Lại</button>
-        <button type="submit" class="btn btn-info text-white" >Lưu</button>
-      </div>
-
-    </div>
     </form>
   </div>
 </div>
