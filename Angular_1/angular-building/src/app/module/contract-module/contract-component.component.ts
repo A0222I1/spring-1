@@ -42,6 +42,8 @@ export class ContractComponentComponent implements OnInit {
   disabled = false;
   flagHidden: boolean;
 
+  flagDisplayValidate = false;
+
   token: TokenApi;
   employeeAccount: EmployeeViewDTO;
   displayEmployee: EmployeeViewDTO;
@@ -77,6 +79,7 @@ export class ContractComponentComponent implements OnInit {
     this.getAllCustomer();
     this.getEmployee();
     this.buildForm();
+    // tslint:disable-next-line:max-line-length
     this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch, this.indexPagination);
   }
 
@@ -91,7 +94,7 @@ export class ContractComponentComponent implements OnInit {
   }
 
 
-  changeId(id: number, name: string, accountName: string) {
+  changeId(id: number, name: any, accountName: string) {
     if (this.employeeAccount.maxRole === 1 || this.employeeAccount.account === accountName) {
       document.getElementById('close').click();
       this.id = id;
@@ -125,7 +128,7 @@ export class ContractComponentComponent implements OnInit {
       termId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.termId, [Validators.required]),
       // tslint:disable-next-line:max-line-length
       price: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.price).toString(), [Validators.required]),
-      total: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.total).toString()),
+      total: new FormControl(this.contractDTO === undefined ? '' : this.calculateTotalPriceInEdit(this.contractDTO.termId, this.contractDTO.price).toString()),
       information: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.information, [Validators.required]),
       // tslint:disable-next-line:max-line-length
       startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.startDate, [Validators.required]),
@@ -160,7 +163,9 @@ export class ContractComponentComponent implements OnInit {
   saveAllForm() {
     if (this.formGroup.invalid) {
       this.toastrService.error('Xin mời bạn nhập tất cả các trường bắt buộc');
+      this.flagDisplayValidate = true;
     } else {
+      this.flagDisplayValidate = false;
       this.formGroup.value.customerId = this.customerView.id;
       console.log(this.formGroup.value.customerId);
       this.contractService.save(this.formGroup).subscribe(data => {
@@ -215,7 +220,7 @@ export class ContractComponentComponent implements OnInit {
   }
 
   calculateEndDate() {
-    this.getEndDate(this.formGroup.value.startDate, this.getTermNameInInt());
+    this.getEndDate(this.formGroup.value.startDate, this.getTermNameInInt(this.formGroup.value.termId));
     this.calculateTotalPrice();
 
   }
@@ -238,22 +243,26 @@ export class ContractComponentComponent implements OnInit {
 
 
   calculateTotalPrice() {
-    const price = parseFloat(this.formGroup.value.price.replace(/,/g, '')) * this.getTermNameInInt();
+    const price = parseFloat(this.formGroup.value.price.replace(/,/g, '')) * this.getTermNameInInt(this.formGroup.value.termId);
     if (!isNaN(price)) {
       this.formGroup.patchValue({
         total: new Intl.NumberFormat().format(price)
       });
     }
+  }
+
+  calculateTotalPriceInEdit(termId: number, price: number): string {
+    return new Intl.NumberFormat().format(this.getTermNameInInt(termId) * price);
 
   }
 
-  getTermNameInInt(): number {
-    const term = this.formGroup.value.termId;
-    if (term !== '') {
+  getTermNameInInt(termId: any): number {
+    // const term = this.formGroup.value.termId;
+    if (termId !== '') {
       let name;
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.termList.length; i++) {
-        if (this.termList[i].id === term) {
+        if (this.termList[i].id === termId) {
           name = this.termList[i].name;
         }
       }
@@ -266,6 +275,7 @@ export class ContractComponentComponent implements OnInit {
   // @ts-ignore
   // @ts-ignore
   editContract(id: number, idCard: string, accountName: string, roleRecord: number) {
+    this.flagDisplayValidate = false;
     if (this.employeeAccount.maxRole ===   1 || this.employeeAccount.account === accountName) {
       document.getElementById('edit').click();
       this.title = 'Chỉnh Sửa Hợp Đồng';
@@ -301,6 +311,7 @@ export class ContractComponentComponent implements OnInit {
   }
 
   add() {
+    this.flagDisplayValidate = false;
     this.title = 'Thêm Mới Hợp Đồng';
     this.disabled = false;
     this.flagHidden = false;
@@ -320,6 +331,7 @@ export class ContractComponentComponent implements OnInit {
 
   // tslint:disable-next-line:variable-name
   detail(id: any, id_card: any, accountName: string) {
+    this.flagDisplayValidate = false;
     this.title = 'Chi Tiết Hợp Đồng';
     this.disabled = true;
     this.flagHidden = true;
