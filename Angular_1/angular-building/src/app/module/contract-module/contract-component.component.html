@@ -3,27 +3,30 @@
 
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
 
-<div class="list-inputsearch">
-  <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tìm kiếm theo tên khách hàng.">
-  <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tìm kiếm theo tên nhân viên">
-  <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Tìm kiếm theo mã mặt bằng..">
-  <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Tìm kiếm theo ngày bắt đầu...">
 
-  <div class="list-inputsearch-icon">
-    <i class="icon-addnew fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
-    <i class="fa fa-search list-inputsearch-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-inputsearch-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
+
+  <div class="list-input-search">
+    <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
+    <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
+    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Mã Mặt Bằng">
+    <input  id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
+    <div class="list-input-search-icon">
+      <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
+      <i class="fa fa-search list-input-search-icon-search" style=" background-color: #ffd43b" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: red;" (click)="refreshPage()" aria-hidden="true"></i>
+    </div>
+
   </div>
-</div>
 <table class="table tab">
   <thead class="thead-dark">
   <tr>
-    <th scope="col">ID(<span>*</span>)</th>
-    <th scope="col">Tên Khách Hàng(<span>*</span>)</th>
-    <th scope="col">Tên Nhân Viên(<span>*</span>)</th>
-    <th scope="col">Tên mặt Bằng(<span>*</span>)</th>
-    <th scope="col">Tình Trạng Mặt Bằng(<span>*</span>)</th>
-    <th scope="col">Ngày Bắt Đầu(<span>*</span>)</th>
+    <th scope="col">Id</th>
+    <th scope="col">Tên Khách Hàng</th>
+    <th scope="col">Tên Nhân Viên</th>
+    <th scope="col">Tên mặt Bằng</th>
+    <th scope="col">Tình Trạng Mặt Bằng</th>
+    <th scope="col">Ngày Bắt Đầu</th>
+
     <th scope="col"></th>
   </tr>
   </thead>
@@ -34,21 +37,23 @@
     <td scope="row">{{contract.employeeName}}</td>
     <td scope="row">MB_{{contract.planeId}}</td>
     <td scope="row">{{contract.planeStatus}}</td>
-    <td scope="row">{{contract.start_date  | date: 'dd/MM/yyyy'}}</td>
+    <td scope="row">{{contract.startDate  | date: 'dd/MM/yyyy'}}</td>
+
     <td scope="row">
-      <i class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal"
+      <i id="detail" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal"
          data-bs-target="#contractFunction"
-      (click)="detail(contract.id,contract.idCardCustomer)"></i>
+      (click)="detail(contract.id,contract.idCardCustomer, contract.accountName)"></i>
+
       <i hidden class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
          data-bs-target="#contractFunction" id="edit"></i>
 
       <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
-         (click)="editContract(contract.id,contract.idCardCustomer,contract.employeeName)"></i>
+         (click)="editContract(contract.id,contract.idCardCustomer,contract.accountName,contract.maxRole)"></i>
 
       <i hidden id="close" class="action-icon action-icon-delete fa-solid fa-trash"
          data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
 
-      <i (click)="changeId(contract.id,contract.customerName,contract.employeeName)"  class="action-icon action-icon-delete fa-solid fa-trash"
+      <i (click)="changeId(contract.id,contract.customerName,contract.accountName)"  class="action-icon action-icon-delete fa-solid fa-trash"
          data-bs-toggle="modal" ></i>
     </td>
   </tr>
@@ -92,7 +97,7 @@
         <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Tài khoản hiện tại là của {{employee.name}}. Bạn không có quyên thay đổi cái này.
+        Tài khoản hiện tại là của {{employeeAccount?.name}}. Bạn không có quyên thay đổi cái này.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -138,7 +143,7 @@
          (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,totalPages - 1)">
         <i class="fa-solid fa-forward-fast"></i> </a>
     </li>
-    <li class="page-item">
+    <li class="page-item" style="width: 100px;">
       <span class="page-link">{{indexPagination + 1}} / {{totalPages}}</span>
     </li>
     <li class="page-item">
@@ -156,6 +161,12 @@
 </div>
 
 
+<!-- Button trigger modal -->
+<button  id="openDetailModal" hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contractFunction">
+  notification
+</button>
+
+
 <!-- Detail modal-->
 <div class="modal fade" id="contractFunction">
   <div class="modal-dialog modal-xl">
@@ -166,14 +177,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h5>Thông tin khách hàng</h5>
+        <h5>Thông Tin Khách Hàng</h5>
           <div class="row">
             <div class="col-4">
-              <label>Chứng Minh Nhân Dân(<span>*</span>)</label>
+              <label>Chứng Minh Nhân Dân (<span>*</span>)</label>
               <input type="text" (change)="checkIdentifyNumber()" formControlName="customerId" class="form-control"
                      value="{{name}}" required  [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
-                    *ngIf="formGroup.controls.customerId.hasError('required') && formGroup.controls.customerId.touched">
+                    *ngIf="formGroup.controls.customerId.hasError('required') && formGroup.controls.customerId.touched ">
                             Nhập chứng minh nhân dân khách hàng
             </span>
               <span style="color: red"
@@ -183,7 +194,7 @@
 
             </div>
             <div class="col-4">
-              <label>Tên khách hàng</label>
+              <label>Tên Khách Hàng</label>
               <input type="text" class="form-control" value="{{customerView?.name}}" disabled required>
               <span>
               &nbsp;
@@ -191,13 +202,13 @@
             </div>
 
             <div class="col-4">
-              <label>Địa chỉ</label>
+              <label>Địa Chỉ</label>
               <input type="text" class="form-control" value="{{customerView?.address}}" disabled required>
             </div>
           </div>
           <div class="row">
             <div class="col-4">
-              <label>Ngày sinh</label>
+              <label>Ngày Sinh</label>
               <input type="date" class="form-control" value="{{customerView?.birthday}}" disabled required>
               <span>
               &nbsp;
@@ -208,12 +219,12 @@
               <input type="text" class="form-control" value="{{customerView?.email}}" disabled required>
             </div>
             <div class="col-4">
-              <label>Số điện thoại</label>
+              <label>Số Điện Thoại</label>
               <input type="text" class="form-control" value="{{customerView?.phone}}" disabled required>
             </div>
           </div>
           <hr style="margin-top: 10px">
-          <h5>Thông tin hợp đồng</h5>
+          <h5>Thông Tin Hợp Đồng</h5>
           <div class="row">
             <div class="col-4">
               <label>Mã mặt bằng (<span>*</span>)</label>
@@ -230,8 +241,9 @@
             </span>
             </div>
             <div class="col-4">
-              <label>Kỳ hạn (<span>*</span>)</label>
+              <label>Kỳ Hạn (<span>*</span>)</label>
               <select (change)="calculateEndDate()" class="form-control" formControlName="termId" [attr.disabled]="disabled  == true ? '' : null">
+                <option value="">Chọn kỳ hạn</option>
                 <option *ngFor="let t of termList" [ngValue]="t.id">{{t.name}}</option>
               </select>
               <span style="color: red"
@@ -259,13 +271,13 @@
           </div>
           <div class="row">
             <div class="col-4">
-              <label>Ngày kết thúc</label>
+              <label>Ngày Kết Thúc</label>
               <input type="date" formControlName="endDate" class="form-control" disabled>
               <span style="color: red"> &nbsp;</span>
 
             </div>
             <div class="col-4">
-              <label>Giá tiền mỗi tháng</label>
+              <label>Giá Tiền Mỗi Tháng (<span>*</span>)</label>
               <input type="text" (keyup)="calculateTotalPrice()" formControlName="price" class="form-control"
                      (keyup)="forMatNumber($event.target.value)" required [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
@@ -283,25 +295,25 @@
             </div>
             <hr style="margin-top: 10px">
 
-            <h5>Thông tin nhân viên</h5>
+            <h5>Thông Tin Nhân Viên</h5>
             <div class="row">
               <div class="col-4">
-                <label>Nhân viên</label>
+                <label>Nhân Viên</label>
 
-                <input value="{{employee?.name}}" type="text" class="form-control"  disabled required>
+                <input value="{{displayEmployee?.name}}" type="text" class="form-control"  disabled required>
               </div>
               <div class="col-4">
-                <label>SĐT nhân viên</label>
-                <input value="{{employee?.phone}}" type="text" class="form-control" disabled required>
+                <label>SĐT Nhân Viên</label>
+                <input value="{{displayEmployee?.phone}}" type="text" class="form-control" disabled required>
               </div>
               <div class="col-4">
-                <label>Email Nhân viên</label>
-                <input value="{{employee?.email}}" type="text" class="form-control" disabled required>
+                <label>Email Nhân Viên</label>
+                <input value="{{displayEmployee?.email}}" type="text" class="form-control" disabled required>
               </div>
             </div>
 
             <hr style="margin-top: 10px">
-            <h5>Nội dung hợp đồng (<span>*</span>)</h5>
+            <h5>Nội Dung Hợp Đồng (<span>*</span>)</h5>
             <div class="row">
               <div class="col-12">
                 <textarea class="form-control" formControlName="information" required [attr.disabled]="disabled  == true ? '' : null"></textarea>

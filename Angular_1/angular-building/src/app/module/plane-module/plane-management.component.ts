@@ -106,5 +106,9 @@ export class PlaneManagementComponent implements OnInit {
     this.typeSearch='';
     this.stageSearch='';
   }
+
+  addPlane() {
+
+  }
 }
 

@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
 
     @Override
     public List<Employee> getAll() {
-        return null;
+        return repos.findAll();
     }
 
     @Override

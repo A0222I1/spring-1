@@ -1,9 +1,12 @@
 .carousel-item {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 60px;
-
-
 }
+
+.carousel {
+  margin-top: 95px;
+}
+
 
 .carousel-caption {
   text-align: left;
@@ -36,7 +39,6 @@
   .carousel .carousel-item {
     height: auto;
   }
-
 }
 
 
@@ -79,6 +81,7 @@
   .col-8 {
     width: 100%;
   }
+
   .list-flor {
     font-size: 15px;
   }
@@ -96,7 +99,8 @@
   .heading_text {
     font-size: 30px;
   }
-  .content_text{
+
+  .content_text {
     font-size: 15px;
   }
 
@@ -173,6 +177,7 @@
 
 .card {
   transition: background-color 0.5s ease-out 100ms;
+  height: 450px;
 }
 
 .card:hover {
@@ -196,26 +201,31 @@
 
 .card-img-top {
   width: 100%;
-  height: 300px;
+  height: 250px;
 }
+
 @media (max-width: 1200px) {
-  .card-text{
+  .card-text {
     font-size: x-small;
   }
-  .card-title{
+
+  .card-title {
     font-size: medium;
   }
 }
-.spin{
+
+.spin {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .btn-violet1 {
   color: #fff;
   background-color: #6A2C70;
   border-color: #6A2C70;
 }
+
 .btn-violet1:hover {
   border-color: #6A2C70 !important;
   background-color: #501556 !important;

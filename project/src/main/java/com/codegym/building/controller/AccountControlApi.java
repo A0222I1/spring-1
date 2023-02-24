@@ -30,19 +30,18 @@ public class AccountControlApi {
     private AccountDetailImpl accountDetailImpl;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenAPI> checkAllPass(@RequestBody AccountDTO accountDTO, HttpServletResponse res) {
-       UserDetails userDetails = accountDetailImpl.loadUserByUsername(accountDTO.getUsername());
-       return new ResponseEntity<>(new TokenAPI("token",tokenAuthenticationService.addAuthentication(res,userDetails.getUsername()) ), HttpStatus.OK);
+    public ResponseEntity<TokenAPI> checkAllPass(@RequestBody AccountDTO accountDTO) {
+        UserDetails userDetails = accountDetailImpl.loadUserByUsername(accountDTO.getUsername());
+        return new ResponseEntity<>(new TokenAPI("token", tokenAuthenticationService.addAuthentication(userDetails.getUsername(), (accountDTO.getRememberMe()))), HttpStatus.OK);
     }
 
-//    @GetMapping("")
-//    public ResponseEntity<List<Account>> findAll(){
-//        return new ResponseEntity<>(accountService.findAll(),HttpStatus.OK);
-//    }
+    @GetMapping("/{account}")
+    public ResponseEntity<Boolean> checkExists(@PathVariable String account) {
+        return new ResponseEntity<>(accountService.findByUserName(account), HttpStatus.OK);
+    }
 
     @GetMapping("/checkToken/{token}")
     public ResponseEntity<EmployeeViewDTO> checkToken(@PathVariable String token) {
-
         return new ResponseEntity<>(tokenAuthenticationService.parse(token), HttpStatus.OK);
     }
 }
