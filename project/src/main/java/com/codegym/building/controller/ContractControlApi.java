@@ -58,7 +58,7 @@ public class ContractControlApi {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-        return new ResponseEntity<>(contractService.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.updateStatusById(id), HttpStatus.OK);
     }
 
     @PostMapping("")
