@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
-
+import java.util.List;
 
 
 public interface ContractRepos extends JpaRepository<Contract, Integer> {
@@ -23,7 +23,7 @@ public interface ContractRepos extends JpaRepository<Contract, Integer> {
 
    
    @Query(value = "select * from contract where start_date between :start_date and :endDate", nativeQuery = true)
-    List<Contract> findAllByDayStart(@Param("start_date") String start_date, @Param("endDate") String end_date);
+   List<Contract> findAllByDayStart(@Param("start_date") String start_date, @Param("endDate") String end_date);
 
     @Query(value = "select * from contract where contract.start_date between :start_date and :endDate order by contract.total DESC limit :rowNumber", nativeQuery = true)
     List<Contract> findAllByHigh(@Param("start_date") String start_date, @Param("endDate") String end_date, @Param("rowNumber") Integer rowNumber);
