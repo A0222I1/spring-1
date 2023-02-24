@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {map, tap} from "rxjs/operators";
-import {Account} from "../../module/employee-module/model/Account";
-import {AccountDTO} from "../../module/employee-module/model/dto/AccountDTO";
-import {TokenApi} from "../../module/employee-module/model/dto/TokenApi";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {map, tap} from 'rxjs/operators';
+import {Account} from '../../module/employee-module/model/Account';
+import {AccountDTO} from '../../module/employee-module/model/dto/AccountDTO';
+import {TokenApi} from '../../module/employee-module/model/dto/TokenApi';
 
-const API_URL = "http://localhost:8080/account";
+const API_URL = 'http://localhost:8080/account';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService{
-  // private currentUserSubject: BehaviorSubject<Account>;
-  // currentUser: Observable<Account> = this.currentUserSubject;
+
+export class UserService {
 
   constructor(private http: HttpClient) {
   }
@@ -24,5 +23,10 @@ export class UserService{
 
   logOut() {
     localStorage.removeItem('token');
+  }
+
+  isLoggedIn() {
+    // Kiểm tra xem token có tồn tại trong local storage không
+    return localStorage.getItem('token') !== null;
   }
 }

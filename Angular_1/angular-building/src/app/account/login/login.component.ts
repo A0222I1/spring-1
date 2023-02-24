@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AccountModule} from "../account.module";
-import {UserService} from "../service/user.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpXsrfTokenExtractor} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
-import {AuthService} from "../service/auth.service";
+import {Router} from '@angular/router';
+import {UserService} from '../service/user.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +15,17 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   loginForm: FormGroup;
 
-  constructor(private userService: UserService, private router: Router, private fb: FormBuilder, private authService: AuthService) {
+  constructor(private userService: UserService,
+              private router: Router,
+              private fb: FormBuilder,
+              private toast: ToastrService) {
   }
 
   ngOnInit() {
-    var checkLogin = localStorage.getItem('token');
+    const checkLogin = localStorage.getItem('token');
     if (checkLogin) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home']).then(r => {
+      });
     }
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -34,20 +35,19 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.value.username.trim() == "" && this.loginForm.value.password.trim() == ""){
-      this.loginForm.controls.password.setErrors({usernameandpassword : true});
+    if (this.loginForm.value.username.trim() === '' && this.loginForm.value.password.trim() === '') {
+      this.loginForm.controls.password.setErrors({userNameAndPassword: true});
       return;
     }
     this.userService.login(this.loginForm.value).subscribe(data => {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
-        console.log(this.loginForm);
+        location.reload();
       });
-      this.authService.login();
     }, err => {
       if (!this.loginForm.value) {
-        this.errorMessage = "Tài khoản và mật khẩu không chính xác."
+        this.errorMessage = 'Tài khoản và mật khẩu không chính xác.';
       }
     });
   }

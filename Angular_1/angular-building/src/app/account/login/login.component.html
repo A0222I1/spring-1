@@ -18,7 +18,7 @@
           <i class="login__icon fas fa-lock"></i>
           <input style="display: block" type="password" class="login__input" formControlName="password" placeholder="Mật khẩu">
           <span *ngIf="loginForm.controls.password.hasError('required')&&loginForm.controls.password.touched" class="error">Mật khẩu không được để trống.</span>
-          <span *ngIf="loginForm.controls.password.hasError('usernameandpassword')" class="error"><span>Tài khoản, mật khẩu không được trống.</span></span>
+          <span *ngIf="loginForm.controls.password.hasError('userNameAndPassword')" class="error"><span>Tài khoản, mật khẩu không được trống.</span></span>
           <span class="error" *ngIf="errorMessage">
             {{errorMessage}}
           </span>
