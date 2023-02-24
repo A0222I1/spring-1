@@ -52,6 +52,7 @@ export class ContractComponentComponent implements OnInit {
   name = '';
   indexPagination = 0;
   totalPages = 0;
+  totalElements = 0;
   public value = '';
 
   contracts: ContractViewDTO[] = [];
@@ -90,6 +91,7 @@ export class ContractComponentComponent implements OnInit {
       this.contracts = value.content;
       this.indexPagination = value.number;
       this.totalPages = value.totalPages;
+      this.totalElements = value.totalElements;
     });
   }
 
@@ -202,7 +204,11 @@ export class ContractComponentComponent implements OnInit {
   }
 
   forMatNumber(value: any) {
-    this.formattedNumber = new Intl.NumberFormat().format(parseFloat(value.replace(/,/g, '')));
+    console.log("before");
+    console.log(value);
+    this.formattedNumber = new Intl.NumberFormat().format(parseFloat(value.replace(/\./g, "")));
+    console.log("after");
+    console.log(this.formattedNumber);
     this.formGroup.patchValue({
       price: this.formattedNumber === 'NaN' ? '' : this.formattedNumber
     });
@@ -243,7 +249,7 @@ export class ContractComponentComponent implements OnInit {
 
 
   calculateTotalPrice() {
-    const price = parseFloat(this.formGroup.value.price.replace(/,/g, '')) * this.getTermNameInInt(this.formGroup.value.termId);
+    const price = parseFloat(this.formGroup.value.price.replace(/\./g, "")) * this.getTermNameInInt(this.formGroup.value.termId);
     if (!isNaN(price)) {
       this.formGroup.patchValue({
         total: new Intl.NumberFormat().format(price)
