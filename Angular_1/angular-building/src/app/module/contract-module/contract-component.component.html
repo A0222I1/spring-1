@@ -1,22 +1,15 @@
 
 <h4 class="list-ground-title">DANH SÁCH HỢP ĐỒNG</h4>
-<div class="list-input-search">
-  <input id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value"
-         placeholder="Tên Khách Hàng">
-  <input id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value"
-         placeholder="Tên Nhân Viên">
-  <input id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]"
-         placeholder="Mã Mặt Bằng">
-  <input id="startDate" type="date" #startDay (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
-  <div class="list-input-search-icon">
-    <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true"
-       (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
-    <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()"
-       aria-hidden="true"></i>
-    <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal"
-       data-bs-target="#contractFunction"></i>
-  </div>
-
+  <div class="list-input-search">
+    <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
+    <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
+    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Mã Mặt Bằng">
+    <input  id="startDate" type="date" #startDay placeholder="dd-mm-yyyy" (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
+    <div class="list-input-search-icon">
+      <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()" aria-hidden="true"></i>
+      <i class="icon-add-new fa-solid fa-plus" (click)="add()" data-bs-toggle="modal" data-bs-target="#contractFunction"></i>
+    </div>
 </div>
 <table class="table tab">
   <thead class="thead-dark">
@@ -109,7 +102,8 @@
   </div>
 </div>
 
-<div>
+<div  *ngIf="(totalElements> 0); else isEmpty">
+>>>>>>> ce86ebefa5bc38b25f436a4dff607f3d98751c14
   <ul class="pagination justify-content-center">
     <li class="page-item">
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
@@ -157,6 +151,10 @@
   </ul>
 </div>
 
+<ng-template #isEmpty class="clearfix">
+  <div style="font-size: 20px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}{{planeIdSearch}}{{employeeNameSearch}}{{dateStartSearch}}" </b></div>
+</ng-template>
+
 <!-- Button trigger modal -->
 <button id="openDetailModal" hidden type="button" class="btn btn-primary" data-bs-toggle="modal"
         data-bs-target="#contractFunction">
@@ -181,7 +179,7 @@
               <input type="text" (change)="checkIdentifyNumber()" formControlName="customerId" class="form-control"
                      value="{{name}}" required [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
-                    *ngIf="(formGroup.controls.customerId.hasError('required') && formGroup.controls.customerId.touched) ||  flagDisplayValidate ">
+                    *ngIf="(formGroup.controls.customerId.hasError('required') && ( formGroup.controls.customerId.touched ||  flagDisplayValidate)) ">
                             Nhập chứng minh nhân dân khách hàng
             </span>
               <span style="color: red"
@@ -231,7 +229,7 @@
                 <option *ngFor="let p of planeList" [ngValue]="p.id">MB_{{p.id}}</option>
               </select>
               <span style="color: red"
-                    *ngIf="(formGroup.controls.planeId.hasError('required') && formGroup.controls.planeId.touched) || flagDisplayValidate">
+                    *ngIf="(formGroup.controls.planeId.hasError('required') && ( formGroup.controls.planeId.touched || flagDisplayValidate))">
               Chọn mã mặt bằng
             </span>
               <span>
@@ -246,7 +244,7 @@
                 <option *ngFor="let t of termList" [ngValue]="t.id">{{t.name}}</option>
               </select>
               <span style="color: red"
-                    *ngIf="(formGroup.controls.termId.hasError('required') && formGroup.controls.termId.touched) || flagDisplayValidate">
+                    *ngIf="(formGroup.controls.termId.hasError('required') && (formGroup.controls.termId.touched || flagDisplayValidate))">
               Chọn kỳ hạn
             </span>
 
@@ -257,7 +255,7 @@
                      required [attr.disabled]="disabled || checkStartDate ? '' : null"
               >
               <span style="color: red"
-                    *ngIf="(formGroup.controls.startDate.hasError('required') && formGroup.controls.startDate.touched) || flagDisplayValidate">
+                    *ngIf="(formGroup.controls.startDate.hasError('required') && ( formGroup.controls.startDate.touched || flagDisplayValidate))">
               Chọn ngày bắt đầu thuê
             </span>
 
@@ -281,7 +279,7 @@
                      (keyup)="forMatNumber($event.target.value)" required
                      [attr.disabled]="disabled  == true ? '' : null">
               <span style="color: red"
-                    *ngIf="(formGroup.controls.price.hasError('required') && formGroup.controls.price.touched)|| flagDisplayValidate">
+                    *ngIf="(formGroup.controls.price.hasError('required') && (formGroup.controls.price.touched || flagDisplayValidate))">
               Nhập giá tiền thuê
             </span>
 
@@ -300,7 +298,7 @@
                 <textarea style="width: 102.3%" class="form-control" formControlName="information" required
                           [attr.disabled]="disabled  == true ? '' : null"></textarea>
                 <span style="color: red"
-                      *ngIf="(formGroup.controls.information.hasError('required') && formGroup.controls.information.touched) || flagDisplayValidate">
+                      *ngIf="(formGroup.controls.information.hasError('required') && (formGroup.controls.information.touched || flagDisplayValidate))">
               Nhập giá nội dung hợp đồng
             </span>
                 <span style="color: red"> &nbsp;</span>
