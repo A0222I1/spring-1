@@ -5,14 +5,17 @@
     <form [formGroup]="formGroup">
       <div class="list-inputsearch">
         <label>Ngày bắt đầu</label>
-        <input formControlName="startDate" id="startDate" type="date" #startDay (change)="startDateString = startDay.value" required>
+        <input formControlName="startDate" id="startDate" type="date" #startDay
+               (change)="startDateString = startDay.value" required>
 
         <label>Ngày kết thúc</label>
         <input formControlName="finalDate" id="finalDate" type="date" #finalDate
                (change)="finishDateString = finalDate.value" required>
 
-        <span style="color: red" *ngIf="formGroup.controls.finalDate.hasError('required') && formGroup.controls.finalDate.touched">Vui lòng chọn ngày kết thúc</span>
-        <span style="color: red" *ngIf="formGroup.controls.finalDate.hasError('invalidDate') &&  formGroup.controls.finalDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalDate.hasError('required') && formGroup.controls.finalDate.touched">Bạn phải chọn ngày kết thúc</span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalDate.hasError('invalidDate') &&  formGroup.controls.finalDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
 
         <div class="list-inputsearch-icon">
           <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
@@ -45,10 +48,32 @@
     </tbody>
     <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
   </table>
+
   <div class="list-inputsearch-icon">
-    <i class="fa fa-print list-inputsearch-icon-search" aria-hidden="true"
-       (click)="dowloadFile(startDateString,finishDateString)"></i>
+    <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    </i>
   </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+<!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có muốn in dữ liệu không
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">Không
+          </button>
+          <button (click)="dowloadFile(startDateString,finishDateString)" type="button" class="btn btn-primary">In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="chart-container">
     <canvas id="ChartRent">{{ chart }}</canvas>
   </div>

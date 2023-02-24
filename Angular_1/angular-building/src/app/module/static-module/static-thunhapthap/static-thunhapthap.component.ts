@@ -3,7 +3,7 @@ import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapThapServiceService} from "../service/static-thunhapthap-service.service";
 import Chart from 'chart.js';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {StaticServiceService} from "../service/static-service.service";
+import {checkDate, checkDateLow} from "../validate/validate";
 
 @Component({
   selector: 'app-static-thunhapthap',
@@ -15,16 +15,16 @@ export class StaticThunhapthapComponent implements OnInit {
   chartdata: any;
   labelData: any[] = [];
   readData: any[] = [];
-  chart = Chart;
+  chartThuNhapThap = Chart;
 
   static: StaticsviewDTO[] = [];
-  startDateLowString  = "";  //'2023-02-10';
-  finishDateLowString  = '';    //'2023-02-15';
+  startDateLowString = "";  //'2023-02-10';
+  finishDateLowString = '';    //'2023-02-15';
   stt = 1;
   totalSalary = 0;
   totalPages = 0;
   rowNumber = '';
-  totalCalculate  = 0;
+  totalCalculate = 0;
 
   constructor(private staticsService: StaticThuNhapThapServiceService,
               private formBuilder: FormBuilder) {
@@ -46,20 +46,14 @@ export class StaticThunhapthapComponent implements OnInit {
   buildForm() {
     this.formGroup = this.formBuilder.group({
       startLowDate: ['', [Validators.required]],
-      finalLowDate: ['', [Validators.required]],
+      finalLowDate: ['', [Validators.required, checkDateLow]],
       rowLowNumbers: ['', [Validators.required,
         Validators.pattern("^([0-9]+)")]]
-
-      /*
-            finalLowDate: ['', [Validators.required, checkDate]]
-      */
-      // finalDate: ['', [Validators.required, checkDate]]
-
-      // finalDate: new FormControl('', [checkDate(this.startDateString, this.finishDateString)]),
     });
   }
+
   createChart(labelData: any, readData: any) {
-    this.chart = new Chart('ChartRent', {
+    this.chartThuNhapThap = new Chart('ChartRentThuNhapThap', {
       type: 'bar',
       data: {
         labels: labelData,

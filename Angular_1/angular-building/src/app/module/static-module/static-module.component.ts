@@ -45,36 +45,8 @@ export class StaticModuleComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       startDate: ['', [Validators.required]],
       finalDate: ['', [Validators.required, checkDate]]
-      // finalDate: ['', [Validators.required, checkDate]]
-
-      // finalDate: new FormControl('', [checkDate(this.startDateString, this.finishDateString)]),
-      });
+     });
   }
-
-  dateValidator(startDate: string, finalDate: string) {
-    return( formGroup: FormGroup) => {
-      const control1 = formGroup.controls[startDate];
-      const control2 = formGroup.controls[finalDate];
-      if (control1.errors && !control2.errors.confirmedValidator) {
-        return;
-      }
-      if (control1.value > control2.value) {
-        console.log('haha');
-        control2.setErrors({ dateValidator: true});
-      } else {
-        control2.setErrors(null);
-      }
-    };
-  }
-  /*checkDayInAndDayOut(control: AbstractControl): ValidationErrors | null {
-    const startDate = moment(control.get("startDate").value);
-    const endDate = moment(control.get("endDate").value);
-    if (moment.duration(endDate.diff(startDate)).asDays() < 0) {
-      return {nomatch: true};
-    }
-    return null;
-  }*/
-
   createChart(labelData: any, readData: any) {
     this.chart = new Chart('ChartRent', {
       type: 'bar',
