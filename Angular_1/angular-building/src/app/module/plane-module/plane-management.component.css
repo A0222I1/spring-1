@@ -121,6 +121,27 @@ table > tbody >tr>td p{
   padding: 12px 13px;
   margin: 0 10px;
 }
+.addPicturePlane-img{
+  border-radius: 20%;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  margin-right: 20px;
+  border: 2px solid #4CAF50;
+}
+.label-add-picture{
+  margin: 20px 0;
+  display: inline-block;
+}
+.viewDetail{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
-
-
+}
+.viewDetail img{
+  width: 150px;
+  height: 150px ;
+  border-radius: 20%;
+  border: 2px solid #4CAF50;
+}

@@ -1,0 +1,80 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <div class="header">
+    <h2>Thống kê số liệu tổng hợp</h2>
+
+    <form [formGroup]="formGroup">
+      <div class="list-inputsearch">
+        <label>Ngày bắt đầu</label>
+        <input formControlName="startDate" id="startDate" type="date" #startDay
+               (change)="startDateString = startDay.value" required>
+
+        <label>Ngày kết thúc</label>
+        <input formControlName="finalDate" id="finalDate" type="date" #finalDate
+               (change)="finishDateString = finalDate.value" required>
+
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalDate.hasError('required') && formGroup.controls.finalDate.touched">Bạn phải chọn ngày kết thúc</span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalDate.hasError('invalidDate') &&  formGroup.controls.finalDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
+
+        <div class="list-inputsearch-icon">
+          <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
+             (click)="findAllWithCondition(startDateString,finishDateString)"></i>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+  <table class="table tab">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Tên mặt Bằng</th>
+      <th scope="col">Ngày bắt đầu</th>
+      <th scope="col">Tổng thu</th>
+      <th scope="col">Ghi chú</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let i of static; let z =index">
+      <td scope="row">{{z + 1}}</td>
+      <td scope="row">MB_{{i.plane.id}}</td>
+      <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
+      <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
+      <td scope="row">{{i.information}}</td>
+
+    </tr>
+    </tbody>
+    <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
+  </table>
+
+  <div class="list-inputsearch-icon">
+    <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    </i>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+<!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có muốn in dữ liệu không
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+                  data-bs-dismiss="modal">Không
+          </button>
+          <button (click)="dowloadFile(startDateString,finishDateString)" type="button" class="btn btn-primary">In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="ChartRent">{{ chart }}</canvas>
+  </div>
+</div>
