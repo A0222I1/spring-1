@@ -18,11 +18,8 @@ export class StaticThunhapthapComponent implements OnInit {
   chartThuNhapThap = Chart;
 
   static: StaticsviewDTO[] = [];
-  startDateLowString = "";  //'2023-02-10';
-  finishDateLowString = '';    //'2023-02-15';
-  stt = 1;
-  totalSalary = 0;
-  totalPages = 0;
+  startDateLowString = '';
+  finishDateLowString = '';
   rowNumber = '';
   totalCalculate = 0;
 
@@ -96,8 +93,8 @@ export class StaticThunhapthapComponent implements OnInit {
               this.readData.push(item.total);
             }
           }
+          this.createChart(this.labelData, this.readData);
         });
-    this.createChart(this.labelData, this.readData);
 
   }
 
@@ -109,7 +106,6 @@ export class StaticThunhapthapComponent implements OnInit {
       a.download = fileName;
       a.href = window.URL.createObjectURL(blob);
       a.click();
-      console.log(fileName);
     });
   }
 

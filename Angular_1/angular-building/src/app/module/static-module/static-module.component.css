@@ -42,6 +42,7 @@ table > tbody >tr>td p{
 }
 .list-inputsearch-icon{
   display: flex;
+  margin-block: 30px ;
 }
 .list-inputsearch-icon i{
   background-color: #888787;

@@ -14,8 +14,8 @@ public interface ContractRepos extends JpaRepository<Contract, Integer> {
             , nativeQuery = true)
     Page<Contract> getAllCustom(@Param("customerName") String customerName, @Param("employeeName") String employeeName, @Param("planeId") String planeId, @Param("startDate") String startDate, Pageable pageable);
 
-    @Query(value = "select * from contract where start_date between :start_date and :endDate", nativeQuery = true)
-    List<Contract> findAllByDayStart(@Param("start_date") String start_date, @Param("endDate") String end_date);
+//    @Query(value = "select * from contract where start_date between :start_date and :endDate", nativeQuery = true)
+//    List<Contract> findAllByDayStart(@Param("start_date") String start_date, @Param("endDate") String end_date);
 
     @Query(value = "select * from contract where contract.start_date between :start_date and :endDate order by contract.total DESC limit :rowNumber", nativeQuery = true)
     List<Contract> findAllByHigh(@Param("start_date") String start_date, @Param("endDate") String end_date, @Param("rowNumber") Integer rowNumber);

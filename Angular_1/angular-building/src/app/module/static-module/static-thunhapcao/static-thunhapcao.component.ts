@@ -19,12 +19,9 @@ export class StaticThunhapcaoComponent implements OnInit {
   chartThuNhapCao = Chart;
   formGroup: FormGroup;
   static: StaticsviewDTO[] = [];
-  startDateHighString: String = ''; //'2023-02-10';
-  finishDateHighString: String = '';    //'2023-02-15';
-  stt: number = 1;
-  totalSalary = 0;
-  totalPages = 0;
-  rowNumber: String = '';
+  startDateHighString = '';
+  finishDateHighString = '';
+  rowNumber = '';
   totalCalculate: number = 0;
 
   constructor(private staticsService: StaticThuNhapCaoServiceService, private formBuilder: FormBuilder) {
@@ -53,8 +50,9 @@ export class StaticThunhapcaoComponent implements OnInit {
               this.readData.push(this.chartdata[i].total);
             }
           }
-        })
-    this.createChart(this.labelData, this.readData);
+          this.createChart(this.labelData, this.readData);
+
+        });
   }
 
 
