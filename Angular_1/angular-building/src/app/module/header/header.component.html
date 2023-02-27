@@ -55,7 +55,7 @@
         <a class="nav-link" href="#">Giới thiệu</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button"  data-bs-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
            aria-expanded="true">
           Toà nhà
         </a>
@@ -67,14 +67,14 @@
         </ul>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button"  data-bs-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
            aria-expanded="true">
           Báo cáo - thống kê
         </a>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="static">Báo cáo tổng hợp</a></li>
-            <li><a class="dropdown-item" routerLink="static/high">Báo cáo thu nhập cao</a></li>
-            <li><a class="dropdown-item" routerLink="static/low">Báo cáo thu nhập thấp</a></li>
+          <li><a class="dropdown-item" routerLink="static">Báo cáo tổng hợp</a></li>
+          <li><a class="dropdown-item" routerLink="static/high">Báo cáo thu nhập cao</a></li>
+          <li><a class="dropdown-item" routerLink="static/low">Báo cáo thu nhập thấp</a></li>
         </ul>
       </li>
       <li class="nav-item">
@@ -82,31 +82,19 @@
       </li>
     </ul>
     <!-- Left links -->
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center" *ngIf="!isLoggedIn">
       <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"
               routerLink="/login">
         Đăng nhập
       </button>
-      <button type="button" class="btn btn-outline-violet me-3" (click)="logOut()">
-        Đăng xuất
+      <button type="button" class="btn btn-outline-violet px-3 me-2"
+              routerLink="/register">
+        Đăng ký
       </button>
-<!--      <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>-->
-<!--      <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"  (click)="logOut()"></i>-->
-
     </div>
-
-<!--        <div class="d-flex align-items-center">-->
-<!--          <div *ngIf="">-->
-<!--            <button type="button" class="btn btn-outline-violet px-3 me-2" (click)="setPageTitle('Đăng nhập')"-->
-<!--                    routerLink="login" *ngIf="!token">-->
-<!--              Đăng nhập-->
-<!--            </button>-->
-<!--            <button type="button" class="btn btn-outline-violet me-3" *ngIf="!token">-->
-<!--              Đăng ký-->
-<!--            </button>-->
-<!--          </div>-->
-<!--          <button *ngIf="token" class="btn">Xin chào : {{employee.name}}</button>-->
-<!--          <i *ngIf="token" type="button" class="fa-solid fa-right-from-bracket ms-3 me-3"  (click)="logOut()"></i>-->
-<!--        </div>-->
+    <div *ngIf="isLoggedIn">
+      <button *ngIf="employeeName" class="btn">Xin chào : {{employeeName}}</button>
+      <i class="fa-solid fa-right-from-bracket ms-3 me-3" (click)="onLogOut()"></i>
+    </div>
   </div>
 </nav>

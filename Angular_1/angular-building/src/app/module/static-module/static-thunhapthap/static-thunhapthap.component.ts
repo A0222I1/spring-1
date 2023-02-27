@@ -111,6 +111,7 @@ export class StaticThunhapthapComponent implements OnInit {
 
 
   total() {
+    console.log(this.static);
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
       this.totalCalculate = this.static[i].total + this.totalCalculate;

@@ -44,6 +44,8 @@ public class Contract {
     @Column(name = "start_date")
     Date startDate;
 
+    String status;
+
     @ManyToOne
     @JoinColumn(
             name = "customer_id",
@@ -64,6 +66,8 @@ public class Contract {
             nullable = false,
             referencedColumnName = "id")
     Plane plane;
+
+
 
     public Contract(ContractDTO contractDTO) {
         this.id = contractDTO.getId();

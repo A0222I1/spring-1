@@ -1,53 +1,59 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {AccountService} from '../../account/service/account.service';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {Title} from '@angular/platform-browser';
-import {AuthService} from "../../account/service/auth.service";
-import {UserService} from "../../account/service/user.service";
-import {Router} from "@angular/router";
+import {UserService} from '../../account/service/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class HeaderComponent implements OnInit {
-  currenUser: Account;
   token: TokenApi;
   employee: EmployeeViewDTO;
+  isLoggedIn: boolean;
+  employeeName: string;
 
   constructor(private accountService: AccountService,
               private pageTitle: Title,
               private userService: UserService,
-              private router: Router,
-              private authService: AuthService) {
+              private router: Router) {
   }
+
 
   ngOnInit(): void {
-    this.getEmployee();
+    this.userService.isLoggedIn.subscribe(data => {
+      this.isLoggedIn = data;
+    });
+    if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
+      this.isLoggedIn = true;
+    }
+    this.userService.employeeName.subscribe(data => {
+      this.employeeName = data;
+      console.log('ten nhan vien:  ', this.employeeName);
+    });
+    if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
+      this.userService.getEmployee();
+    }
+    console.log('trang thai dang nhap: ', this.isLoggedIn);
   }
 
-  logOut() {
-    this.authService.logout();
+  onLogOut() {
     this.userService.logOut();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      this.userService.setLoggedIn(false);
+      location.reload();
+    });
   }
 
-  getEmployee() {
-    this.token = JSON.parse(localStorage.getItem('token'));
-    this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-        this.employee = data;
-      }, error => {
-        console.log("erross");
-      },
-      () => {
-        console.log(" phai chay");
-      });
-  }
 
   setPageTitle(title: string) {
     this.pageTitle.setTitle(title);
   }
-
 }

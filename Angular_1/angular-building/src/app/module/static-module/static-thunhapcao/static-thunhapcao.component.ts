@@ -22,7 +22,7 @@ export class StaticThunhapcaoComponent implements OnInit {
   startDateHighString = '';
   finishDateHighString = '';
   rowNumber = '';
-  totalCalculate: number = 0;
+  totalCalculate = 0;
 
   constructor(private staticsService: StaticThuNhapCaoServiceService, private formBuilder: FormBuilder) {
   }
@@ -107,7 +107,7 @@ export class StaticThunhapcaoComponent implements OnInit {
   total() {
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
-      this.totalCalculate = this.static[i].total + this.totalCalculate
+       this.totalCalculate = this.static[i].total + this.totalCalculate
     }
     return this.totalCalculate;
   }

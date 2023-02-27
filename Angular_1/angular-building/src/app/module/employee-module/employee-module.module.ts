@@ -12,7 +12,10 @@ import {Role} from "./model/Role";
 const routes: Routes = [
   {
     path: 'employee', component: EmployeeComponentComponent, canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN]}
+    data: {
+      title: "Quản lý nhân viên",
+      roles: [Role.ADMIN]
+    }
   }
 ];
 
