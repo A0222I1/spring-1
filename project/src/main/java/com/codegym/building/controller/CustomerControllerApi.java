@@ -49,6 +49,10 @@ public class CustomerControllerApi {
         return new ResponseEntity<>(customerPersonService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/findByIdCard/{id}")
+    private ResponseEntity<CustomerViewDTO> findByIdCardForContract(@PathVariable String id) {
+        return new ResponseEntity<>( new CustomerViewDTO(customerPersonService.findIdCardForContract(id)), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {

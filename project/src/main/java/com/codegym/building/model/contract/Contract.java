@@ -69,6 +69,7 @@ public class Contract {
         this.customer = new Customer(contractDTO.getCustomerId());
         this.employee = new Employee(contractDTO.getEmployeeId());
         this.plane = new Plane(contractDTO.getPlaneId());
+        this.status = "on";
 
     }
 }

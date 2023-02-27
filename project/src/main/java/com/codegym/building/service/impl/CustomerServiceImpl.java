@@ -78,5 +78,10 @@ public class CustomerServiceImpl implements PersonService<Customer> {
         return null;
     }
 
+    @Override
+    public Customer findIdCardForContract(String id_card) {
+        return repos.findByIdCard(id_card).get();
+    }
+
 
 }

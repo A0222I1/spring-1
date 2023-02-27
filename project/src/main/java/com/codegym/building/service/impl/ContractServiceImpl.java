@@ -56,8 +56,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         plane.setPlaneStatus(new PlaneStatus(RENTED_PLANE));
         planeServices.savePlane(plane);
         contract = contractRepos.save(new Contract(dto));
-
-
         return converter.convertDetail(contract);
     }
 
@@ -103,7 +101,7 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     }
 
     @Override
-    public Boolean updateStatusById(Integer id) {
+    public boolean updateStatusById(Integer id) {
         final Contract contract = findById(id);
         if(contract == null) {
             System.out.println("Failed to delete entity with ID " + id +  "as it does not exist");
