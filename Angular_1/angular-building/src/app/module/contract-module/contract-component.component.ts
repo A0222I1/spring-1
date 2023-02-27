@@ -21,6 +21,8 @@ import {Token} from '@angular/compiler';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {AccountService} from '../../account/service/account.service';
+import {EmployeeServiceService} from '../employee-module/service/employee-service.service';
+import {truncate} from 'fs';
 
 
 @Component({
@@ -41,20 +43,21 @@ export class ContractComponentComponent implements OnInit {
   flagHidden: boolean;
 
   token: TokenApi;
-  employee: EmployeeViewDTO;
+  employeeAccount: EmployeeViewDTO;
+  displayEmployee: EmployeeViewDTO;
 
   id: number;
-  name = 'abc';
+  name = '';
   indexPagination = 0;
   totalPages = 0;
   public value = '';
 
   contracts: ContractViewDTO[] = [];
 
-  customerNameSearch: string = '';
-  employeeNameSearch: string = '';
-  planeIdSearch: string = '';
-  dateStartSearch: string = '';
+  customerNameSearch = '';
+  employeeNameSearch = '';
+  planeIdSearch = '';
+  dateStartSearch = '';
 
   checkStartDate = false;
 
@@ -62,6 +65,7 @@ export class ContractComponentComponent implements OnInit {
               private termServiceService: TermServiceService,
               private customerService: CustomerServiceService,
               private contractService: ContractServiceService,
+              private employeeService: EmployeeServiceService,
               private datePipe: DatePipe,
               private accountService: AccountService,
               private toastrService: ToastrService) {
@@ -72,18 +76,14 @@ export class ContractComponentComponent implements OnInit {
     this.getAllTerm();
     this.getAllCustomer();
     this.getEmployee();
-
     this.buildForm();
-
-    this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch, 0);
+    this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch, this.indexPagination);
   }
 
   findAllByCondition(customerName: string, employeeName: string, planeId: string, startDay: string, page: number) {
     // tslint:disable-next-line:radix
     // planeId = parseInt(planeId).toString();
-    this.contractService.findAllByCondition(customerName, employeeName, planeId, startDay, page).subscribe(value => {
-
-      console.log(value);
+    this.contractService.findAllByCondition(customerName, employeeName, planeId, startDay, page).subscribe(value   => {
       this.contracts = value.content;
       this.indexPagination = value.number;
       this.totalPages = value.totalPages;
@@ -91,12 +91,12 @@ export class ContractComponentComponent implements OnInit {
   }
 
 
-  changeId(id: number, name: string, employeeName: string) {
-    if(this.employee.name == employeeName) {
+  changeId(id: number, name: string, accountName: string) {
+    if (this.employeeAccount.maxRole === 1 || this.employeeAccount.account === accountName) {
       document.getElementById('close').click();
       this.id = id;
       this.name = name;
-    } else  {
+    } else {
       document.getElementById('notificationModalButton').click();
     }
 
@@ -104,13 +104,14 @@ export class ContractComponentComponent implements OnInit {
   }
 
   delete(id: number) {
-
-
-
     this.contractService.delete(id).subscribe(check => {
       if (check) {
         this.toastrService.success('Xóa hợp đồng thành công.', 'Thông báo');
-        this.ngOnInit();
+        if (this.contracts.length === 1) {
+          this.indexPagination -= 1;
+        }
+        // tslint:disable-next-line:max-line-length
+        this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch, this.indexPagination);
       } else {
         this.toastrService.error('Xóa hợp đồng thât bại');
       }
@@ -127,28 +128,38 @@ export class ContractComponentComponent implements OnInit {
       total: new FormControl(this.contractDTO === undefined ? '' : new Intl.NumberFormat().format(this.contractDTO.total).toString()),
       information: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.information, [Validators.required]),
       // tslint:disable-next-line:max-line-length
-      startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.start_date, [Validators.required]),
+      startDate: new FormControl(this.contractDTO === undefined ? this.getDateNow() : this.contractDTO.startDate, [Validators.required]),
       endDate: new FormControl(''),
       // tslint:disable-next-line:max-line-length
       customerId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.customerId, [Validators.required, Validators.pattern('^([0-9]{12})$')]),
-      employeeId: new FormControl(this.employee == undefined ? '' : this.employee.id),
+      employeeId: new FormControl(this.employeeAccount === undefined ? '' : this.employeeAccount.id),
       planeId: new FormControl(this.contractDTO === undefined ? '' : this.contractDTO.planeId, [Validators.required])
     });
+
   }
 
 
   getEmployee() {
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-      this.employee = data;
+      this.employeeAccount = data;
+      this.displayEmployee = this.employeeAccount;
+      // console.log(this.employeeAccount);
     });
 
   }
 
+  // tslint:disable-next-line:ban-types
+  updateEmployee(userName: string) {
+    this.employeeService.findByUserName(userName).subscribe(data => {
+      this.displayEmployee = data;
+
+    });
+  }
+
   saveAllForm() {
-    console.log(this.formGroup);
     if (this.formGroup.invalid) {
-      this.toastrService.error('Xin mời bạn nhập tất cả các trường còn lại');
+      this.toastrService.error('Xin mời bạn nhập tất cả các trường bắt buộc');
     } else {
       this.formGroup.value.customerId = this.customerView.id;
       console.log(this.formGroup.value.customerId);
@@ -201,9 +212,6 @@ export class ContractComponentComponent implements OnInit {
     } else {
       this.toastrService.success('Thông khách đã tìm được xin mời bạn kiểm tra!!!');
     }
-    console.log(this.customerView);
-
-
   }
 
   calculateEndDate() {
@@ -257,45 +265,39 @@ export class ContractComponentComponent implements OnInit {
 
   // @ts-ignore
   // @ts-ignore
-  editContract(id: number, idCard: string, name: string) {
-    console.log(name);
-    console.log(this.employee.name);
-    if (this.employee.name == name) {
+  editContract(id: number, idCard: string, accountName: string, roleRecord: number) {
+    if (this.employeeAccount.maxRole ===   1 || this.employeeAccount.account === accountName) {
       document.getElementById('edit').click();
       this.title = 'Chỉnh Sửa Hợp Đồng';
       this.disabled = false;
       this.checkStartDate = true;
       this.flagHidden = false;
-      this.getEmployee();
-      // @ts-ignore
-      // this.formGroup.controls.startDate.clearValidators();
-      this.fillForm(id, idCard);
-
+      this.fillForm(id, idCard, accountName);
     } else {
-      document.getElementById('notificationModalButton').click();
+      this.detail(id, idCard, accountName);
+      this.toastrService.warning('Xin thông báo tài khoản của bạn chỉ có quyền xem chi tiết record này');
+      document.getElementById('openDetailModal').click();
     }
-
-
   }
 
-  fillForm(id: number, idCard: string) {
+  fillForm(id: number, idCard: string, accountName: string) {
     this.contractService.findById(id).subscribe(data => {
-
       // get all contract information
       this.contractDTO = data;
       this.contractDTO.customerId = idCard;
-      // fill customer infomation by [value]
+      // fill customer information by [value]
       this.getAllCustomer();
       this.customerView = this.customerList.find(item => item.id_card === idCard);
-      // update term
+      // update plane
       const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
-      this.planeList.push(planeEdit);
+      if (this.planeList.find(item => item.id === planeEdit.id) === undefined) {
+        this.planeList.push(planeEdit);
+      }
       // fill information
       this.buildForm();
       this.calculateEndDate();
+      this.updateEmployee(accountName);
     });
-
-
   }
 
   add() {
@@ -310,24 +312,18 @@ export class ContractComponentComponent implements OnInit {
 
   refresh() {
     this.getAllPlane();
-    console.log('refresh');
-    console.log(this.planeList);
     this.contractDTO = undefined;
     this.buildForm();
     console.log(this.formGroup);
     this.customerView = undefined;
-    // this.getAllPlane();
   }
 
   // tslint:disable-next-line:variable-name
-  detail(id: any, id_card: any) {
+  detail(id: any, id_card: any, accountName: string) {
     this.title = 'Chi Tiết Hợp Đồng';
     this.disabled = true;
     this.flagHidden = true;
-
-    this.fillForm(id, id_card);
-
-
+    this.fillForm(id, id_card, accountName);
   }
 
 

@@ -32,8 +32,8 @@
       <th>Địa Chỉ<span>(<span class="special">*</span>)</span></th>
       <th>Website</th>
       <th>Công ty<span>(<span class="special">*</span>)</span></th>
-<!--      <th>Mặt bằng</th>-->
-      <th width="18%"></th>
+      <th>Mặt bằng</th>
+      <th width="12%"></th>
 <!--      <th></th>-->
       </thead>
       <tbody>
@@ -48,8 +48,9 @@
 <!--        .length > 10 ? item.address.substring(0,10) + ' ...'  : item.address-->
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
+        <td><button type="button" class="btn btn-primary" style="font-size: 12px">Chi tiết</button></td>
         <td scope="row" class="responsiveItem">
-          <i title="Chi tiết" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>
+<!--          <i title="Chi tiết" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#editModal"></i>-->
           <i title="Chỉnh sửa" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
           <i title="Xóa" (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
         </td>

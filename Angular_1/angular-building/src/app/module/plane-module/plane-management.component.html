@@ -16,11 +16,10 @@
       <option *ngFor="let planeType of planeTypes" value="{{planeType.id}}"> {{planeType.name}}</option>
     </select>
     <div class="list-input-search-icon">
-      <i class="icon-addnew fa-solid fa-plus"></i>
+      <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
       <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
       <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
     </div>
-
   </div>
   <table class="table tab">
     <thead class="thead-dark">
@@ -117,7 +116,4 @@
       </div>
     </div>
   </div>
-
 </div>
-
-
