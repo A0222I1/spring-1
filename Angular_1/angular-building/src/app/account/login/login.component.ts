@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    const checkLogin = localStorage.getItem('token');
-    if (checkLogin) {
+    if (this.userService.checkIsLoggedInWithToken()) {
       this.router.navigate(['/home']).then(r => {
+        this.toast.warning('Bạn đang đăng nhập !!');
       });
     }
     this.loginForm = this.fb.group({
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       rememberMe: false
     });
   }
+
 
   login() {
     if (this.loginForm.value.username.trim() === '' && this.loginForm.value.password.trim() === '') {
@@ -43,7 +44,9 @@ export class LoginComponent implements OnInit {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
-        location.reload();
+        this.userService.getEmployee();
+        this.userService.setLoggedIn(true);
+        this.toast.success('Đăng nhập thành công');
       });
     }, err => {
       if (!this.loginForm.value) {
