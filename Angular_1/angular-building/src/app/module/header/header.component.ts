@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   token: TokenApi;
   employee: EmployeeViewDTO;
   isLoggedIn: boolean;
+  employeeName: string;
 
   constructor(private accountService: AccountService,
               private pageTitle: Title,
@@ -27,30 +28,28 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getEmployee();
-    this.isLoggedIn = this.userService.isLoggedIn();
+    this.userService.isLoggedIn.subscribe(data => {
+      this.isLoggedIn = data;
+    });
+    if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
+      this.isLoggedIn = true;
+    }
+    this.userService.employeeName.subscribe(data => {
+      this.employeeName = data;
+      console.log('ten nhan vien:  ', this.employeeName);
+    });
+    if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
+      this.userService.getEmployee();
+    }
+    console.log('trang thai dang nhap: ', this.isLoggedIn);
   }
 
   onLogOut() {
     this.userService.logOut();
     this.router.navigate(['/login']).then(() => {
+      this.userService.setLoggedIn(false);
       location.reload();
     });
-  }
-
-  getEmployee() {
-    if (this.userService.isLoggedIn()) {
-      this.token = JSON.parse(localStorage.getItem('token'));
-      this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-          this.employee = data;
-        }, error => {
-          console.log('errors');
-        },
-        () => {
-        });
-    } else {
-      console.log('please login');
-    }
   }
 
 
