@@ -17,6 +17,15 @@ import java.sql.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+@SqlResultSetMapping(name = "dataStaticResult", classes = {
+        @ConstructorResult(targetClass = com.codegym.building.dto.ResultsDTO.class, columns = {
+                @ColumnResult(name = "planId", type = Integer.class),
+                @ColumnResult(name = "startDate", type = java.util.Date.class),
+                @ColumnResult(name = "total", type = Double.class),
+                @ColumnResult(name = "information", type = String.class)
+        })
+})
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

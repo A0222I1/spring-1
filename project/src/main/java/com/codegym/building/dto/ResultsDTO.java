@@ -1,29 +1,36 @@
 package com.codegym.building.dto;
 
-import com.codegym.building.model.contract.Contract;
-import com.codegym.building.model.person.Customer;
-import com.codegym.building.model.person.Employee;
 import com.codegym.building.model.plane.Plane;
-import com.codegym.building.model.typeClass.Term;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class ResultsDTO {
     private Integer id;
-    private Term term;
-    private Double price;
+    private Integer planId;
     private Double total;
     private String information;
     private Date startDate;
-    private Customer customer;
-    private Employee employee;
+
     private Plane plane;
+
+    //convert dto
+    public ResultsDTO(Integer planId, Date startDate, Double total, String information) {
+        this.planId = planId;
+        this.startDate = startDate;
+        this.total = total;
+        this.information = information;
+    }
+
+    public ResultsDTO(Double total, String information, Date startDate, Plane plane) {
+        this.total = total;
+        this.information = information;
+        this.startDate = startDate;
+        this.plane = plane;
+    }
 }

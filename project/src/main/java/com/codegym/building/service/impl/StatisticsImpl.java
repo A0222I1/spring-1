@@ -1,8 +1,7 @@
 package com.codegym.building.service.impl;
 
+import com.codegym.building.dao.StaticDao;
 import com.codegym.building.dto.ResultsDTO;
-import com.codegym.building.model.contract.Contract;
-import com.codegym.building.repos.ContractRepos;
 import com.codegym.building.service.StatisticsService;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -16,52 +15,18 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StatisticsImpl implements StatisticsService {
 
     @Autowired
-    public ContractRepos repos;
+    public StaticDao repos;
 
     @Override
     public List<ResultsDTO> findAllByDayStart(String start_date, String end_date) {
         try {
-            List<ResultsDTO> listAfter = new ArrayList<ResultsDTO>();
-            List<Contract> listBefore = repos.findAllByDayStart(start_date, end_date);
-            if (null != listBefore && listBefore.size() > 0) {
-                for (Contract data : listBefore) {
-                    ResultsDTO dto = new ResultsDTO();
-                    Double totalPrice = null;
-                    dto.setId(data.getId());
-                    dto.setTerm(data.getTerm());
-                    dto.setPrice(data.getPrice());
-                    if (null != data.getTerm()) {
-                        switch (data.getTerm().getId()) {
-                            case 1:
-                                totalPrice = data.getPrice() * 3;
-                                break;
-                            case 2:
-                                totalPrice = data.getPrice() * 6;
-                                break;
-                            case 3:
-                                totalPrice = data.getPrice() * 9;
-                                break;
-                            case 4:
-                                totalPrice = data.getPrice() * 12;
-                                break;
-                        }
-                        dto.setTotal(totalPrice);
-                    }
-                    dto.setInformation(data.getInformation());
-                    dto.setStartDate(data.getStartDate());
-                    dto.setCustomer(data.getCustomer());
-                    dto.setEmployee(data.getEmployee());
-                    dto.setPlane(data.getPlane());
-                    listAfter.add(dto);
-                }
-            }
+            List<ResultsDTO> listAfter = repos.getDataResult(start_date, end_date, null, null);
             return listAfter;
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,41 +37,8 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public List<ResultsDTO> findAllByHigh(String start_date, String end_date, Integer rowNumber) {
         try {
-            List<ResultsDTO> listAfter = new ArrayList<ResultsDTO>();
-            List<Contract> listBefore = repos.findAllByHigh(start_date, end_date, rowNumber);
-            if (null != listBefore && listBefore.size() > 0) {
-                for (Contract data : listBefore) {
-                    ResultsDTO dto = new ResultsDTO();
-                    Double totalPrice = null;
-                    dto.setId(data.getId());
-                    dto.setTerm(data.getTerm());
-                    dto.setPrice(data.getPrice());
-                    if (null != data.getTerm()) {
-                        switch (data.getTerm().getId()) {
-                            case 1:
-                                totalPrice = data.getPrice() * 3;
-                                break;
-                            case 2:
-                                totalPrice = data.getPrice() * 6;
-                                break;
-                            case 3:
-                                totalPrice = data.getPrice() * 9;
-                                break;
-                            case 4:
-                                totalPrice = data.getPrice() * 12;
-                                break;
-                        }
-                        dto.setTotal(totalPrice);
-                    }
-                    dto.setInformation(data.getInformation());
-                    dto.setStartDate(data.getStartDate());
-                    dto.setCustomer(data.getCustomer());
-                    dto.setEmployee(data.getEmployee());
-                    dto.setPlane(data.getPlane());
-                    listAfter.add(dto);
-                }
-            }
-            return listAfter;
+            List<ResultsDTO> listBefore = repos.getDataResult(start_date, end_date, false, rowNumber);
+            return listBefore;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -116,41 +48,8 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public List<ResultsDTO> findAllByLow(String start_date, String end_date, Integer rowNumber) {
         try {
-            List<ResultsDTO> listAfter = new ArrayList<ResultsDTO>();
-            List<Contract> listBefore = repos.findAllByLow(start_date, end_date, rowNumber);
-            if (null != listBefore && listBefore.size() > 0) {
-                for (Contract data : listBefore) {
-                    ResultsDTO dto = new ResultsDTO();
-                    Double totalPrice = null;
-                    dto.setId(data.getId());
-                    dto.setTerm(data.getTerm());
-                    dto.setPrice(data.getPrice());
-                    if (null != data.getTerm()) {
-                        switch (data.getTerm().getId()) {
-                            case 1:
-                                totalPrice = data.getPrice() * 3;
-                                break;
-                            case 2:
-                                totalPrice = data.getPrice() * 6;
-                                break;
-                            case 3:
-                                totalPrice = data.getPrice() * 9;
-                                break;
-                            case 4:
-                                totalPrice = data.getPrice() * 12;
-                                break;
-                        }
-                        dto.setTotal(totalPrice);
-                    }
-                    dto.setInformation(data.getInformation());
-                    dto.setStartDate(data.getStartDate());
-                    dto.setCustomer(data.getCustomer());
-                    dto.setEmployee(data.getEmployee());
-                    dto.setPlane(data.getPlane());
-                    listAfter.add(dto);
-                }
-            }
-            return listAfter;
+            List<ResultsDTO> listBefore = repos.getDataResult(start_date, end_date, true, rowNumber);
+            return listBefore;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -160,7 +59,7 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public XSSFWorkbook XuatBaoCaoTongHop(String start_date, String end_date) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByDayStart(start_date, end_date);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, null, null);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -210,7 +109,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -223,23 +122,7 @@ public class StatisticsImpl implements StatisticsService {
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null;
-                    if (null != baoCao.getTerm()) {
-                        switch (baoCao.getTerm().getId()) {
-                            case 1:
-                                soTien = baoCao.getPrice() * 3;
-                                break;
-                            case 2:
-                                soTien = baoCao.getPrice() * 6;
-                                break;
-                            case 3:
-                                soTien = baoCao.getPrice() * 9;
-                                break;
-                            case 4:
-                                soTien = baoCao.getPrice() * 12;
-                                break;
-                        }
-                    }
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
 
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
@@ -291,7 +174,7 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public XSSFWorkbook XuatBaoCaoCao(String start_date, String end_date, Integer rowNumber) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByHigh(start_date, end_date, rowNumber);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, false, rowNumber);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -340,7 +223,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -353,23 +236,8 @@ public class StatisticsImpl implements StatisticsService {
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null;
-                    if (null != baoCao.getTerm()) {
-                        switch (baoCao.getTerm().getId()) {
-                            case 1:
-                                soTien = baoCao.getPrice() * 3;
-                                break;
-                            case 2:
-                                soTien = baoCao.getPrice() * 6;
-                                break;
-                            case 3:
-                                soTien = baoCao.getPrice() * 9;
-                                break;
-                            case 4:
-                                soTien = baoCao.getPrice() * 12;
-                                break;
-                        }
-                    }
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
+
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
 
@@ -393,7 +261,6 @@ public class StatisticsImpl implements StatisticsService {
                     XSSFCell cellGhiChu = row.getCell(4);
                     cellGhiChu.setCellValue(ghiChu);
                     cellGhiChu.setCellStyle(styleNormal);
-
                 }
             }
             sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
@@ -422,7 +289,7 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public XSSFWorkbook XuatBaoCaoThap(String start_date, String end_date, Integer rowNumber) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByLow(start_date, end_date, rowNumber);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, true, rowNumber);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -472,7 +339,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -485,23 +352,9 @@ public class StatisticsImpl implements StatisticsService {
                     Ordinalnumber++;
                     String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null;
-                    if (null != baoCao.getTerm()) {
-                        switch (baoCao.getTerm().getId()) {
-                            case 1:
-                                soTien = baoCao.getPrice() * 3;
-                                break;
-                            case 2:
-                                soTien = baoCao.getPrice() * 6;
-                                break;
-                            case 3:
-                                soTien = baoCao.getPrice() * 9;
-                                break;
-                            case 4:
-                                soTien = baoCao.getPrice() * 12;
-                                break;
-                        }
-                    }
+
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
+
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
 
