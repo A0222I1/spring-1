@@ -13,7 +13,7 @@ import {LoginComponent} from "../../account/login/login.component";
 const routes: Routes = [
   {
     path: 'contract', component: ContractComponentComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   }
 ];
 
