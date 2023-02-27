@@ -24,10 +24,9 @@ import {AccountModule} from "./account/account.module";
 @NgModule({
   declarations: [
     AppComponent,
-    CustomPipeVND,
     HomePageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +48,10 @@ import {AccountModule} from "./account/account.module";
       }
     )
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,CustomPipeVND],
+  exports: [
+
+  ],
   bootstrap: [AppComponent]
 })
 

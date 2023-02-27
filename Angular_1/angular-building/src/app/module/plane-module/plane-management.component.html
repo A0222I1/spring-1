@@ -3,47 +3,45 @@
 
   <div class="list-input-search">
     <input id="inputArea" type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
-    <select id="exampleFormControlSelect1" #stage (change)="stageSearch = stage.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect1" #stage (change)="stageSearch = stage.value">
       <option value="">Tên tầng</option>
       <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i+1}}: {{stage.name}}</option>
     </select>
-    <select id="exampleFormControlSelect2" #status (change)="statusSearch = status.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect2" #status (change)="statusSearch = status.value">
       <option value="">Trạng thái mặt bằng</option>
       <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
     </select>
-    <select id="exampleFormControlSelect3" #type (change)="typeSearch = type.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect3" #type (change)="typeSearch = type.value">
       <option value="">Loại mặt bằng</option>
       <option *ngFor="let planeType of planeTypes" value="{{planeType.id}}"> {{planeType.name}}</option>
     </select>
     <div class="list-input-search-icon">
+      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #0a82ed;"></i>
+      <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: gray;"></i>
       <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
-      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #ffd43b;"></i>
-      <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: red;"></i>
     </div>
 
   </div>
   <table class="table tab">
     <thead class="thead-dark">
     <tr>
-      <th scope="col">Mã mặt bằng(<span>*</span>)</th>
-      <th scope="col">Loại mặt bằng(<span>*</span>)</th>
-      <th scope="col">Diện tích(<span>*</span>)</th>
-      <th scope="col">Trạng thái(<span>*</span>)</th>
-      <th scope="col">Giá bán(<span>*</span>)</th>
-      <th scope="col">Phí quản lý(<span>*</span>)</th>
-      <th scope="col">Khách hàng(<span>*</span>)</th>
-      <th scope="col">Tầng(<span>*</span>)</th>
+      <th scope="col">Loại mặt bằng</th>
+      <th scope="col">Diện tích</th>
+      <th scope="col">Trạng thái</th>
+      <th scope="col">Giá bán</th>
+      <th scope="col">Phí quản lý</th>
+      <th scope="col">Khách hàng</th>
+      <th scope="col">Tầng</th>
       <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let item of planes">
-      <td scope="row">MB-{{item.id}}</td>
       <td scope="row">{{item.planeType.name}}</td>
       <td scope="row">{{item.area}}m<sup>2</sup></td>
       <td scope="row">{{item.planeStatus.name }}</td>
-      <td scope="row">{{item.price}} </td>
-      <td scope="row">{{item.management_costs}}</td>
+      <td scope="row">{{item.price | CustomPipeVND}} </td>
+      <td scope="row">{{item.management_costs | CustomPipeVND}}</td>
       <td scope="row">{{getCustomerName(item.id)}}</td>
       <td scope="row">{{item.stage.name}}</td>
       <td scope="row">
@@ -96,8 +94,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Bạn có muốn xóa mặt bằng <span id="name_delete">MB-{{plane?.id}}</span> ?
-          <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Đây là hành động không thể hoàn tác</p>
+          Bạn có muốn xóa mặt bằng <span id="name_delete" style="color: red"> MB-{{plane?.id}}</span> ?
+          <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> Đây là hành động không thể hoàn tác</p>
           <input hidden id="id_delete" #id_delete>
         </div>
         <div class="modal-footer">
@@ -125,72 +123,85 @@
             <!--              <input hidden disabled type="text" formControlName="id" class="form-control" value=""  required>-->
             <!--            </div>-->
             <div class="col-6" >
-              <label>Price</label>
+              <label>Giá (<span style="color:red;">*</span>): </label>
               <input type="text" formControlName="price" class="form-control" value="" >
-              <p *ngIf="(rfForm.controls.price.errors.pattern || rfForm.controls.price.hasError('validMoreThan0')) && rfForm.controls.price.touched" style="color: red">Price phải là số và phải lớn hơn 0</p>
+              <span>&nbsp;</span>
+              <span *ngIf="(rfForm.controls.price.hasError('pattern') || rfForm.controls.price.hasError('validMoreThan0')) && rfForm.controls.price.touched" style="color: red">Giá phải là số và phải lớn hơn 0</span>
 
             </div>
             <div class="col-6" >
-              <label>Area</label>
+              <label>Diện Tích (<span style="color:red;">*</span>):</label>
               <input type="text" formControlName="area" class="form-control" value=""  required>
-              <p *ngIf="(rfForm.controls.area.hasError('pattern') || rfForm.controls.area.hasError('validMoreThan0')) && rfForm.controls.area.touched" style="color: red">Area phải là số và phải lớn hơn 0</p>
+              <span>&nbsp;</span>
+              <span *ngIf="(rfForm.controls.area.hasError('pattern') || rfForm.controls.area.hasError('validMoreThan0')) && rfForm.controls.area.touched" style="color: red">Diện tích phải là số và phải lớn hơn 0</span>
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
 
             <div class="col-6" >
-              <label>Management Costs</label>
+              <label>Phí Quản Lý (<span style="color:red;">*</span>):</label>
               <input type="text" formControlName="management_costs" class="form-control" value=""  required>
-              <p *ngIf="(rfForm.controls.management_costs.hasError('pattern') || rfForm.controls.management_costs.hasError('validMoreThan0')) && rfForm.controls.management_costs.touched" style="color: red">Management Cost phải là số và phải lớn hơn 0</p>
+              <span>&nbsp;</span>
+              <span *ngIf="(rfForm.controls.management_costs.hasError('pattern') || rfForm.controls.management_costs.hasError('validMoreThan0')) && rfForm.controls.management_costs.touched" style="color: red">Chi phí quản lý phải là số và phải lớn hơn 0</span>
 
             </div>
             <div class="col-6" >
-              <div>Plane Type</div>
-              <select formControlName="planeType">
+              <div>Loại Mặt Bằng (<span style="color:red;">*</span>):</div>
+              <select class="form-select" aria-label="Default select example" formControlName="planeType">
                 <option [ngValue]="item" *ngFor="let item of this.planeTypes">{{item.name}}</option>
               </select>
-              <p *ngIf="rfForm.controls.planeType.hasError('required') && rfForm.controls.planeType.touched" style="color: red">Plane Type không được để trống</p>
+              <span>&nbsp;</span>
+              <span *ngIf="rfForm.controls.planeType.hasError('required') && rfForm.controls.planeType.touched" style="color: red">Loại mặt bằng không được để trống</span>
 
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
 
             <div class="col-6" >
-              <div>Plane Status</div>
-              <select formControlName="planeStatus">
+              <div>Trạng Thái Mặt Bằng (<span style="color:red;">*</span>):</div>
+              <select formControlName="planeStatus" class="form-select" aria-label="Default select example">
                 <option [ngValue]="item" *ngFor="let item of this.planeStatus">{{item.name}}</option>
               </select>
-                <p *ngIf="rfForm.controls.planeStatus.errors.required && rfForm.controls.planeStatus.touched" style="color: red">Plane Status không được để trống</p>
+              <span>&nbsp;</span>
+                <span *ngIf="rfForm.controls.planeStatus.hasError('required') && rfForm.controls.planeStatus.touched" style="color: red">Trạng thái mặt bằng không được để trống</span>
             </div>
             <div class="col-6" >
-              <div>Stages</div>
-              <select formControlName="stage">
+              <div>Tầng (<span style="color:red;">*</span>):</div>
+              <select class="form-select" aria-label="Default select example" formControlName="stage">
                 <option [ngValue]="item" *ngFor="let item of this.stages">{{item.name}}</option>
               </select>
-              <p *ngIf="rfForm.controls.stage.hasError('required') && rfForm.controls.stage.touched" style="color: red">Stage không được để trống</p>
+              <span>&nbsp;</span>
+              <span *ngIf="rfForm.controls.stage.hasError('required') && rfForm.controls.stage.touched" style="color: red">Tầng không được để trống</span>
 
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
             <div class="col-12">
-              <div >Picture</div>
-              <form [formArrayName]="formArray">
-                <label class="label-add-picture"  *ngFor="let img of this.formArray.controls;index as i"  for="addPicturePlane">
-                  <!--                <img  class="addPicturePlane-img" src="">-->
-                  <input (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/jpeg"  id="addPicturePlane" type="file" class="form-control" value="" >
-                  <p *ngIf="formArray.controls[i].hasError('required') && formArray.controls[i].touched" style="color:red;">Không được bỏ trống ảnh</p>
-                </label>
+              <div>Ảnh (<span style="color:red;">*</span>): </div>
+              <form class="form-array-addImg" [formArrayName]="formArray">
+                <div class="list-label-img-choose"  *ngFor="let img of this.formArray.controls;index as i">
+                  <label  class="label-add-picture"   for="addPicturePlane{{i}}">
+                    <img id="label-img{{i}}" class="addPicturePlane-img" src="../../../assets/home-img/home.png">
+                    <div>
+                      <span>&nbsp;</span>
+                      <span disable *ngIf="formArray.controls[i].hasError('required')" style="color:red;">Không được bỏ trống ảnh</span>
+                    </div>
+                    <input hidden (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/jpeg"  id="addPicturePlane{{i}}" type="file" class="form-control" value="" >
+                    <!--                  <p *ngIf="formArray.controls[i].file.hasError('required')" style="color:red;">Không được bỏ trống ảnh</p>-->
+                  </label>
+                  <i (click)="removeImg(i)" class="fa-sharp fa-solid fa-xmark remove-img-index"></i>
+                </div>
               </form>
 
             </div>
             <div class="col-6">
-              <button (click)="addPicture()">Thêm ảnh</button>
+              <button class="btn btn-primary" style="margin-top: 20px" [disabled]="this.formArray.invalid" (click)="addPicture()" >Thêm ảnh</button>
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
             <div class="col-6">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button [disabled]="this.rfForm.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
+<!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+              <button [disabled]="this.rfForm.invalid || this.formArray.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
             </div>
           </div>
         </form>
@@ -214,11 +225,30 @@
         <div>Chi phí quản lý: {{this.plane?.management_costs}}</div>
         <div>Giá thuê: {{this.plane?.price}}</div>
         <div>Diện tích: {{this.plane?.area}}</div>
-        <div class="viewDetail">
-          <img   *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" src="{{urlImg}}" alt="">
+        <div class="container" style="box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;">
+<!--          <div class="viewDetail">-->
+<!--            <img   *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" src="{{urlImg}}" alt="">-->
+<!--          </div>-->
+
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active" *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" >
+                <img style="height: 50%" src="{{urlImg}}" class="d-block w-100" alt="...">
+              </div>
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+      </div>
   </div>
 </div>
 

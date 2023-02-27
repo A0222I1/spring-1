@@ -4,18 +4,20 @@ import { PlaneManagementComponent } from './plane-management.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {CustomPipeVND} from "./utils/customPipeVND";
+import {AppModule} from "../../app.module";
 const routes: Routes = [
   {
     path: 'plane', component: PlaneManagementComponent
   }
 ];
 @NgModule({
-  declarations: [PlaneManagementComponent],
+  declarations: [PlaneManagementComponent, CustomPipeVND,
+
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-
   ]
 })
 export class PlaneModuleModule {

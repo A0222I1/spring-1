@@ -13,6 +13,7 @@ import {ContractServiceService} from "../contract-module/service/contract-servic
 import {ToastrService} from "ngx-toastr";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {log} from "util";
 
 
 @Component({
@@ -135,39 +136,50 @@ export class PlaneManagementComponent implements OnInit {
   async  submit(){
     let src = "";
     for (let [index,file] of this.formArray.controls.entries()) {
-      if (file.value.file.type != 'image/png' && file.value.file.type != 'image/jpeg') {
-        console.log("sai roi")
-      } else {
-        let filePath = `avatar${new Date().toISOString()}${file.value.file.name}`
-        let fileRef = this.fireStorage.ref(filePath);
-        await this.fireStorage.upload(filePath, file.value.file).snapshotChanges().toPromise();
-        const url = await fileRef.getDownloadURL().toPromise();
-        if(index == this.formArray.length-1){
-          src+=url;
-        }else {
-          src += `${url}a0222i1`;
+      if (file.value!=null){
+        if (file.value.file.type != 'image/png' && file.value.file.type != 'image/jpeg') {
+        } else {
+          let filePath = `avatar${new Date().toISOString()}${file.value.file.name}`
+          let fileRef = this.fireStorage.ref(filePath);
+          await this.fireStorage.upload(filePath, file.value.file).snapshotChanges().toPromise();
+          const url = await fileRef.getDownloadURL().toPromise();
+            src+=`${url}a0222i1`;
         }
       }
+      continue;
     }
-    this.rfForm.value.imgs=src;
+    this.rfForm.value.imgs=src.replace(/a0222i1$/, '');
     this.planeService.savePlane(this.rfForm.value).subscribe(data=>{
       this.ngOnInit();
     })
   }
   addPlane() {
     this.rfForm.reset();
+    this.formArray.clear();
   }
   addPicture() {
     if (this.formArray.length<4){
-      this.formArray.push(new FormControl(null,Validators.required));
+      this.formArray.push(new FormControl("",Validators.required));
     }
+    // if (this.formArray.length<4){
+    //   this.formArray.push(new FormGroup({
+    //     file : new FormControl("",Validators.required),
+    //   }));
+    // }
+    // console.log(this.formArray.controls[0].value);
   }
   uploadImg(event, i: number) {
     const fileName = event.target.files[0];
     if (fileName){
       this.formArray.controls[i].patchValue({"file": fileName});
     }
-    console.log(this.formArray.controls);
+    let idImg = document.getElementById(`label-img${i}`) as HTMLImageElement;
+    let reader = new FileReader();
+    reader.readAsDataURL(fileName)
+    reader.onload = function() {
+        idImg.src = reader.result as string;
+    }
+
   }
   validThan0(c:AbstractControl){
     const v = c.value;
@@ -177,5 +189,12 @@ export class PlaneManagementComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  removeImg(i: number) {
+    if (this.formArray.controls[i].value){
+      this.formArray.controls.splice(i,1);
+    }
+
   }
 }
