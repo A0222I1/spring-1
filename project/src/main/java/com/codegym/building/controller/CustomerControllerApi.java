@@ -1,5 +1,5 @@
 package com.codegym.building.controller;
-
+import com.codegym.building.error.NotFoundById;
 import com.codegym.building.dto.CustomerViewDTO;
 import com.codegym.building.model.person.Customer;
 import com.codegym.building.model.person.Employee;
@@ -34,9 +34,9 @@ public class CustomerControllerApi {
     public ResponseEntity<Page<Customer>> findAllByCondition(@RequestParam(name = "name", defaultValue = "") String name,
                                                              @RequestParam(name = "id_card", defaultValue = "") String id_card,
                                                              @RequestParam(name = "address", required = false, defaultValue = "") String address,
-                                                             @RequestParam(name = "department", required = false, defaultValue = "") String department,
+                                                             @RequestParam(name = "company", required = false, defaultValue = "") String company,
                                                              @PageableDefault(size = MAX_DISPLAY, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, department, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(customerPersonService.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, address, company, pageable), HttpStatus.OK);
     }
 
     @GetMapping("/dto")
@@ -45,10 +45,14 @@ public class CustomerControllerApi {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<Customer> findById(@PathVariable String id) {
+    private ResponseEntity<Customer> findById(@PathVariable String id) throws NotFoundById {
         return new ResponseEntity<>(customerPersonService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/findByIdCard/{id}")
+    private ResponseEntity<CustomerViewDTO> findByIdCardForContract(@PathVariable String id) {
+        return new ResponseEntity<>( new CustomerViewDTO(customerPersonService.findIdCardForContract(id)), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {

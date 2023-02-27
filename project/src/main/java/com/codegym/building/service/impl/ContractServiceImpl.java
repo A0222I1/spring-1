@@ -8,14 +8,15 @@ import com.codegym.building.model.typeClass.PlaneStatus;
 import com.codegym.building.repos.ContractRepos;
 import com.codegym.building.service.ContractService;
 import com.codegym.building.utils.AbstractContractDTOConvert;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
     static final Integer AVAILABLE_PLANE = 2;
     static final Integer RENTED_PLANE = 3;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContractServiceImpl.class);
 
     @Autowired
     ContractRepos contractRepos;
@@ -38,17 +41,21 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         Plane plane = planeServices.findPlaneById(dto.getPlaneId());
         if(dto.getId() != null) {
             Contract contractOld = findById(dto.getId());
-            Plane planOLd = planeServices.findPlaneById(contractOld.getPlane().getId());
-            if(planOLd.getId() != plane.getId()) {
-                planOLd.setPlaneStatus(new PlaneStatus(AVAILABLE_PLANE));
-                planeServices.savePlane(planOLd);
+            if(contractOld == null) {
+                LOG.error("No contract older contain in database");
+            } else  {
+                Plane planOLd = planeServices.findPlaneById(contractOld.getPlane().getId());
+                if(!planOLd.getId().equals(plane.getId()) ) {
+                    planOLd.setPlaneStatus(new PlaneStatus(AVAILABLE_PLANE));
+                    planeServices.savePlane(planOLd);
+                }
+
             }
+
         }
         plane.setPlaneStatus(new PlaneStatus(RENTED_PLANE));
         planeServices.savePlane(plane);
         contract = contractRepos.save(new Contract(dto));
-
-
         return converter.convertDetail(contract);
     }
 
@@ -72,18 +79,18 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     public boolean delete(Integer id) {
         final Contract contract = findById(id);
         if (contract == null) {
-            System.out.println("Failed to delete entity with ID " + id + "as it does not exist");
+            LOG.error("Failed to delete entity with ID as {} it does not exist",id);
             return false;
         }
         try {
             Plane plane = planeServices.findPlaneById(contract.getPlane().getId());
-            PlaneStatus planeStatus = new PlaneStatus(2);
+            PlaneStatus planeStatus = new PlaneStatus(AVAILABLE_PLANE);
             plane.setPlaneStatus(planeStatus);
             planeServices.savePlane(plane);
             contractRepos.delete(contract);
             return true;
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            LOG.error(e.getMessage());
             return false;
         }
     }
@@ -91,6 +98,26 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     @Override
     public List<ContractViewDTO> listDtoView() {
         return contractRepos.findAll().stream().map(ContractViewDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean updateStatusById(Integer id) {
+        final Contract contract = findById(id);
+        if(contract == null) {
+            System.out.println("Failed to delete entity with ID " + id +  "as it does not exist");
+            return false;
+        }
+        try {
+            Plane plane = planeServices.findPlaneById(contract.getPlane().getId());
+            PlaneStatus planeStatus = new PlaneStatus(2);
+            plane.setPlaneStatus(planeStatus);
+            planeServices.savePlane(plane);
+            contractRepos.updateStatusById(id);
+            return true;
+        }catch (final Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     private Contract findById(final Integer id) {

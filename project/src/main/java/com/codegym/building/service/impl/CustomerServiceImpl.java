@@ -24,8 +24,8 @@ public class CustomerServiceImpl implements PersonService<Customer> {
 
 
     @Override
-    public Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(String name, String id_card, String address, String department, Pageable pageable) {
-        return repos.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card, pageable);
+    public Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(String name, String id_card, String address, String company, Pageable pageable) {
+        return repos.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card,address,company, pageable);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CustomerServiceImpl implements PersonService<Customer> {
 
     @SneakyThrows
     @Override
-    public Customer findById(String id) {
+    public Customer findById(String id) throws NotFoundById {
         Optional<Customer> customer = repos.findById(id);
         if (customer.isPresent()) {
             return customer.get();
@@ -76,6 +76,11 @@ public class CustomerServiceImpl implements PersonService<Customer> {
     @Override
     public Customer findByUserName(String username) {
         return null;
+    }
+
+    @Override
+    public Customer findIdCardForContract(String id_card) {
+        return repos.findByIdCard(id_card).get();
     }
 
 

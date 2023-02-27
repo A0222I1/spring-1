@@ -5,8 +5,12 @@
 <<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/spring-1.iml" filepath="$PROJECT_DIR$/.idea/spring-1.iml" />
 =======
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/.idea/spring-1.iml" filepath="$PROJECT_DIR$/.idea/spring-1.iml" />
+=======
       <module fileurl="file://$PROJECT_DIR$/.idea/project-sprint1.iml" filepath="$PROJECT_DIR$/.idea/project-sprint1.iml" />
 >>>>>>> 0226bad137f645ad6ce7d9c85a6eb05b0f614105
+>>>>>>> 481c61922384ca665ea39c16bbf62d3935c34b32
     </modules>
   </component>
 </project>

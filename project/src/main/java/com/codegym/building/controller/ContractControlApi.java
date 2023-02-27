@@ -3,12 +3,13 @@ package com.codegym.building.controller;
 import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.dto.ContractViewDTO;
 import com.codegym.building.model.contract.Contract;
-import com.codegym.building.service.ContractService;
-import lombok.Value;
+
+
+import com.codegym.building.service.impl.ContractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ import java.util.Map;
 @CrossOrigin("http://localhost:4200/")
 public class ContractControlApi {
     @Autowired
-    ContractService contractService;
+    ContractServiceImpl contractService;
 
     @GetMapping("")
     public ResponseEntity<Page<Contract>> getAll(@PageableDefault(value = 2) Pageable pageable)     {
@@ -43,11 +44,11 @@ public class ContractControlApi {
                                                               @RequestParam(name = "planeId" ,defaultValue = "") String planeId,
                                                               @RequestParam(name = "dateStart", defaultValue = "") String dateStart,
                                                               @PageableDefault(size = 5) Pageable pageable) {
-        return new ResponseEntity<>(contractService.findAll(customerName, employeeName, planeId, dateStart, pageable).map(item -> new ContractViewDTO((Contract) item)), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.findAll(customerName, employeeName, planeId, dateStart, pageable).map(ContractViewDTO::new), HttpStatus.OK);
     }
     @GetMapping("/contractViewDTO")
     public ResponseEntity<List<ContractViewDTO>> getAll(){
-        return  new ResponseEntity<List<ContractViewDTO>>(contractService.listDtoView(),HttpStatus.OK);
+        return  new ResponseEntity<>(contractService.listDtoView(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -57,7 +58,7 @@ public class ContractControlApi {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-        return new ResponseEntity<>(contractService.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.updateStatusById(id), HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -74,7 +75,7 @@ public class ContractControlApi {
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);

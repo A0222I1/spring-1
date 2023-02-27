@@ -1,18 +1,22 @@
+.body-class {
+  margin-top: 120px;
+}
+
 .tab span {
   color: red;
 }
 
-table{
+table {
   width: 90%;
   margin: 20px auto;
   background-color: white;
-  box-shadow:1px 1px 4px 1px grey;
+  box-shadow: 1px 1px 4px 1px grey;
   position: static;
 }
 td img:hover{
   transform: scale(2);
 }
-.page-link:hover{
+.page-link:hover {
   cursor: pointer;
   opacity: 0.9;
 }
@@ -53,28 +57,32 @@ table > tbody > tr > td p {
   margin: 0;
 }
 
-
-
 td img {
   width: 50px;
   height: 50px;
   border-radius: 5px;
 }
 
-.ground-button-chose button{
+table > tbody > tr > td button {
+  width: 40px;
+  height: 40px;
+}
+
+
+.ground-button-chose button {
   margin: 10px 8px;
 }
 
-.select-ground{
+.select-ground {
   background-color: black;
 }
 
-.list-ground-title{
+.list-ground-title {
   text-align: center;
   margin: 10px 0;
 }
 
-.list-input-search{
+.list-input-search {
   display: flex;
   padding: 0 20px;
   align-items: center;
@@ -82,50 +90,50 @@ td img {
   margin:10px 0 10px 70px;
 }
 
-.list-input-search input{
+.list-input-search input {
   outline: none;
   border-radius: 5px;
   border: none;
-  box-shadow:1px 1px 4px 1px grey;
+  box-shadow: 1px 1px 4px 1px grey;
   padding: 5px 20px 5px 10px;
   font-size: 14px;
 }
 
-.list-input-search input::placeholder{
+.list-input-search input::placeholder {
   font-size: 14px;
 }
 
-.list-input-search-icon{
+.list-input-search-icon {
   display: flex;
 }
 
-.list-input-search-icon i{
+.list-input-search-icon i {
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
 }
 
-.list-input-search-icon i:hover{
+.list-input-search-icon i:hover {
   cursor: pointer;
   opacity: 0.8;
 }
 
-.list-input-search-icon-search{
+.list-input-search-icon-search {
   color: white;
 }
 
-.list-input-search-icon-undo{
+.list-input-search-icon-undo {
   color: white;
 }
 
-.select-choose-floor{
+.select-choose-floor {
   color: white;
   background-color: #424141;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.select-choose-floor option{
+.select-choose-floor option {
   background-color: white;
   color: black;
 }
@@ -149,12 +157,12 @@ td img {
   border: 1px solid #4CAF50;
 }
 
-.action-icon:hover{
+.action-icon:hover {
   cursor: pointer;
   opacity: 0.8;
 }
 
-.action-icon{
+.action-icon {
   padding: 12px;
   font-size: 20px;
   margin: 0 8px;
@@ -167,15 +175,16 @@ td img {
   border-radius: 5px;
   outline: #4CAF50;
 }
-.action-icon-delete{
+
+.action-icon-delete {
   background-color: red;
 }
 
-.action-icon-info{
+.action-icon-info {
   background-color: #40c057;
 }
 
-.action-icon-edit{
+.action-icon-edit {
   background-color: #ffd43b;
 }
 
@@ -187,18 +196,52 @@ td img {
   margin: 0 10px;
 }
 
-th{
+th {
   font-size: 13px;
 }
 
-.special{
+.special {
   color: red;
 }
-@media
-only screen and (max-width: 1092px),
-(min-device-width: 911px) and (max-device-width: 1024px)  {
 
+.list-input-search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
+.list-input-search input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.list-input-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 1092px),
+(min-device-width: 911px) and (max-device-width: 1024px) {
+
+  /*input{*/
+  /*  display: none;*/
+  /*}*/
+  /*.list-input-search-icon i{*/
+  /*  display: none;*/
+  /*}*/
+  .list-input-search input {
+    flex-basis: calc(50% - 10px);
+  }
+
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
+  }
 
   /* Force table to not be like tables anymore */
   table, thead, tbody, th, td, tr {
@@ -206,8 +249,7 @@ only screen and (max-width: 1092px),
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-
-  th{
+  th {
     display: none;
   }
 
@@ -258,6 +300,61 @@ only screen and (max-width: 1092px),
   td:nth-of-type(11):before { content: "Bộ phận"; }
   td:nth-of-type(12):before { content: "Tài khoản"; }
   td:nth-of-type(13):before { content: "Thao tác"; }
+  td:nth-of-type(1):before {
+    content: "Hình ảnh";
+  }
+
+  td:nth-of-type(2):before {
+    content: "Họ và tên";
+  }
+
+  td:nth-of-type(3):before {
+    content: "Căn cước công dân";
+  }
+
+  td:nth-of-type(4):before {
+    content: "Email";
+  }
+
+  td:nth-of-type(5):before {
+    content: "Điện thoại";
+  }
+
+  td:nth-of-type(6):before {
+    content: "Ngày sinh";
+  }
+
+  td:nth-of-type(7):before {
+    content: "Giới tính";
+  }
+
+  td:nth-of-type(8):before {
+    content: "Địa chỉ";
+  }
+
+  td:nth-of-type(9):before {
+    content: "Lương";
+  }
+
+  td:nth-of-type(10):before {
+    content: "Cấp lương";
+  }
+
+  td:nth-of-type(11):before {
+    content: "Bộ phận";
+  }
+
+  td:nth-of-type(12):before {
+    content: "Ngày vào";
+  }
+
+  td:nth-of-type(13):before {
+    content: "Tài khoản";
+  }
+
+  td:nth-of-type(14):before {
+    content: "Thao tác";
+  }
 }
 
 

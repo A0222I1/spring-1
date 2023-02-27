@@ -4,9 +4,13 @@ import { PlaneManagementComponent } from './plane-management.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {CustomPipeVND} from "./utils/customPipeVND";
+import {AuthGuard} from "../../account/guard/auth.guard";
 const routes: Routes = [
   {
-    path: 'plane', component: PlaneManagementComponent
+    path: 'plane', component: PlaneManagementComponent, canActivate: [AuthGuard],
+    data: {
+      title: "Quản lý mặt bằng"
+    }
   }
 ];
 @NgModule({

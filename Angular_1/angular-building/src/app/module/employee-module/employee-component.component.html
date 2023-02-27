@@ -213,7 +213,7 @@
               <input type="text" class="form-control" formControlName="name" required>
               <span style="color: red" *ngIf="formGroup.controls.name.untouched">&nbsp; </span>
               <span style="color: red"
-                    *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">tên không nên để trống</span>
+                    *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">Tên không nên để trống</span>
               <span style="color: green" *ngIf="formGroup.controls.name.valid">Có thể sử dụng tên này.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.name.hasError('minlength') &&  formGroup.controls.name.touched">Tên nên dài hơn 8 kí tự.</span>

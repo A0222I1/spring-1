@@ -2,6 +2,7 @@ package com.codegym.building.controller;
 
 import com.codegym.building.dto.EmployeeDTO;
 import com.codegym.building.dto.EmployeeViewDTO;
+import com.codegym.building.error.NotFoundById;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.repos.EmployeeRepos;
 import com.codegym.building.service.PersonService;
@@ -39,7 +40,7 @@ public class EmployeeControllerApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable String id) {
+    public ResponseEntity<Employee> findById(@PathVariable String id) throws NotFoundById {
         return new ResponseEntity<>(employeePersonService.findById(id), HttpStatus.OK);
     }
 
@@ -84,4 +85,10 @@ public class EmployeeControllerApi {
     public ResponseEntity<Boolean> isExistsEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(employeePersonService.findByEmail(email), HttpStatus.OK);
     }
+
+    @GetMapping("/accountName/{name}")
+    public ResponseEntity<EmployeeViewDTO> getEmployeeFromAccountName(@PathVariable String name) {
+        return new ResponseEntity<>(new EmployeeViewDTO(employeePersonService.findByUserName(name)), HttpStatus.OK);
+    }
 }
+

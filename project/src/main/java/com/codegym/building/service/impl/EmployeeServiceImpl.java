@@ -69,11 +69,16 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
 
     @Override
     public List<Employee> getAll() {
-        return null;
+        return repos.findAll();
     }
 
     @Override
     public Employee findByUserName(String username) {
         return repos.findByUserName(username);
+    }
+
+    @Override
+    public Employee findIdCardForContract(String id_card) {
+        return null;
     }
 }

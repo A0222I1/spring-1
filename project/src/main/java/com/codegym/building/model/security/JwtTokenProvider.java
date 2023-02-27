@@ -15,17 +15,6 @@ public class JwtTokenProvider {
     //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 10 * 60 * 60 * 24;
 
-    // Tạo ra jwt từ thông tin user
-//    public String generateToken(CustomUserDetails userDetails) {
-//        // Tạo chuỗi json web token từ id của user.
-//        return Jwts.builder()
-//                .setSubject((userDetails.getAccount().getUser_name()))
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-//                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-//                .compact();
-//    }
-
     // Lấy thông tin user từ jwt
     public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()

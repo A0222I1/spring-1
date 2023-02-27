@@ -1,69 +1,71 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {map, tap} from "rxjs/operators";
-import {Account} from "../../module/employee-module/model/Account";
-import {AccountDTO} from "../../module/employee-module/model/dto/AccountDTO";
-import {TokenApi} from "../../module/employee-module/model/dto/TokenApi";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {map, tap} from 'rxjs/operators';
+import {Account} from '../../module/employee-module/model/Account';
+import {AccountDTO} from '../../module/employee-module/model/dto/AccountDTO';
+import {TokenApi} from '../../module/employee-module/model/dto/TokenApi';
+import {AccountService} from './account.service';
 
-const API_URL = "http://localhost:8080/account";
+const API_URL = 'http://localhost:8080/account';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  private nameEmployee: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private token: TokenApi;
+  private employee: string;
 
-  public currentUser: Observable<Account>;
-  private currentUserSubject: BehaviorSubject<Account>;
-
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<Account> (JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
-
-  public get currentUserValue(): Account {
-    return this.currentUserSubject.value;
+  constructor(private http: HttpClient,
+              private accountService: AccountService,
+  ) {
   }
 
   login(accountDTO: AccountDTO): Observable<TokenApi> {
-    // tslint:disable-next-line:max-line-length
     return this.http.post<TokenApi>(`http://localhost:8080/account/login`, accountDTO);
   }
-  //
-  // getAccountDTO(username: string, password: string): AccountDTO {
-  //   return  {
-  //     username,
-  //     password
-  //   };
-  // }
 
-  // login(user: Account): Observable<any> {
-  //   const headers = new HttpHeaders(user ? {
-  //     authorization: 'Basic ' + btoa(user.username + ':' + user.password)
-  //   } : {});
-  //
-  //   return this.http.get<any> (API_URL + "", {headers}).pipe(
-  //     map(response => {
-  //       if (response) {
-  //         localStorage.setItem('currentUser', JSON.stringify(response));
-  //         this.currentUserSubject.next(response);
-  //       }
-  //       return response;
-  //     })
-  //   );
-  // }
+  logOut() {
+    localStorage.removeItem('token');
+  }
 
-  // logOut(): Observable<any> {
-  //   return this.http.post(API_URL + "logout", {}).pipe(
-  //     map(response => {
-  //       localStorage.removeItem('currentUser');
-  //       this.currentUserSubject.next(null);
-  //     })
-  //   );
-  // }
-  //
-  // register(user: Account): Observable<any> {
-  //   return this.http.post(API_URL + "registration", JSON.stringify(user),
-  //     {headers: {"Content-Type": "application/json; charset=UTF-8"}});
-  // }
+  getEmployee() {
+    if (this.checkIsLoggedInWithToken()) {
+      this.token = JSON.parse(localStorage.getItem('token'));
+      this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
+          this.employee = data.name;
+          this.setEmployeeName(this.employee);
+        }, error => {
+          console.log('errors');
+        },
+        () => {
+        });
+    } else {
+      console.log('please login');
+    }
+  }
+
+  checkIsLoggedInWithToken() {
+    // Kiểm tra xem token có tồn tại trong local storage không
+    return localStorage.getItem('token') !== null;
+  }
+
+  setLoggedIn(value: boolean) {
+    this.loggedIn.next(value);
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  setEmployeeName(name: string) {
+    this.nameEmployee.next(name);
+  }
+
+  get employeeName() {
+    return this.nameEmployee.asObservable();
+  }
 }
