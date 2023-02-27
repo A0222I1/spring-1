@@ -3,8 +3,9 @@
   <div class="list-input-search">
     <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
     <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
-    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Mã Mặt Bằng">
-    <input  id="startDate" type="date" #startDay placeholder="dd-mm-yyyy" (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
+    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value" placeholder="Mã Mặt Bằng">
+    <input style="width: 100px" id="startDate"  #startDay placeholder="dd-mm-yyyy" (change)="dateStartSearch = startDay.value" type="text"
+            onfocus="(this.type='date')" placeholder="Ngày Bắt Đầu">
     <div class="list-input-search-icon">
       <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
       <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()" aria-hidden="true"></i>
@@ -28,7 +29,7 @@
     <td scope="row">{{contract.id}}</td>
     <td scope="row">{{contract.customerName}}</td>
     <td scope="row">{{contract.employeeName}}</td>
-    <td scope="row">MB_{{contract.planeId}}</td>
+    <td scope="row">MB-{{contract.planeId}}</td>
     <td scope="row">{{contract.planeStatus}}</td>
     <td scope="row">{{contract.startDate  | date: 'dd/MM/yyyy'}}</td>
 
@@ -64,7 +65,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có muốn hợp đồng này HD_{{name}}?
+        Bạn có muốn xóa hợp đông <span style="font-weight: bold">HD_{{name}}</span>?
         <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Đây là hành động không thể hoàn tác</p>
         <input hidden id="id_delete" #id_delete>
       </div>
@@ -92,7 +93,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Tài khoản hiện tại là của {{employeeAccount?.name}}. Bạn không có quyên thay đổi cái này.
+        Tài khoản hiện tại là của {{employeeAccount?.name}} không có quyền thay đổi thông tin.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -103,6 +104,7 @@
 </div>
 
 <div  *ngIf="(totalElements> 0); else isEmpty">
+
   <ul class="pagination justify-content-center">
     <li class="page-item">
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
@@ -151,7 +153,7 @@
 </div>
 
 <ng-template #isEmpty class="clearfix">
-  <div style="font-size: 20px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}{{planeIdSearch}}{{employeeNameSearch}}{{dateStartSearch}}" </b></div>
+  <div style="font-size: 18px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}&nbsp;{{employeeNameSearch}}&nbsp;{{planeIdSearch}}&nbsp;{{dateStartSearch}}" </b></div>
 </ng-template>
 
 <!-- Button trigger modal -->
@@ -290,43 +292,47 @@
 
 
             </div>
-
-            <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
-            <div class="row">
-              <div class="col-12">
-                <textarea style="width: 102.3%" class="form-control" formControlName="information" required
+            <div class = "col-12">
+              <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
+              <div class="row">
+                <div class="col-12">
+                <textarea  class="form-control" formControlName="information" required
                           [attr.disabled]="disabled  == true ? '' : null"></textarea>
-                <span style="color: red"
-                      *ngIf="(formGroup.controls.information.hasError('required') && (formGroup.controls.information.touched || flagDisplayValidate))">
+                  <span style="color: red"
+                        *ngIf="(formGroup.controls.information.hasError('required') && (formGroup.controls.information.touched || flagDisplayValidate))">
               Nhập giá nội dung hợp đồng
             </span>
-                <span style="color: red"> &nbsp;</span>
+                  <span style="color: red"> &nbsp;</span>
 
+                </div>
               </div>
             </div>
 
-            <hr style="margin-top: 10px">
 
-            <h5>Thông Tin Nhân Viên</h5>
-            <div class="row">
-              <div class="col-4">
-                <label>Nhân Viên</label>
 
-                <input value="{{displayEmployee?.name}}" type="text" class="form-control" disabled required>
-              </div>
-              <div class="col-4">
-                <label>SĐT Nhân Viên</label>
-                <input value="{{displayEmployee?.phone}}" type="text" class="form-control" disabled required>
-              </div>
-              <div class="col-4">
-                <label>Email Nhân Viên</label>
-                <input value="{{displayEmployee?.email}}" type="text" class="form-control" disabled required>
-              </div>
-            </div>
 
-            <hr style="margin-top: 10px">
 
           </div>
+          <hr style="margin-top: 10px">
+
+          <h5>Thông Tin Nhân Viên</h5>
+          <div class="row">
+            <div class="col-4">
+              <label>Nhân Viên</label>
+
+              <input value="{{displayEmployee?.name}}" type="text" class="form-control" disabled required>
+            </div>
+            <div class="col-4">
+              <label>SĐT Nhân Viên</label>
+              <input value="{{displayEmployee?.phone}}" type="text" class="form-control" disabled required>
+            </div>
+            <div class="col-4">
+              <label>Email Nhân Viên</label>
+              <input value="{{displayEmployee?.email}}" type="text" class="form-control" disabled required>
+            </div>
+          </div>
+
+
 
 
         </div>

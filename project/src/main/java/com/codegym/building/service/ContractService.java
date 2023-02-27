@@ -15,5 +15,5 @@ public interface ContractService <E extends Contract,D extends ContractDTO, V ex
     Page<E> findAll(String customerName,String employeeName, String planeId, String dateStart, Pageable pageable);
     boolean delete(Integer id);
     List<V> listDtoView();
-    Boolean updateStatusById(Integer id);
+    boolean updateStatusById(Integer id);
 }

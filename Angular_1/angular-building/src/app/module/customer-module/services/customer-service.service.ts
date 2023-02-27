@@ -28,7 +28,7 @@ export class CustomerServiceService {
     return this.http.delete<number>(`${this.url}/${id}`);
   }
 
-  findById(id: string): Observable<Customer>{
+  findById(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.url}/${id}`);
   }
 
@@ -48,6 +48,9 @@ export class CustomerServiceService {
     return this.http.get<boolean>(`${this.url}/existsEmail?email=${value}`);
   }
 
+  findByIdCardForContract(idCard: string): Observable<CustomerViewDTO> {
+    return this.http.get<CustomerViewDTO>(`${this.url}/findByIdCard/${idCard}`);
+  }
   save(value: AbstractControl): Observable<Customer> {
     console.log(this.getCustomerDTO(value));
     return this.http.post<Customer>(`${this.url}`, this.getCustomerDTO(value));
