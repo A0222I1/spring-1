@@ -9,7 +9,9 @@ table{
   box-shadow:1px 1px 4px 1px grey;
   position: static;
 }
-
+td img:hover{
+  transform: scale(2);
+}
 .page-link:hover{
   cursor: pointer;
   opacity: 0.9;
@@ -51,12 +53,13 @@ table > tbody > tr > td p {
   margin: 0;
 }
 
-table > tbody > tr > td button {
-  width: 40px;
-  height: 40px;
+
+
+td img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 }
-
-
 
 .ground-button-chose button{
   margin: 10px 8px;
@@ -76,7 +79,7 @@ table > tbody > tr > td button {
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
-  margin:10px 0 10px 60px;
+  margin:10px 0 10px 70px;
 }
 
 .list-input-search input{
@@ -158,7 +161,12 @@ table > tbody > tr > td button {
   border-radius: 30%;
   color: white;
 }
-
+.select-option-department{
+  width: 300px;
+  height: 35px;
+  border-radius: 5px;
+  outline: #4CAF50;
+}
 .action-icon-delete{
   background-color: red;
 }
@@ -248,9 +256,8 @@ only screen and (max-width: 1092px),
   td:nth-of-type(9):before { content: "Lương"; }
   td:nth-of-type(10):before { content: "Cấp lương"; }
   td:nth-of-type(11):before { content: "Bộ phận"; }
-  td:nth-of-type(12):before { content: "Ngày vào"; }
-  td:nth-of-type(13):before { content: "Tài khoản"; }
-  td:nth-of-type(14):before { content: "Thao tác"; }
+  td:nth-of-type(12):before { content: "Tài khoản"; }
+  td:nth-of-type(13):before { content: "Thao tác"; }
 }
 
 

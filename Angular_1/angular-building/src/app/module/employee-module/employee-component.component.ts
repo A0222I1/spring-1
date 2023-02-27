@@ -68,11 +68,13 @@ export class EmployeeComponentComponent implements OnInit {
     if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
       return;
     }
-
     this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, idCard, address, department, page).subscribe(value => {
       this.employees = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
+      if (this.employees.length === 0) {
+        document.getElementById("hidden-button").click();
+      }
     });
   }
   refreshPage() {
@@ -113,9 +115,9 @@ export class EmployeeComponentComponent implements OnInit {
       avatar: ['', [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
         Validators.minLength(8),
-        Validators.pattern('^[A-Za-z ' +
+        Validators.pattern('^[A-Za-z' +
           'ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃ' +
-          'úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã.?!@#$%^&*]+$'),
+          'úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã@#]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
       birthday: ['', [Validators.required, checkBirthday]],
@@ -207,5 +209,9 @@ export class EmployeeComponentComponent implements OnInit {
 
   resetModal() {
     this.buildForm();
+  }
+
+  searchWithCondition() {
+    this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
   }
 }
