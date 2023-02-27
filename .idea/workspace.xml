@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d5427e1-b756-48bb-98ab-edfba3e9bb7f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/employee-component.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/employee-component.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/employee-module.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/employee-module.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/model/Account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/model/Account.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/model/Department.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/model/Department.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/model/Employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/model/Employee.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/model/Gender.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/model/Gender.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/model/SalaryScale.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/model/SalaryScale.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/department-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/department-service.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/employee-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/employee-service.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/gender-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/gender-service.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/salary-scale-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/src/app/module/employee-module/service/salary-scale-service.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Angular_1/angular-building/tslint.json" beforeDir="false" afterPath="$PROJECT_DIR$/Angular_1/angular-building/tslint.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/src/main/java/com/codegym/building/dto/AccountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/src/main/java/com/codegym/building/dto/AccountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/src/main/java/com/codegym/building/model/account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/project/src/main/java/com/codegym/building/model/account/Account.java" afterDir="false" />
-    </list>
+    <list default="true" id="8d5427e1-b756-48bb-98ab-edfba3e9bb7f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,17 +10,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2LSF2lKEdMQBWUTAUESYquIRgEA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Angular_1" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -48,11 +38,9 @@
       <option name="presentableId" value="Default" />
       <updated>1675856371745</updated>
       <workItem from="1675856376039" duration="32000" />
+      <workItem from="1677063479949" duration="1000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1675856405670">
