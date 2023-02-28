@@ -3,6 +3,7 @@ import * as moment from 'moment';
 
 
 export function checkBirthday(control: AbstractControl): ValidationErrors | null {
+  // console.log(control);
   const dayCheck = moment(control.value);
   const dayNow = moment(new Date());
   if (moment.duration(dayNow.diff(dayCheck)).years() < 18) {

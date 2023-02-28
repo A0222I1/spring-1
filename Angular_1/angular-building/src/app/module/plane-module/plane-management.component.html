@@ -9,7 +9,7 @@
     </select>
     <select id="exampleFormControlSelect3" #status (change)="statusSearch = status.value">
       <option value="">Trạng thái mặt bằng</option>
-        <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
+      <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
     </select>
     <select id="exampleFormControlSelect1" #type (change)="typeSearch = type.value">
       <option value="">Loại mặt bằng</option>

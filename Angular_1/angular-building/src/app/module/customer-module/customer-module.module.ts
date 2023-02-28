@@ -10,8 +10,10 @@ import {AuthGuard} from "../../account/guard/auth.guard";
 
 const routes: Routes = [
   {
-    path: 'customer', component: CustomerManagementComponent
-    // , canActivate: [AuthGuard]
+    path: 'customer', component: CustomerManagementComponent, canActivate: [AuthGuard],
+    data: {
+      title: "Quản lý khách hàng"
+    }
   }
 ];
 

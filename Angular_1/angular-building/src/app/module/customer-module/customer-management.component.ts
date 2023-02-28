@@ -10,6 +10,8 @@ import {DepartmentServiceService} from "../employee-module/service/department-se
 // @ts-ignore
 import {ToastrService} from "ngx-toastr";
 import {checkBirthday, checkTrim} from "../employee-module/utils/CustomValidate";
+import {ContractServiceService} from "../contract-module/service/contract-service.service";
+import {ContractViewDTO} from "../contract-module/dto/ContractViewDTO";
 
 @Component({
   selector: 'app-customer-management',
@@ -18,9 +20,10 @@ import {checkBirthday, checkTrim} from "../employee-module/utils/CustomValidate"
 })
 export class CustomerManagementComponent implements OnInit {
   formGroup: FormGroup;
-  customers: CustomerViewDTO[] =[];
+  customers: CustomerViewDTO[] = [];
   genders: Gender[] = [];
   departments: Department[] = [];
+  customerList: ContractViewDTO[] = [];
   totalPages: number = 0;
   pageNumber: number = 0;
   name_search: string = '';
@@ -36,6 +39,7 @@ export class CustomerManagementComponent implements OnInit {
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
+              private contractService: ContractServiceService,
               private toastr: ToastrService
   ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
@@ -57,6 +61,7 @@ export class CustomerManagementComponent implements OnInit {
       console.log(this.totalPages);
     });
   }
+
 
   refreshPage() {
     (<HTMLInputElement>document.getElementById("nameSearch")).value = '';
@@ -88,8 +93,14 @@ export class CustomerManagementComponent implements OnInit {
       if(this.customers.length == 1)
       {this.pageNumber  = this.pageNumber - 1;}
       this.ngOnInit();
+    });
+  };
+  findAllByCustomerId(customerId: string) {
+    this.contractService.findAllByCustomerId(customerId).subscribe(data => {
+     this.customerList = data;
     })
   };
+
 
   findById(id: string) {
     this.customerService.findById(id).subscribe(value => {
@@ -119,14 +130,18 @@ export class CustomerManagementComponent implements OnInit {
       id_card: ['', [Validators.required,
         Validators.pattern("^([0-9]{12})$")]],
       account: ['', [Validators.required, checkTrim]]
+    });
+  }
+
+  // detail(id: string) {
+  //   this.findAllByCustomerId(id);
+  // }
+
+  detail(id: string) {
+    this.customerService.findById(id).subscribe(value => {
+      document.getElementById("nameCustomer").innerText =value.name;
+      this.findAllByCustomerId(id);
     })
   }
-  // saveForm() {
-  //   this.customerService.save(this.formGroup).subscribe(value => {
-  //     this.message = `tạo mới thành công khách hàng tên ${value.name}`;
-  //     document.getElementById("createModal").click();
-  //     this.alert = true;
-  //     this.ngOnInit();
-  //   });
-  // }
+
 }
