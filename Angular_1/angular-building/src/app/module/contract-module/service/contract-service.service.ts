@@ -4,7 +4,7 @@ import {AbstractControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Employee} from '../../employee-module/model/Employee';
 import {ContractFormCreateDTO} from '../dto/ContractFormCreateDTO';
-import {CustomerServiceService} from './customer-service.service';
+
 import {ContractComponentComponent} from '../contract-component.component';
 import {ContractViewDTO} from '../dto/ContractViewDTO';
 
@@ -14,14 +14,16 @@ import {ContractViewDTO} from '../dto/ContractViewDTO';
 export class ContractServiceService {
   url = 'http://localhost:8080/contract';
 
-  constructor(private httpClient: HttpClient,
-              private customerService: CustomerServiceService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   save(value: AbstractControl): Observable<ContractFormCreateDTO> {
-    console.log(this.getContractDTO(value));
+    if (this.getContractDTO(value).id.toString() === '') {
+      return this.httpClient.post<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
+    } else {
+      return this.httpClient.put<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
+    }
     // return null;
-    return this.httpClient.post<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
   }
 
 

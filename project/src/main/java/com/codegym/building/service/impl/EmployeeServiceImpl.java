@@ -76,4 +76,9 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
     public Employee findByUserName(String username) {
         return repos.findByUserName(username);
     }
+
+    @Override
+    public Employee findIdCardForContract(String id_card) {
+        return null;
+    }
 }
