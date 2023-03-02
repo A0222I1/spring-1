@@ -30,9 +30,9 @@ export class CustomerManagementComponent implements OnInit {
   cmnd_search: string = '';
   address_search: string = '';
   company_search: string = '';
+  message = '';
   // fileChose: File = null;
   // searchForm: boolean = false;
-  message: string = '';
   alert: boolean = false;
   constructor(private customerService: CustomerServiceService,
               private genderService: GenderServiceService,
@@ -52,16 +52,17 @@ export class CustomerManagementComponent implements OnInit {
    }
 
   findAllWithCondition(name: string, id_card: string, address: string, company: string, page: number){
-    if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
-      return;
-    }
     this.customerService.findAllByNameAndIdCard(name,id_card,address,company,page).subscribe(value => {
+      if (value.content.length === 0) {
+        this.toastr.error("Không tìm thấy khách hàng nào theo kết quả tìm kiếm.");
+        this.refreshPage();
+        return;
+      }
       this.customers = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
     });
   }
-
 
   refreshPage() {
     (<HTMLInputElement>document.getElementById("nameSearch")).value = '';
@@ -139,6 +140,24 @@ export class CustomerManagementComponent implements OnInit {
       document.getElementById("nameCustomer").innerText =value.name;
       this.findAllByCustomerId(id);
     })
+  }
+  getPageInChoice(page: number) {
+    if (this.validPage(page)) {
+      this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.company_search, page);
+    }
+  }
+  validPage(page): boolean {
+    if (page >= this.totalPages || page < 0) {
+      (document.getElementById("pageChoice") as HTMLInputElement).value = "";
+      this.toastr.error(`Trang chỉ nên trong khoảng 1 đến ${this.totalPages}.`);
+      return false;
+    }
+    if (isNaN(Number(page))) {
+      (document.getElementById("pageChoice") as HTMLInputElement).value = "";
+      this.toastr.error(`Trang phải là số.`);
+      return false;
+    }
+    return true;
   }
 
 }
