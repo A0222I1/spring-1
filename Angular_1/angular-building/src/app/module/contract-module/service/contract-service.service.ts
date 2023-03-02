@@ -36,6 +36,9 @@ export class ContractServiceService {
     return this.httpClient.get<GetResponse>(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
   }
 
+  findAllByCustomerId(customerId: string) {
+    return this.httpClient.get<ContractViewDTO[]>(`${this.url}/getByCustomerId/${customerId}`);
+  }
   // tslint:disable-next-line:ban-types
   delete(id: number): Observable<Boolean> {
     // tslint:disable-next-line:ban-types

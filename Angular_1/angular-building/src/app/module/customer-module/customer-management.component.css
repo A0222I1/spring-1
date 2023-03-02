@@ -19,7 +19,7 @@ table {
 }
 
 .responsiveItem {
-  text-align: center;
+  /*text-align: none;*/
 }
 
 .page-link:hover {
@@ -62,9 +62,8 @@ table > tbody > tr > td p {
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
-  margin: 0 0 20px 0;
+  margin: 0px 10px 0px 50px;
 }
-
 .list-input-search input {
   outline: none;
   border-radius: 5px;
@@ -82,7 +81,9 @@ table > tbody > tr > td p {
   display: flex;
 }
 
+
 .list-input-search-icon i {
+
 
   margin: 0 10px;
   padding: 12px;
@@ -92,14 +93,28 @@ table > tbody > tr > td p {
 .list-input-search-icon i:hover {
   cursor: pointer;
   opacity: 0.8;
+  background-color: green;
+}
+.list-input-search-icon-search:nth-child(2):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: yellow;
+}
+.list-input-search-icon-undo:nth-child(3):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: darkred;
 }
 
 .list-input-search-icon-search {
+
   color: white;
+  background-color: #ffd43b;
 }
 
 .list-input-search-icon-undo {
   color: white;
+  background-color: red;
 }
 
 .select-choose-floor {
@@ -136,6 +151,26 @@ table > tbody > tr > td p {
 img {
   width: 50px;
   height: 50px;
+}
+
+.action-icon:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+.action-icon:nth-child(1):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: green;
+}
+.action-icon:nth-child(2):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: yellow;
+}
+.action-icon:nth-child(3):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: #CF0000;
 }
 
 .action-icon:hover {
@@ -280,12 +315,12 @@ img {
 
   td:nth-of-type(9):before {
     content: "Mặt bằng";
-    display: flex
+
   }
 
   td:nth-of-type(10):before {
     content: "Thao tác";
-    display: flex
+
   }
 }
 

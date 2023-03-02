@@ -58,7 +58,6 @@ table > tbody > tr > td p {
 }
 
 .list-input-search-icon i {
-  background-color: #888787;
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
@@ -286,7 +285,6 @@ table > tbody > tr > td p {
 }
 
 .list-input-search-icon .icon-add-new {
-
   background-color: #40c057;
   border-radius: 50%;
   color: white;
