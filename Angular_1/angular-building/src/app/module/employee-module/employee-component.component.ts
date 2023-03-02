@@ -21,19 +21,14 @@ import {ToastrService} from "ngx-toastr";
 })
 export class EmployeeComponentComponent implements OnInit {
   formGroup: FormGroup;
-
   employees: EmployeeViewDTO[] = [];
-
   genders: Gender[] = [];
-
   salaries: SalaryScale[] = [];
-
   departments: Department[] = [];
-  totalPages = 0;
+  totalPages = 1;
   pageNumber = 0;
   @ViewChild('closeAddExpenseModal') closeAddExpenseModal: ElementRef;
   @ViewChild('deleteClose') deleteClose: ElementRef;
-
   @ViewChild('addNewContract') formRecipe: ElementRef;
   // tslint:disable-next-line:variable-name
   name_search = '';
@@ -44,6 +39,9 @@ export class EmployeeComponentComponent implements OnInit {
   // tslint:disable-next-line:variable-name
   department_search = '';
   fileChose: File;
+  message = '';
+  employeeView: EmployeeViewDTO = {salary: 1};
+  imageSrc: string | ArrayBuffer = "";
 
   constructor(private employeeService: EmployeeServiceService,
               private genderService: GenderServiceService,
@@ -65,18 +63,33 @@ export class EmployeeComponentComponent implements OnInit {
   }
 
   findAllWithCondition(name: string, idCard: string, address: string, department: string, page: number) {
-    if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
-      return;
-    }
     this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, idCard, address, department, page).subscribe(value => {
       this.employees = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
       if (this.employees.length === 0) {
         document.getElementById("hidden-button").click();
+        this.message = "Không tìm thấy nhân viên nào theo kết quả tìm kiếm.";
       }
     });
   }
+
+  validPage(page): boolean {
+    if (page >= this.totalPages || page < 0) {
+      document.getElementById("hidden-button").click();
+      (document.getElementById("pageChoice") as HTMLInputElement).value = "";
+      this.message = `Trang chỉ nên trong khoảng 1 đến ${this.totalPages}.`;
+      return false;
+    }
+    if (isNaN(Number(page))) {
+      document.getElementById("hidden-button").click();
+      (document.getElementById("pageChoice") as HTMLInputElement).value = "";
+      this.message = `Trang phải là số.`;
+      return false;
+    }
+    return true;
+  }
+
   refreshPage() {
     (document.getElementById('nameSearch') as HTMLInputElement).value = '';
     (document.getElementById('cmndSearch') as HTMLInputElement).value = '';
@@ -88,7 +101,6 @@ export class EmployeeComponentComponent implements OnInit {
     this.name_search = '';
     this.ngOnInit();
   }
-
   deleteById(id: string) {
     this.employeeService.updateStatusById(id).subscribe(value => {
       this.statusService.success('Đã xóa thành công!!!', 'Thông báo');
@@ -99,25 +111,23 @@ export class EmployeeComponentComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
   findById(id: string) {
     this.employeeService.findById(id).subscribe(value => {
         document.getElementById('name_delete').innerText = value.name;
         (document.getElementById('id_delete') as HTMLInputElement).value = value.id;
+        this.employeeView = value;
       },
       error => {
         this.ngOnInit();
       });
   }
-
   buildForm() {
+    this.fileChose = null;
     this.formGroup = this.formBuilder.group({
       avatar: ['', [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
         Validators.minLength(8),
-        Validators.pattern('^[A-Za-z' +
-          'ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃ' +
-          'úùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã@#]+$'),
+        Validators.pattern('^[A-Za-z ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃúùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã@#]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
       birthday: ['', [Validators.required, checkBirthday]],
@@ -131,7 +141,11 @@ export class EmployeeComponentComponent implements OnInit {
       salary: ['', [Validators.required, Validators.min(1000000)]],
       id_card: ['', [Validators.required,
         Validators.pattern("^([0-9]{12})$")]],
-      account: ['', [Validators.required, checkTrim, Validators.minLength(8), Validators.maxLength(15)]],
+      account: ['', [Validators.required,
+        checkTrim,
+        Validators.minLength(8),
+        Validators.maxLength(15),
+        Validators.pattern("^[A-Za-z0-9]+$")]],
       password: ['', [Validators.required, checkTrim,
         Validators.minLength(8),
         Validators.pattern("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,15}$"),
@@ -141,16 +155,15 @@ export class EmployeeComponentComponent implements OnInit {
       validator: [checkPasswordConfirm]
     });
   }
-
   saveForm() {
     this.employeeService.save(this.formGroup).subscribe(value => {
-      this.closeAddExpenseModal.nativeElement.click();
       this.statusService.success(`Đã tạo mới nhân viên ${value.name} thành công!!!`, 'Thông báo');
+      document.getElementById("pop-up-container").style.display = "none";
       this.ngOnInit();
     });
   }
-
   saveAllForm() {
+    document.getElementById("pop-up-container").style.display = "block";
     let flag = true;
     forkJoin(this.employeeService.findByPhone(this.formGroup.value.phone),
       this.employeeService.findByName(this.formGroup.value.account),
@@ -159,44 +172,42 @@ export class EmployeeComponentComponent implements OnInit {
     ).subscribe((result) => {
       if (result[0] === true) {
         this.formGroup.controls.phone.setErrors({phoneexists: true});
+        document.getElementById("pop-up-container").style.display = "none";
         flag = false;
       }
       if (result[1] === true) {
         this.formGroup.controls.account.setErrors({accountexists: true});
+        document.getElementById("pop-up-container").style.display = "none";
         flag = false;
       }
       if (result[2] === true) {
         this.formGroup.controls.email.setErrors({emailexists: true});
+        document.getElementById("pop-up-container").style.display = "none";
         flag = false;
       }
       if (result[3] === true) {
         this.formGroup.controls.id_card.setErrors({idcardexists: true});
+        document.getElementById("pop-up-container").style.display = "none";
         flag = false;
       }
       if (flag) {
-        // đặt tên cho file nên thêm tiền tố ngày đăng để tránh trùng lập tên file sẽ gây mất dữ liệu
-        // employeeAvatar/ là để tách folder lưu ra cho dễ kiểm soát
+        this.closeAddExpenseModal.nativeElement.click();
         const filePath = `employeeAvatar/${Date.now()}${this.fileChose.name}`;
         const fileRef = this.storage.ref(filePath);
-        // bắt đầu upload
         this.storage.upload(filePath, this.fileChose)
           .snapshotChanges()
           .pipe(
             finalize(() => {
               fileRef.getDownloadURL().subscribe(url => {
-                // return về link url đã lưu trên firebase. set nó vào trong form sau khi đã lưu
                 this.formGroup.value.avatar = url;
-                // và lưu form
                 this.saveForm();
               });
             })
           )
           .subscribe();
-        // this.saveForm();
       }
     });
   }
-
   changeFile(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
@@ -205,6 +216,11 @@ export class EmployeeComponentComponent implements OnInit {
       return;
     }
     this.fileChose = fileList[0];
+
+    const reader = new FileReader();
+    reader.onload = e => this.imageSrc = reader.result;
+    reader.readAsDataURL(this.fileChose);
+
   }
 
   resetModal() {
@@ -213,5 +229,11 @@ export class EmployeeComponentComponent implements OnInit {
 
   searchWithCondition() {
     this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, 0);
+  }
+
+  getPageInChoice(page: number) {
+    if (this.validPage(page)) {
+      this.findAllWithCondition(this.name_search, this.cmnd_search, this.address_search, this.department_search, page);
+    }
   }
 }
