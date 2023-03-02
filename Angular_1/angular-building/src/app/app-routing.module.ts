@@ -4,9 +4,9 @@ import {EmployeeModuleModule} from './module/employee-module/employee-module.mod
 import {HomePageComponent} from './module/home-page/home-page.component';
 import {PlaneModuleModule} from './module/plane-module/plane-module.module';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
-import {StaticModuleComponent} from './module/static-module/static-module.component';
-import {StaticThunhapthapComponent} from './module/static-module/static-thunhapthap/static-thunhapthap.component';
-import {StaticThunhapcaoComponent} from './module/static-module/static-thunhapcao/static-thunhapcao.component';
+import {StaticModuleComponent} from "./module/static-module/static-module/static-module.component";
+import {StaticThunhapcaoComponent} from "./module/static-module/static-module/static-thunhapcao/static-thunhapcao.component";
+import {StaticThunhapthapComponent} from "./module/static-module/static-module/static-thunhapthap/static-thunhapthap.component";
 import {LoginComponent} from './account/login/login.component';
 import {AuthGuard} from './account/guard/auth.guard';
 import {CustomerModuleModule} from './module/customer-module/customer-module.module';
