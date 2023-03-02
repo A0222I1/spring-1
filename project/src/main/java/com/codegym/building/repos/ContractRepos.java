@@ -1,7 +1,4 @@
 package com.codegym.building.repos;
-
-import java.util.List;
-
 import com.codegym.building.model.contract.Contract;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,4 +34,6 @@ public interface ContractRepos extends JpaRepository<Contract, Integer> {
     List<Contract> findAllByLow(@Param("start_date") String start_date, @Param("endDate") String end_date, @Param("rowNumber") Integer rowNumber);
 
 
+    @Query(value = "select  c from Contract  c where c.customer.id = :customerId")
+    List<Contract> findAllByCustomerId(@Param("customerId") String customerId);
 }

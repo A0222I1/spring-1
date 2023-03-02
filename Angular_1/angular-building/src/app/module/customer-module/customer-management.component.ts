@@ -10,6 +10,8 @@ import {DepartmentServiceService} from "../employee-module/service/department-se
 // @ts-ignore
 import {ToastrService} from "ngx-toastr";
 import {checkBirthday, checkTrim} from "../employee-module/utils/CustomValidate";
+import {ContractServiceService} from "../contract-module/service/contract-service.service";
+import {ContractViewDTO} from "../contract-module/dto/ContractViewDTO";
 
 @Component({
   selector: 'app-customer-management',
@@ -18,17 +20,18 @@ import {checkBirthday, checkTrim} from "../employee-module/utils/CustomValidate"
 })
 export class CustomerManagementComponent implements OnInit {
   formGroup: FormGroup;
-  customers: CustomerViewDTO[] =[];
+  customers: CustomerViewDTO[] = [];
   genders: Gender[] = [];
   departments: Department[] = [];
+  customerList: ContractViewDTO[] = [];
   totalPages: number = 0;
   pageNumber: number = 0;
   name_search: string = '';
   cmnd_search: string = '';
   address_search: string = '';
   company_search: string = '';
-  fileChose: File = null;
-  searchForm: boolean = false;
+  // fileChose: File = null;
+  // searchForm: boolean = false;
   message: string = '';
   alert: boolean = false;
   constructor(private customerService: CustomerServiceService,
@@ -36,6 +39,7 @@ export class CustomerManagementComponent implements OnInit {
               private formBuilder: FormBuilder,
               private departmentService: DepartmentServiceService,
               private storage: AngularFireStorage,
+              private contractService: ContractServiceService,
               private toastr: ToastrService
   ) {
     this.genderService.findAll().subscribe(value => this.genders = value);
@@ -48,15 +52,16 @@ export class CustomerManagementComponent implements OnInit {
    }
 
   findAllWithCondition(name: string, id_card: string, address: string, company: string, page: number){
-    if (page > this.totalPages) return;
+    if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
+      return;
+    }
     this.customerService.findAllByNameAndIdCard(name,id_card,address,company,page).subscribe(value => {
       this.customers = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
-      console.log(this.pageNumber);
-      console.log(this.totalPages);
     });
   }
+
 
   refreshPage() {
     (<HTMLInputElement>document.getElementById("nameSearch")).value = '';
@@ -69,7 +74,7 @@ export class CustomerManagementComponent implements OnInit {
     this.company_search ='';
     this.ngOnInit();
   }
-
+//chuc nang lien quan trong task
   deleteAll() {
     this.customerService.updateAllStatusIsOff().subscribe(value => {
       this.message = 'xóa tất cả thành công!!!';
@@ -78,7 +83,7 @@ export class CustomerManagementComponent implements OnInit {
       this.ngOnInit();
     });
   };
-
+//xoa theo id
   deleteById(id: string) {
     this.customerService.updateStatusById(id).subscribe(value => {
       // this.message = `xóa nhân viên với id ${id} thành công!!!`;
@@ -88,8 +93,15 @@ export class CustomerManagementComponent implements OnInit {
       if(this.customers.length == 1)
       {this.pageNumber  = this.pageNumber - 1;}
       this.ngOnInit();
+    });
+  };
+
+  findAllByCustomerId(customerId: string) {
+    this.contractService.findAllByCustomerId(customerId).subscribe(value => {
+     this.customerList = value;
     })
   };
+
 
   findById(id: string) {
     this.customerService.findById(id).subscribe(value => {
@@ -119,14 +131,14 @@ export class CustomerManagementComponent implements OnInit {
       id_card: ['', [Validators.required,
         Validators.pattern("^([0-9]{12})$")]],
       account: ['', [Validators.required, checkTrim]]
+    });
+  }
+
+  detail(id: string) {
+    this.customerService.findById(id).subscribe(value => {
+      document.getElementById("nameCustomer").innerText =value.name;
+      this.findAllByCustomerId(id);
     })
   }
-  // saveForm() {
-  //   this.customerService.save(this.formGroup).subscribe(value => {
-  //     this.message = `tạo mới thành công khách hàng tên ${value.name}`;
-  //     document.getElementById("createModal").click();
-  //     this.alert = true;
-  //     this.ngOnInit();
-  //   });
-  // }
+
 }
