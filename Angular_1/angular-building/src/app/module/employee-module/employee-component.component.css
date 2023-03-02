@@ -96,11 +96,11 @@ table > tbody > tr > td button {
   border: none;
   box-shadow: 1px 1px 4px 1px grey;
   padding: 5px 20px 5px 10px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .list-input-search input::placeholder {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .list-input-search-icon {
@@ -229,7 +229,7 @@ th {
 body {
   font-family: 'Open Sans', arial, sans-serif;
   color: #333;
-  font-size: 14px;
+  font-size: 13px;
 }
 .projcard-container {
   margin: 50px 0;
@@ -471,6 +471,10 @@ body {
     flex-basis: calc(50% - 10px);
   }
 
+  .list-input-search select {
+    flex-basis: calc(50% - 10px);
+  }
+
   .list-input-search-icon {
     flex-basis: calc(50% - 10px);
     margin-top: 10px;
@@ -516,7 +520,9 @@ body {
     padding-right: 10px;
     white-space: nowrap;
   }
-
+  #pageJumpPage{
+    display: none;
+  }
   /*
   Label the data
   */
@@ -531,7 +537,7 @@ body {
   td:nth-of-type(9):before { content: "Cấp lương"; }
   td:nth-of-type(10):before { content: "Bộ phận"; }
   td:nth-of-type(11):before { content: "Tài khoản"; }
-  td:nth-of-type(12):before { content: "Thao tác"; }
+  td:nth-of-type(12):before { content: "Hành động"; }
 
 }
 

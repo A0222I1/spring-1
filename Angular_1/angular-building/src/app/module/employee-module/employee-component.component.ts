@@ -64,28 +64,26 @@ export class EmployeeComponentComponent implements OnInit {
 
   findAllWithCondition(name: string, idCard: string, address: string, department: string, page: number) {
     this.employeeService.findAllByNameAndIdCardAndAddressAndDepartment(name, idCard, address, department, page).subscribe(value => {
+      if (value.content.length === 0) {
+        this.statusService.error("Không tìm thấy nhân viên nào theo kết quả tìm kiếm.");
+        this.refreshPage();
+        return;
+      }
       this.employees = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
-      if (this.employees.length === 0) {
-        document.getElementById("hidden-button").click();
-        this.message = "Không tìm thấy nhân viên nào theo kết quả tìm kiếm.";
-      }
     });
   }
 
   validPage(page): boolean {
     if (page >= this.totalPages || page < 0) {
-      document.getElementById("hidden-button").click();
       (document.getElementById("pageChoice") as HTMLInputElement).value = "";
-      this.message = `Trang chỉ nên trong khoảng 1 đến ${this.totalPages}.`;
+      this.statusService.error(`Trang chỉ nên trong khoảng 1 đến ${this.totalPages}.`);
       return false;
     }
     if (isNaN(Number(page))) {
-      document.getElementById("hidden-button").click();
+      this.statusService.error("Trang phải là số.");
       (document.getElementById("pageChoice") as HTMLInputElement).value = "";
-      this.message = `Trang phải là số.`;
-      return false;
     }
     return true;
   }
