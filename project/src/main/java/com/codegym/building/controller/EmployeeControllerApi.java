@@ -40,8 +40,8 @@ public class EmployeeControllerApi {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable String id) throws NotFoundById {
-        return new ResponseEntity<>(employeePersonService.findById(id), HttpStatus.OK);
+    public ResponseEntity<EmployeeViewDTO> findById(@PathVariable String id) throws NotFoundById {
+        return new ResponseEntity<>(new EmployeeViewDTO(employeePersonService.findById(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

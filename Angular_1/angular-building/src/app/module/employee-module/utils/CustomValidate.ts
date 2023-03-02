@@ -9,6 +9,9 @@ export function checkBirthday(control: AbstractControl): ValidationErrors | null
   if (moment.duration(dayNow.diff(dayCheck)).years() < 18) {
     return {birthdaypast: true};
   }
+  if (moment.duration(dayNow.diff(dayCheck)).years() > 150) {
+    return {ageover: true};
+  }
   return null;
 }
 
