@@ -33,7 +33,7 @@ public interface CustomerRepos extends JpaRepository<Customer, String> {
     @Query("update Customer  c set c.status = 'off'")
     Integer updateStatusAll();
 
-
+//chưc nang lien quan trong talk
     @Query("select c from Customer c where c.id_card = :idCard")
     Optional<Customer> findByIdCard(@Param("idCard") String id_card);
 

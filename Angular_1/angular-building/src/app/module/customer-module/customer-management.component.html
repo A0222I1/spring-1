@@ -1,37 +1,39 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH KHÁCH HÀNG</h4>
   <div class="list-input-search">
-    <input type="text" placeholder="tên khách hàng"  #name id="nameSearch"
-           (change)="name_search = name.value.trim()" >
-    <input type="text" placeholder="chứng minh nhân dân" #cmnd id="cmndSearch"
+    <input type="text" placeholder="tên khách hàng cần tìm" #name id="nameSearch"
+           (change)="name_search = name.value.trim()">
+    <input type="text" placeholder="số chứng minh nhân dân cần tìm" #cmnd id="cmndSearch"
            (change)="cmnd_search=cmnd.value.trim()">
-    <input type="text" placeholder="địa chỉ cần tìm"  #address id="addressSearch"
+    <input type="text" placeholder="địa chỉ cần tìm" #address id="addressSearch"
            (change)="address_search = address.value.trim()">
     <input type="text" placeholder="tên công ty cần tìm" #company id="companySearch"
            (change)="company_search = company.value.trim()">
     <div class="list-input-search-icon">
-      <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
-      <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" aria-hidden="true" (click)="refreshPage()"></i>
+      <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true"
+         (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,0)"></i>
+      <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" aria-hidden="true"
+         (click)="refreshPage()"></i>
       <i class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#editModal"></i>
     </div>
   </div>
 
-  <div >
+  <div>
     <table class="table tab">
       <thead class="thead-dark">
-      <th>Họ tên</th>
+      <th>Họ Tên</th>
       <th>CMND</th>
       <th>Email</th>
       <th>Số Điện Thoại</th>
       <th>Ngày Sinh</th>
       <th>Địa Chỉ</th>
       <th>Website</th>
-      <th>Công ty</th>
-      <th>Mặt bằng</th>
+      <th>Công Ty</th>
+      <th>Mặt Bằng</th>
       <th width="11%"></th>
       </thead>
       <tbody>
-      <tr *ngFor="let item of customers, let i = index" >
+      <tr *ngFor="let item of customers, let i = index">
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
         <td scope="row">{{item.email}}</td>
@@ -41,11 +43,14 @@
         <td scope="row">{{item.website}}</td>
         <td scope="row">{{item.company}}</td>
         <td>
-          <i title="Chi tiết" (click)="detail(item.id)" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#detailPlane"></i>
+          <i title="Chi tiết" (click)="detail(item.id)" class="action-icon action-icon-info  fa-solid fa-circle-info"
+             data-bs-toggle="modal" data-bs-target="#detailPlane"></i>
         </td>
         <td scope="row" class="responsiveItem">
-          <i title="Chỉnh sửa" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#editModal"></i>
-          <i title="Xóa" (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+          <i title="Chỉnh sửa" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
+             data-bs-target="#editModal"></i>
+          <i title="Xóa" (click)="findById(item.id)" class="action-icon action-icon-delete fa-solid fa-trash"
+             data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
         </td>
       </tr>
       </tbody>
@@ -54,7 +59,6 @@
 
 </div>
 <!--page-->
-
 <div>
   <ul class="pagination justify-content-center">
     <li class="page-item">
@@ -76,7 +80,7 @@
       </a>
     </li>
     <li>
-      <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
+      <a class="page-link" *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
            (click)="findAllWithCondition(name_search,cmnd_search,address_search,company_search,pageNumber + 1)"></i>
       </a>
@@ -102,6 +106,7 @@
 
   </ul>
 </div>
+
 <!-- Delete modal-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -111,7 +116,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn muốn xóa khách hàng có tên <span id="name_delete" style="color: red"></span> ?
+        Bạn muốn xóa khách hàng có tên <b><span id="name_delete" style="color: red"></span></b> ?
         <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> Đây là hành động không thể hoàn tác</p>
         <input hidden id="id_delete" #id_delete>
       </div>
@@ -146,35 +151,36 @@
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
       <div class="modal-header" style="text-align: center">
-        <h5 class="modal-title" id="information">Chi tiết mặt bằng của khách hàng <span id="nameCustomer" style="color: red"></span></h5>
+        <h5 class="modal-title" id="information">Chi tiết mặt bằng của khách hàng <span id="nameCustomer"
+                                                                                        style="color: red"></span></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="table" class="table table-striped" bgcolor="white" width="100%" >
+        <table class="table" class="table table-striped" bgcolor="white" width="100%">
           <thead>
           <tr>
             <th scope="col">STT</th>
             <th scope="col">ID Mặt Bằng</th>
             <th scope="col">Tên Mặt Bằng</th>
-            <th scope="col">Tình trạng mặt bằng</th>
-            <th scope="col">Tên nhân viên</th>
+            <th scope="col">Tình Trạng</th>
+            <th scope="col">Tên Nhân Viên</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of customerList, let i = index" >
-            <td>{{i + 1}}</td>
-            <td>{{item.id}}</td>
-            <td>MB-{{item.planeId}}</td>
-            <td>{{item.planeStatus}}</td>
-            <td>{{item.employeeName}}</td>
-          </tr>
+            <tr *ngFor="let item of customerList, let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{item.id}}</td>
+              <td>MB-{{item.planeId}}</td>
+              <td>{{item.planeStatus}}</td>
+              <td>{{item.employeeName}}</td>
+            </tr>
           </tbody>
         </table>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 

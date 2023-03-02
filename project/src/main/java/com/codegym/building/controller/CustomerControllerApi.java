@@ -53,12 +53,13 @@ public class CustomerControllerApi {
     private ResponseEntity<CustomerViewDTO> findByIdCardForContract(@PathVariable String id) {
         return new ResponseEntity<>( new CustomerViewDTO(customerPersonService.findIdCardForContract(id)), HttpStatus.OK);
     }
-
+    //xoa theo id
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {
         return new ResponseEntity<>(customerPersonService.updateStatusById(id), HttpStatus.OK);
     }
 
+    //cac chuc nang lien quan src
     @DeleteMapping("")
     private ResponseEntity<Integer> updateStatusAll() {
         return new ResponseEntity<>(customerPersonService.updateStatusAll(), HttpStatus.OK);

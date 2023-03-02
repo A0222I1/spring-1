@@ -30,8 +30,8 @@ export class CustomerManagementComponent implements OnInit {
   cmnd_search: string = '';
   address_search: string = '';
   company_search: string = '';
-  fileChose: File = null;
-  searchForm: boolean = false;
+  // fileChose: File = null;
+  // searchForm: boolean = false;
   message: string = '';
   alert: boolean = false;
   constructor(private customerService: CustomerServiceService,
@@ -52,13 +52,13 @@ export class CustomerManagementComponent implements OnInit {
    }
 
   findAllWithCondition(name: string, id_card: string, address: string, company: string, page: number){
-    if (page > this.totalPages) return;
+    if (page > this.totalPages || page < 0 || isNaN(Number(page))) {
+      return;
+    }
     this.customerService.findAllByNameAndIdCard(name,id_card,address,company,page).subscribe(value => {
       this.customers = value.content;
       this.pageNumber = value.number;
       this.totalPages = value.totalPages;
-      console.log(this.pageNumber);
-      console.log(this.totalPages);
     });
   }
 
@@ -74,7 +74,7 @@ export class CustomerManagementComponent implements OnInit {
     this.company_search ='';
     this.ngOnInit();
   }
-
+//chuc nang lien quan trong task
   deleteAll() {
     this.customerService.updateAllStatusIsOff().subscribe(value => {
       this.message = 'xóa tất cả thành công!!!';
@@ -83,7 +83,7 @@ export class CustomerManagementComponent implements OnInit {
       this.ngOnInit();
     });
   };
-
+//xoa theo id
   deleteById(id: string) {
     this.customerService.updateStatusById(id).subscribe(value => {
       // this.message = `xóa nhân viên với id ${id} thành công!!!`;
@@ -95,9 +95,10 @@ export class CustomerManagementComponent implements OnInit {
       this.ngOnInit();
     });
   };
+
   findAllByCustomerId(customerId: string) {
-    this.contractService.findAllByCustomerId(customerId).subscribe(data => {
-     this.customerList = data;
+    this.contractService.findAllByCustomerId(customerId).subscribe(value => {
+     this.customerList = value;
     })
   };
 
@@ -132,10 +133,6 @@ export class CustomerManagementComponent implements OnInit {
       account: ['', [Validators.required, checkTrim]]
     });
   }
-
-  // detail(id: string) {
-  //   this.findAllByCustomerId(id);
-  // }
 
   detail(id: string) {
     this.customerService.findById(id).subscribe(value => {
