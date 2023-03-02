@@ -26,16 +26,14 @@
   </div>
 
   <div>
-    <table class="table tab" style="font-size: 12px" bgcolor="white" width="100%">
+    <table class="table tab">
       <thead class="thead-dark">
       <tr>
         <th scope="col">Hình</th>
         <th scope="col">Họ tên</th>
         <th scope="col">CMND</th>
-        <th scope="col">Email</th>
-        <th scope="col">Điện Thoại</th>
+         <th scope="col">Điện Thoại</th>
         <th scope="col">Ngày Sinh</th>
-        <th scope="col">Giới Tính</th>
         <th scope="col">Lương</th>
         <th scope="col">Cấp Lương</th>
         <th scope="col">Bộ Phận</th>
@@ -50,10 +48,8 @@
         <td><img [src]="item.avatar"></td>
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
-        <td scope="row">{{item.email.length < 10 ? item.email : (item.email | slice : 0 : 10) + " ..."}} </td>
         <td scope="row">{{item.phone}}</td>
         <td scope="row">{{item.birthday | date:'dd/MM/yyyy'}}</td>
-        <td scope="row">{{item.gender}}</td>
         <td scope="row">{{item.salary | pipeCurrencyCustom}}</td>
         <td scope="row">{{item.salaryScale}}</td>
         <td scope="row">{{item.department}}</td>

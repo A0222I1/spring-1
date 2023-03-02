@@ -96,11 +96,11 @@ table > tbody > tr > td button {
   border: none;
   box-shadow: 1px 1px 4px 1px grey;
   padding: 5px 20px 5px 10px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .list-input-search input::placeholder {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .list-input-search-icon {
@@ -197,7 +197,7 @@ table > tbody > tr > td button {
 }
 
 th {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .special {
@@ -229,7 +229,7 @@ th {
 body {
   font-family: 'Open Sans', arial, sans-serif;
   color: #333;
-  font-size: 13px;
+  font-size: 14px;
 }
 .projcard-container {
   margin: 50px 0;
@@ -529,15 +529,13 @@ body {
   td:nth-of-type(1):before { content: "Hình ảnh"; }
   td:nth-of-type(2):before { content: "Họ và tên"; }
   td:nth-of-type(3):before { content: "Căn cước công dân"; }
-  td:nth-of-type(4):before { content: "Email"; }
-  td:nth-of-type(5):before { content: "Điện thoại"; }
-  td:nth-of-type(6):before { content: "Ngày sinh"; }
-  td:nth-of-type(7):before { content: "Giới tính"; }
-  td:nth-of-type(8):before { content: "Lương"; }
-  td:nth-of-type(9):before { content: "Cấp lương"; }
-  td:nth-of-type(10):before { content: "Bộ phận"; }
-  td:nth-of-type(11):before { content: "Tài khoản"; }
-  td:nth-of-type(12):before { content: "Hành động"; }
+  td:nth-of-type(4):before { content: "Điện thoại"; }
+  td:nth-of-type(5):before { content: "Ngày sinh"; }
+  td:nth-of-type(6):before { content: "Lương"; }
+  td:nth-of-type(7):before { content: "Cấp lương"; }
+  td:nth-of-type(8):before { content: "Bộ phận"; }
+  td:nth-of-type(9):before { content: "Tài khoản"; }
+  td:nth-of-type(10):before { content: "Hành động"; }
 
 }
 
