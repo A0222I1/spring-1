@@ -7,7 +7,7 @@
            (change)="cmnd_search=cmnd.value.trim()">
     <input type="text" placeholder="Địa chỉ tìm" #address id="addressSearch"
            (change)="address_search = address.value.trim()">
-    <select #department id="departmentSearch" class="select-option-department"
+    <select #department id="departmentSearch" class="select-option-department form-select "
             (change)="department_search = department.value">
       <option value="">- Chọn tên mặt bằng -</option>
       <option *ngFor="let item of departments" value="{{item.name}}">{{item.name}}</option>

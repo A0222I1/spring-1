@@ -10,7 +10,7 @@ import {checkDate} from "./validate/validate";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-static-module',
+  selector: 'app-s',
   templateUrl: './static-module.component.html',
   styleUrls: ['./static-module.component.css']
 })

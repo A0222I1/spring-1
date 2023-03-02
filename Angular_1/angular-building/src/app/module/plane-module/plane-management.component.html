@@ -3,26 +3,33 @@
 
   <div class="list-input-search">
     <input id="inputArea" type="number" placeholder="Tìm kiếm theo diện tích" #area (change)="changeArea(area.value)">
-    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect1" #stage (change)="stageSearch = stage.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect1" #stage
+            (change)="stageSearch = stage.value">
       <option value="">Tên tầng</option>
-      <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i+1}}: {{stage.name}}</option>
+      <option *ngFor="let stage of stages;let i = index" value="{{stage.id}}">Tầng {{i + 1}}: {{stage.name}}</option>
     </select>
-    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect2" #status (change)="statusSearch = status.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect2" #status
+            (change)="statusSearch = status.value">
       <option value="">Trạng thái mặt bằng</option>
-      <option *ngFor="let planeStatus of planeStatus;let i = index" value="{{planeStatus.id}}">{{planeStatus.name}}</option>
+      <option *ngFor="let planeStatus of planeStatus;let i = index"
+              value="{{planeStatus.id}}">{{planeStatus.name}}</option>
     </select>
-    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect3" #type (change)="typeSearch = type.value">
+    <select class="form-select" aria-label="Default select example" id="exampleFormControlSelect3" #type
+            (change)="typeSearch = type.value">
       <option value="">Loại mặt bằng</option>
       <option *ngFor="let planeType of planeTypes" value="{{planeType.id}}"> {{planeType.name}}</option>
     </select>
     <div class="list-input-search-icon">
-      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)" class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #0a82ed;"></i>
-      <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true" style=" background-color: gray;"></i>
-      <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
+      <i (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)"
+         class="fa fa-search list-input-search-icon-search" aria-hidden="true" style=" background-color: #0a82ed;"></i>
+      <i (click)="resetSearch()" class="fa fa-undo list-input-search-icon-undo" aria-hidden="true"
+         style=" background-color: gray;"></i>
+      <i (click)="addPlane()" class="icon-addnew fa-solid fa-plus" data-bs-toggle="modal"
+         data-bs-target="#addNewPlane"></i>
     </div>
 
   </div>
-  <div  class="table-responsive">
+  <div class="table-responsive">
     <table class="table tab">
       <thead class="thead-dark">
       <tr>
@@ -36,7 +43,7 @@
         <th scope="col">Hành động</th>
       </tr>
       </thead>
-<!--      <div *ngIf!="this.planes">Không có dữ liệu</div>-->
+      <!--      <div *ngIf!="this.planes">Không có dữ liệu</div>-->
       <tbody>
 
       <tr *ngFor="let item of planes">
@@ -48,9 +55,12 @@
         <td scope="row">{{getCustomerName(item.id)}}</td>
         <td scope="row">{{item.stage.name}}</td>
         <td scope="row">
-          <i (click)="getInfo(item)" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#viewDetailPlane"></i>
-          <i (click)="getInfo(item)" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
-          <i (click)="getInfo(item)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+          <i (click)="getInfo(item)" class="action-icon action-icon-info  fa-solid fa-circle-info"
+             data-bs-toggle="modal" data-bs-target="#viewDetailPlane"></i>
+          <i (click)="getInfo(item)" class="action-icon action-icon-edit fa-solid fa-pen-to-square"
+             data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
+          <i (click)="getInfo(item)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal"
+             data-bs-target="#deleteModal"></i>
           <!--    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>-->
         </td>
       </tr>
@@ -61,20 +71,21 @@
   <div>
     <ul class="pagination justify-content-center">
       <li class="page-item">
-      <a class="page-link">
-        <i class="fa-solid fa-backward-fast"  (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)"></i>
-      </a>
-    </li>
+        <a class="page-link">
+          <i class="fa-solid fa-backward-fast" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)"></i>
+        </a>
+      </li>
       <li>
-        <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber-1)">
+        <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''"
+           (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber-1)">
           <i class="fa-solid fa-backward"></i>
         </a>
       </li>
-<!--      <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">-->
-<!--        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">-->
-<!--          {{i + 1}}-->
-<!--        </a>-->
-<!--      </li>-->
+      <!--      <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">-->
+      <!--        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">-->
+      <!--          {{i + 1}}-->
+      <!--        </a>-->
+      <!--      </li>-->
 
       <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
 
@@ -84,33 +95,38 @@
             {{i + 1}}
           </a>
         </ng-container>
-        <ng-container *ngIf="3 <= i && i < totalPages - 3 &&(i == pageNumber + 1 || i== pageNumber-1 || i ==pageNumber)">
+        <ng-container
+          *ngIf="3 <= i && i < totalPages - 3 &&(i == pageNumber + 1 || i== pageNumber-1 || i ==pageNumber)">
           <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
              (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">
             {{i + 1}}
           </a>
         </ng-container>
-        <ng-container *ngIf="(3 < i && i < totalPages - 3 && i != pageNumber && i != pageNumber + 1 && i!=pageNumber-1)">
+        <ng-container
+          *ngIf="(3 < i && i < totalPages - 3 && i != pageNumber && i != pageNumber + 1 && i!=pageNumber-1)">
           <a class="page-link">
             ...
           </a>
         </ng-container>
       </li>
       <li>
-        <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber+1)">
+        <a class="page-link" *ngIf="pageNumber < totalPages - 1 ? 'disable': ''"
+           (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber+1)">
           <i class="fa-solid fa-forward"></i>
         </a>
       </li>
       <li class="page-item">
         <a class="page-link">
-          <i class="fa-solid fa-forward-fast" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,totalPages-1)"></i> </a>
+          <i class="fa-solid fa-forward-fast"
+             (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,totalPages-1)"></i> </a>
       </li>
       <li class="page-item">
         <span class="page-link">{{pageNumber + 1}} / {{totalPages}}</span>
       </li>
       <li class="page-item">
         <div class="input-group rounded">
-          <input id="input-page-choice" type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
+          <input id="input-page-choice" type="search" class="form-control rounded"
+                 placeholder="chọn trong {{totalPages}} trang" #element
                  aria-label="Search" aria-describedby="search-addon"/>
           <span style="cursor: pointer" class="input-group-text border-0" id="search-addon">
            <i class="fas fa-search"
@@ -136,7 +152,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-          <button type="button"  class="btn btn-danger" (click)="deletePlane(plane?.id)" data-bs-dismiss="modal">Xóa</button>
+          <button type="button" class="btn btn-danger" (click)="deletePlane(plane?.id)" data-bs-dismiss="modal">Xóa
+          </button>
         </div>
       </div>
     </div>
@@ -148,7 +165,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" >Thêm mặt bằng</h5>
+        <h5 class="modal-title">Thêm mặt bằng</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -158,71 +175,81 @@
             <!--              <label>Id</label>-->
             <!--              <input hidden disabled type="text" formControlName="id" class="form-control" value=""  required>-->
             <!--            </div>-->
-            <div class="col-6" >
+            <div class="col-6">
               <label>Giá (<span style="color:red;">*</span>): </label>
-              <input type="text" formControlName="price" class="form-control" value="" >
+              <input type="text" formControlName="price" class="form-control" value="">
               <span>&nbsp;</span>
-              <span *ngIf="(rfForm.controls.price.hasError('pattern') || rfForm.controls.price.hasError('validMoreThan0')) && rfForm.controls.price.touched" style="color: red">Giá phải là số và phải lớn hơn 0</span>
+              <span
+                *ngIf="(rfForm.controls.price.hasError('pattern') || rfForm.controls.price.hasError('validMoreThan0')) && rfForm.controls.price.touched"
+                style="color: red">Giá phải là số và phải lớn hơn 0</span>
 
             </div>
-            <div class="col-6" >
+            <div class="col-6">
               <label>Diện Tích (<span style="color:red;">*</span>):</label>
-              <input type="text" formControlName="area" class="form-control" value=""  required>
+              <input type="text" formControlName="area" class="form-control" value="" required>
               <span>&nbsp;</span>
-              <span *ngIf="(rfForm.controls.area.hasError('pattern') || rfForm.controls.area.hasError('validMoreThan0')) && rfForm.controls.area.touched" style="color: red">Diện tích phải là số và phải lớn hơn 0</span>
+              <span
+                *ngIf="(rfForm.controls.area.hasError('pattern') || rfForm.controls.area.hasError('validMoreThan0')) && rfForm.controls.area.touched"
+                style="color: red">Diện tích phải là số và phải lớn hơn 0</span>
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
 
-            <div class="col-6" >
+            <div class="col-6">
               <label>Phí Quản Lý (<span style="color:red;">*</span>):</label>
-              <input type="text" formControlName="management_costs" class="form-control" value=""  required>
+              <input type="text" formControlName="management_costs" class="form-control" value="" required>
               <span>&nbsp;</span>
-              <span *ngIf="(rfForm.controls.management_costs.hasError('pattern') || rfForm.controls.management_costs.hasError('validMoreThan0')) && rfForm.controls.management_costs.touched" style="color: red">Chi phí quản lý phải là số và phải lớn hơn 0</span>
+              <span
+                *ngIf="(rfForm.controls.management_costs.hasError('pattern') || rfForm.controls.management_costs.hasError('validMoreThan0')) && rfForm.controls.management_costs.touched"
+                style="color: red">Chi phí quản lý phải là số và phải lớn hơn 0</span>
 
             </div>
-            <div class="col-6" >
+            <div class="col-6">
               <div>Loại Mặt Bằng (<span style="color:red;">*</span>):</div>
               <select class="form-select" aria-label="Default select example" formControlName="planeType">
                 <option [ngValue]="item" *ngFor="let item of this.planeTypes">{{item.name}}</option>
               </select>
               <span>&nbsp;</span>
-              <span *ngIf="rfForm.controls.planeType.hasError('required') && rfForm.controls.planeType.touched" style="color: red">Loại mặt bằng không được để trống</span>
+              <span *ngIf="rfForm.controls.planeType.hasError('required') && rfForm.controls.planeType.touched"
+                    style="color: red">Loại mặt bằng không được để trống</span>
 
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
 
-            <div class="col-6" >
+            <div class="col-6">
               <div>Trạng Thái Mặt Bằng (<span style="color:red;">*</span>):</div>
               <select formControlName="planeStatus" class="form-select" aria-label="Default select example">
                 <option [ngValue]="item" *ngFor="let item of this.planeStatus">{{item.name}}</option>
               </select>
               <span>&nbsp;</span>
-                <span *ngIf="rfForm.controls.planeStatus.hasError('required') && rfForm.controls.planeStatus.touched" style="color: red">Trạng thái mặt bằng không được để trống</span>
+              <span *ngIf="rfForm.controls.planeStatus.hasError('required') && rfForm.controls.planeStatus.touched"
+                    style="color: red">Trạng thái mặt bằng không được để trống</span>
             </div>
-            <div class="col-6" >
+            <div class="col-6">
               <div>Tầng (<span style="color:red;">*</span>):</div>
               <select class="form-select" aria-label="Default select example" formControlName="stage">
                 <option [ngValue]="item" *ngFor="let item of this.stages">{{item.name}}</option>
               </select>
               <span>&nbsp;</span>
-              <span *ngIf="rfForm.controls.stage.hasError('required') && rfForm.controls.stage.touched" style="color: red">Tầng không được để trống</span>
+              <span *ngIf="rfForm.controls.stage.hasError('required') && rfForm.controls.stage.touched"
+                    style="color: red">Tầng không được để trống</span>
 
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
             <div class="col-12">
-              <div>Ảnh (<span style="color:red;">*</span>): </div>
+              <div>Ảnh (<span style="color:red;">*</span>):</div>
               <form class="form-array-addImg" [formArrayName]="formArray">
-                <div class="list-label-img-choose"  *ngFor="let img of this.formArray.controls;index as i">
-                  <label  class="label-add-picture"   for="addPicturePlane{{i}}">
+                <div class="list-label-img-choose" *ngFor="let img of this.formArray.controls;index as i">
+                  <label class="label-add-picture" for="addPicturePlane{{i}}">
                     <img id="label-img{{i}}" class="addPicturePlane-img" src="../../../assets/home-img/home.png">
                     <div>
                       <span>&nbsp;</span>
                       <span disable *ngIf="formArray.controls[i].hasError('required')" style="color:red;">Không được bỏ trống ảnh</span>
                     </div>
-                    <input hidden (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/jpeg"  id="addPicturePlane{{i}}" type="file" class="form-control" value="" >
+                    <input hidden (change)="uploadImg($event,i)" formControlName="{{i}}" accept="image/png, image/jpeg"
+                           id="addPicturePlane{{i}}" type="file" class="form-control" value="">
                     <!--                  <p *ngIf="formArray.controls[i].file.hasError('required')" style="color:red;">Không được bỏ trống ảnh</p>-->
                   </label>
                   <i (click)="removeImg(i)" class="fa-sharp fa-solid fa-xmark remove-img-index"></i>
@@ -231,14 +258,18 @@
 
             </div>
             <div class="col-6">
-              <button class="btn btn-primary" style="margin-top: 20px" [disabled]="this.formArray.invalid" (click)="addPicture()" >Thêm ảnh</button>
+              <button class="btn btn-primary" style="margin-top: 20px" [disabled]="this.formArray.invalid"
+                      (click)="addPicture()">Thêm ảnh
+              </button>
             </div>
           </div>
           <div style="margin-bottom: 10px" class="row">
             <div class="col-6">
-<!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+              <!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
 
-              <button      [disabled]="this.rfForm.invalid || this.formArray.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
+              <button [disabled]="this.rfForm.invalid || this.formArray.invalid" data-bs-dismiss="modal" type="button"
+                      class="btn btn-primary" (click)="submit()">Save changes
+              </button>
             </div>
           </div>
         </form>
@@ -251,7 +282,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" >Chi tiết mặt bằng</h5>
+        <h5 class="modal-title">Chi tiết mặt bằng</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -261,30 +292,32 @@
         <div>Trạng thái mặt bằng: {{this.plane?.planeStatus.name}}</div>
         <div>Chi phí quản lý: {{this.plane?.management_costs | CustomPipeVND}}</div>
         <div>Giá thuê: {{this.plane?.price | CustomPipeVND}}</div>
-        <div>Diện tích: {{this.plane?.area}}m<sup>2</sup> </div>
+        <div>Diện tích: {{this.plane?.area}}m<sup>2</sup></div>
         <div class="container" style="box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;">
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active" *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" >
+              <div class="carousel-item active" *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')">
                 <img style="height: 500px" src="{{urlImg}}" class="d-block w-100" alt="...">
               </div>
 
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
           </div>
         </div>
       </div>
-      </div>
+    </div>
   </div>
 </div>
-<button hidden id="button-notification"data-bs-toggle="modal" data-bs-target="#messageModal" ></button>
+<button hidden id="button-notification" data-bs-toggle="modal" data-bs-target="#messageModal"></button>
 <div class="pop-up-container" style="display: none" id="pop-up-container">
   <div id="pop-up">
     <img src="../../../assets/home-img/loading.gif" height="198" width="198"/>

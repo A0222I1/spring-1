@@ -51,9 +51,6 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="home">Trang chủ</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Giới thiệu</a>
-      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
            aria-expanded="true">
@@ -77,9 +74,6 @@
           <li><a class="dropdown-item" routerLink="static/low">Báo cáo thu nhập thấp</a></li>
         </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Liên hệ</a>
-      </li>
     </ul>
     <!-- Left links -->
     <div class="d-flex align-items-center" *ngIf="!isLoggedIn">
@@ -93,7 +87,7 @@
       </button>
     </div>
     <div *ngIf="isLoggedIn">
-      <button *ngIf="employeeName" class="btn">Xin chào : {{employeeName}}</button>
+      <button *ngIf="employeeName" class="btn logout">Xin chào : {{employeeName}}</button>
       <i class="fa-solid fa-right-from-bracket ms-3 me-3" (click)="onLogOut()"></i>
     </div>
   </div>

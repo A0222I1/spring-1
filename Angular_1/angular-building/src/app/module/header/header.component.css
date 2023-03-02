@@ -27,7 +27,7 @@
 }
 
 .collapse .nav-item {
-  padding-right: 50px;
+  padding-right: 30px;
 }
 
 .navbar-brand {
@@ -84,8 +84,11 @@ nav {
 
 }
 
-@media (max-width: 1051px) {
+@media (max-width: 1074px) {
   a {
+    font-size: 12px;
+  }
+  .logout{
     font-size: 12px;
   }
 }
