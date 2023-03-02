@@ -41,7 +41,7 @@
         <th scope="col">Bộ Phận</th>
         <th scope="col">Tài khoản</th>
         <th scope="col">
-          Thao tác
+          Hành động
         </th>
       </tr>
       </thead>
@@ -116,7 +116,7 @@
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,totalPages - 1)">
         <i class="fa-solid fa-forward-fast"></i> </a>
     </li>
-    <li class="page-item">
+    <li class="page-item" id="pageJumpPage">
       <span class="page-link">{{pageNumber + 1}} / {{totalPages}}</span>
     </li>
     <li class="page-item">
@@ -124,7 +124,7 @@
         <input type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
                id="pageChoice"
                aria-label="Search" aria-describedby="search-addon"/>
-        <span class="input-group-text border-0" id="search-addon">
+        <span class="input-group-text border-0" id="search-addon" style="cursor: pointer">
            <i class="fas fa-search"
               (click)="getPageInChoice(+element.value - 1)"></i>
         </span>
