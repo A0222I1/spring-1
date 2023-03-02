@@ -1,13 +1,13 @@
 <div class="body-class">
   <h4 class="list-ground-title">DANH SÁCH NHÂN VIÊN</h4>
   <div class="list-input-search">
-    <input type="text" placeholder="tên nhân viên cần tìm" #name id="nameSearch"
+    <input type="text" placeholder="Tên nhân viên cần tìm" #name id="nameSearch"
            (change)="name_search = name.value.trim()">
-    <input type="text" placeholder="chứng minh nhân dân cần tìm" #cmnd id="cmndSearch" maxlength="12"
+    <input type="text" placeholder="Chứng minh nhân dân cần tìm" #cmnd id="cmndSearch" maxlength="12"
            (change)="cmnd_search=cmnd.value.trim()">
-    <input type="text" placeholder="địa chỉ tìm" #address id="addressSearch"
+    <input type="text" placeholder="Địa chỉ tìm" #address id="addressSearch"
            (change)="address_search = address.value.trim()">
-    <select #department id="departmentSearch" class="select-option-department"
+    <select #department id="departmentSearch" class="select-option-department form-select "
             (change)="department_search = department.value">
       <option value="">- Chọn tên mặt bằng -</option>
       <option *ngFor="let item of departments" value="{{item.name}}">{{item.name}}</option>
@@ -26,23 +26,20 @@
   </div>
 
   <div>
-    <table class="table tab" style="font-size: 12px" bgcolor="white" width="100%">
+    <table class="table tab">
       <thead class="thead-dark">
       <tr>
         <th scope="col">Hình</th>
         <th scope="col">Họ tên</th>
         <th scope="col">CMND</th>
-        <th scope="col">Email</th>
-        <th scope="col">Điện Thoại</th>
+         <th scope="col">Điện Thoại</th>
         <th scope="col">Ngày Sinh</th>
-        <th scope="col">Giới Tính</th>
-        <th scope="col">Địa Chỉ</th>
         <th scope="col">Lương</th>
         <th scope="col">Cấp Lương</th>
         <th scope="col">Bộ Phận</th>
         <th scope="col">Tài khoản</th>
         <th scope="col">
-          Thao tác
+          Hành động
         </th>
       </tr>
       </thead>
@@ -51,22 +48,19 @@
         <td><img [src]="item.avatar"></td>
         <td scope="row">{{item.name}}</td>
         <td scope="row">{{item.id_card}}</td>
-        <td scope="row">{{item.email}} </td>
         <td scope="row">{{item.phone}}</td>
         <td scope="row">{{item.birthday | date:'dd/MM/yyyy'}}</td>
-        <td scope="row">{{item.gender}}</td>
-        <td scope="row">{{item.address }}</td>
         <td scope="row">{{item.salary | pipeCurrencyCustom}}</td>
         <td scope="row">{{item.salaryScale}}</td>
         <td scope="row">{{item.department}}</td>
         <td scope="row">{{item.account}}</td>
         <td scope="row">
-
+          <i data-bs-toggle="modal" data-bs-target="#detailsModal" (click)="findById(item.id)"
+             class="action-icon action-icon-info  fa-solid fa-circle-info"></i>
           <i class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal"
              data-bs-target="#editModal"></i>
           <i data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="findById(item.id)"
              class="action-icon action-icon-delete fa-solid fa-trash"></i>
-
         </td>
       </tr>
       </tbody>
@@ -89,27 +83,26 @@
       </a>
     </li>
     <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
-
       <ng-container *ngIf="i < 3 || i >= totalPages - 3">
+        <a class="page-link" [ngClass]="pageNumber == i ?  'current': ''"
+           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,i)">
+          {{i + 1}}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="3 <= i && i < totalPages - 3 && (i == pageNumber + 1 || i== pageNumber-1 || i ==pageNumber)">
         <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
            (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,i)">
           {{i + 1}}
         </a>
       </ng-container>
-      <ng-container *ngIf="3 <= i && i < totalPages - 3 &&(i == pageNumber + 1 || i== pageNumber-1 || i ==pageNumber)">
-        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
-           (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,i)">
-          {{i + 1}}
-        </a>
-      </ng-container>
-      <ng-container *ngIf="(3 < i && i < totalPages - 3 && i != pageNumber && i != pageNumber + 1 && i!=pageNumber-1)">
+      <ng-container *ngIf="(3 <= i && i < totalPages - 3 && i != pageNumber && i != pageNumber + 1 && i!=pageNumber-1)">
         <a class="page-link">
           ...
         </a>
       </ng-container>
     </li>
     <li>
-      <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
+      <a class="page-link" *ngIf="pageNumber < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
            (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,pageNumber + 1)"></i>
       </a>
@@ -119,16 +112,17 @@
          (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,totalPages - 1)">
         <i class="fa-solid fa-forward-fast"></i> </a>
     </li>
-    <li class="page-item">
+    <li class="page-item" id="pageJumpPage">
       <span class="page-link">{{pageNumber + 1}} / {{totalPages}}</span>
     </li>
     <li class="page-item">
       <div class="input-group rounded">
         <input type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
+               id="pageChoice"
                aria-label="Search" aria-describedby="search-addon"/>
-        <span class="input-group-text border-0" id="search-addon">
+        <span class="input-group-text border-0" id="search-addon" style="cursor: pointer">
            <i class="fas fa-search"
-              (click)="findAllWithCondition(name_search,cmnd_search,address_search,department_search,+element.value - 1)"></i>
+              (click)="getPageInChoice(+element.value - 1)"></i>
         </span>
       </div>
     </li>
@@ -155,7 +149,7 @@
   </div>
 </div>
 
-<!--list empty-->
+<!--status list-->
 <div class="modal fade" id="listEmpty" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -165,8 +159,50 @@
                 (click)="refreshPage()"></button>
       </div>
       <div class="modal-body">
-        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Không tìm thấy nhân viên nào theo kết quả
-          tìm kiếm.</p>
+        <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i> {{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="refreshPage()">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--details-->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thông tin chi tiết của nhân viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                (click)="refreshPage()"></button>
+      </div>
+      <div class="modal-body" style="height: 620px">
+        <div class="projcard projcard-blue">
+          <div class="projcard-innerbox">
+            <img class="projcard-img" [src]="employeeView.avatar"/>
+            <div class="projcard-textbox">
+              <div class="projcard-title">Họ tên : {{employeeView.name}}</div>
+              <div class="projcard-subtitle">Mã số nhân viên: {{employeeView.id}}</div>
+              <div class="projcard-subtitle">Số điện thoại: {{employeeView.phone}}</div>
+              <div class="projcard-bar"></div>
+              <div class="projcard-description">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Email : {{employeeView.email}}</li>
+                  <li class="list-group-item">Chứng minh nhân dân : {{employeeView.id_card}}</li>
+                  <li class="list-group-item">Ngày tháng năm sinh: {{employeeView.birthday| date :"dd/MM/yyyy"}}</li>
+                  <li class="list-group-item">Địa chỉ: {{employeeView.address}}</li>
+                  <li class="list-group-item">Giới tính: {{employeeView.gender}}</li>
+                  <li class="list-group-item">Lương: {{employeeView.salary | pipeCurrencyCustom}}</li>
+                  <li class="list-group-item">Bậc lương: {{employeeView.salaryScale}}</li>
+                  <li class="list-group-item">Bộ phận công tác: {{employeeView.department}}</li>
+                  <li class="list-group-item">Tài khoản cá nhân: {{employeeView.account}}</li>
+                  <li class="list-group-item">Ngày vào làm: {{employeeView.dateBegin}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="refreshPage()">Hủy</button>
@@ -193,11 +229,10 @@
   </div>
 </div>
 
-
 <!-- add new modal-->
 <div class="modal fade" id="addNewContract">
   <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal-content" style="height: 800px">
       <div class="modal-header">
         <h5 class="modal-title">Thêm mới chi tiết nhân viên</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
@@ -211,7 +246,7 @@
               <!--              Họ tên-->
               <label>Họ tên</label>
               <input type="text" class="form-control" formControlName="name" required>
-              <span style="color: red" *ngIf="formGroup.controls.name.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.name.untouched && formGroup.controls.name.invalid">&nbsp; </span>
               <span style="color: red"
                     *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">Tên không nên để trống</span>
               <span style="color: green" *ngIf="formGroup.controls.name.valid">Có thể sử dụng tên này.</span>
@@ -226,20 +261,22 @@
             <div class="col-4">
               <label>Chứng minh nhân dân</label>
               <input type="text" class="form-control" formControlName="id_card" required>
-              <span style="color: red" *ngIf="formGroup.controls.id_card.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.id_card.untouched && formGroup.controls.id_card.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.id_card.valid" id="successCMND">Đã nhập chứng minh nhân dân thành công.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.id_card.touched && formGroup.controls.id_card.hasError('required')">Nhập chứng minh nhân dân không nên để trống.</span>
               <span style="color: red"
                     *ngIf="(formGroup.controls.id_card.hasError('pattern'))  && formGroup.controls.id_card.touched">Số chứng minh nhân dân nên có 12 chữ số.</span>
               <span style="color: red"
-                    *ngIf="formGroup.controls.id_card.hasError('idcardexists') && formGroup.controls.id_card.touched">Số chứng minh nhân dân đã tồn tại. Xin nhập lại.</span>
+                    *ngIf="formGroup.controls.id_card.hasError('idcardexists') ">Số chứng minh nhân dân đã tồn tại. Xin nhập lại.</span>
             </div>
 <!--            Địa chỉ-->
             <div class="col-4">
               <label>Địa chỉ</label>
               <input type="text" class="form-control" formControlName="address" required>
-              <span style="color: red" *ngIf="formGroup.controls.address.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.address.untouched && formGroup.controls.address.invalid ">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.address.valid">Đã nhập địa chỉ thành công.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.address.touched && formGroup.controls.address.hasError('required')">Địa chỉ không nên để trống.</span>
@@ -250,43 +287,45 @@
           <div class="row">
             <div class="col-4">
               <label>Ngày tháng năm sinh</label>
-              <input type="date" class="form-control" formControlName="birthday" placeholder="dd-mm-yyyy" required>
-              <span style="color: red" *ngIf="formGroup.controls.birthday.untouched">&nbsp; </span>
+              <input type="date" class="form-control" formControlName="birthday" placeholder="dd-mm-yyyy" value="" required>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.birthday.untouched && formGroup.controls.birthday.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.birthday.valid">Có thể sử dụng ngày sinh này.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.birthday.touched && formGroup.controls.birthday.hasError('required')">Mời nhập ngày sinh vào.</span>
               <span style="color: red"
                     *ngIf="(formGroup.controls.birthday.hasError('birthdaypast')) && formGroup.controls.birthday.touched">Người đăng kí nên trên 18 tuổi.</span>
+          <span style="color: red"
+                    *ngIf="(formGroup.controls.birthday.hasError('ageover')) && formGroup.controls.birthday.touched">Người đăng kí nên dưới 120 tuổi.</span>
             </div>
             <div class="col-4">
               <label>Email</label>
               <input type="text" class="form-control" formControlName="email" required>
-              <span style="color: red" *ngIf="formGroup.controls.email.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.email.untouched && formGroup.controls.email.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.email.valid"
                     id="successEmail">Đã nhập xong email.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.email.hasError('required') && formGroup.controls.email.touched">Mời nhập email vào.</span>
               <span style="color: red" *ngIf="(formGroup.controls.email.hasError('pattern'))
                                      &&formGroup.controls.email.touched">Email bạn nhập sai định dạng.</span>
-              <span style="color: red" *ngIf="(formGroup.controls.email.hasError('emailexists'))
-                                     &&formGroup.controls.email.touched">Email đã tồn tại.</span>
+              <span style="color: red"
+                    *ngIf="(formGroup.controls.email.hasError('emailexists'))">Email đã tồn tại.</span>
             </div>
             <div class="col-4">
               <label>Số điện thoại</label>
               <input type="text" class="form-control" formControlName="phone" required>
-              <span style="color: red" *ngIf="formGroup.controls.phone.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.phone.untouched && formGroup.controls.phone.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.phone.valid" id="successPhone">Đã nhập xong số điện thoại.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.phone.hasError('required') && formGroup.controls.phone.touched">Mời nhập số điện thoại vào.</span>
               <span style="color: red" *ngIf="(formGroup.controls.phone.hasError('pattern'))
                                      &&formGroup.controls.phone.touched">Số điện thoại chưa đúng định dạng: 0912345678.</span>
-              <span style="color: red" *ngIf="(formGroup.controls.phone.hasError('phoneexists'))
-                                     &&formGroup.controls.phone.touched">Số điện thoại này đã được sử dụng.</span>
+              <span style="color: red" *ngIf="(formGroup.controls.phone.hasError('phoneexists'))">Số điện thoại này đã được sử dụng.</span>
 
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
+            <div class="col-4">
               <ul style=" list-style: none">
                 <li style="margin-right: 5px">Giới tính:</li>
                 <li *ngFor="let item of genders" style="margin-right: 10px; display: inline; list-style: none">
@@ -294,13 +333,14 @@
                          value="{{item.id}}"/> {{item.name}}
                 </li>
               </ul>
-              <span style="color: red" *ngIf="formGroup.controls.gender.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.gender.untouched && formGroup.controls.gender.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.gender.valid">Đã chọn xong giới tính.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.gender.hasError('required') && formGroup.controls.gender.touched">Mời chọn giới tính.</span>
             </div>
 
-            <div class="col-6">
+
+            <div class="col-4">
               <label for="avatar">Hình ảnh đại diện</label>
               <input type="file" class="form-control hidden"
                      id="avatar"
@@ -310,7 +350,7 @@
                      formControlName="avatar"
                      accept="image/png, image/jpeg"
                      required>
-              <span style="color: red" *ngIf="formGroup.controls.avatar.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.avatar.untouched && formGroup.controls.avatar.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.avatar.valid && formGroup.controls.avatar.touched">Có thể sử dụng hình ảnh này.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.avatar.hasError('required') && formGroup.controls.avatar.touched">Chọn hình ảnh đại diện.</span>
@@ -319,6 +359,9 @@
               <span style="color: red"
                     *ngIf="formGroup.controls.avatar.hasError('filesize')&& formGroup.controls.avatar.touched">Hình ảnh không được quá 5MB.</span>
             </div>
+            <div class="col-4" *ngIf="fileChose">
+              <img alt="Loading" id="reviewImgChoice" [src]="imageSrc" width="60px">
+            </div>
           </div>
           <hr style="margin-top: 10px">
           <h5>Chi tiết về công việc</h5>
@@ -326,7 +369,7 @@
             <div class="col-4">
               <label>Lương</label>
               <input type="number" class="form-control" formControlName="salary" required>
-              <span style="color: red" *ngIf="formGroup.controls.salary.untouched">&nbsp; </span>
+              <span style="color: red" *ngIf="formGroup.controls.salary.untouched && formGroup.controls.salary.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.salary.valid">Đã nhập lương thành công.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.salary.hasError('min')&&formGroup.controls.salary.touched">Mời nhập lương lớn hơn 1 triệu.</span>
@@ -342,7 +385,8 @@
                 <option value="">Chọn Đơn Vị</option>
                 <option *ngFor="let item of departments" value="{{item.id}}">{{item.name}}</option>
               </select>
-              <span style="color: red" *ngIf="formGroup.controls.department.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.department.untouched && formGroup.controls.department.invalid">&nbsp; </span>
               <span style="color: green"
                     *ngIf="formGroup.controls.department.valid">Đã chọn xong đơn vị công tác.</span>
               <span style="color: red"
@@ -356,7 +400,8 @@
                 <option value="">Chọn bậc lương</option>
                 <option *ngFor="let item of salaries" value="{{item.id}}">{{item.name}}</option>
               </select>
-              <span style="color: red" *ngIf="formGroup.controls.salaryScale.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.salaryScale.untouched && formGroup.controls.salaryScale.invalid ">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.salaryScale.valid">Đã chọn xong bậc lương.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.salaryScale.hasError('required') && formGroup.controls.salaryScale.touched">Mời chọn bậc lương.</span>
@@ -371,7 +416,8 @@
             <div class="col-4">
               <label>Tài khoản muốn đăng kí</label>
               <input type="text" class="form-control" formControlName="account" required>
-              <span style="color: red" *ngIf="formGroup.controls.account.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.untouched && formGroup.controls.account.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.account.valid" id="successAccount">Đã nhập xong tên tài khoản.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.account.hasError('required') && formGroup.controls.account.touched">Mời nhập tên tài khoản.</span>
@@ -380,13 +426,16 @@
               <span style="color: red"
                     *ngIf="formGroup.controls.account.hasError('maxlength') && formGroup.controls.account.touched">Tên tài khoản nên ít hơn 15 kí tự.</span>
               <span style="color: red"
-                    *ngIf="formGroup.controls.account.hasError('accountexists') && formGroup.controls.account.touched">Tên tài khoản đã được đăng kí!.</span>
+                    *ngIf="formGroup.controls.account.hasError('pattern') && formGroup.controls.account.touched">Tên tài khoản không được có dấu hay khoảng trắng.</span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.account.hasError('accountexists')">Tên tài khoản đã được đăng kí!.</span>
             </div>
 
             <div class="col-4">
               <label>Mật khẩu</label>
               <input type="password" class="form-control" formControlName="password" required>
-              <span style="color: red" *ngIf="formGroup.controls.password.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.password.untouched && formGroup.controls.password.invalid">&nbsp; </span>
               <span style="color: green" *ngIf="formGroup.controls.password.valid">Đã nhập xong mật khẩu.</span>
               <span style="color: red"
                     *ngIf="(formGroup.controls.password.hasError('required')|| formGroup.controls.password.hasError('trim')) && formGroup.controls.password.touched">Mời nhập mật khẩu.</span>
@@ -404,7 +453,8 @@
             <div class="col-4">
               <label>Mật khẩu xác nhận</label>
               <input type="password" class="form-control" formControlName="passwordConfirm" required>
-              <span style="color: red" *ngIf="formGroup.controls.passwordConfirm.untouched">&nbsp; </span>
+              <span style="color: red"
+                    *ngIf="formGroup.controls.passwordConfirm.untouched && formGroup.controls.passwordConfirm.invalid">&nbsp; </span>
               <span style="color: green"
                     *ngIf="!formGroup.hasError('passworderror') && formGroup.controls.passwordConfirm.touched && !formGroup.controls.password.hasError('required') && !formGroup.controls.password.hasError('pattern')">Mật khẩu trùng khớp.</span>
               <span style="color: red"
@@ -428,5 +478,12 @@
         </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!--loading page-->
+<div class="pop-up-container" style="display: none" id="pop-up-container">
+  <div id="pop-up">
+    <img src="../../../assets/home-img/loading.gif" height="198" width="198"/>
   </div>
 </div>

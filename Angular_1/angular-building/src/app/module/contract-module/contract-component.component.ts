@@ -76,7 +76,9 @@ export class ContractComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPlane();
+    this.getAllPlaneWithPromise().then(() => {
+
+    });
     this.getAllTerm();
     this.getEmployee();
     this.buildForm();
@@ -86,13 +88,13 @@ export class ContractComponentComponent implements OnInit {
 
   findAllByCondition(customerName: string, employeeName: string, planeId: string, startDay: string, page: number) {
     // tslint:disable-next-line:prefer-const
-    const regexOfPlaneId = new RegExp("^MB-[0-9]{1,}$");
+    const regexOfPlaneId = new RegExp('^MB-[0-9]{1,}$');
     if (regexOfPlaneId.test(planeId)) {
-      planeId = planeId.split("-")[1];
-    } else if (planeId === "") {
-      planeId = "";
+      planeId = planeId.split('-')[1];
+    } else if (planeId === '') {
+      planeId = '';
     } else {
-      planeId = "MB_" + planeId;
+      planeId = 'MB_' + planeId;
     }
     this.contractService.findAllByCondition(customerName.trim(), employeeName.trim(), planeId, startDay, page).subscribe(value => {
       this.contracts = value.content;
@@ -102,20 +104,20 @@ export class ContractComponentComponent implements OnInit {
     });
 
 
-
   }
 
 
   changeId(id: number, name: any, accountName: string) {
-    if (this.employeeAccount.maxRole === 1) {
-      document.getElementById('close').click();
-      this.id = id;
-      this.name = name;
-    } else {
-      document.getElementById('notificationModalButton').click();
-    }
+    this.getEmployeeFromLocal().then(() => {
+      if (this.employeeAccount.maxRole === 1) {
+        document.getElementById('close').click();
+        this.id = id;
+        this.name = name;
+      } else {
+        document.getElementById('notificationModalButton').click();
+      }
 
-
+    });
   }
 
   delete(id: number) {
@@ -164,10 +166,29 @@ export class ContractComponentComponent implements OnInit {
 
   }
 
+  getEmployeeFromLocal() {
+    return new Promise(((resolve, reject) => {
+      this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
+        this.employeeAccount = data;
+        this.displayEmployee = this.employeeAccount;
+        resolve();
+      }, error => {
+        reject(error);
+      });
+    }));
+  }
+
   // tslint:disable-next-line:ban-types
   updateEmployee(userName: string) {
     this.employeeService.findByUserName(userName).subscribe(data => {
+      console.log('current Employee');
+      console.log(data);
       this.displayEmployee = data;
+      this.employeeAccount = data;
+      this.buildForm();
+      this.calculateEndDate();
+      // this.getEmployee();
+      // console.log(em);
 
     });
   }
@@ -193,10 +214,21 @@ export class ContractComponentComponent implements OnInit {
 
   }
 
-  getAllPlane() {
-    this.planeService.getALlPlaneDTO().subscribe(data => {
-      this.planeList = data;
-    });
+  // getAllPlane() {
+  //   this.planeService.getALlPlaneDTO().subscribe(data => {
+  //     this.planeList = data;
+  //   });
+  // }
+
+  getAllPlaneWithPromise() {
+    return new Promise(((resolve, reject) => {
+      this.planeService.getALlPlaneDTO().subscribe(data => {
+        this.planeList = data;
+        resolve();
+      }, error => {
+        reject(error);
+      });
+    }));
   }
 
 
@@ -284,18 +316,24 @@ export class ContractComponentComponent implements OnInit {
   // @ts-ignore
   editContract(id: number, idCard: string, accountName: string, roleRecord: number) {
     this.flagDisplayValidate = false;
-    if (this.employeeAccount.maxRole === 1) {
-      document.getElementById('edit').click();
-      this.title = 'Chỉnh Sửa Hợp Đồng';
-      this.disabled = false;
-      this.checkStartDate = true;
-      this.flagHidden = false;
-      this.fillForm(id, idCard, accountName);
-    } else {
-      this.detail(id, idCard, accountName);
-      this.toastrService.warning('Chỉ có tài khoản với quyền admin mới được cập nhật thông tin');
-      document.getElementById('openDetailModal').click();
-    }
+    this.getEmployeeFromLocal().then(() => {
+      if (this.employeeAccount.maxRole === 1) {
+        document.getElementById('edit').click();
+        this.title = 'Chỉnh Sửa Hợp Đồng';
+        this.disabled = false;
+        this.checkStartDate = true;
+        this.flagHidden = false;
+        this.fillForm(id, idCard, accountName);
+
+      } else {
+        this.detail(id, idCard, accountName);
+        this.toastrService.warning('Chỉ có tài khoản với quyền admin mới được cập nhật thông tin');
+        document.getElementById('openDetailModal').click();
+
+      }
+    });
+
+
   }
 
   fillForm(id: number, idCard: string, accountName: string) {
@@ -304,38 +342,45 @@ export class ContractComponentComponent implements OnInit {
       this.contractDTO = data;
       this.contractDTO.customerId = idCard;
       // fill customer information by [value]
-      // this.getAllCustomer();
-      // this.customerView = this.customerList.find(item => item.id_card === idCard);
-
+      // tslint:disable-next-line:no-shadowed-variable
+      this.getAllPlaneWithPromise().then(() => {
+        // update plane
+        const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
+        if (this.planeList.find(item => item.id === planeEdit.id) === undefined) {
+          this.planeList.push(planeEdit);
+        }
+      });
       // tslint:disable-next-line:no-shadowed-variable
       this.customerService.findByIdCardForContract(idCard).subscribe(data => {
         this.customerView = data;
       });
-      // update plane
-      const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
-      if (this.planeList.find(item => item.id === planeEdit.id) === undefined) {
-        this.planeList.push(planeEdit);
-      }
-      // fill information
-      this.buildForm();
-      this.calculateEndDate();
+
+      // update employee
       this.updateEmployee(accountName);
+      // this.getEmployee();
+      // fill information
+      // this.buildForm();
+      console.log('end date');
+
     });
   }
 
   add() {
+    console.log(this.formGroup);
     this.flagDisplayValidate = false;
     this.title = 'Thêm Mới Hợp Đồng';
     this.disabled = false;
     this.flagHidden = false;
     this.checkStartDate = false;
-    this.getEmployee();
-    this.refresh();
-    this.formGroup.controls.startDate.setValidators(isFuture);
+    this.getEmployeeFromLocal().then(() => {
+      this.refresh();
+      this.formGroup.controls.startDate.setValidators(isFuture);
+    });
+
   }
 
   refresh() {
-    this.getAllPlane();
+    this.getAllPlaneWithPromise().then(() => {});
     this.contractDTO = undefined;
     this.buildForm();
     console.log(this.formGroup);

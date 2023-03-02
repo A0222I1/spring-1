@@ -4,7 +4,7 @@
     <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
     <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
     <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value" placeholder="Mã Mặt Bằng">
-    <input style="width: 100px" id="startDate"  #startDay placeholder="dd-mm-yyyy" (change)="dateStartSearch = startDay.value" type="text"
+    <input style="width: 80px" id="startDate"  #startDay (change)="dateStartSearch = startDay.value" type="text"
             onfocus="(this.type='date')" placeholder="Ngày Bắt Đầu">
     <div class="list-input-search-icon">
       <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
@@ -15,18 +15,18 @@
 <table class="table tab">
   <thead class="thead-dark">
   <tr>
-    <th scope="col">Id</th>
+    <th scope="col">Mã Hợp Đồng</th>
     <th scope="col">Tên Khách Hàng</th>
     <th scope="col">Tên Nhân Viên</th>
-    <th scope="col">Tên mặt Bằng</th>
+    <th scope="col">Tên Mặt Bằng</th>
     <th scope="col">Tình Trạng Mặt Bằng</th>
     <th scope="col">Ngày Bắt Đầu</th>
-    <th scope="col">Hành Động</th>
+    <th scope="col">Thao Tác</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let contract of contracts ; index as i">
-    <td scope="row">{{contract.id}}</td>
+    <td scope="row">HĐ-{{contract.id}}</td>
     <td scope="row">{{contract.customerName}}</td>
     <td scope="row">{{contract.employeeName}}</td>
     <td scope="row">MB-{{contract.planeId}}</td>
@@ -65,7 +65,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có muốn xóa hợp đông <span style="font-weight: bold">HD_{{name}}</span>?
+        Bạn có muốn xóa hợp đông <span style="font-weight: bold">HD-{{name}}</span>?
         <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Đây là hành động không thể hoàn tác</p>
         <input hidden id="id_delete" #id_delete>
       </div>
@@ -102,9 +102,8 @@
     </div>
   </div>
 </div>
-
-<div  *ngIf="(totalElements> 0); else isEmpty">
-
+<!--page-->
+<div *ngIf="(totalElements> 0); else isEmpty">
   <ul class="pagination justify-content-center">
     <li class="page-item">
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
@@ -115,17 +114,31 @@
     <li>
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
         <i class="fa-solid fa-backward"
-           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch, indexPagination- 1)"></i>
+           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination - 1)"></i>
       </a>
     </li>
     <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
-      <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
-         (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
-        {{i + 1}}
-      </a>
+
+      <ng-container *ngIf="i < 3 || i >= totalPages - 3">
+        <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
+           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
+          {{i + 1}}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="3 <= i && i < totalPages - 3 &&(i == indexPagination + 1 || i== indexPagination-1 || i ==indexPagination)">
+        <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
+           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
+          {{i + 1}}
+        </a>
+      </ng-container>
+      <ng-container *ngIf="(3 < i && i < totalPages - 3 && i != indexPagination && i != indexPagination + 1 && i!=indexPagination-1)">
+        <a class="page-link">
+          ...
+        </a>
+      </ng-container>
     </li>
     <li>
-      <a class="page-link" *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
+      <a class="page-link"  *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
            (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination + 1)"></i>
       </a>
@@ -148,12 +161,13 @@
         </span>
       </div>
     </li>
-
   </ul>
 </div>
 
+
+
 <ng-template #isEmpty class="clearfix">
-  <div style="font-size: 18px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}&nbsp;{{employeeNameSearch}}&nbsp;{{planeIdSearch}}&nbsp;{{dateStartSearch}}" </b></div>
+  <div style="font-size: 18px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}&nbsp;{{employeeNameSearch}}&nbsp;{{planeIdSearch}}&nbsp;{{dateStartSearch| date: 'dd/MM/yyyy'}}" </b></div>
 </ng-template>
 
 <!-- Button trigger modal -->
@@ -163,7 +177,7 @@
 </button>
 
 
-<!-- Detail modal-->
+<!-- function modal-->
 <div class="modal fade" id="contractFunction">
   <div class="modal-dialog modal-xl">
     <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
@@ -227,7 +241,7 @@
               <label>Mã Mặt Bằng (<span>*</span>)</label>
               <select class="form-control" formControlName="planeId" [attr.disabled]="disabled  == true ? '' : null">
                 <option value="">Chọn mã mặt bằng</option>
-                <option *ngFor="let p of planeList" [ngValue]="p.id">MB_{{p.id}}</option>
+                <option *ngFor="let p of planeList" [ngValue]="p.id">MB-{{p.id}}</option>
               </select>
               <span style="color: red"
                     *ngIf="(formGroup.controls.planeId.hasError('required') && ( formGroup.controls.planeId.touched || flagDisplayValidate))">
@@ -275,7 +289,7 @@
 
             </div>
             <div class="col-4">
-              <label>Giá Tiền Mỗi Tháng (<span>*</span>)</label>
+              <label>Giá Tiền Mỗi Tháng (VNĐ) (<span>*</span>)</label>
               <input type="text" (keyup)="calculateTotalPrice()" formControlName="price" class="form-control"
                      (keyup)="forMatNumber($event.target.value)" required
                      [attr.disabled]="disabled  == true ? '' : null">
@@ -286,7 +300,7 @@
 
             </div>
             <div class="col-4">
-              <label>Tổng Tiền</label>
+              <label>Tổng Tiền (VNĐ)</label>
               <input type="text" formControlName="total" class="form-control" value="" disabled>
               <span style="color: red">&nbsp;</span>
 

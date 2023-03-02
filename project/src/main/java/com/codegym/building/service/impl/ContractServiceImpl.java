@@ -1,5 +1,4 @@
 package com.codegym.building.service.impl;
-
 import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.dto.ContractViewDTO;
 import com.codegym.building.model.contract.Contract;
@@ -16,11 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @Service
-
 
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
     static final Integer AVAILABLE_PLANE = 2;
@@ -74,7 +71,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         return contractRepos.getAllCustom(customerName, employeeName, planeId, dateStart, pageable);
     }
 
-
     @Override
     public boolean delete(Integer id) {
         final Contract contract = findById(id);
@@ -120,9 +116,13 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         }
     }
 
+    @Override
+    public List<ContractViewDTO> findAllByCustomerId(String customerId) {
+        return contractRepos.findAllByCustomerId(customerId).stream().map(ContractViewDTO::new).collect(Collectors.toList());
+    }
+
     private Contract findById(final Integer id) {
         return contractRepos.findById(id).orElse(null);
     }
-
 
 }

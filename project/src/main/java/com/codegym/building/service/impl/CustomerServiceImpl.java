@@ -27,12 +27,13 @@ public class CustomerServiceImpl implements PersonService<Customer> {
     public Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(String name, String id_card, String address, String company, Pageable pageable) {
         return repos.findAllByNameAndIdCardAndAddressAndDepartment(name, id_card,address,company, pageable);
     }
-
+//luu
     @Override
     public Customer save(Customer customer) {
         return repos.save(customer);
     }
 
+    //chong tan cong tu postman, khi khong tim thay id se lôi
     @SneakyThrows
     @Override
     public Customer findById(String id) throws NotFoundById {
@@ -42,12 +43,13 @@ public class CustomerServiceImpl implements PersonService<Customer> {
         }
         throw new NotFoundById("Không tìm thấy bất kì khách hàng nào có mã số: " + id);
     }
-
+//xoa
     @Override
     public Integer updateStatusById(String id) {
         return repos.updateStatusById(id);
     }
 
+    //cac chuc nang lien quan trong talk
     @Override
     public Integer updateStatusAll() {
         return repos.updateStatusAll();

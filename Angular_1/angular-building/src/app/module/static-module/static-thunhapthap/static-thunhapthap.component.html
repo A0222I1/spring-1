@@ -1,104 +1,99 @@
 <div xmlns="http://www.w3.org/1999/html">
-<div class="header">
-  <h4 class="list-ground-title">THỐNG KÊ SỐ LIỆU PHÒNG THU NHẬP THẤP</h4>
+  <div class="header">
+    <h4 class="list-ground-title">THỐNG KÊ SỐ LIỆU PHÒNG THU NHẬP THẤP</h4>
 
-  <form class="row g-3" [formGroup]="formGroup">
-    <div class="col-md-4">
-      <label class="form-label">Ngày bắt đầu</label>
-      <input class="form-control" formControlName="startLowDate" id="startLowDate" type="date" #startLowDate (change)="startDateLowString = startLowDate.value"
-             required>
-    </div>
-    <div class="col-md-4">
-      <label  class="form-label">Ngày kết thúc</label>
-      <input class="form-control" formControlName="finalLowDate" id="finalLowDate" type="date" #finalLowDate (change)="finishDateLowString = finalLowDate.value"
-             required>
-      <span style="color: red" *ngIf="formGroup.controls.finalLowDate.hasError('invalidDate') &&  formGroup.controls.finalLowDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
-
-    </div>
-    <div class="col-md-3">
-      <label class="form-label">Số lượng</label>
-      <input class="form-control" formControlName="rowLowNumbers" id="rowLowNumbers" type="number" min="0" #rowLowNumbers (change)="rowNumber = rowLowNumbers.value" required>
-      <span style="color: red" *ngIf="formGroup.controls.rowLowNumbers.hasError('pattern')  && formGroup.controls.rowLowNumbers.touched">Chỉ được chọn số dương</span>
-    </div>
-    <div class="btn-group col-md-1">
-      <div class="list-inputsearch-icon">
-        <i style="background-color: blue" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
-           (click)="findAllLowWithCondition(startDateLowString,finishDateLowString,rowNumber)"></i>
+    <form class="row g-3" [formGroup]="formGroup">
+      <div class="col-md-4">
+        <label class="form-label"></label>
+        <input placeholder="Ngày bắt đầu" class="form-control" type="text" onfocus="(this.type='date')"
+               onblur="(this.type='text')" formControlName="startLowDate" id="startLowDate" #startLowDate
+               (change)="startDateLowString = startLowDate.value"
+               required/>
       </div>
-    </div>
-  </form>
-<!--</div>-->
+      <div class="col-md-4">
+        <label class="form-label"></label>
 
-<!--  <form [formGroup]="formGroup">-->
+        <input placeholder="Ngày kết thúc" class="form-control" type="text" onfocus="(this.type='date')"
+               onblur="(this.type='text')" formControlName="finalLowDate" id="finalLowDate" #finalLowDate
+               (change)="finishDateLowString = finalLowDate.value"
+               required/>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalLowDate.hasError('invalidDate') &&  formGroup.controls.finalLowDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label"></label>
 
-<!--  <div class="list-inputsearch">-->
-<!--    <label>Ngày bắt đầu</label>-->
+        <input placeholder="Số lượng" class="form-control" type="text" onfocus="(this.type='number')"
+               onblur="(this.type='text')" formControlName="rowLowNumbers" id="rowLowNumbers" #rowLowNumbers
+               (change)="rowNumber = rowLowNumbers.value"
+               required/>
+        <span style="color: red"
+              *ngIf="formGroup.controls.rowLowNumbers.hasError('pattern')  && formGroup.controls.rowLowNumbers.touched">Chỉ được chọn số lớn hơn 1</span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.rowLowNumbers.hasError('max')  && formGroup.controls.rowLowNumbers.touched">Số bạn chọn không được quá 20</span>
 
-<!--    <input formControlName="startLowDate" id="startLowDate" type="date" #startLowDate (change)="startDateLowString = startLowDate.value"-->
-<!--            required>-->
-<!--    <label>Ngày kết thúc</label>-->
-<!--    <input formControlName="finalLowDate" id="finalLowDate" type="date" #finalLowDate (change)="finishDateLowString = finalLowDate.value"-->
-<!--           required>-->
-<!--    <span style="color: red" *ngIf="formGroup.controls.finalLowDate.hasError('invalidDate') &&  formGroup.controls.finalLowDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>-->
-<!--    <label>Số lượng</label>-->
-<!--    <input formControlName="rowLowNumbers" id="rowLowNumbers" type="text" #rowLowNumbers (change)="rowNumber = rowLowNumbers.value" required>-->
-<!--    <span style="color: red" *ngIf="formGroup.controls.rowLowNumbers.hasError('pattern')  && formGroup.controls.rowLowNumbers.touched">Chỉ được chọn số</span>-->
-<!--    <div class="list-inputsearch-icon">-->
-<!--      <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"-->
-<!--         (click)="findAllLowWithCondition(startDateLowString,finishDateLowString,rowNumber)"></i>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  </form>-->
-
-</div>
-<table class="table tab">
-  <thead class="thead-dark">
-  <tr>
-    <th scope="col">STT</th>
-    <th scope="col">Tên mặt Bằng</th>
-    <th scope="col">Ngày bắt đầu</th>
-    <th scope="col">Tổng thu</th>
-    <th scope="col">Ghi chú</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let i of static; let z =index">
-    <td scope="row">{{z+1}}</td>
-    <td scope="row">MB_{{i.plane.id}}</td>
-    <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
-    <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
-    <td scope="row">{{i.information}}</td>
-  </tr>
-  <tr>
-    <p>Tổng: {{total() > 0 ? (total()  |number:'4.0' ): 0}} VNĐ </p>
-  </tr>
-  </tbody>
-</table>
-  <div class="list-inputsearch-icon">
-    <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    </i>
+      </div>
+      <div class="btn-group col-md-1">
+        <div class="list-inputsearch-icon">
+          <i style="background-color: blue" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
+             (click)="findAllLowWithCondition(startDateLowString,finishDateLowString,rowNumber)"></i>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-<!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Bạn có muốn in dữ liệu không
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"
-                  data-bs-dismiss="modal">Không
-          </button>
-          <button (click)="dowloadFile(startDateLowString,finishDateLowString, rowNumber)" type="button" class="btn btn-primary">In
-          </button>
+
+
+  <div *ngIf="static.length > 0">
+    <table class="table tab">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên mặt Bằng</th>
+        <th scope="col">Ngày bắt đầu</th>
+        <th scope="col">Tổng thu (VNĐ)</th>
+        <th scope="col">Ghi chú</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let i of static; let z =index">
+        <td scope="row">{{z + 1}}</td>
+        <td scope="row">MB_{{i.plane?.id}}</td>
+        <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
+        <td scope="row">{{i.total |number:'4.0'}}</td>
+        <td scope="row">{{i.information}}</td>
+      </tr>
+      <tr>
+        <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
+      </tr>
+      </tbody>
+    </table>
+    <div class="list-inputsearch-icon">
+      <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      </i>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">In dữ liệu</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Bạn có muốn in dữ liệu không
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Không
+            </button>
+            <button (click)="dowloadFile(startDateLowString,finishDateLowString, rowNumber)" type="button"
+                    class="btn btn-primary">In
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="chart-container">
-    <canvas  id="ChartRentThuNhapThap" >{{ chartThuNhapThap }}</canvas>
+    <canvas id="ChartRentThuNhapThap">{{ chartThuNhapThap }}</canvas>
   </div>
 </div>

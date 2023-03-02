@@ -3,7 +3,8 @@ import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapCaoServiceService} from "../service/static-thunhapcao-service.service"
 import Chart from 'chart.js';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {checkDate, checkDateHigh} from "../validate/validate";
+import {checkDateHigh} from "../validate/validate";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -24,7 +25,10 @@ export class StaticThunhapcaoComponent implements OnInit {
   rowNumber = '';
   totalCalculate = 0;
 
-  constructor(private staticsService: StaticThuNhapCaoServiceService, private formBuilder: FormBuilder) {
+
+  constructor(private staticsService: StaticThuNhapCaoServiceService,
+              private formBuilder: FormBuilder,
+              private toast: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -33,7 +37,7 @@ export class StaticThunhapcaoComponent implements OnInit {
     this.buildForm();
   }
 
-  findAllHighWithCondition(startDateHighString: String, finishDateLowString: String, rowNumber: String) {
+  findAllHighWithCondition(startDateHighString: string, finishDateLowString: string, rowNumber: string) {
     this.chartdata = [];
     this.labelData = [];
     this.readData = [];
@@ -42,7 +46,9 @@ export class StaticThunhapcaoComponent implements OnInit {
         (e: any) => {
           this.static = e;
           this.chartdata = e;
-
+          if (this.static.length === 0) {
+            this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
+          }
           if (null != this.chartdata) {
             for (let i = 0; i < this.chartdata.length; i++) {
               console.log(this.chartdata[i]);
@@ -52,6 +58,8 @@ export class StaticThunhapcaoComponent implements OnInit {
           }
           this.createChart(this.labelData, this.readData);
 
+        }, error => {
+            this.toast.warning('Lỗi server', 'Thông báo');
         });
   }
 
@@ -61,7 +69,7 @@ export class StaticThunhapcaoComponent implements OnInit {
       startHighDate: ['', [Validators.required]],
       finalHighDate: ['', [Validators.required, checkDateHigh]],
       rowHighNumbers: ['', [Validators.required,
-        Validators.pattern("^([0-9]+)")]]
+        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
     });
   }
 
@@ -92,22 +100,21 @@ export class StaticThunhapcaoComponent implements OnInit {
     });
   }
 
-  public dowloadFile(startDateLowString: String, finishDateLowString: String, rowNumber: String): void {
+  public dowloadFile(startDateLowString: string, finishDateLowString: string, rowNumber: string): void {
     this.staticsService.printAllDataHigh(startDateLowString, finishDateLowString, rowNumber).subscribe(response => {
-      let fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
-      let blob: Blob = response.body as Blob;
-      let a = document.createElement('a');
+      const fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
+      const blob: Blob = response.body as Blob;
+      const a = document.createElement('a');
       a.download = fileName;
       a.href = window.URL.createObjectURL(blob);
       a.click();
-      console.log(fileName);
     });
   }
 
   total() {
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
-       this.totalCalculate = this.static[i].total + this.totalCalculate
+      this.totalCalculate = this.static[i].total + this.totalCalculate;
     }
     return this.totalCalculate;
   }

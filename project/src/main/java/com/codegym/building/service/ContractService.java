@@ -16,4 +16,5 @@ public interface ContractService <E extends Contract,D extends ContractDTO, V ex
     boolean delete(Integer id);
     List<V> listDtoView();
     boolean updateStatusById(Integer id);
+    List<V> findAllByCustomerId(String customerId);
 }

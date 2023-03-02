@@ -53,12 +53,13 @@ public class CustomerControllerApi {
     private ResponseEntity<CustomerViewDTO> findByIdCardForContract(@PathVariable String id) {
         return new ResponseEntity<>( new CustomerViewDTO(customerPersonService.findIdCardForContract(id)), HttpStatus.OK);
     }
-
+    //xoa theo id
     @DeleteMapping("/{id}")
     private ResponseEntity<Integer> updateStatusById(@PathVariable String id) {
         return new ResponseEntity<>(customerPersonService.updateStatusById(id), HttpStatus.OK);
     }
 
+    //cac chuc nang lien quan src
     @DeleteMapping("")
     private ResponseEntity<Integer> updateStatusAll() {
         return new ResponseEntity<>(customerPersonService.updateStatusAll(), HttpStatus.OK);
@@ -74,16 +75,4 @@ public class CustomerControllerApi {
         return new ResponseEntity<>(customerPersonService.save(customer), HttpStatus.OK);
     }
 
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
-    }
 }

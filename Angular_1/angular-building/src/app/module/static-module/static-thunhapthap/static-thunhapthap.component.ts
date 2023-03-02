@@ -3,7 +3,8 @@ import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapThapServiceService} from "../service/static-thunhapthap-service.service";
 import Chart from 'chart.js';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {checkDate, checkDateLow} from "../validate/validate";
+import {checkDateLow} from "../validate/validate";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-static-thunhapthap',
@@ -24,7 +25,8 @@ export class StaticThunhapthapComponent implements OnInit {
   totalCalculate = 0;
 
   constructor(private staticsService: StaticThuNhapThapServiceService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private toast: ToastrService) {
   }
 
 
@@ -33,10 +35,7 @@ export class StaticThunhapthapComponent implements OnInit {
 
     this.findAllLowWithCondition(this.startDateLowString, this.finishDateLowString, this.rowNumber);
 
-    this.staticsService.getAllDataLow(this.startDateLowString, this.finishDateLowString, this.rowNumber)
-      .subscribe(result => {
-
-      });
+    this.staticsService.getAllDataLow(this.startDateLowString, this.finishDateLowString, this.rowNumber);
     this.createChart(this.labelData, this.readData);
   }
 
@@ -45,7 +44,7 @@ export class StaticThunhapthapComponent implements OnInit {
       startLowDate: ['', [Validators.required]],
       finalLowDate: ['', [Validators.required, checkDateLow]],
       rowLowNumbers: ['', [Validators.required,
-        Validators.pattern("^([0-9]+)")]]
+        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
     });
   }
 
@@ -86,15 +85,20 @@ export class StaticThunhapthapComponent implements OnInit {
           this.static = e;
 
           this.chartdata = e;
+          if (this.static.length === 0) {
+            this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
+          }
           if (null != this.chartdata) {
             for (const item of this.chartdata) {
-              console.log(item);
               this.labelData.push("MB " + item.plane.id);
               this.readData.push(item.total);
             }
           }
           this.createChart(this.labelData, this.readData);
-        });
+        }, error => {
+          this.toast.warning('Lỗi server', 'Thông báo');
+        }
+      );
 
   }
 

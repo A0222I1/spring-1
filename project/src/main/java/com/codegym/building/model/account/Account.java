@@ -46,5 +46,7 @@ public class Account extends AccountDetail {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         this.user_name = user_name;
         this.password = bCryptPasswordEncoder.encode(password);
+        this.status= "on";
+        this.dateCreate = Date.valueOf(LocalDate.now());
     }
 }

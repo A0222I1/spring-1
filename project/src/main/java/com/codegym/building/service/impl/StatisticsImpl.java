@@ -86,10 +86,14 @@ public class StatisticsImpl implements StatisticsService {
             this.setStyleForCellNormal(styleBold, boldFont);
 
             XSSFDataFormat cf = wb.createDataFormat();
+
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
 
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
@@ -120,7 +124,7 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
                     Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
 
@@ -163,7 +167,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,6 +207,10 @@ public class StatisticsImpl implements StatisticsService {
             XSSFDataFormat cf = wb.createDataFormat();
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
+
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
             styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
 
@@ -234,7 +242,7 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
                     Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
 
@@ -277,7 +285,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
 
         } catch (Exception e) {
@@ -318,8 +326,11 @@ public class StatisticsImpl implements StatisticsService {
             XSSFDataFormat cf = wb.createDataFormat();
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
 
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
@@ -350,7 +361,7 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
 
                     Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
@@ -395,7 +406,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
         } catch (Exception e) {
             e.printStackTrace();
