@@ -13,7 +13,9 @@ table {
   box-shadow: 1px 1px 4px 1px grey;
   position: static;
 }
-
+td img:hover{
+  transform: scale(2);
+}
 .page-link:hover {
   cursor: pointer;
   opacity: 0.9;
@@ -24,12 +26,41 @@ table {
   color: white;
 }
 
+.list-input-search {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.list-input-search input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.list-input-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
 table > tbody > tr > td {
   vertical-align: middle !important;
 }
 
 table > tbody > tr > td p {
   margin: 0;
+}
+
+td img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 }
 
 table > tbody > tr > td button {
@@ -56,7 +87,7 @@ table > tbody > tr > td button {
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
-  margin: 0 0 20px 10px;
+  margin:10px 0 10px 70px;
 }
 
 .list-input-search input {
@@ -138,6 +169,12 @@ table > tbody > tr > td button {
   border-radius: 30%;
   color: white;
 }
+.select-option-department{
+  width: 300px;
+  height: 35px;
+  border-radius: 5px;
+  outline: #4CAF50;
+}
 
 .action-icon-delete {
   background-color: red;
@@ -151,7 +188,7 @@ table > tbody > tr > td button {
   background-color: #ffd43b;
 }
 
-.list-input-search-icon .icon-addnew {
+.list-input-search-icon .icon-add-new{
   background-color: #40c057;
   border-radius: 50%;
   color: white;
@@ -160,7 +197,7 @@ table > tbody > tr > td button {
 }
 
 th {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .special {
@@ -189,6 +226,238 @@ th {
   margin-right: 10px;
 }
 
+body {
+  font-family: 'Open Sans', arial, sans-serif;
+  color: #333;
+  font-size: 14px;
+}
+.projcard-container {
+  margin: 50px 0;
+}
+
+/* Actual Code: */
+.projcard-container,
+.projcard-container * {
+  box-sizing: border-box;
+}
+.projcard-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+}
+.projcard {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  font-size: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 21px -12px rgba(0, 0, 0, .66);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.projcard:hover {
+  box-shadow: 0 34px 32px -33px rgba(0, 0, 0, .18);
+  transform: translate(0px, -3px);
+}
+.projcard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(-70deg, #424242, transparent 50%);
+  opacity: 0.07;
+}
+.projcard:nth-child(2n)::before {
+  background-image: linear-gradient(-250deg, #424242, transparent 50%);
+}
+.projcard-innerbox {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
+.projcard-img {
+  position: absolute;
+  border-radius: 5px;
+  height: 600px;
+  width: 400px;
+  top: 0;
+  left: 0;
+  transition: transform 0.2s ease;
+}
+.projcard:nth-child(2n) .projcard-img {
+  left: initial;
+  right: 0;
+}
+.projcard:hover .projcard-img {
+  transform: scale(1.05) rotate(1deg);
+}
+.projcard:hover .projcard-bar {
+  width: 70px;
+}
+.projcard-textbox {
+  position: absolute;
+  top: 7%;
+  bottom: 7%;
+  left: 430px;
+  width: calc(100% - 470px);
+  font-size: 17px;
+}
+.projcard:nth-child(2n) .projcard-textbox {
+  left: initial;
+  right: 430px;
+}
+.projcard-textbox::before,
+.projcard-textbox::after {
+  content: "";
+  position: absolute;
+  display: block;
+  background: #fff;
+  top: -20%;
+  left: -55px;
+  height: 140%;
+  width: 100px;
+  transform: rotate(8deg);
+}
+.projcard:nth-child(2n) .projcard-textbox::before {
+  display: none;
+}
+.projcard-textbox::after {
+  display: none;
+  left: initial;
+  right: -55px;
+}
+.projcard:nth-child(2n) .projcard-textbox::after {
+  display: block;
+}
+.projcard-textbox * {
+  position: relative;
+}
+.projcard-title {
+  font-family: 'Voces', 'Open Sans', arial, sans-serif;
+  font-size: 24px;
+}
+.projcard-subtitle {
+  font-family: 'Voces', 'Open Sans', arial, sans-serif;
+  color: #888;
+}
+.projcard-bar {
+  left: -2px;
+  width: 50px;
+  height: 5px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #424242;
+  transition: width 0.2s ease;
+}
+
+#pop-up {
+  height: 250px;
+  width: 300px;
+  text-align: center;
+  border-radius: 5px;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  margin: 20px auto auto 110px;
+}
+
+.pop-up-container{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 2;
+  cursor: pointer;
+}
+
+.projcard-blue .projcard-bar { background-color: #0088FF; }
+.projcard-blue::before { background-image: linear-gradient(-70deg, #0088FF, transparent 50%); }
+.projcard-blue:nth-child(2n)::before { background-image: linear-gradient(-250deg, #0088FF, transparent 50%); }
+.projcard-red .projcard-bar { background-color: #D62F1F; }
+.projcard-red::before { background-image: linear-gradient(-70deg, #D62F1F, transparent 50%); }
+.projcard-red:nth-child(2n)::before { background-image: linear-gradient(-250deg, #D62F1F, transparent 50%); }
+.projcard-green .projcard-bar { background-color: #40BD00; }
+.projcard-green::before { background-image: linear-gradient(-70deg, #40BD00, transparent 50%); }
+.projcard-green:nth-child(2n)::before { background-image: linear-gradient(-250deg, #40BD00, transparent 50%); }
+.projcard-yellow .projcard-bar { background-color: #F5AF41; }
+.projcard-yellow::before { background-image: linear-gradient(-70deg, #F5AF41, transparent 50%); }
+.projcard-yellow:nth-child(2n)::before { background-image: linear-gradient(-250deg, #F5AF41, transparent 50%); }
+.projcard-orange .projcard-bar { background-color: #FF5722; }
+.projcard-orange::before { background-image: linear-gradient(-70deg, #FF5722, transparent 50%); }
+.projcard-orange:nth-child(2n)::before { background-image: linear-gradient(-250deg, #FF5722, transparent 50%); }
+.projcard-brown .projcard-bar { background-color: #C49863; }
+.projcard-brown::before { background-image: linear-gradient(-70deg, #C49863, transparent 50%); }
+.projcard-brown:nth-child(2n)::before { background-image: linear-gradient(-250deg, #C49863, transparent 50%); }
+.projcard-grey .projcard-bar { background-color: #424242; }
+.projcard-grey::before { background-image: linear-gradient(-70deg, #424242, transparent 50%); }
+.projcard-grey:nth-child(2n)::before { background-image: linear-gradient(-250deg, #424242, transparent 50%); }
+.projcard-customcolor .projcard-bar { background-color: var(--projcard-color); }
+.projcard-customcolor::before { background-image: linear-gradient(-70deg, var(--projcard-color), transparent 50%); }
+.projcard-customcolor:nth-child(2n)::before { background-image: linear-gradient(-250deg, var(--projcard-color), transparent 50%); }
+.projcard-description {
+  z-index: 10;
+  font-size: 15px;
+  color: #424242;
+  height: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.projcard-tagbox {
+  position: absolute;
+  bottom: 3%;
+  font-size: 14px;
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
+}
+.projcard-tag {
+  display: inline-block;
+  background: #E0E0E0;
+  color: #777;
+  border-radius: 3px 0 0 3px;
+  line-height: 26px;
+  padding: 0 10px 0 23px;
+  position: relative;
+  margin-right: 20px;
+  cursor: default;
+  user-select: none;
+  transition: color 0.2s;
+}
+.projcard-tag::before {
+  content: '';
+  position: absolute;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  height: 6px;
+  left: 10px;
+  width: 6px;
+  top: 10px;
+}
+.projcard-tag::after {
+  content: '';
+  position: absolute;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #E0E0E0;
+  border-top: 13px solid transparent;
+  right: -10px;
+  top: 0;
+}
+
 @media only screen and (max-width: 1092px),
 (min-device-width: 911px) and (max-device-width: 1024px) {
 
@@ -202,8 +471,13 @@ th {
     flex-basis: calc(50% - 10px);
   }
 
+  .list-input-search select {
+    flex-basis: calc(50% - 10px);
+  }
+
   .list-input-search-icon {
     flex-basis: calc(50% - 10px);
+    margin-top: 10px;
   }
 
   /* Force table to not be like tables anymore */
@@ -228,6 +502,14 @@ th {
     padding-left: 50%;
   }
 
+  .list-input-search input {
+    flex-basis: calc(50% - 10px);
+  }
+
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
+  }
+
   td:before {
     /* Now like a table header */
     position: absolute;
@@ -238,65 +520,23 @@ th {
     padding-right: 10px;
     white-space: nowrap;
   }
-
+  #pageJumpPage{
+    display: none;
+  }
   /*
   Label the data
   */
-  td:nth-of-type(1):before {
-    content: "Hình ảnh";
-  }
+  td:nth-of-type(1):before { content: "Hình ảnh"; }
+  td:nth-of-type(2):before { content: "Họ và tên"; }
+  td:nth-of-type(3):before { content: "Căn cước công dân"; }
+  td:nth-of-type(4):before { content: "Điện thoại"; }
+  td:nth-of-type(5):before { content: "Ngày sinh"; }
+  td:nth-of-type(6):before { content: "Lương"; }
+  td:nth-of-type(7):before { content: "Cấp lương"; }
+  td:nth-of-type(8):before { content: "Bộ phận"; }
+  td:nth-of-type(9):before { content: "Tài khoản"; }
+  td:nth-of-type(10):before { content: "Hành động"; }
 
-  td:nth-of-type(2):before {
-    content: "Họ và tên";
-  }
-
-  td:nth-of-type(3):before {
-    content: "Căn cước công dân";
-  }
-
-  td:nth-of-type(4):before {
-    content: "Email";
-  }
-
-  td:nth-of-type(5):before {
-    content: "Điện thoại";
-  }
-
-  td:nth-of-type(6):before {
-    content: "Ngày sinh";
-  }
-
-  td:nth-of-type(7):before {
-    content: "Giới tính";
-  }
-
-  td:nth-of-type(8):before {
-    content: "Địa chỉ";
-  }
-
-  td:nth-of-type(9):before {
-    content: "Lương";
-  }
-
-  td:nth-of-type(10):before {
-    content: "Cấp lương";
-  }
-
-  td:nth-of-type(11):before {
-    content: "Bộ phận";
-  }
-
-  td:nth-of-type(12):before {
-    content: "Ngày vào";
-  }
-
-  td:nth-of-type(13):before {
-    content: "Tài khoản";
-  }
-
-  td:nth-of-type(14):before {
-    content: "Thao tác";
-  }
 }
 
 

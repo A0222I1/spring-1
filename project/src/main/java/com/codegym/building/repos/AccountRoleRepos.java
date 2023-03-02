@@ -14,7 +14,7 @@ import java.util.List;
 public interface AccountRoleRepos extends JpaRepository<AccountRole, Long> {
     @Modifying
     @Transactional
-    @Query(value = "insert into account_role (`user_name`,`role_id`) values (:name, 3) ", nativeQuery = true)
+    @Query(value = "insert into account_role (`user_name`,`role_id`) values (:name, 2) ", nativeQuery = true)
     void updateRolesByUserName(@Param("name") String user_name);
 
     @Query("select r from AccountRole r where r.account.user_name = :name")

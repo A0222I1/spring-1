@@ -16,22 +16,26 @@ export class CustomerServiceService {
   constructor(private http: HttpClient) { }
 
   findAllByNameAndIdCard(name: string, id_Card: string, address: string, company: string, page: number): Observable<GetResponse> {
-    console.log(`${this.url}?name=${name}&id_card=${id_Card}&address=${address}&company=${company}&page=${page}`);
     return this.http.get<GetResponse>(`${this.url}?name=${name}&id_card=${id_Card}&address=${address}&company=${company}&page=${page}`);
   }
-
+//xoa tat ca customer - chuc nang lien quan trong task
   updateAllStatusIsOff(): Observable<number> {
     return this.http.delete<number>(`${this.url}`);
   }
-
+//xoa theo id
   updateStatusById(id: string): Observable<number> {
     return this.http.delete<number>(`${this.url}/${id}`);
   }
-
-  findById(id: string): Observable<Customer>{
+//tim theo id
+  findById(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.url}/${id}`);
   }
+  //tim theo id cua hop dong contract
+  findByIdCardForContract(idCard: string): Observable<CustomerViewDTO> {
+    return this.http.get<CustomerViewDTO>(`${this.url}/findByIdCard/${idCard}`);
+  }
 
+//chuc nang tao moi cac truong lien quan (kiem tra co ton tai hay khong)
   findByName(value: string): Observable<boolean> {
     return this.http.get<boolean>(`http://localhost:8080/account/${value}`);
   }

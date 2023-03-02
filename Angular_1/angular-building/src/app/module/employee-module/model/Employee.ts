@@ -16,6 +16,6 @@ export interface Employee {
   email?: string,
   salaryScale?: SalaryScale,
   department?: Department,
-  account: Account,
-  status: string,
+  account?: Account,
+  status?: string,
 }

@@ -4,7 +4,7 @@ import { PlaneManagementComponent } from './plane-management.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {CustomPipeVND} from "./utils/customPipeVND";
-import {AuthGuard} from "../../account/guard/auth.guard";
+import {AppModule} from "../../app.module";
 const routes: Routes = [
   {
     path: 'plane', component: PlaneManagementComponent, canActivate: [AuthGuard],
@@ -14,12 +14,13 @@ const routes: Routes = [
   }
 ];
 @NgModule({
-  declarations: [PlaneManagementComponent],
+  declarations: [PlaneManagementComponent, CustomPipeVND,
+
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-
   ]
 })
 export class PlaneModuleModule {

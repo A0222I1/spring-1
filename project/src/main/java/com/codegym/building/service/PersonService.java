@@ -33,4 +33,6 @@ public interface PersonService<E extends Person> {
     List<E> getAll();
 
     E findByUserName(String username);
+
+    E findIdCardForContract(String id_card);
 }
