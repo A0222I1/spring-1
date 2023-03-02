@@ -28,7 +28,6 @@ import {AuthGuard} from "./account/guard/auth.guard";
 @NgModule({
   declarations: [
     AppComponent,
-    CustomPipeVND,
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
@@ -57,7 +56,10 @@ import {AuthGuard} from "./account/guard/auth.guard";
       }
     )
   ],
-  providers: [DatePipe, AuthGuard],
+  exports: [
+
+  ],
+  providers: [DatePipe, AuthGuard,DatePipe,CustomPipeVND],
   bootstrap: [AppComponent]
 })
 

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "plane")
@@ -17,11 +19,8 @@ public class Plane {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-
     Double area;
-
     Double price;
-
     Double management_costs;
 
     @ManyToOne
@@ -36,17 +35,9 @@ public class Plane {
     @JoinColumn(name = "stage_id",nullable = false, referencedColumnName = "id")
     Stage stage;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id",nullable = false, referencedColumnName = "customer_id")
-//    Customer customer;
-
-//    @OneToMany(mappedBy = "plane", cascade = CascadeType.ALL)
-//    @Transient
-//    List<Contract> list;
+    String imgs;
 
     public Plane(Integer planeId) {
         this.id = planeId;
     }
-
-
 }
