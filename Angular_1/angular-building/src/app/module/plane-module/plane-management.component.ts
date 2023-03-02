@@ -13,7 +13,7 @@ import {ContractServiceService} from "../contract-module/service/contract-servic
 import {ToastrService} from "ngx-toastr";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {log} from "util";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -31,6 +31,7 @@ export class PlaneManagementComponent implements OnInit {
   pageNumber: number;
   totalPages: number;
   rfForm : FormGroup;
+  message="";
   areaSearch: string = "";
   stageSearch: string = "";
   statusSearch: string = "";
@@ -55,6 +56,11 @@ export class PlaneManagementComponent implements OnInit {
   getAll(area:string, stage: string, status: string, type: string,numberPage:number){
     this.planeService.findAll(area,stage,status,type,numberPage).subscribe(data=>{
       this.planes = data.content;
+      if (this.planes.length==0){
+        this.toast.error("Không có mặt bằng nào theo kết quả tìm kiếm.");
+        this.resetSearch();
+        return;
+      }
       this.pageNumber = data.number;
       this.totalPages = data.totalPages;
     })
@@ -88,7 +94,7 @@ export class PlaneManagementComponent implements OnInit {
   deletePlane(id: number) {
     this.planeService.deletePlane(id).subscribe(data=>{
       this.ngOnInit();
-      this.toast.success("Xóa thành công ");
+      this.toast.success("Xóa thành công.");
     })
   }
   changeArea(value: string) {
@@ -104,7 +110,7 @@ export class PlaneManagementComponent implements OnInit {
       return item.planeId == id;
     })
     if(contractViewDTO) return contractViewDTO.customerName;
-    return "Not Found";
+    return "Chưa có";
   }
   resetSearch(){
     this.getAll('','','','',0);
@@ -133,8 +139,9 @@ export class PlaneManagementComponent implements OnInit {
     })
     this.formArray = this.formBuilder.array([])
   }
-  async  submit(){
+  async submit(){
     let src = "";
+    document.getElementById("pop-up-container").style.display="block";
     for (let [index,file] of this.formArray.controls.entries()) {
       if (file.value!=null){
         if (file.value.file.type != 'image/png' && file.value.file.type != 'image/jpeg') {
@@ -150,7 +157,12 @@ export class PlaneManagementComponent implements OnInit {
     }
     this.rfForm.value.imgs=src.replace(/a0222i1$/, '');
     this.planeService.savePlane(this.rfForm.value).subscribe(data=>{
-      this.ngOnInit();
+      // this.ngOnInit();
+      this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,this.pageNumber)
+      document.getElementById("pop-up-container").style.display="none";
+      this.toast.success("Thêm mới thành công.");
+    },error =>{
+
     })
   }
   addPlane() {
@@ -190,11 +202,28 @@ export class PlaneManagementComponent implements OnInit {
     }
     return null;
   }
-
   removeImg(i: number) {
     if (this.formArray.controls[i].value){
       this.formArray.controls.splice(i,1);
     }
-
+  }
+  getPageChoice(page){
+    if (this.validPage(page)){
+      this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,page);
+    }
+  }
+  validPage(page:number){
+    if (page>= this.totalPages || page<0){
+      this.toast.error(`Trang chỉ nên trong khoảng từ 1 đến ${this.totalPages}.`);
+      // this.message="Trang chỉ nên trong khoảng từ 1 đến " + this.totalPages+".";
+      // document.getElementById("button-notification").click();
+      (document.getElementById("input-page-choice") as HTMLInputElement).value="";
+      return false;
+    }
+    if (isNaN(Number(page))){
+      this.toast.error("Trang chọn phải là số.");
+      (document.getElementById("input-page-choice") as HTMLInputElement).value="";
+    }
+    return true;
   }
 }

@@ -179,48 +179,38 @@ table > tbody >tr>td p{
   flex: 1;
   /*position: absolute;*/
 }
-
 .list-input-search {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.list-input-search input {
-  margin-right: 10px;
+.list-input-search input,
+.list-input-search select {
+  width: 100%;
   margin-bottom: 10px;
-  flex-basis: 0;
-  flex-grow: 1;
 }
 
-.list-input-search-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-basis: 0;
-  flex-grow: 1;
-  margin-right: 10px;
-}
-@media
-only screen and (max-width: 826px),
-(min-device-width: 911px) and (max-device-width: 1024px)  {
+@media only screen and (max-width: 1092px),
+(min-device-width: 911px) and (max-device-width: 1024px) {
 
+  /*input{*/
+  /*  display: none;*/
+  /*}*/
+  /*.list-input-search-icon i{*/
+  /*  display: none;*/
+  /*}*/
   .list-input-search input {
     flex-basis: calc(50% - 10px);
   }
-  .list-input-search-icon {
+  .list-input-search select{
     flex-basis: calc(50% - 10px);
   }
 
-  td {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-  }
 
-  i {
-    margin-right: 10px;
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
+    margin-top: 10px;
   }
 
   /* Force table to not be like tables anymore */
@@ -229,11 +219,13 @@ only screen and (max-width: 826px),
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-
-  th{
+  th {
     display: none;
   }
-  tr { border: 1px solid #ccc; }
+
+  tr {
+    border: 1px solid #ccc;
+  }
 
   td {
     /* Behave  like a "row" */
@@ -241,6 +233,14 @@ only screen and (max-width: 826px),
     border-bottom: 1px solid #eee;
     position: relative;
     padding-left: 50%;
+  }
+
+  .list-input-search input {
+    flex-basis: calc(50% - 10px);
+  }
+
+  .list-input-search-icon {
+    flex-basis: calc(50% - 10px);
   }
 
   td:before {
@@ -257,15 +257,36 @@ only screen and (max-width: 826px),
   /*
   Label the data
   */
-  td:nth-of-type(1):before { content: "ID"; }
-  td:nth-of-type(2):before { content: "Tên Khách Hàng"; }
-  td:nth-of-type(3):before { content: "Tên Nhân Viên"; }
-  td:nth-of-type(4):before { content: "Tên mặt Bằng"; }
-  td:nth-of-type(5):before { content: "	Tình Trạng Mặt Bằng"; }
-  td:nth-of-type(6):before { content: "Ngày Bắt Đầu"; }
-  td:nth-of-type(7):before { content: ""; }
-
+  td:nth-of-type(1):before { content: "Loại mặt bằng"; }
+  td:nth-of-type(2):before { content: "Diện tích"; }
+  td:nth-of-type(3):before { content: "Trạng thái"; }
+  td:nth-of-type(4):before { content: "Giá bán"; }
+  td:nth-of-type(5):before { content: "Phí quản lý"; }
+  td:nth-of-type(6):before { content: "Khách hàng"; }
+  td:nth-of-type(7):before { content: "Tầng"; }
+  td:nth-of-type(8):before { content: "Hành động"; }
 
 }
+#pop-up {
+  height: 250px;
+  width: 300px;
+  text-align: center;
+  border-radius: 5px;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  margin: 20px auto auto 110px;
+}
 
-
+.pop-up-container{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 2;
+  cursor: pointer;
+}

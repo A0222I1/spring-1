@@ -22,54 +22,79 @@
     </div>
 
   </div>
-  <table class="table tab">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">Loại mặt bằng</th>
-      <th scope="col">Diện tích</th>
-      <th scope="col">Trạng thái</th>
-      <th scope="col">Giá bán</th>
-      <th scope="col">Phí quản lý</th>
-      <th scope="col">Khách hàng</th>
-      <th scope="col">Tầng</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let item of planes">
-      <td scope="row">{{item.planeType.name}}</td>
-      <td scope="row">{{item.area}}m<sup>2</sup></td>
-      <td scope="row">{{item.planeStatus.name }}</td>
-      <td scope="row">{{item.price | CustomPipeVND}} </td>
-      <td scope="row">{{item.management_costs | CustomPipeVND}}</td>
-      <td scope="row">{{getCustomerName(item.id)}}</td>
-      <td scope="row">{{item.stage.name}}</td>
-      <td scope="row">
-        <i (click)="getInfo(item)" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#viewDetailPlane"></i>
-        <i (click)="getInfo(item)" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
-        <i (click)="getInfo(item)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
-        <!--    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>-->
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div  class="table-responsive">
+    <table class="table tab">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Loại mặt bằng</th>
+        <th scope="col">Diện tích</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col">Giá bán</th>
+        <th scope="col">Phí quản lý</th>
+        <th scope="col">Khách hàng</th>
+        <th scope="col">Tầng</th>
+        <th scope="col">Hành động</th>
+      </tr>
+      </thead>
+<!--      <div *ngIf!="this.planes">Không có dữ liệu</div>-->
+      <tbody>
+
+      <tr *ngFor="let item of planes">
+        <td scope="row">{{item.planeType.name}}</td>
+        <td scope="row">{{item.area}}m<sup>2</sup></td>
+        <td scope="row">{{item.planeStatus.name }}</td>
+        <td scope="row">{{item.price | CustomPipeVND}} </td>
+        <td scope="row">{{item.management_costs | CustomPipeVND}}</td>
+        <td scope="row">{{getCustomerName(item.id)}}</td>
+        <td scope="row">{{item.stage.name}}</td>
+        <td scope="row">
+          <i (click)="getInfo(item)" class="action-icon action-icon-info  fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#viewDetailPlane"></i>
+          <i (click)="getInfo(item)" class="action-icon action-icon-edit fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#addNewPlane"></i>
+          <i (click)="getInfo(item)" class="action-icon action-icon-delete fa-solid fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+          <!--    <td scope="row"><button type="button" class="btn btn-warning">Sửa</button></td>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div>
     <ul class="pagination justify-content-center">
       <li class="page-item">
-        <a class="page-link">
-          <i class="fa-solid fa-backward-fast"></i>
-        </a>
-      </li>
+      <a class="page-link">
+        <i class="fa-solid fa-backward-fast"  (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,0)"></i>
+      </a>
+    </li>
       <li>
         <a class="page-link" *ngIf="pageNumber != 0 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber-1)">
           <i class="fa-solid fa-backward"></i>
         </a>
       </li>
+<!--      <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">-->
+<!--        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">-->
+<!--          {{i + 1}}-->
+<!--        </a>-->
+<!--      </li>-->
+
       <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
-        <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">
-          {{i + 1}}
-        </a>
+
+        <ng-container *ngIf="i < 3 || i >= totalPages - 3">
+          <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
+             (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">
+            {{i + 1}}
+          </a>
+        </ng-container>
+        <ng-container *ngIf="3 <= i && i < totalPages - 3 &&(i == pageNumber + 1 || i== pageNumber-1 || i ==pageNumber)">
+          <a class="page-link" [ngClass]="pageNumber == i ? 'current': ''"
+             (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,i)">
+            {{i + 1}}
+          </a>
+        </ng-container>
+        <ng-container *ngIf="(3 < i && i < totalPages - 3 && i != pageNumber && i != pageNumber + 1 && i!=pageNumber-1)">
+          <a class="page-link">
+            ...
+          </a>
+        </ng-container>
       </li>
       <li>
         <a class="page-link"  *ngIf="pageNumber < totalPages - 1 ? 'disable': ''" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,pageNumber+1)">
@@ -78,11 +103,22 @@
       </li>
       <li class="page-item">
         <a class="page-link">
-          <i class="fa-solid fa-forward-fast"></i> </a>
+          <i class="fa-solid fa-forward-fast" (click)="getAll(areaSearch,stageSearch,statusSearch,typeSearch,totalPages-1)"></i> </a>
       </li>
       <li class="page-item">
         <span class="page-link">{{pageNumber + 1}} / {{totalPages}}</span>
       </li>
+      <li class="page-item">
+        <div class="input-group rounded">
+          <input id="input-page-choice" type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
+                 aria-label="Search" aria-describedby="search-addon"/>
+          <span style="cursor: pointer" class="input-group-text border-0" id="search-addon">
+           <i class="fas fa-search"
+              (click)="getPageChoice(element.value-1)"></i>
+        </span>
+        </div>
+      </li>
+
     </ul>
   </div>
   <!-- Delete modal-->
@@ -201,7 +237,8 @@
           <div style="margin-bottom: 10px" class="row">
             <div class="col-6">
 <!--              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-              <button [disabled]="this.rfForm.invalid || this.formArray.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
+
+              <button      [disabled]="this.rfForm.invalid || this.formArray.invalid" data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="submit()">Save changes</button>
             </div>
           </div>
         </form>
@@ -222,18 +259,14 @@
         <div>Tầng: {{this.plane?.stage.name}}</div>
         <div>Loại mặt bằng: {{this.plane?.planeType.name}}</div>
         <div>Trạng thái mặt bằng: {{this.plane?.planeStatus.name}}</div>
-        <div>Chi phí quản lý: {{this.plane?.management_costs}}</div>
-        <div>Giá thuê: {{this.plane?.price}}</div>
-        <div>Diện tích: {{this.plane?.area}}</div>
+        <div>Chi phí quản lý: {{this.plane?.management_costs | CustomPipeVND}}</div>
+        <div>Giá thuê: {{this.plane?.price | CustomPipeVND}}</div>
+        <div>Diện tích: {{this.plane?.area}}m<sup>2</sup> </div>
         <div class="container" style="box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;">
-<!--          <div class="viewDetail">-->
-<!--            <img   *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" src="{{urlImg}}" alt="">-->
-<!--          </div>-->
-
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active" *ngFor="let urlImg of this.plane?.imgs.split('a0222i1')" >
-                <img style="height: 50%" src="{{urlImg}}" class="d-block w-100" alt="...">
+                <img style="height: 500px" src="{{urlImg}}" class="d-block w-100" alt="...">
               </div>
 
             </div>
@@ -249,6 +282,12 @@
         </div>
       </div>
       </div>
+  </div>
+</div>
+<button hidden id="button-notification"data-bs-toggle="modal" data-bs-target="#messageModal" ></button>
+<div class="pop-up-container" style="display: none" id="pop-up-container">
+  <div id="pop-up">
+    <img src="../../../assets/home-img/loading.gif" height="198" width="198"/>
   </div>
 </div>
 
