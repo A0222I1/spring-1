@@ -5,6 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {CustomPipeVND} from "./utils/customPipeVND";
 import {AppModule} from "../../app.module";
+import {AuthGuard} from "../../account/guard/auth.guard";
 const routes: Routes = [
   {
     path: 'plane', component: PlaneManagementComponent, canActivate: [AuthGuard],
