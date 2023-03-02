@@ -26,7 +26,6 @@ export class AccountService {
     return this.http.get(API_URL + '', {headers: this.headers});
   }
 
-  // @ts-ignore
   parseTokenToEmployee(token: string): Observable<EmployeeViewDTO> {
     return this.http.get<EmployeeViewDTO>(`${API_URL}/checkToken/${token}`);
   }

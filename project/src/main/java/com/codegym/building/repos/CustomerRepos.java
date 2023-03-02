@@ -19,7 +19,7 @@ public interface CustomerRepos extends JpaRepository<Customer, String> {
     @Query("update Customer c set c.status = 'off' where c.id = :id")
     Integer updateStatusById(@Param("id") String id);
 
-    @Query("select c from Customer c where c.name like concat('%',:name,'%') and c.id_card like concat('%',:id_card,'%')and c.id_card like concat('%',:id_card,'%')" +
+    @Query("select c from Customer c where c.name like concat('%',:name,'%') and c.id_card like concat('%',:id_card,'%') and c.id_card like concat('%',:id_card,'%')" +
             "and c.address like concat('%',:address,'%') and c.company like concat('%',:company,'%') and c.status = 'on'")
     Page<Customer> findAllByNameAndIdCardAndAddressAndDepartment(@Param("name") String name,
                                                                  @Param("id_card") String id_card,
@@ -27,12 +27,13 @@ public interface CustomerRepos extends JpaRepository<Customer, String> {
                                                                  @Param("company") String company,
                                                                  Pageable pageable);
 
+
     @Modifying
     @Transactional
     @Query("update Customer  c set c.status = 'off'")
     Integer updateStatusAll();
 
-
+//chưc nang lien quan trong talk
     @Query("select c from Customer c where c.id_card = :idCard")
     Optional<Customer> findByIdCard(@Param("idCard") String id_card);
 

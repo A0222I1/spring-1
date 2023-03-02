@@ -1,100 +1,139 @@
+.body-class {
+  margin-top: 120px;
+}
+
 .tab span {
   color: red;
 }
-table{
+
+table {
   width: 92%;
   margin: 20px auto;
   background-color: white;
-  box-shadow:1px 1px 4px 1px grey;
+  box-shadow: 1px 1px 4px 1px grey;
   position: static;
 }
+
 .special {
   color: red;
 }
-.responsiveItem{
-  text-align: center;
+
+.responsiveItem {
+  /*text-align: none;*/
 }
-.page-link:hover{
+
+.page-link:hover {
   cursor: pointer;
   opacity: 0.9;
 }
+
 .current {
   background-color: green;
   color: white;
 }
 
-table > tbody >tr>td{
+table > tbody > tr > td {
   vertical-align: middle !important;
 }
 
-table > thead > th{
+table > thead > th {
   text-align: center;
 }
 
-table > tbody >tr>td p{
+table > tbody > tr > td p {
   margin: 0;
 }
-.ground-button-chose button{
+
+.ground-button-chose button {
   margin: 10px 8px;
 }
-.select-ground{
+
+.select-ground {
   background-color: black;
 }
-.list-ground-title{
+
+.list-ground-title {
   text-align: center;
   margin: 10px 0;
 }
-.list-input-search{
+
+.list-input-search {
   display: flex;
   padding: 0 20px;
   align-items: center;
   justify-content: space-around;
-  margin: 0 0 20px 0;
+  margin: 0px 10px 0px 50px;
 }
-.list-input-search input{
+.list-input-search input {
   outline: none;
   border-radius: 5px;
   border: none;
-  box-shadow:1px 1px 4px 1px grey;
+  box-shadow: 1px 1px 4px 1px grey;
   padding: 5px 20px 5px 10px;
   font-size: 14px;
 }
-.list-input-search input::placeholder{
+
+.list-input-search input::placeholder {
   font-size: 14px;
 }
-.list-input-search-icon{
+
+.list-input-search-icon {
   display: flex;
 }
-.list-input-search-icon i{
+
+
+.list-input-search-icon i {
+
 
   margin: 0 10px;
   padding: 12px;
   border-radius: 50%;
 }
-.list-input-search-icon i:hover{
+
+.list-input-search-icon i:hover {
   cursor: pointer;
   opacity: 0.8;
+  background-color: green;
 }
-.list-input-search-icon-search{
+.list-input-search-icon-search:nth-child(2):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: yellow;
+}
+.list-input-search-icon-undo:nth-child(3):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: darkred;
+}
+
+.list-input-search-icon-search {
+
   color: white;
+  background-color: #ffd43b;
 }
-.list-input-search-icon-undo{
+
+.list-input-search-icon-undo {
   color: white;
+  background-color: red;
 }
-.select-choose-floor{
+
+.select-choose-floor {
   color: white;
   background-color: #424141;
   border-radius: 4px;
   cursor: pointer;
 }
-.select-choose-floor option{
+
+.select-choose-floor option {
   background-color: white;
   color: black;
 }
+
 .pagination1 {
   display: inline-block;
   text-align: center;
 }
+
 .pagination1 a {
   text-align: center;
   color: black;
@@ -102,36 +141,64 @@ table > tbody >tr>td p{
   text-decoration: none;
   border: 1px solid #ddd;
 }
+
 .pagination1 a.active {
   background-color: #4CAF50;
   color: white;
   border: 1px solid #4CAF50;
 }
-img{
+
+img {
   width: 50px;
   height: 50px;
 }
+
 .action-icon:hover{
   cursor: pointer;
   opacity: 0.8;
 }
-.action-icon{
+.action-icon:nth-child(1):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: green;
+}
+.action-icon:nth-child(2):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: yellow;
+}
+.action-icon:nth-child(3):hover{
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: #CF0000;
+}
+
+.action-icon:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.action-icon {
   padding: 12px;
   font-size: 20px;
   margin: 0 8px;
   border-radius: 30%;
   color: white;
 }
-.action-icon-delete{
+
+.action-icon-delete {
   background-color: red;
 }
-.action-icon-info{
+
+.action-icon-info {
   background-color: #40c057;
 }
-.action-icon-edit{
+
+.action-icon-edit {
   background-color: #ffd43b;
 }
-.list-input-search-icon .icon-addnew{
+
+.list-input-search-icon .icon-addnew {
   background-color: #40c057;
   border-radius: 50%;
   color: white;
@@ -161,9 +228,8 @@ img{
   margin-right: 10px;
 }
 
-@media
-only screen and (max-width: 1092px),
-(min-device-width: 911px) and (max-device-width: 1024px)  {
+@media only screen and (max-width: 1092px),
+(min-device-width: 911px) and (max-device-width: 1024px) {
 
   /*input{*/
   /*  display: none;*/
@@ -174,6 +240,7 @@ only screen and (max-width: 1092px),
   .list-input-search input {
     flex-basis: calc(50% - 10px);
   }
+
   .list-input-search-icon {
     flex-basis: calc(50% - 10px);
   }
@@ -184,11 +251,13 @@ only screen and (max-width: 1092px),
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-
-  th{
+  th {
     display: none;
   }
-  tr { border: 1px solid #ccc; }
+
+  tr {
+    border: 1px solid #ccc;
+  }
 
   td {
     /* Behave  like a "row" */
@@ -212,15 +281,46 @@ only screen and (max-width: 1092px),
   /*
   Label the data
   */
-  td:nth-of-type(1):before { content: "Họ tên"; }
-  td:nth-of-type(2):before { content: "CMND"; }
-  td:nth-of-type(3):before { content: "Email"; }
-  td:nth-of-type(4):before { content: "Số Điện Thoại"; }
-  td:nth-of-type(5):before { content: "Ngày sinh"; }
-  td:nth-of-type(6):before { content: "Địa Chỉ"; }
-  td:nth-of-type(7):before { content: "Website"; }
-  td:nth-of-type(8):before { content: "Công ty"; }
-  td:nth-of-type(9):before { content: "Mặt bằng"; display: flex}
-  td:nth-of-type(10):before { content: "Thao tác"; display: flex}
+  td:nth-of-type(1):before {
+    content: "Họ tên";
+  }
+
+  td:nth-of-type(2):before {
+    content: "CMND";
+  }
+
+  td:nth-of-type(3):before {
+    content: "Email";
+  }
+
+  td:nth-of-type(4):before {
+    content: "Số Điện Thoại";
+  }
+
+  td:nth-of-type(5):before {
+    content: "Ngày sinh";
+  }
+
+  td:nth-of-type(6):before {
+    content: "Địa Chỉ";
+  }
+
+  td:nth-of-type(7):before {
+    content: "Website";
+  }
+
+  td:nth-of-type(8):before {
+    content: "Công ty";
+  }
+
+  td:nth-of-type(9):before {
+    content: "Mặt bằng";
+
+  }
+
+  td:nth-of-type(10):before {
+    content: "Thao tác";
+
+  }
 }
 

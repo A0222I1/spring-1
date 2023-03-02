@@ -27,9 +27,9 @@ export class EmployeeServiceService {
     console.log(`url: ${this.url}/${id}`);
     return this.http.delete<number>(`${this.url}/${id}`);
   }
-  findById(id: string): Observable<Employee> {
+  findById(id: string): Observable<EmployeeViewDTO> {
     console.log(`${this.url}/${id}`);
-    return this.http.get<Employee>(`${this.url}/${id}`);
+    return this.http.get<EmployeeViewDTO>(`${this.url}/${id}`);
   }
   findByName(value: string): Observable<boolean> {
     return this.http.get<boolean>(`http://localhost:8080/account/${value}`);

@@ -12,4 +12,5 @@ import lombok.Setter;
 public class AccountDTO {
     String username;
     String password;
+    Boolean rememberMe;
 }

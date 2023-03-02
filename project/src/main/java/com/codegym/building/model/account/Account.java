@@ -22,9 +22,7 @@ public class Account extends AccountDetail {
     @Id
     @Column(name = "user_name")
     String user_name;
-
     String password;
-
     String status;
 
     @Column(name = "datecreate")
@@ -44,17 +42,11 @@ public class Account extends AccountDetail {
         this.user_name = user_name;
     }
 
-    public Account(String account, String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.user_name = account;
-        this.password = bCryptPasswordEncoder.encode(password);
-        this.dateCreate = Date.valueOf(LocalDate.now());
-        this.status = "on";
-    }
-
-    public Account(String user_name, String password, List<GrantedAuthority> grantList) {
+    public Account(String user_name, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         this.user_name = user_name;
         this.password = bCryptPasswordEncoder.encode(password);
+        this.status= "on";
+        this.dateCreate = Date.valueOf(LocalDate.now());
     }
 }

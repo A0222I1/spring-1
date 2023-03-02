@@ -17,6 +17,15 @@ import java.sql.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+@SqlResultSetMapping(name = "dataStaticResult", classes = {
+        @ConstructorResult(targetClass = com.codegym.building.dto.ResultsDTO.class, columns = {
+                @ColumnResult(name = "planId", type = Integer.class),
+                @ColumnResult(name = "startDate", type = java.util.Date.class),
+                @ColumnResult(name = "total", type = Double.class),
+                @ColumnResult(name = "information", type = String.class)
+        })
+})
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +39,12 @@ public class Contract {
 
     Double price;
 
-    Double total;
+
     String information;
     @Column(name = "start_date")
     Date startDate;
+
+    String status;
 
     @ManyToOne
     @JoinColumn(
@@ -56,16 +67,18 @@ public class Contract {
             referencedColumnName = "id")
     Plane plane;
 
+
+
     public Contract(ContractDTO contractDTO) {
         this.id = contractDTO.getId();
         this.term = new Term(contractDTO.getTermId());
         this.price = contractDTO.getPrice();
-        this.total = contractDTO.getTotal();
         this.information = contractDTO.getInformation();
         this.startDate = contractDTO.getStartDate();
         this.customer = new Customer(contractDTO.getCustomerId());
         this.employee = new Employee(contractDTO.getEmployeeId());
         this.plane = new Plane(contractDTO.getPlaneId());
+        this.status = "on";
 
     }
 }

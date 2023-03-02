@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AccountModule} from '../account.module';
 import {UserService} from '../service/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpXsrfTokenExtractor} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,25 +15,43 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   loginForm: FormGroup;
 
-  constructor(private userService: UserService, private router: Router, private fb: FormBuilder) {
+  constructor(private userService: UserService,
+              private router: Router,
+              private fb: FormBuilder,
+              private toast: ToastrService) {
   }
 
   ngOnInit() {
+    if (this.userService.checkIsLoggedInWithToken()) {
+      this.router.navigate(['/home']).then(r => {
+        this.toast.warning('Bạn đang đăng nhập !!');
+      });
+    }
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+      rememberMe: false
     });
   }
 
+
   login() {
+    if (this.loginForm.value.username.trim() === '' && this.loginForm.value.password.trim() === '') {
+      this.loginForm.controls.password.setErrors({userNameAndPassword: true});
+      return;
+    }
     this.userService.login(this.loginForm.value).subscribe(data => {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
+        this.userService.getEmployee();
+        this.userService.setLoggedIn(true);
+        this.toast.success('Đăng nhập thành công !!', 'Thông báo');
       });
     }, err => {
-      console.log(err);
-      this.errorMessage = 'Tên tài khoản hoặc mật khẩu không chính xác.';
+      if (!this.loginForm.value) {
+        this.errorMessage = 'Tài khoản và mật khẩu không chính xác.';
+      }
     });
   }
 }

@@ -51,6 +51,11 @@ public class ContractControlApi {
         return  new ResponseEntity<>(contractService.listDtoView(),HttpStatus.OK);
     }
 
+    @GetMapping("/getByCustomerId/{id}")
+    public ResponseEntity<List<ContractViewDTO>> getByCustomerId(@PathVariable String id) {
+        return new ResponseEntity<>(contractService.findAllByCustomerId(id),HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContractDTO> findById(@PathVariable Integer id) {
         return  new ResponseEntity<>(contractService.getById(id),HttpStatus.OK);
@@ -58,7 +63,7 @@ public class ContractControlApi {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-        return new ResponseEntity<>(contractService.delete(id), HttpStatus.OK);
+        return new ResponseEntity<>(contractService.updateStatusById(id), HttpStatus.OK);
     }
 
     @PostMapping("")

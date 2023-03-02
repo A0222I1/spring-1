@@ -16,9 +16,13 @@ import {CustomPipeVND} from './module/plane-module/utils/customPipeVND';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {StaticModuleComponent} from "./module/static-module/static-module.component";
+import {StaticThunhapcaoComponent} from './module/static-module/static-thunhapcao/static-thunhapcao.component';
+import {StaticThunhapthapComponent} from './module/static-module/static-thunhapthap/static-thunhapthap.component';
+import {ReactiveFormsModule} from "@angular/forms";
 import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
 import {AccountModule} from "./account/account.module";
-
+import {AuthGuard} from "./account/guard/auth.guard";
 
 
 @NgModule({
@@ -27,6 +31,9 @@ import {AccountModule} from "./account/account.module";
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
+    StaticModuleComponent,
+    StaticThunhapcaoComponent,
+    StaticThunhapthapComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +48,7 @@ import {AccountModule} from "./account/account.module";
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot(
       {
         timeOut: 2000,
@@ -48,10 +56,10 @@ import {AccountModule} from "./account/account.module";
       }
     )
   ],
-  providers: [DatePipe,CustomPipeVND],
   exports: [
 
   ],
+  providers: [DatePipe, AuthGuard,DatePipe,CustomPipeVND],
   bootstrap: [AppComponent]
 })
 

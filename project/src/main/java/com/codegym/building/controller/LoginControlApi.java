@@ -34,15 +34,12 @@ public class LoginControlApi {
     public ResponseEntity<?> authenticateUser(@RequestBody AccountDTO accountDTO) {
         List<GrantedAuthority> roles = accountRole.findListRoles(accountDTO.getUsername());
         User user = new User(accountDTO.getUsername(),accountDTO.getPassword(),roles);
-        // Xác thực từ username và password.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                        user.getUsername(),user.getPassword(), null
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = tokenProvider.generateToken((Principal) authentication.getPrincipal());
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
@@ -51,5 +48,4 @@ public class LoginControlApi {
     public ResponseEntity<String> randomStuff() {
         return new ResponseEntity<>("JWT Hợp lệ mới có thể thấy được message này", HttpStatus.OK);
     }
-
 }

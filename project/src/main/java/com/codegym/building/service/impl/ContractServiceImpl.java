@@ -1,5 +1,4 @@
 package com.codegym.building.service.impl;
-
 import com.codegym.building.dto.ContractDTO;
 import com.codegym.building.dto.ContractViewDTO;
 import com.codegym.building.model.contract.Contract;
@@ -16,11 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @Service
-
 
 public class ContractServiceImpl implements ContractService<Contract, ContractDTO, ContractViewDTO> {
     static final Integer AVAILABLE_PLANE = 2;
@@ -56,8 +53,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         plane.setPlaneStatus(new PlaneStatus(RENTED_PLANE));
         planeServices.savePlane(plane);
         contract = contractRepos.save(new Contract(dto));
-
-
         return converter.convertDetail(contract);
     }
 
@@ -75,7 +70,6 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
     public Page<Contract> findAll(String customerName, String employeeName, String planeId, String dateStart, Pageable pageable) {
         return contractRepos.getAllCustom(customerName, employeeName, planeId, dateStart, pageable);
     }
-
 
     @Override
     public boolean delete(Integer id) {
@@ -102,9 +96,33 @@ public class ContractServiceImpl implements ContractService<Contract, ContractDT
         return contractRepos.findAll().stream().map(ContractViewDTO::new).collect(Collectors.toList());
     }
 
+    @Override
+    public boolean updateStatusById(Integer id) {
+        final Contract contract = findById(id);
+        if(contract == null) {
+            System.out.println("Failed to delete entity with ID " + id +  "as it does not exist");
+            return false;
+        }
+        try {
+            Plane plane = planeServices.findPlaneById(contract.getPlane().getId());
+            PlaneStatus planeStatus = new PlaneStatus(2);
+            plane.setPlaneStatus(planeStatus);
+            planeServices.savePlane(plane);
+            contractRepos.updateStatusById(id);
+            return true;
+        }catch (final Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public List<ContractViewDTO> findAllByCustomerId(String customerId) {
+        return contractRepos.findAllByCustomerId(customerId).stream().map(ContractViewDTO::new).collect(Collectors.toList());
+    }
+
     private Contract findById(final Integer id) {
         return contractRepos.findById(id).orElse(null);
     }
-
 
 }

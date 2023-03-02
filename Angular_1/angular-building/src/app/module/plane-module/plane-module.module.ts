@@ -7,7 +7,10 @@ import {CustomPipeVND} from "./utils/customPipeVND";
 import {AppModule} from "../../app.module";
 const routes: Routes = [
   {
-    path: 'plane', component: PlaneManagementComponent
+    path: 'plane', component: PlaneManagementComponent, canActivate: [AuthGuard],
+    data: {
+      title: "Quản lý mặt bằng"
+    }
   }
 ];
 @NgModule({
