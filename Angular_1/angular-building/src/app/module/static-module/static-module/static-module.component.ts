@@ -1,14 +1,13 @@
-import {Component, DoCheck, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StaticsviewDTO} from './dto/StaticsviewDTO';
 import {StaticServiceService} from './service/static-service.service';
 import {Chart} from "chart.js";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
-import {checkBirthday, checkFile, checkPasswordConfirm, checkTrim} from "../employee-module/utils/CustomValidate";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 /*
 import moment = require("moment");
 */
-import {validate} from "codelyzer/walkerFactory/walkerFn";
 import {checkDate} from "./validate/validate";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-static-module',
@@ -29,7 +28,8 @@ export class StaticModuleComponent implements OnInit {
   totalCalculate = 0;
 
   constructor(private staticsService: StaticServiceService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private toast: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -84,14 +84,20 @@ export class StaticModuleComponent implements OnInit {
         (e: any) => {
           this.static = e;
           this.chartdata = e;
+          if (this.static.length === 0) {
+            this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
+          }
           if (null != this.chartdata) {
             for (let i = 0; i < this.chartdata.length; i++) {
               this.labelData.push("MB " + this.chartdata[i].plane.id);
               this.readData.push(this.chartdata[i].total);
             }
           }
-        }, error => {
-        }, () => this.createChart(this.labelData, this.readData));
+          this.createChart(this.labelData, this.readData);
+        },
+        error => {
+          this.toast.warning('Lỗi server', 'Thông báo');
+        });
   }
 
 
