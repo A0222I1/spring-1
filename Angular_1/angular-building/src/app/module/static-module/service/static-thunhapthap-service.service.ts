@@ -1,13 +1,13 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {StaticsviewDTO} from "../dto/StaticsviewDTO";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {StaticsviewDTO} from '../dto/StaticsviewDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class StaticThuNhapThapServiceService {
-  url = 'http://localhost:8080/statistics/getdata'
+  url = 'http://localhost:8080/statistics/getdata';
 
   constructor(private http: HttpClient) {
   }

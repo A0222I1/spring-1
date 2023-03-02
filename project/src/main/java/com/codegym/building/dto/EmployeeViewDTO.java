@@ -49,13 +49,14 @@ public class EmployeeViewDTO {
         this.department = employee.getDepartment().getName();
         this.account = employee.getAccount() == null ? "chưa có tài khoản":employee.getAccount().getUser_name();
         this.dateBegin = employee.getAccount() == null ? "chưa có tài khoản" :new SimpleDateFormat("dd/MM/yyyy").format(employee.getAccount().getDateCreate()) ;
-        this.maxRole = employee.getAccount().getAccountRoles() ==  null ? 1L :getMaxRole(employee.getAccount().getAccountRoles());
+        this.maxRole = employee.getAccount().getAccountRoles() == null ? 1L :getMaxRole(employee.getAccount().getAccountRoles());
+
     }
 
     public Long getMaxRole(List<AccountRole> listAccountRole) {
         Roles roles = listAccountRole.stream().map(AccountRole::getRoles).min(Comparator.comparing(Roles::getId)).orElse(null);
         if (roles == null) {
-            return 0L;
+            return 2L;
         }
         return roles.getId();
     }

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']).then(r => {
         this.userService.getEmployee();
         this.userService.setLoggedIn(true);
-        this.toast.success('Đăng nhập thành công');
+        this.toast.success('Đăng nhập thành công !!', 'Thông báo');
       });
     }, err => {
       if (!this.loginForm.value) {
