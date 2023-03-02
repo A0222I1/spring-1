@@ -76,7 +76,9 @@ export class ContractComponentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPlane();
+    this.getAllPlaneWithPromise().then(() => {
+
+    });
     this.getAllTerm();
     this.getEmployee();
     this.buildForm();
@@ -212,10 +214,21 @@ export class ContractComponentComponent implements OnInit {
 
   }
 
-  getAllPlane() {
-    this.planeService.getALlPlaneDTO().subscribe(data => {
-      this.planeList = data;
-    });
+  // getAllPlane() {
+  //   this.planeService.getALlPlaneDTO().subscribe(data => {
+  //     this.planeList = data;
+  //   });
+  // }
+
+  getAllPlaneWithPromise() {
+    return new Promise(((resolve, reject) => {
+      this.planeService.getALlPlaneDTO().subscribe(data => {
+        this.planeList = data;
+        resolve();
+      }, error => {
+        reject(error);
+      });
+    }));
   }
 
 
@@ -330,14 +343,18 @@ export class ContractComponentComponent implements OnInit {
       this.contractDTO.customerId = idCard;
       // fill customer information by [value]
       // tslint:disable-next-line:no-shadowed-variable
+      this.getAllPlaneWithPromise().then(() => {
+        // update plane
+        const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
+        if (this.planeList.find(item => item.id === planeEdit.id) === undefined) {
+          this.planeList.push(planeEdit);
+        }
+      });
+      // tslint:disable-next-line:no-shadowed-variable
       this.customerService.findByIdCardForContract(idCard).subscribe(data => {
         this.customerView = data;
       });
-      // update plane
-      const planeEdit: PlaneDTO = {id: this.contractDTO.planeId};
-      if (this.planeList.find(item => item.id === planeEdit.id) === undefined) {
-        this.planeList.push(planeEdit);
-      }
+
       // update employee
       this.updateEmployee(accountName);
       // this.getEmployee();
@@ -349,18 +366,21 @@ export class ContractComponentComponent implements OnInit {
   }
 
   add() {
+    console.log(this.formGroup);
     this.flagDisplayValidate = false;
     this.title = 'Thêm Mới Hợp Đồng';
     this.disabled = false;
     this.flagHidden = false;
     this.checkStartDate = false;
-    this.getEmployee();
-    this.refresh();
-    this.formGroup.controls.startDate.setValidators(isFuture);
+    this.getEmployeeFromLocal().then(() => {
+      this.refresh();
+      this.formGroup.controls.startDate.setValidators(isFuture);
+    });
+
   }
 
   refresh() {
-    this.getAllPlane();
+    this.getAllPlaneWithPromise().then(() => {});
     this.contractDTO = undefined;
     this.buildForm();
     console.log(this.formGroup);
