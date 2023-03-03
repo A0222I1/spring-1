@@ -18,4 +18,6 @@ public interface AccountService {
     Account save(AccountDTO accountDTO);
 
     List<Account> findAll();
+
+    boolean checkValidUser(AccountDTO accountDTO);
 }

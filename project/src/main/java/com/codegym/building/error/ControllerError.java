@@ -40,4 +40,12 @@ public class ControllerError {
         errors.put("error", exception.getMessage());
         return errors;
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(Exception.class)
+    private Map<String,String> getAllNotValid(Exception exception){
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", exception.getMessage());
+        return errors;
+    }
 }

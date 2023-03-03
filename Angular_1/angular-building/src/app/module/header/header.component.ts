@@ -5,6 +5,7 @@ import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {Title} from '@angular/platform-browser';
 import {UserService} from "../../account/service/user.service";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
   currenUser: Account;
   token: TokenApi;
   employee: EmployeeViewDTO;
+  temp = undefined;
 
   constructor(private accountService: AccountService,
               private pageTitle: Title,
@@ -23,30 +25,39 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loginByUser();
     this.getEmployee();
   }
 
+  checkToken() {
+    if (!localStorage.getItem('token')) {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  loginByUser(): boolean {
+    if (this.employee) {
+      this.temp = this.employee.maxRole;
+    }
+    return this.temp === 1;
+  }
+
   logOut() {
-    // this.authService.logout();
     this.userService.logOut();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      location.reload();
+    });
   }
 
   getEmployee() {
+    console.log(1);
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-        this.employee = data;
-        this.ngOnInit();
-      }, error => {
-        console.log("erross");
-      },
-      () => {
-        console.log(" phai chay");
-      });
+      this.employee = data;
+    });
   }
 
   setPageTitle(title: string) {
     this.pageTitle.setTitle(title);
   }
-
 }

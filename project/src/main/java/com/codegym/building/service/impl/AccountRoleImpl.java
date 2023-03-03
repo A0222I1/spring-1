@@ -36,11 +36,6 @@ public class AccountRoleImpl implements TypeService<AccountRole>, AccountRolesSe
         roles.forEach(x -> grantedAuthorities.add(new SimpleGrantedAuthority("ROLES_"+x.getName())));
         return grantedAuthorities;
     }
-//
-//    @Override
-//    public List<Roles> findListRoles(String username) {
-//        return null;
-//    }
 
     @Override
     public void updateDefaultRolesOffAccountRegister(String user_name) {

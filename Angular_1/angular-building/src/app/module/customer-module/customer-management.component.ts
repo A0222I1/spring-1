@@ -94,7 +94,7 @@ export class CustomerManagementComponent implements OnInit {
   findById(id: string) {
     this.customerService.findById(id).subscribe(value => {
         document.getElementById("name_delete").innerText = value.name;
-        (<HTMLInputElement>document.getElementById("id_delete")).value = value.id;
+        ( document.getElementById("id_delete") as HTMLInputElement).value = value.id;
       },
       error => {
         this.message = error.error;
@@ -119,14 +119,7 @@ export class CustomerManagementComponent implements OnInit {
       id_card: ['', [Validators.required,
         Validators.pattern("^([0-9]{12})$")]],
       account: ['', [Validators.required, checkTrim]]
-    })
+    });
   }
-  // saveForm() {
-  //   this.customerService.save(this.formGroup).subscribe(value => {
-  //     this.message = `tạo mới thành công khách hàng tên ${value.name}`;
-  //     document.getElementById("createModal").click();
-  //     this.alert = true;
-  //     this.ngOnInit();
-  //   });
-  // }
+
 }

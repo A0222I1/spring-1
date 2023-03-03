@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
-import { ContractComponentComponent } from './contract-component.component';
+import {ContractComponentComponent} from './contract-component.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {EmployeeComponentComponent} from "../employee-module/employee-component.component";

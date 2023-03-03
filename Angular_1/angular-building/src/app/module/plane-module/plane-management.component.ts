@@ -19,22 +19,24 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./plane-management.component.css']
 })
 export class PlaneManagementComponent implements OnInit {
-  planes : Plane[];
-  stages : Stage[];
-  planeTypes : PlaneType[];
-  planeStatus : PlaneStatus[];
-  contracts: ContractViewDTO[]=[];
-  plane : Plane;
+  planes: Plane[];
+  stages: Stage[];
+  planeTypes: PlaneType[];
+  planeStatus: PlaneStatus[];
+  contracts: ContractViewDTO[] = [];
+  plane: Plane;
   pageNumber: number;
   totalPages: number;
-
   areaSearch: string = "";
   stageSearch: string = "";
   statusSearch: string = "";
   typeSearch: string = "";
-  constructor(private contractService :ContractServiceService,
+  constructor(private contractService: ContractServiceService,
               private toast: ToastrService,
-              private planeService : PlaneService,private stageService : StageService, private planeTypeService :PlaneTypeService,private planeStatusService : PlaneStatusService) { }
+              private planeService: PlaneService,
+              private stageService: StageService,
+              private planeTypeService: PlaneTypeService,
+              private planeStatusService: PlaneStatusService) { }
 
   ngOnInit(): void {
     this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,0);
@@ -44,8 +46,8 @@ export class PlaneManagementComponent implements OnInit {
     this.getPlaneStatus();
   }
 
-  getAll(area:string, stage: string, status: string, type: string,numberPage:number){
-    this.planeService.findAll(area,stage,status,type,numberPage).subscribe(data=>{
+  getAll(area: string, stage: string, status: string, type: string, numberPage: number){
+    this.planeService.findAll(area, stage, status, type, numberPage).subscribe(data => {
       console.log(data);
       this.planes = data.content;
       this.pageNumber = data.number;
@@ -110,5 +112,5 @@ export class PlaneManagementComponent implements OnInit {
   addPlane() {
 
   }
-}
 
+}

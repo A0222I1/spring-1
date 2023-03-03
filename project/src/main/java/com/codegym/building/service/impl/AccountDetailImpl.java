@@ -26,8 +26,8 @@ public class AccountDetailImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Username " + username + " was not found in the database");
         }
         List<GrantedAuthority> grantList = new ArrayList<>();
-        grantList.add(new SimpleGrantedAuthority("Roles_Admin"));
-        return new User(customerName.getUser_name(),
+        grantList.add(new SimpleGrantedAuthority("Roles_ADMIN"));
+        return new User(customerName.getUsername(),
                 customerName.getPassword(), grantList);
     }
 }

@@ -51,6 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/logout", "/api")
                 .permitAll()
+//                .antMatchers("/**").hasRole("ROLES_ADMIN")
+//                .antMatchers("/statistics", "/statistics/**").hasRole("ROLES_EMPLOYEE")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/j_security_login")
@@ -73,7 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PersistentTokenRepository persistentTokenRepository() {
         return new InMemoryTokenRepositoryImpl();
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)

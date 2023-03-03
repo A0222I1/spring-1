@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {AccountModule} from "../account.module";
 import {UserService} from "../service/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {HttpXsrfTokenExtractor} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    var checkLogin = localStorage.getItem('token');
+    const checkLogin = localStorage.getItem('token');
     if (checkLogin) {
       this.router.navigate(['/home']);
     }
@@ -33,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.value.username.trim() == "" && this.loginForm.value.password.trim() == ""){
+    if (this.loginForm.value.username.trim() === "" && this.loginForm.value.password.trim() === "") {
       this.loginForm.controls.password.setErrors({usernameandpassword : true});
       return;
     }
@@ -41,7 +38,7 @@ export class LoginComponent implements OnInit {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
-        console.log(this.loginForm);
+        location.reload();
       });
     }, err => {
         this.errorMessage = "Tài khoản hoặc mật khẩu không đúng.";

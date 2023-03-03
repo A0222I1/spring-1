@@ -9,7 +9,7 @@ public class UsernameDetail {
     public static String toString(Account account) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("UserName:").append(account.getUser_name());
+        sb.append("UserName:").append(account.getUsername());
 
         Collection<GrantedAuthority> authorities = null;
         if (authorities != null && !authorities.isEmpty()) {
