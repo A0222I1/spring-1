@@ -4,7 +4,6 @@ import com.codegym.building.dto.AccountDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,7 +20,7 @@ import java.util.List;
 public class Account extends AccountDetail {
     @Id
     @Column(name = "user_name")
-    String user_name;
+    String username;
     String password;
     String status;
 
@@ -34,17 +33,17 @@ public class Account extends AccountDetail {
     List<AccountRole> accountRoles;
 
     public Account(AccountDTO accountDTO) {
-        this.user_name = accountDTO.getUsername();
+        this.username = accountDTO.getUsername();
         this.password = accountDTO.getPassword();
     }
 
     public Account(String user_name) {
-        this.user_name = user_name;
+        this.username = user_name;
     }
 
     public Account(String user_name, String password) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.user_name = user_name;
+        this.username = user_name;
         this.password = bCryptPasswordEncoder.encode(password);
         this.status= "on";
         this.dateCreate = Date.valueOf(LocalDate.now());

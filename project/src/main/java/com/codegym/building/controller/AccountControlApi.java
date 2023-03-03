@@ -7,16 +7,12 @@ import com.codegym.building.model.account.Account;
 import com.codegym.building.service.impl.AccountDetailImpl;
 import com.codegym.building.service.impl.AccountServiceImpl;
 import com.codegym.building.service.impl.TokenAuthenticationService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @RestController
 @RequestMapping("account")
@@ -29,10 +25,14 @@ public class AccountControlApi {
     @Autowired
     private AccountDetailImpl accountDetailImpl;
 
+    @SneakyThrows
     @PostMapping("/login")
     public ResponseEntity<TokenAPI> checkAllPass(@RequestBody AccountDTO accountDTO) {
-        UserDetails userDetails = accountDetailImpl.loadUserByUsername(accountDTO.getUsername());
-        return new ResponseEntity<>(new TokenAPI("token", tokenAuthenticationService.addAuthentication(userDetails.getUsername(), (accountDTO.getRememberMe()))), HttpStatus.OK);
+      if(accountService.checkValidUser(accountDTO)) {
+          UserDetails userDetails = accountDetailImpl.loadUserByUsername(accountDTO.getUsername());
+          return new ResponseEntity<>(new TokenAPI("token", tokenAuthenticationService.addAuthentication(userDetails.getUsername(), (accountDTO.getRememberMe()))), HttpStatus.OK);
+      }
+      throw new Exception("User not valid.");
     }
 
     @GetMapping("/{account}")

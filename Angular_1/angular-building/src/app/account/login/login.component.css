@@ -20,6 +20,10 @@ h2 {
   text-align: center;
 }
 
+.lable {
+  margin: 5px;
+}
+
 div a {
   text-decoration: none;
 }
@@ -38,6 +42,7 @@ div a {
   font-size: 13px;
   width: 200%;
   height: 15px;
+  display: inline;
 }
 
 .screen {
@@ -148,6 +153,14 @@ div a {
   border-bottom-color: #6A679E;
 }
 
+.login__exit {
+  margin-left: 25px;
+}
+
+.exit__text {
+  margin-left: 20px;
+}
+
 table {
   width: 125%;
 }
@@ -186,7 +199,6 @@ table {
 .social-login__icon {
   padding: 20px 10px;
   color: #fff;
-  /*align-items: center;*/
   text-decoration: none;
   text-shadow: 0px 0px 8px #7875B5;
 }

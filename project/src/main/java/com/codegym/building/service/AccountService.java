@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface AccountService {
 
-    @Query(value = "SELECT employee_id FROM employee where account_name = :account", nativeQuery = true)
+//    @Query(value = "SELECT employee_id FROM employee where account_name = :account", nativeQuery = true)
     String findIdEmployeeByAccount(@Param("account") String username);
 
     boolean findByUserName(String name);
@@ -18,4 +18,6 @@ public interface AccountService {
     Account save(AccountDTO accountDTO);
 
     List<Account> findAll();
+
+    boolean checkValidUser(AccountDTO accountDTO);
 }

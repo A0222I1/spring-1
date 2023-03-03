@@ -2,6 +2,7 @@ package com.codegym.building.service.impl;
 
 import com.codegym.building.dto.EmployeeViewDTO;
 import com.codegym.building.model.person.Employee;
+import com.codegym.building.service.AccountRolesService;
 import com.codegym.building.service.AccountService;
 import com.codegym.building.service.PersonService;
 import io.jsonwebtoken.Jwts;
@@ -29,8 +30,13 @@ public class TokenAuthenticationService {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    AccountRolesService accountRolesServicel;
+
     public String addAuthentication(String username, Boolean rememberMe) {
         String id = accountService.findIdEmployeeByAccount(username);
+//        String role = String.valueOf(accountRolesServicel.findListRoles(username));
         if (rememberMe) {
             return Jwts.builder()
                     .setSubject(String.format("%s - %s", username, id))
@@ -47,8 +53,6 @@ public class TokenAuthenticationService {
 
     @Autowired
     PersonService<Employee> employeeService;
-
-
 
     // autherwide để lấy id
     public Authentication getAuthentication(HttpServletRequest request) {

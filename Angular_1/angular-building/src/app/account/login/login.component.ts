@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
 
 
   login() {
+    //OK
     if (this.loginForm.value.username.trim() === '' && this.loginForm.value.password.trim() === '') {
       this.loginForm.controls.password.setErrors({userNameAndPassword: true});
       return;
@@ -49,8 +50,8 @@ export class LoginComponent implements OnInit {
         this.toast.success('Đăng nhập thành công !!', 'Thông báo');
       });
     }, err => {
-      if (!this.loginForm.value) {
-        this.errorMessage = 'Tài khoản và mật khẩu không chính xác.';
+      if (this.loginForm.value) {
+        this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng.';
       }
     });
   }
