@@ -124,7 +124,7 @@ export class EmployeeComponentComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       avatar: ['', [Validators.required, checkFile]],
       name: ['', [Validators.required, checkTrim,
-        Validators.minLength(8),
+        Validators.minLength(2),
         Validators.pattern('^[A-Za-z ÚÙỤŨỦỊỈÌỈĨÂĂÔĐÊỌÒÓÕỎÁÀẢÃẠÈÉẸẼẺƯỬỮỰỪỨỐỒỔỘỖẾỀỂỄỆẤẦẪẨẬẶẮẲẴẰẠÁÀẢÃúùụũủịỉìỉĩâăôđêọòóõỏáàảãạèéẹẽẻưửữựừứốồổộỗếềểễệấầẫẩậặắẳẵằạáàảã@#]+$'),
         Validators.maxLength(200)]],
       address: ['', [Validators.required, checkTrim, Validators.maxLength(200)]],
@@ -132,7 +132,7 @@ export class EmployeeComponentComponent implements OnInit {
       email: ['', [Validators.required,
         Validators.pattern('^[\\w\\-.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       phone: ['', [Validators.required,
-        Validators.pattern('^([0]|(\\+84))([0-9]{9})$')]],
+        Validators.pattern('^([0]|(\\+84))([0-9]{8,9})$')]],
       salaryScale: ['', [Validators.required]],
       department: ['', [Validators.required]],
       gender: ['', [Validators.required]],

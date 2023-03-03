@@ -251,7 +251,7 @@
                     *ngIf="((formGroup.controls.name.hasError('required')|| formGroup.controls.name.hasError('trim'))) &&  formGroup.controls.name.touched">Tên không nên để trống</span>
               <span style="color: green" *ngIf="formGroup.controls.name.valid">Có thể sử dụng tên này.</span>
               <span style="color: red"
-                    *ngIf="formGroup.controls.name.hasError('minlength') &&  formGroup.controls.name.touched">Tên nên dài hơn 8 kí tự.</span>
+                    *ngIf="formGroup.controls.name.hasError('minlength') &&  formGroup.controls.name.touched">Tên nên dài hơn 2 kí tự.</span>
               <span style="color: red"
                     *ngIf="formGroup.controls.name.hasError('maxlength') &&  formGroup.controls.name.touched">Tên nên ít hơn 200 kí tự.</span>
               <span style="color: red"
@@ -360,7 +360,7 @@
                     *ngIf="formGroup.controls.avatar.hasError('filesize')&& formGroup.controls.avatar.touched">Hình ảnh không được quá 5MB.</span>
             </div>
             <div class="col-4" *ngIf="fileChose">
-              <img alt="Loading" id="reviewImgChoice" [src]="imageSrc" width="60px">
+              <img alt="Loading" id="reviewImgChoice" [src]="imageSrc">
             </div>
           </div>
           <hr style="margin-top: 10px">
