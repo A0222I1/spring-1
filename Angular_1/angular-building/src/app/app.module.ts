@@ -16,19 +16,18 @@ import {CustomPipeVND} from './module/plane-module/utils/customPipeVND';
 import {ContractModuleModule} from './module/contract-module/contract-module.module';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {StaticModuleComponent} from "./module/static-module/static-module.component";
+import {StaticModuleComponent} from './module/static-module/static-module.component';
 import {StaticThunhapcaoComponent} from './module/static-module/static-thunhapcao/static-thunhapcao.component';
 import {StaticThunhapthapComponent} from './module/static-module/static-thunhapthap/static-thunhapthap.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {CustomerModuleModule} from "./module/customer-module/customer-module.module";
-import {AccountModule} from "./account/account.module";
-import {AuthGuard} from "./account/guard/auth.guard";
+import {ReactiveFormsModule} from '@angular/forms';
+import {CustomerModuleModule} from './module/customer-module/customer-module.module';
+import {AccountModule} from './account/account.module';
+import {AuthGuard} from './account/guard/auth.guard';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomPipeVND,
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
@@ -57,7 +56,8 @@ import {AuthGuard} from "./account/guard/auth.guard";
       }
     )
   ],
-  providers: [DatePipe, AuthGuard],
+  exports: [],
+  providers: [DatePipe, AuthGuard, DatePipe, CustomPipeVND],
   bootstrap: [AppComponent]
 })
 

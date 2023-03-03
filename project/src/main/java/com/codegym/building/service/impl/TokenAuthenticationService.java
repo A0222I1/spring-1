@@ -1,7 +1,6 @@
 package com.codegym.building.service.impl;
 
 import com.codegym.building.dto.EmployeeViewDTO;
-import com.codegym.building.model.account.Account;
 import com.codegym.building.model.person.Employee;
 import com.codegym.building.service.AccountRolesService;
 import com.codegym.building.service.AccountService;
@@ -9,8 +8,7 @@ import com.codegym.building.service.PersonService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security
-        .authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
+
 @Service
 public class TokenAuthenticationService {
     static final long EXPIRATION_TIME_REMEMBER_ME = 24 * 60 * 60 * 1000; // 1 days

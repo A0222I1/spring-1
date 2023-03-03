@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapCaoServiceService} from "../service/static-thunhapcao-service.service"
 import Chart from 'chart.js';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {checkDateHigh} from "../validate/validate";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -14,27 +17,27 @@ export class StaticThunhapcaoComponent implements OnInit {
   chartdata: any;
   labelData: any[] = [];
   readData: any[] = [];
-  chart = Chart;
-
+  chartThuNhapCao = Chart;
+  formGroup: FormGroup;
   static: StaticsviewDTO[] = [];
-  startDateHighString: String = ''; //'2023-02-10';
-  finishDateHighString: String = '';    //'2023-02-15';
-  stt: number = 1;
-  totalSalary = 0;
-  totalPages = 0;
-  rowNumber: String = '';
-  totalCalculate: number = 0;
+  startDateHighString = '';
+  finishDateHighString = '';
+  rowNumber = '';
+  totalCalculate = 0;
 
-  constructor(private staticsService: StaticThuNhapCaoServiceService) {
+
+  constructor(private staticsService: StaticThuNhapCaoServiceService,
+              private formBuilder: FormBuilder,
+              private toast: ToastrService) {
   }
 
   ngOnInit(): void {
     this.findAllHighWithCondition(this.startDateHighString, this.finishDateHighString, this.rowNumber);
     this.createChart(this.labelData, this.readData);
-
+    this.buildForm();
   }
 
-  findAllHighWithCondition(startDateHighString: String, finishDateLowString: String, rowNumber: String) {
+  findAllHighWithCondition(startDateHighString: string, finishDateLowString: string, rowNumber: string) {
     this.chartdata = [];
     this.labelData = [];
     this.readData = [];
@@ -43,7 +46,9 @@ export class StaticThunhapcaoComponent implements OnInit {
         (e: any) => {
           this.static = e;
           this.chartdata = e;
-
+          if (this.static.length === 0) {
+            this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
+          }
           if (null != this.chartdata) {
             for (let i = 0; i < this.chartdata.length; i++) {
               console.log(this.chartdata[i]);
@@ -51,12 +56,25 @@ export class StaticThunhapcaoComponent implements OnInit {
               this.readData.push(this.chartdata[i].total);
             }
           }
-        })
-    this.createChart(this.labelData, this.readData);
+          this.createChart(this.labelData, this.readData);
+
+        }, error => {
+            this.toast.warning('Lỗi server', 'Thông báo');
+        });
+  }
+
+
+  buildForm() {
+    this.formGroup = this.formBuilder.group({
+      startHighDate: ['', [Validators.required]],
+      finalHighDate: ['', [Validators.required, checkDateHigh]],
+      rowHighNumbers: ['', [Validators.required,
+        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
+    });
   }
 
   createChart(labelData: any, readData: any) {
-    this.chart = new Chart('ChartRent', {
+    this.chartThuNhapCao = new Chart('ChartRentThuNhapCao', {
       type: 'bar',
       data: {
         labels: labelData,
@@ -82,22 +100,21 @@ export class StaticThunhapcaoComponent implements OnInit {
     });
   }
 
-  public dowloadFile(startDateLowString: String, finishDateLowString: String, rowNumber: String): void {
+  public dowloadFile(startDateLowString: string, finishDateLowString: string, rowNumber: string): void {
     this.staticsService.printAllDataHigh(startDateLowString, finishDateLowString, rowNumber).subscribe(response => {
-      let fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
-      let blob: Blob = response.body as Blob;
-      let a = document.createElement('a');
+      const fileName = response.headers.get('content-disposition')?.split(';')[1].split('=')[1];
+      const blob: Blob = response.body as Blob;
+      const a = document.createElement('a');
       a.download = fileName;
       a.href = window.URL.createObjectURL(blob);
       a.click();
-      console.log(fileName);
     });
   }
 
   total() {
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
-      this.totalCalculate = this.static[i].total + this.totalCalculate
+      this.totalCalculate = this.static[i].total + this.totalCalculate;
     }
     return this.totalCalculate;
   }

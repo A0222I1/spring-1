@@ -22,9 +22,6 @@ public class ContractDTO {
     @NotNull(message = "Nhập tiền vào")
     @Min(value = 1,message = "Giá tiền phải nguyên dương")
     private Double price;
-    @NotNull(message = "Nhập tiền thuê vào")
-    @Min(value = 1, message = "Tổng tiền phải nguyên dương")
-    private Double total;
     @NotBlank(message = " nhập thông tin vào nhá")
     private String information;
     @NotNull(message = "nhập ngày bắt đầu nữa nhé")

@@ -1,52 +1,100 @@
 <div xmlns="http://www.w3.org/1999/html">
   <div class="header">
-    <h2>Thống kê số liệu phòng thu nhập cao</h2>
-    <div class="list-inputsearch">
-      <label>Ngày bắt đầu</label>
-      <input id="startHighDate" type="date" #startHighDate (change)="startDateHighString = startHighDate.value"
-             placeholder="Tìm kiếm theo ngày bắt đầu...">
-      <label>Ngày kết thúc</label>
-      <input id="finalHighDate" type="date" #finalHighDate (change)="finishDateHighString = finalHighDate.value"
-             placeholder="Tìm kiếm theo ngày bắt đầu..." >
+    <h4 class="list-ground-title">THỐNG KÊ SỐ LIỆU PHÒNG THU NHẬP CAO</h4>
 
-      <label>Số lượng</label>
-      <input id="rowNumbers" type="text" #rowNumbers (change)="rowNumber = rowNumbers.value"
-             placeholder="số lượng xuất">
-      <div class="list-inputsearch-icon">
-        <i class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
-           (click)="findAllHighWithCondition(startDateHighString,finishDateHighString,rowNumber)"></i>
+    <form class="row g-3" [formGroup]="formGroup">
+      <div class="col-md-4">
+        <label class="form-label"></label>
+        <input placeholder="Ngày bắt đầu" class="form-control" type="text" onfocus="(this.type='date')"
+               onblur="(this.type='text')" formControlName="startHighDate" id="startHighDate" #startHighDate
+               (change)="startDateHighString = startHighDate.value"
+               required/>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label"></label>
+        <input placeholder="Ngày kết thúc" class="form-control" type="text" onfocus="(this.type='date')"
+               onblur="(this.type='text')" formControlName="finalHighDate" id="finalHighDate" #finalHighDate
+               (change)="finishDateHighString = finalHighDate.value"
+               required/>
+        <span style="color: red"
+              *ngIf="formGroup.controls.finalHighDate.hasError('invalidDate') &&  formGroup.controls.finalHighDate.touched">Ngày kết thúc phải lớn hơn ngày bắt đầu </span>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label"></label>
+        <input placeholder="Số lượng" class="form-control" type="text" onfocus="(this.type='number')"
+               onblur="(this.type='text')" formControlName="rowHighNumbers" id="rowNumbers" #rowNumbers
+               (change)="rowNumber = rowNumbers.value"
+               required/>
+
+        <span style="color: red"
+              *ngIf="formGroup.controls.rowHighNumbers.hasError('pattern')  && formGroup.controls.rowHighNumbers.touched">Chỉ được chọn số lớn hơn 1</span>
+        <span style="color: red"
+              *ngIf="formGroup.controls.rowHighNumbers.hasError('max')  && formGroup.controls.rowHighNumbers.touched">Số của bạn chọn không được quá 20</span>
+      </div>
+      <div class="btn-group col-md-1">
+        <div class="list-inputsearch-icon">
+          <i style="background-color: blue" class="fa fa-search list-inputsearch-icon-search" aria-hidden="true"
+             (click)="findAllHighWithCondition(startDateHighString,finishDateHighString,rowNumber)"></i>
+        </div>
+      </div>
+    </form>
+  </div>
+<!--  <div class="alert alert-danger" role="alert" *ngIf="static.length == 0">-->
+<!--    Dữ liệu không được tìm thấy!-->
+<!--  </div>-->
+
+  <div *ngIf="static.length > 0">
+    <table class="table tab">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên mặt Bằng</th>
+        <th scope="col">Ngày bắt đầu</th>
+        <th scope="col">Tổng thu (VNĐ)</th>
+        <th scope="col">Ghi chú</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let i of static; let z =index">
+        <td scope="row">{{z + 1}}</td>
+        <td scope="row">MB_{{i.plane?.id}}</td>
+        <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
+        <td scope="row">{{i.total |number:'4.0'}}</td>
+        <td scope="row">{{i.information}}</td>
+      </tr>
+      <tr>
+        <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="list-inputsearch-icon">
+      <i class="fa fa-print list-inputsearch-icon-search" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      </i>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">In dữ liệu</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Bạn có muốn in dữ liệu không
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Không
+            </button>
+            <button (click)="dowloadFile(startDateHighString,finishDateHighString, rowNumber)" type="button"
+                    class="btn btn-primary">In
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <table class="table tab">
-    <thead class="thead-dark">
-    <tr>
-      <th scope="col">STT</th>
-      <th scope="col">Tên mặt Bằng</th>
-      <th scope="col">Ngày bắt đầu</th>
-      <th scope="col">Tổng thu</th>
-      <th scope="col">Ghi chú</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let i of static; let z =index">
-      <td scope="row">{{z+1}}</td>
-      <td scope="row">MB_{{i.plane.id}}</td>
-      <td scope="row">{{i.startDate| date: 'dd/MM/yyyy'}}</td>
-      <td scope="row">{{i.total |number:'4.0'}} VNĐ</td>
-      <td scope="row">{{i.information}}</td>
-    </tr>
-    <tr>
-      <p>Tổng: {{total() > 0 ? (total()  |number:'4.0') : 0}} VNĐ </p>
-    </tr>
-    </tbody>
-  </table>
-  <div class="list-inputsearch-icon">
-    <i class="fa fa-print list-inputsearch-icon-search" aria-hidden="true"
-       (click)="dowloadFile(startDateHighString,finishDateHighString,rowNumber)"></i>
-  </div>
   <div class="chart-container">
-    <canvas  id="ChartRent" >{{ chart }}</canvas>
+    <canvas id="ChartRentThuNhapCao">{{ chartThuNhapCao }}</canvas>
   </div>
 </div>

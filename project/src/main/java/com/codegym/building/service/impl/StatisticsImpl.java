@@ -1,7 +1,7 @@
 package com.codegym.building.service.impl;
 
-import com.codegym.building.model.contract.Contract;
-import com.codegym.building.repos.ContractRepos;
+import com.codegym.building.dao.StaticDao;
+import com.codegym.building.dto.ResultsDTO;
 import com.codegym.building.service.StatisticsService;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -21,27 +21,45 @@ import java.util.List;
 public class StatisticsImpl implements StatisticsService {
 
     @Autowired
-    public ContractRepos repos;
+    public StaticDao repos;
 
     @Override
-    public List<Contract> findAllByDayStart(String start_date, String end_date) {
-        return repos.findAllByDayStart(start_date, end_date);
+    public List<ResultsDTO> findAllByDayStart(String start_date, String end_date) {
+        try {
+            List<ResultsDTO> listAfter = repos.getDataResult(start_date, end_date, null, null);
+            return listAfter;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public List<Contract> findAllByHigh(String start_date, String end_date, Integer rowNumber) {
-        return repos.findAllByHigh(start_date, end_date, rowNumber);
+    public List<ResultsDTO> findAllByHigh(String start_date, String end_date, Integer rowNumber) {
+        try {
+            List<ResultsDTO> listBefore = repos.getDataResult(start_date, end_date, false, rowNumber);
+            return listBefore;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public List<Contract> findAllByLow(String start_date, String end_date, Integer rowNumber) {
-        return repos.findAllByLow(start_date, end_date, rowNumber);
+    public List<ResultsDTO> findAllByLow(String start_date, String end_date, Integer rowNumber) {
+        try {
+            List<ResultsDTO> listBefore = repos.getDataResult(start_date, end_date, true, rowNumber);
+            return listBefore;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public XSSFWorkbook XuatBaoCaoTongHop(String start_date, String end_date) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByDayStart(start_date, end_date);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, null, null);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -68,10 +86,14 @@ public class StatisticsImpl implements StatisticsService {
             this.setStyleForCellNormal(styleBold, boldFont);
 
             XSSFDataFormat cf = wb.createDataFormat();
+
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
 
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
@@ -91,7 +113,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -102,9 +124,10 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
+
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
 
@@ -144,7 +167,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,7 +178,7 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public XSSFWorkbook XuatBaoCaoCao(String start_date, String end_date, Integer rowNumber) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByHigh(start_date, end_date, rowNumber);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, false, rowNumber);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -184,6 +207,10 @@ public class StatisticsImpl implements StatisticsService {
             XSSFDataFormat cf = wb.createDataFormat();
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
+
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
             styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
 
@@ -204,7 +231,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -215,9 +242,10 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
+
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
 
@@ -241,7 +269,6 @@ public class StatisticsImpl implements StatisticsService {
                     XSSFCell cellGhiChu = row.getCell(4);
                     cellGhiChu.setCellValue(ghiChu);
                     cellGhiChu.setCellStyle(styleNormal);
-
                 }
             }
             sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
@@ -258,7 +285,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
 
         } catch (Exception e) {
@@ -270,7 +297,7 @@ public class StatisticsImpl implements StatisticsService {
     @Override
     public XSSFWorkbook XuatBaoCaoThap(String start_date, String end_date, Integer rowNumber) throws IOException {
         try {
-            List<Contract> listData = repos.findAllByLow(start_date, end_date, rowNumber);
+            List<ResultsDTO> listData = repos.getDataResult(start_date, end_date, true, rowNumber);
             // Load file excel template to a Workbook
             BufferedInputStream inputFile = new BufferedInputStream(
                     new ClassPathResource("temp/MauXuatBaoCao.xlsx").getInputStream());
@@ -299,8 +326,11 @@ public class StatisticsImpl implements StatisticsService {
             XSSFDataFormat cf = wb.createDataFormat();
             XSSFCellStyle styleSalary = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalary, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalary.setDataFormat(cf.getFormat("#,##0"));
 
+            XSSFCellStyle styleSalaryVND = wb.createCellStyle();
+            this.setStyleForCellNormal(styleSalaryVND, defaultFont);
+            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
@@ -320,7 +350,7 @@ public class StatisticsImpl implements StatisticsService {
             int Ordinalnumber = 0;
 
             for (startRow = 5; startRow < sheet.getLastRowNum(); startRow++) {
-                for (Contract baoCao : listData) {
+                for (ResultsDTO baoCao : listData) {
                     startRow++;
                     sheet.shiftRows(startRow, sheet.getLastRowNum(), 1);
                     row = sheet.createRow(startRow);
@@ -331,9 +361,11 @@ public class StatisticsImpl implements StatisticsService {
                     }
 
                     Ordinalnumber++;
-                    String matBang = null != baoCao.getPlane() ? baoCao.getPlane().getId().toString() : "";
+                    String matBang = null != baoCao.getPlane() ? "MB_" + baoCao.getPlane().getId().toString() : "";
                     String ngayBatDau = null != baoCao.getStartDate() ? dateFormat.format(baoCao.getStartDate()) : "";
-                    Double soTien = null != baoCao.getTotal() ? baoCao.getTotal() : 0;
+
+                    Double soTien = null != baoCao.getTotal() && baoCao.getTotal() > 0 ? baoCao.getTotal() : 0;
+
                     String ghiChu = baoCao.getInformation();
                     totalMoney = null != totalMoney ? totalMoney + soTien : soTien;
 
@@ -374,7 +406,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCell cellTotal = row.getCell(1);
             cellTotal.setCellValue(totalMoney);
-            cellTotal.setCellStyle(styleSalary);
+            cellTotal.setCellStyle(styleSalaryVND);
             return wb;
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ import {AbstractControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {Employee} from '../../employee-module/model/Employee';
 import {ContractFormCreateDTO} from '../dto/ContractFormCreateDTO';
-import {CustomerServiceService} from './customer-service.service';
+
 import {ContractComponentComponent} from '../contract-component.component';
 import {ContractViewDTO} from '../dto/ContractViewDTO';
 
@@ -14,14 +14,16 @@ import {ContractViewDTO} from '../dto/ContractViewDTO';
 export class ContractServiceService {
   url = 'http://localhost:8080/contract';
 
-  constructor(private httpClient: HttpClient,
-              private customerService: CustomerServiceService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   save(value: AbstractControl): Observable<ContractFormCreateDTO> {
-    console.log(this.getContractDTO(value));
+    if (this.getContractDTO(value).id.toString() === '') {
+      return this.httpClient.post<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
+    } else {
+      return this.httpClient.put<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
+    }
     // return null;
-    return this.httpClient.post<ContractFormCreateDTO>(`${this.url}`, this.getContractDTO(value));
   }
 
 
@@ -34,6 +36,9 @@ export class ContractServiceService {
     return this.httpClient.get<GetResponse>(`${this.url}/list?customerName=${nameCustomer}&employeeName=${employeeName}&planeId=${planeId}&dateStart=${daystart}&page=${page}`);
   }
 
+  findAllByCustomerId(customerId: string) {
+    return this.httpClient.get<ContractViewDTO[]>(`${this.url}/getByCustomerId/${customerId}`);
+  }
   // tslint:disable-next-line:ban-types
   delete(id: number): Observable<Boolean> {
     // tslint:disable-next-line:ban-types
@@ -48,8 +53,8 @@ export class ContractServiceService {
     return {
       id: control.value.id,
       termId: control.value.termId,
-      price: parseFloat(control.value.price.replace(/,/g, '')),
-      total: parseFloat(control.value.total.replace(/,/g, '')),
+      price: parseFloat(control.value.price.replace(/\./g, '')),
+      // total: parseFloat(control.value.total.replace(/,/g, '')),
       information: control.value.information,
       startDate: control.value.startDate,
       customerId: control.value.customerId,
@@ -69,5 +74,6 @@ interface GetResponse {
   content: ContractViewDTO[];
   totalPages: number;
   number: number;
+  totalElements: number;
 }
 

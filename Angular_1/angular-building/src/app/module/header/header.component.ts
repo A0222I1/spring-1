@@ -1,22 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {AccountService} from '../../account/service/account.service';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {Title} from '@angular/platform-browser';
 import {UserService} from "../../account/service/user.service";
 import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class HeaderComponent implements OnInit {
-  currenUser: Account;
   token: TokenApi;
   employee: EmployeeViewDTO;
   temp = undefined;
+  isLoggedIn: boolean;
+  employeeName: string;
 
   constructor(private accountService: AccountService,
               private pageTitle: Title,
@@ -24,15 +27,24 @@ export class HeaderComponent implements OnInit {
               private router: Router) {
   }
 
-  ngOnInit(): void {
-    this.loginByUser();
-    this.getEmployee();
-  }
 
-  checkToken() {
-    if (!localStorage.getItem('token')) {
-      this.router.navigate(['/login']);
-    }
+  ngOnInit(): void {
+    this.dataEmployee();
+    this.router.navigate(['/login']).then(() => {
+      this.userService.isLoggedIn.subscribe(data => {
+        this.isLoggedIn = data;
+      });
+      if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
+        this.isLoggedIn = true;
+      }
+      this.userService.employeeName.subscribe(data => {
+        this.employeeName = data;
+      });
+      if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
+        this.userService.getEmployee();
+      }
+    });
+    this.loginByUser();
   }
 
   loginByUser(): boolean {
@@ -42,18 +54,19 @@ export class HeaderComponent implements OnInit {
     return this.temp === 1;
   }
 
-  logOut() {
-    this.userService.logOut();
-    this.router.navigate(['/login']).then(() => {
-      location.reload();
-    });
-  }
-
-  getEmployee() {
+  dataEmployee() {
     console.log(1);
     this.token = JSON.parse(localStorage.getItem('token'));
     this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
       this.employee = data;
+    });
+  }
+
+  onLogOut() {
+    this.userService.logOut();
+    this.router.navigate(['/login']).then(() => {
+      this.userService.setLoggedIn(false);
+      location.reload();
     });
   }
 

@@ -3,7 +3,8 @@ import {StaticsviewDTO} from "../dto/StaticsviewDTO";
 import {StaticThuNhapThapServiceService} from "../service/static-thunhapthap-service.service";
 import Chart from 'chart.js';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {StaticServiceService} from "../service/static-service.service";
+import {checkDateLow} from "../validate/validate";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-static-thunhapthap',
@@ -15,19 +16,17 @@ export class StaticThunhapthapComponent implements OnInit {
   chartdata: any;
   labelData: any[] = [];
   readData: any[] = [];
-  chart = Chart;
+  chartThuNhapThap = Chart;
 
   static: StaticsviewDTO[] = [];
-  startDateLowString  = "";  //'2023-02-10';
-  finishDateLowString  = '';    //'2023-02-15';
-  stt = 1;
-  totalSalary = 0;
-  totalPages = 0;
+  startDateLowString = '';
+  finishDateLowString = '';
   rowNumber = '';
-  totalCalculate  = 0;
+  totalCalculate = 0;
 
   constructor(private staticsService: StaticThuNhapThapServiceService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private toast: ToastrService) {
   }
 
 
@@ -36,30 +35,21 @@ export class StaticThunhapthapComponent implements OnInit {
 
     this.findAllLowWithCondition(this.startDateLowString, this.finishDateLowString, this.rowNumber);
 
-    this.staticsService.getAllDataLow(this.startDateLowString, this.finishDateLowString, this.rowNumber)
-      .subscribe(result => {
-
-      });
+    this.staticsService.getAllDataLow(this.startDateLowString, this.finishDateLowString, this.rowNumber);
     this.createChart(this.labelData, this.readData);
   }
 
   buildForm() {
     this.formGroup = this.formBuilder.group({
       startLowDate: ['', [Validators.required]],
-      finalLowDate: ['', [Validators.required]],
+      finalLowDate: ['', [Validators.required, checkDateLow]],
       rowLowNumbers: ['', [Validators.required,
-        Validators.pattern("^([0-9]+)")]]
-
-      /*
-            finalLowDate: ['', [Validators.required, checkDate]]
-      */
-      // finalDate: ['', [Validators.required, checkDate]]
-
-      // finalDate: new FormControl('', [checkDate(this.startDateString, this.finishDateString)]),
+        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
     });
   }
+
   createChart(labelData: any, readData: any) {
-    this.chart = new Chart('ChartRent', {
+    this.chartThuNhapThap = new Chart('ChartRentThuNhapThap', {
       type: 'bar',
       data: {
         labels: labelData,
@@ -95,15 +85,20 @@ export class StaticThunhapthapComponent implements OnInit {
           this.static = e;
 
           this.chartdata = e;
+          if (this.static.length === 0) {
+            this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
+          }
           if (null != this.chartdata) {
             for (const item of this.chartdata) {
-              console.log(item);
               this.labelData.push("MB " + item.plane.id);
               this.readData.push(item.total);
             }
           }
-        });
-    this.createChart(this.labelData, this.readData);
+          this.createChart(this.labelData, this.readData);
+        }, error => {
+          this.toast.warning('Lỗi server', 'Thông báo');
+        }
+      );
 
   }
 
@@ -115,12 +110,12 @@ export class StaticThunhapthapComponent implements OnInit {
       a.download = fileName;
       a.href = window.URL.createObjectURL(blob);
       a.click();
-      console.log(fileName);
     });
   }
 
 
   total() {
+    console.log(this.static);
     this.totalCalculate = 0;
     for (let i = 0; i < (this.static.length); i++) {
       this.totalCalculate = this.static[i].total + this.totalCalculate;

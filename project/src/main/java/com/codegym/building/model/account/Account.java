@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -44,5 +45,7 @@ public class Account extends AccountDetail {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         this.username = user_name;
         this.password = bCryptPasswordEncoder.encode(password);
+        this.status= "on";
+        this.dateCreate = Date.valueOf(LocalDate.now());
     }
 }

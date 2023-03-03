@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,5 +73,10 @@ public class EmployeeServiceImpl implements PersonService<Employee> {
     @Override
     public Employee findByUserName(String username) {
         return repos.findByUserName(username);
+    }
+
+    @Override
+    public Employee findIdCardForContract(String id_card) {
+        return null;
     }
 }

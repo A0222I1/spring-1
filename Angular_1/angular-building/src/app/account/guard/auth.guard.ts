@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import {ToastrService} from "ngx-toastr";
-import {Employee} from "../../module/employee-module/model/Employee";
 import {EmployeeViewDTO} from "../../module/employee-module/dto/EmployeeViewDTO";
+
 
 // @ts-ignore
 @Injectable({
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     if (localStorage.getItem('token')) {
       return true;
     }
-    this.toast.error("Đăng nhập mới có thể vào chức năng này.");
+    this.toast.error("Bạn phải đăng nhập để sử dụng chức năng này!");
     this.router.navigate(['/login']);
     return false;
   }

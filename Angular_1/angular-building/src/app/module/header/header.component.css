@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   font-size: 14px;
-
 }
 
 .social-media p a {
@@ -28,7 +27,7 @@
 }
 
 .collapse .nav-item {
-  padding-right: 50px;
+  padding-right: 30px;
 }
 
 .navbar-brand {
@@ -66,16 +65,30 @@
 }
 
 nav {
+  margin-top: 20px;
   border-bottom: 2px chartreuse;
+  position: fixed;
+  width: 100%;
+  /*opacity: 50%;*/
+  z-index: 1000;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 }
 
 .rowTop {
   display: flex;
   justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  background-color: #6A2C70;
+
 }
 
-@media (max-width: 1051px) {
+@media (max-width: 1074px) {
   a {
+    font-size: 12px;
+  }
+  .logout{
     font-size: 12px;
   }
 }
