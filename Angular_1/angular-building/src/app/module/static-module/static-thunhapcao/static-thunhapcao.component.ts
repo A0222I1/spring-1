@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {StaticsviewDTO} from "../dto/StaticsviewDTO";
-import {StaticThuNhapCaoServiceService} from "../service/static-thunhapcao-service.service"
+import {StaticsviewDTO} from '../dto/StaticsviewDTO';
+import {StaticThuNhapCaoServiceService} from '../service/static-thunhapcao-service.service';
 import Chart from 'chart.js';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {checkDateHigh} from "../validate/validate";
-import {ToastrService} from "ngx-toastr";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {checkDateHigh} from '../validate/validate';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -50,16 +50,16 @@ export class StaticThunhapcaoComponent implements OnInit {
             this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
           }
           if (null != this.chartdata) {
-            for (let i = 0; i < this.chartdata.length; i++) {
-              console.log(this.chartdata[i]);
-              this.labelData.push("MB " + this.chartdata[i].plane.id);
-              this.readData.push(this.chartdata[i].total);
+            for (const item of this.chartdata) {
+              console.log(item);
+              this.labelData.push('MB ' + item.plane.id);
+              this.readData.push(item.total);
             }
           }
           this.createChart(this.labelData, this.readData);
 
         }, error => {
-            this.toast.warning('Lỗi server', 'Thông báo');
+          this.toast.error('Lỗi server', 'Thông báo');
         });
   }
 
@@ -69,7 +69,7 @@ export class StaticThunhapcaoComponent implements OnInit {
       startHighDate: ['', [Validators.required]],
       finalHighDate: ['', [Validators.required, checkDateHigh]],
       rowHighNumbers: ['', [Validators.required,
-        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
+        Validators.pattern('^([1-9]+)'), Validators.max(20)]]
     });
   }
 

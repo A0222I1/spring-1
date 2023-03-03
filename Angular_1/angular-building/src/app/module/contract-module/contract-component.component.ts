@@ -239,7 +239,7 @@ export class ContractComponentComponent implements OnInit {
   }
 
   forMatNumber(value: any) {
-    this.formattedNumber = new Intl.NumberFormat().format(parseFloat(value.replace(/\./g, '')));
+    this.formattedNumber = new Intl.NumberFormat().format(parseFloat(value.replace(/\,/g, '')));
     this.formGroup.patchValue({
       price: this.formattedNumber === 'NaN' ? '' : this.formattedNumber
     });
@@ -257,6 +257,27 @@ export class ContractComponentComponent implements OnInit {
       this.customerView = undefined;
       this.toastrService.error('Xin lỗi thông tin của khách hàng chưa được lưu trên hệ thống của chúng tôi');
     });
+  }
+  getPageChoice(page) {
+    if (this.validPage(page)) {
+      this.findAllByCondition(this.customerNameSearch, this.employeeNameSearch, this.planeIdSearch, this.dateStartSearch, page);
+
+      // this.getAll(this.areaSearch,this.stageSearch,this.statusSearch,this.typeSearch,page);
+    }
+  }
+  validPage(page: number) {
+    if (page >= this.totalPages || page < 0) {
+      this.toastrService.error(`Trang chỉ nên trong khoảng từ 1 đến ${this.totalPages}.`);
+      // this.message="Trang chỉ nên trong khoảng từ 1 đến " + this.totalPages+".";
+      // document.getElementById("button-notification").click();
+      (document.getElementById("input-page-choice") as HTMLInputElement).value = "";
+      return false;
+    }
+    if (isNaN(Number(page))) {
+      this.toastrService.error("Trang chọn phải là số.");
+      (document.getElementById("input-page-choice") as HTMLInputElement).value = "";
+    }
+    return true;
   }
 
   calculateEndDate() {
@@ -283,7 +304,7 @@ export class ContractComponentComponent implements OnInit {
 
 
   calculateTotalPrice() {
-    const price = parseFloat(this.formGroup.value.price.replace(/\./g, '')) * this.getTermNameInInt(this.formGroup.value.termId);
+    const price = parseFloat(this.formGroup.value.price.replace(/\,/g, '')) * this.getTermNameInInt(this.formGroup.value.termId);
     if (!isNaN(price)) {
       this.formGroup.patchValue({
         total: new Intl.NumberFormat().format(price)

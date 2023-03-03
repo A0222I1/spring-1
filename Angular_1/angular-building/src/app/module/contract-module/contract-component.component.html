@@ -153,12 +153,12 @@
     </li>
     <li class="page-item">
       <div class="input-group rounded">
-        <input type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
+        <input id="input-page-choice" type="search" class="form-control rounded" placeholder="chọn trong {{totalPages}} trang" #element
                aria-label="Search" aria-describedby="search-addon"/>
         <span class="input-group-text border-0" id="search-addon">
-           <i class="fas fa-search"
-              (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,+element.value - 1)"></i>
-        </span>
+     <i class="fas fa-search"
+        (click)="getPageChoice(element.value-1)"></i>
+  </span>
       </div>
     </li>
   </ul>

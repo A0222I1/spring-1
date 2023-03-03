@@ -36,12 +36,10 @@ export class HeaderComponent implements OnInit {
     }
     this.userService.employeeName.subscribe(data => {
       this.employeeName = data;
-      console.log('ten nhan vien:  ', this.employeeName);
     });
     if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
       this.userService.getEmployee();
     }
-    console.log('trang thai dang nhap: ', this.isLoggedIn);
   }
 
   onLogOut() {

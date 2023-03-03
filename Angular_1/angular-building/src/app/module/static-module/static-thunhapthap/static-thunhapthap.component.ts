@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {StaticsviewDTO} from "../dto/StaticsviewDTO";
-import {StaticThuNhapThapServiceService} from "../service/static-thunhapthap-service.service";
+import {StaticsviewDTO} from '../dto/StaticsviewDTO';
+import {StaticThuNhapThapServiceService} from '../service/static-thunhapthap-service.service';
 import Chart from 'chart.js';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {checkDateLow} from "../validate/validate";
-import {ToastrService} from "ngx-toastr";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {checkDateLow} from '../validate/validate';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-static-thunhapthap',
@@ -44,7 +44,7 @@ export class StaticThunhapthapComponent implements OnInit {
       startLowDate: ['', [Validators.required]],
       finalLowDate: ['', [Validators.required, checkDateLow]],
       rowLowNumbers: ['', [Validators.required,
-        Validators.pattern("^([1-9]+)"), Validators.max(20)]]
+        Validators.pattern('^([1-9]+)'), Validators.max(20)]]
     });
   }
 
@@ -90,13 +90,13 @@ export class StaticThunhapthapComponent implements OnInit {
           }
           if (null != this.chartdata) {
             for (const item of this.chartdata) {
-              this.labelData.push("MB " + item.plane.id);
+              this.labelData.push('MB ' + item.plane.id);
               this.readData.push(item.total);
             }
           }
           this.createChart(this.labelData, this.readData);
         }, error => {
-          this.toast.warning('Lỗi server', 'Thông báo');
+          this.toast.error('Lỗi server', 'Thông báo');
         }
       );
 
