@@ -31,6 +31,23 @@ table > tbody > tr > td p {
   margin: 10px 0;
 }
 
+.row{
+  margin-left: 60px;
+}
+
+.row input {
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 1px 1px 4px 1px grey;
+  padding: 5px 20px 5px 10px;
+  font-size: 14px;
+}
+
+.row input::placeholder {
+  font-size: 14px;
+}
+
 .list-inputsearch {
   display: flex;
   padding: 0 20px;

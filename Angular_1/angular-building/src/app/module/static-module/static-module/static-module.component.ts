@@ -84,6 +84,7 @@ export class StaticModuleComponent implements OnInit {
         (e: any) => {
           this.static = e;
           this.chartdata = e;
+          console.log(e);
           if (this.static.length === 0) {
             this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
           }
@@ -119,7 +120,5 @@ export class StaticModuleComponent implements OnInit {
     }
     return this.totalCalculate;
   }
-
-
 }
 
