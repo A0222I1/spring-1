@@ -3,9 +3,8 @@
   <div class="list-input-search">
     <input  id="nameCustomer" type="text" #nameCustomer (change)="customerNameSearch = nameCustomer.value" placeholder="Tên Khách Hàng">
     <input  id="nameEmployee" type="text" #nameEmployee (change)="employeeNameSearch = nameEmployee.value" placeholder="Tên Nhân Viên">
-    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value" placeholder="Mã Mặt Bằng">
-    <input style="width: 80px" id="startDate"  #startDay (change)="dateStartSearch = startDay.value" type="text"
-            onfocus="(this.type='date')" placeholder="Ngày Bắt Đầu">
+    <input  id="planeId" type="text" #planeId (change)="planeIdSearch =  planeId.value.split('_')[1]" placeholder="Mã Mặt Bằng">
+    <input  id="startDate" type="date" #startDay placeholder="dd-mm-yyyy" (change)="dateStartSearch = startDay.value" placeholder="Ngày Bắt Đầu">
     <div class="list-input-search-icon">
       <i class="fa fa-search list-input-search-icon-search" style=" background-color: blue" aria-hidden="true" (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,0)"></i>
       <i class="fa fa-undo list-input-search-icon-undo" style=" background-color: gray;" (click)="refreshPage()" aria-hidden="true"></i>
@@ -15,21 +14,21 @@
 <table class="table tab">
   <thead class="thead-dark">
   <tr>
-    <th scope="col">Mã Hợp Đồng</th>
+    <th scope="col">Id</th>
     <th scope="col">Tên Khách Hàng</th>
     <th scope="col">Tên Nhân Viên</th>
-    <th scope="col">Tên Mặt Bằng</th>
+    <th scope="col">Tên mặt Bằng</th>
     <th scope="col">Tình Trạng Mặt Bằng</th>
     <th scope="col">Ngày Bắt Đầu</th>
-    <th scope="col">Thao Tác</th>
+    <th scope="col">Hành Động</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let contract of contracts ; index as i">
-    <td scope="row">HĐ-{{contract.id}}</td>
+    <td scope="row">{{contract.id}}</td>
     <td scope="row">{{contract.customerName}}</td>
     <td scope="row">{{contract.employeeName}}</td>
-    <td scope="row">MB-{{contract.planeId}}</td>
+    <td scope="row">MB_{{contract.planeId}}</td>
     <td scope="row">{{contract.planeStatus}}</td>
     <td scope="row">{{contract.startDate  | date: 'dd/MM/yyyy'}}</td>
 
@@ -65,7 +64,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có muốn xóa hợp đông <span style="font-weight: bold">HD-{{name}}</span>?
+        Bạn có muốn hợp đồng này HD_{{name}}?
         <p style="color: red"><i class="fa-solid fa-circle-exclamation"></i>Đây là hành động không thể hoàn tác</p>
         <input hidden id="id_delete" #id_delete>
       </div>
@@ -93,7 +92,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Tài khoản hiện tại là của {{employeeAccount?.name}} không có quyền thay đổi thông tin.
+        Tài khoản hiện tại là của {{employeeAccount?.name}}. Bạn không có quyên thay đổi cái này.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -102,8 +101,8 @@
     </div>
   </div>
 </div>
-<!--page-->
-<div *ngIf="(totalElements> 0); else isEmpty">
+
+<div  *ngIf="(totalElements> 0); else isEmpty">
   <ul class="pagination justify-content-center">
     <li class="page-item">
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
@@ -114,31 +113,17 @@
     <li>
       <a class="page-link" *ngIf="indexPagination != 0 ? 'disable': ''">
         <i class="fa-solid fa-backward"
-           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination - 1)"></i>
+           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch, indexPagination- 1)"></i>
       </a>
     </li>
     <li class="page-item" *ngFor="let item of [].constructor(totalPages); let i = index">
-
-      <ng-container *ngIf="i < 3 || i >= totalPages - 3">
-        <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
-           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
-          {{i + 1}}
-        </a>
-      </ng-container>
-      <ng-container *ngIf="3 <= i && i < totalPages - 3 &&(i == indexPagination + 1 || i== indexPagination-1 || i ==indexPagination)">
-        <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
-           (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
-          {{i + 1}}
-        </a>
-      </ng-container>
-      <ng-container *ngIf="(3 < i && i < totalPages - 3 && i != indexPagination && i != indexPagination + 1 && i!=indexPagination-1)">
-        <a class="page-link">
-          ...
-        </a>
-      </ng-container>
+      <a class="page-link" [ngClass]="indexPagination == i ? 'current': ''"
+         (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,i)">
+        {{i + 1}}
+      </a>
     </li>
     <li>
-      <a class="page-link"  *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
+      <a class="page-link" *ngIf="indexPagination < totalPages - 1 ? 'disable': ''">
         <i class="fa-solid fa-forward"
            (click)="findAllByCondition(customerNameSearch,employeeNameSearch,planeIdSearch,dateStartSearch,indexPagination + 1)"></i>
       </a>
@@ -161,13 +146,12 @@
         </span>
       </div>
     </li>
+
   </ul>
 </div>
 
-
-
 <ng-template #isEmpty class="clearfix">
-  <div style="font-size: 18px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}&nbsp;{{employeeNameSearch}}&nbsp;{{planeIdSearch}}&nbsp;{{dateStartSearch| date: 'dd/MM/yyyy'}}" </b></div>
+  <div style="font-size: 20px; margin-left: 73px" class="hint-text">Không tìm thấy hợp đồng phù hợp với từ khóa <b>"{{customerNameSearch}}{{planeIdSearch}}{{employeeNameSearch}}{{dateStartSearch}}" </b></div>
 </ng-template>
 
 <!-- Button trigger modal -->
@@ -177,7 +161,7 @@
 </button>
 
 
-<!-- function modal-->
+<!-- Detail modal-->
 <div class="modal fade" id="contractFunction">
   <div class="modal-dialog modal-xl">
     <form [formGroup]="formGroup" (ngSubmit)="saveAllForm()">
@@ -241,7 +225,7 @@
               <label>Mã Mặt Bằng (<span>*</span>)</label>
               <select class="form-control" formControlName="planeId" [attr.disabled]="disabled  == true ? '' : null">
                 <option value="">Chọn mã mặt bằng</option>
-                <option *ngFor="let p of planeList" [ngValue]="p.id">MB-{{p.id}}</option>
+                <option *ngFor="let p of planeList" [ngValue]="p.id">MB_{{p.id}}</option>
               </select>
               <span style="color: red"
                     *ngIf="(formGroup.controls.planeId.hasError('required') && ( formGroup.controls.planeId.touched || flagDisplayValidate))">
@@ -289,7 +273,7 @@
 
             </div>
             <div class="col-4">
-              <label>Giá Tiền Mỗi Tháng (VNĐ) (<span>*</span>)</label>
+              <label>Giá Tiền Mỗi Tháng (<span>*</span>)</label>
               <input type="text" (keyup)="calculateTotalPrice()" formControlName="price" class="form-control"
                      (keyup)="forMatNumber($event.target.value)" required
                      [attr.disabled]="disabled  == true ? '' : null">
@@ -300,53 +284,49 @@
 
             </div>
             <div class="col-4">
-              <label>Tổng Tiền (VNĐ)</label>
+              <label>Tổng Tiền</label>
               <input type="text" formControlName="total" class="form-control" value="" disabled>
               <span style="color: red">&nbsp;</span>
 
 
             </div>
-            <div class = "col-12">
-              <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
-              <div class="row">
-                <div class="col-12">
-                <textarea  class="form-control" formControlName="information" required
+
+            <label>Nội Dung Hợp Đồng (<span>*</span>)</label>
+            <div class="row">
+              <div class="col-12">
+                <textarea style="width: 102.3%" class="form-control" formControlName="information" required
                           [attr.disabled]="disabled  == true ? '' : null"></textarea>
-                  <span style="color: red"
-                        *ngIf="(formGroup.controls.information.hasError('required') && (formGroup.controls.information.touched || flagDisplayValidate))">
+                <span style="color: red"
+                      *ngIf="(formGroup.controls.information.hasError('required') && (formGroup.controls.information.touched || flagDisplayValidate))">
               Nhập giá nội dung hợp đồng
             </span>
-                  <span style="color: red"> &nbsp;</span>
+                <span style="color: red"> &nbsp;</span>
 
-                </div>
               </div>
             </div>
 
+            <hr style="margin-top: 10px">
 
+            <h5>Thông Tin Nhân Viên</h5>
+            <div class="row">
+              <div class="col-4">
+                <label>Nhân Viên</label>
 
+                <input value="{{displayEmployee?.name}}" type="text" class="form-control" disabled required>
+              </div>
+              <div class="col-4">
+                <label>SĐT Nhân Viên</label>
+                <input value="{{displayEmployee?.phone}}" type="text" class="form-control" disabled required>
+              </div>
+              <div class="col-4">
+                <label>Email Nhân Viên</label>
+                <input value="{{displayEmployee?.email}}" type="text" class="form-control" disabled required>
+              </div>
+            </div>
 
+            <hr style="margin-top: 10px">
 
           </div>
-          <hr style="margin-top: 10px">
-
-          <h5>Thông Tin Nhân Viên</h5>
-          <div class="row">
-            <div class="col-4">
-              <label>Nhân Viên</label>
-
-              <input value="{{displayEmployee?.name}}" type="text" class="form-control" disabled required>
-            </div>
-            <div class="col-4">
-              <label>SĐT Nhân Viên</label>
-              <input value="{{displayEmployee?.phone}}" type="text" class="form-control" disabled required>
-            </div>
-            <div class="col-4">
-              <label>Email Nhân Viên</label>
-              <input value="{{displayEmployee?.email}}" type="text" class="form-control" disabled required>
-            </div>
-          </div>
-
-
 
 
         </div>
