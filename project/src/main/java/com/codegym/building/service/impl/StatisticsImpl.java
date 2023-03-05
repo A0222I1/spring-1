@@ -93,7 +93,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCellStyle styleSalaryVND = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalaryVND, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalaryVND.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
@@ -211,7 +211,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCellStyle styleSalaryVND = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalaryVND, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalaryVND.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
@@ -330,7 +330,7 @@ public class StatisticsImpl implements StatisticsService {
 
             XSSFCellStyle styleSalaryVND = wb.createCellStyle();
             this.setStyleForCellNormal(styleSalaryVND, defaultFont);
-            styleSalary.setDataFormat(cf.getFormat("#,##0 VNĐ"));
+            styleSalaryVND.setDataFormat(cf.getFormat("#,##0 VNĐ"));
 
             XSSFCellStyle styleTitle = wb.createCellStyle();
             this.setStyleTitle(styleTitle, titleFont);
