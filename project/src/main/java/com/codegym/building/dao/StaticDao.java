@@ -39,7 +39,7 @@ public class StaticDao {
             sql.append("     ELSE 0 ");
             sql.append(" END) AS total ");
             sql.append(" FROM contract ct ");
-            sql.append(" WHERE 1=1 ");
+            sql.append(" WHERE ct.status = 'on'");
             if (null != startDay && startDay.length() > 0) {
                 sql.append(" AND ct.start_date >= '" + startDay + "' ");
             }
