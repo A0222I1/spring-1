@@ -17,6 +17,8 @@ import {Router} from '@angular/router';
 export class HeaderComponent implements OnInit {
   token: TokenApi;
   employee: EmployeeViewDTO;
+  roleNum: number;
+  role: boolean;
   isLoggedIn: boolean;
   employeeName: string;
 
@@ -28,19 +30,29 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // get login status
     this.userService.isLoggedIn.subscribe(data => {
       this.isLoggedIn = data;
     });
     if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
       this.isLoggedIn = true;
     }
+    // get name employee
     this.userService.employeeName.subscribe(data => {
       this.employeeName = data;
     });
     if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
-      this.userService.getEmployee();
+      this.userService.getNameEmployee();
     }
+    // get role
+    this.userService.role.subscribe(data => {
+      if (data) {
+        this.roleNum = data;
+        this.role = this.roleNum === 1;
+      }
+    });
   }
+
 
   onLogOut() {
     this.userService.logOut();
@@ -49,7 +61,6 @@ export class HeaderComponent implements OnInit {
       location.reload();
     });
   }
-
 
   setPageTitle(title: string) {
     this.pageTitle.setTitle(title);

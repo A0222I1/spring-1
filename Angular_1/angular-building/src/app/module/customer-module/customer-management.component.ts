@@ -107,7 +107,7 @@ export class CustomerManagementComponent implements OnInit {
   findById(id: string) {
     this.customerService.findById(id).subscribe(value => {
         document.getElementById("name_delete").innerText = value.name;
-        (<HTMLInputElement>document.getElementById("id_delete")).value = value.id;
+        ( document.getElementById("id_delete") as HTMLInputElement).value = value.id;
       },
       error => {
         this.message = error.error;
@@ -159,5 +159,4 @@ export class CustomerManagementComponent implements OnInit {
     }
     return true;
   }
-
 }

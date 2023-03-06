@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import { Observable } from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
+import {ToastrService} from "ngx-toastr";
+import {EmployeeViewDTO} from "../../module/employee-module/dto/EmployeeViewDTO";
+
 
 // @ts-ignore
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  employee: EmployeeViewDTO;
 
   constructor(private router: Router, private toast: ToastrService) {
   }

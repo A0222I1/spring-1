@@ -10,7 +10,7 @@
       <form class="login" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
         <div class="login__field">
           <i class="login__icon fas fa-user"></i>
-          <input style="display: block" type="text" class="login__input" formControlName="username" placeholder="Tài khoản hoặc email">
+          <input style="display: block" type="text" class="login__input" autofocus formControlName="username" placeholder="Tài khoản hoặc email">
           <span *ngIf="loginForm.controls.username.hasError('required')&&loginForm.controls.username.touched" class="error">Tài khoản không được để trống</span>
         <span>&nbsp;</span>
         </div>
@@ -27,7 +27,7 @@
         <div class="remember_me">
           <label class="checkbox">
             <input type="checkbox" name="checkbox" formControlName="rememberMe" checked>
-            <i>Lưu tài khoản</i>
+            <i class="lable">Lưu tài khoản</i>
           </label>
         </div>
         <table class="login_button">
@@ -39,8 +39,8 @@
               </button>
             </td>
             <td>
-              <button class="button login__submit" type="button" routerLink="/home">
-                <span class="button__text" >Thoát</span>
+              <button class="button login__submit login__exit" type="button" routerLink="/home">
+                <span class="button__text exit__text" >Thoát</span>
                 <i class="button__icon fas fa-chevron-right"></i>
               </button>
             </td>

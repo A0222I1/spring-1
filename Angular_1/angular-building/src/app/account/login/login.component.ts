@@ -44,13 +44,14 @@ export class LoginComponent implements OnInit {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
-        this.userService.getEmployee();
+        this.userService.getNameEmployee();
+        this.userService.getRole();
         this.userService.setLoggedIn(true);
         this.toast.success('Đăng nhập thành công !!', 'Thông báo');
       });
     }, err => {
-      if (!this.loginForm.value) {
-        this.errorMessage = 'Tài khoản và mật khẩu không chính xác.';
+      if (this.loginForm.value) {
+        this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng.';
       }
     });
   }

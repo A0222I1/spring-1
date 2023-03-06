@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
         Optional<Account> account = repos.findById(username);
         List<GrantedAuthority> grantList = new ArrayList<>();
         if (account.isPresent()) {
-            return new User(account.get().getUser_name(),account.get().getPassword(),grantList);
+            return new User(account.get().getUsername(),account.get().getPassword(),grantList);
         }
         throw new NotFoundById("Không thể tìm ra tài khoản nào với tên người dùng là " + username);
     }

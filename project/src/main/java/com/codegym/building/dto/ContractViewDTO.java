@@ -36,7 +36,7 @@ public class ContractViewDTO {
         this.planeStatus = contract.getPlane().getPlaneStatus().getName();
         this.idCardCustomer = contract.getCustomer().getId_card();
         this.maxRole = getMaxRole(contract.getEmployee().getAccount().getAccountRoles()) ;
-        this.accountName = contract.getEmployee().getAccount().getUser_name();
+        this.accountName = contract.getEmployee().getAccount().getUsername();
     }
 
     public Long getMaxRole(List<AccountRole> listAccountRole) {

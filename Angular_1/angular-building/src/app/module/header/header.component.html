@@ -58,8 +58,8 @@
         </a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" routerLink="plane">Mặt bằng</a></li>
-          <li><a class="dropdown-item" routerLink="employee">Nhân viên</a></li>
-          <li><a class="dropdown-item" routerLink="customer">Khách hàng</a></li>
+          <li><a class="dropdown-item" routerLink="employee" *ngIf="role">Nhân viên</a></li>
+          <li><a class="dropdown-item" routerLink="customer" *ngIf="role">Khách hàng</a></li>
           <li><a class="dropdown-item" routerLink="contract">Hợp đồng</a></li>
         </ul>
       </li>
@@ -87,8 +87,8 @@
       </button>
     </div>
     <div *ngIf="isLoggedIn">
-      <button *ngIf="employeeName" class="btn logout">Xin chào : {{employeeName}}</button>
-      <i class="fa-solid fa-right-from-bracket ms-3 me-3" (click)="onLogOut()"></i>
+      <button *ngIf="employeeName" class="btn logout btn-outline-violet">Xin chào : {{employeeName}}</button>
+      <i class="fa-solid fa-right-from-bracket ms-3 me-3 btn-outline-violet" (click)="onLogOut()"></i>
     </div>
   </div>
 </nav>
