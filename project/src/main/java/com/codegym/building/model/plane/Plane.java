@@ -31,7 +31,7 @@ public class Plane {
     @JoinColumn(name = "plane_type_id", nullable = false, referencedColumnName = "id")
     PlaneType planeType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stage_id",nullable = false, referencedColumnName = "id")
     Stage stage;
 

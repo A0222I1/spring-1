@@ -32,10 +32,10 @@ export class PlaneManagementComponent implements OnInit {
   totalPages: number;
   rfForm: FormGroup;
   message = '';
-  areaSearch: string = '';
-  stageSearch: string = '';
-  statusSearch: string = '';
-  typeSearch: string = '';
+  areaSearch = '';
+  stageSearch = '';
+  statusSearch = '';
+  typeSearch = '';
   formArray: FormArray;
 
   constructor(private formBuilder: FormBuilder,
@@ -158,12 +158,12 @@ export class PlaneManagementComponent implements OnInit {
   async submit() {
     let src = '';
     document.getElementById('pop-up-container').style.display = 'block';
-    for (let [index, file] of this.formArray.controls.entries()) {
+    for (const [index, file] of this.formArray.controls.entries()) {
       if (file.value != null) {
         if (file.value.file.type != 'image/png' && file.value.file.type != 'image/jpeg') {
         } else {
-          let filePath = `avatar${new Date().toISOString()}${file.value.file.name}`;
-          let fileRef = this.fireStorage.ref(filePath);
+          const filePath = `avatar${new Date().toISOString()}${file.value.file.name}`;
+          const fileRef = this.fireStorage.ref(filePath);
           await this.fireStorage.upload(filePath, file.value.file).snapshotChanges().toPromise();
           const url = await fileRef.getDownloadURL().toPromise();
           src += `${url}a0222i1`;
@@ -202,10 +202,10 @@ export class PlaneManagementComponent implements OnInit {
   uploadImg(event, i: number) {
     const fileName = event.target.files[0];
     if (fileName) {
-      this.formArray.controls[i].patchValue({'file': fileName});
+      this.formArray.controls[i].patchValue({file: fileName});
     }
-    let idImg = document.getElementById(`label-img${i}`) as HTMLImageElement;
-    let reader = new FileReader();
+    const idImg = document.getElementById(`label-img${i}`) as HTMLImageElement;
+    const reader = new FileReader();
     reader.readAsDataURL(fileName);
     reader.onload = function() {
       idImg.src = reader.result as string;
@@ -217,7 +217,7 @@ export class PlaneManagementComponent implements OnInit {
     const v = c.value;
     if (v <= 0) {
       return {
-        'validMoreThan0': true
+        validMoreThan0: true
       };
     }
     return null;
