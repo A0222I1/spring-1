@@ -16,7 +16,6 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   token: TokenApi;
-  employee: EmployeeViewDTO;
   roleNum: number;
   role: boolean;
   isLoggedIn: boolean;
@@ -48,7 +47,10 @@ export class HeaderComponent implements OnInit {
     this.userService.role.subscribe(data => {
       if (data) {
         this.roleNum = data;
-        this.role = this.roleNum === 1;
+        if (this.roleNum === 1 && this.userService.checkIsLoggedInWithToken()) {
+          this.role = true;
+        }
+        this.userService.getRole();
       }
     });
   }
