@@ -45,14 +45,14 @@ export class HeaderComponent implements OnInit {
     }
     // get role
     this.userService.role.subscribe(data => {
-      if (data) {
-        this.roleNum = data;
+      this.roleNum = data;
+      if (this.roleNum) {
         if (this.roleNum === 1 && this.userService.checkIsLoggedInWithToken()) {
           this.role = true;
         }
-        this.userService.getRole();
       }
     });
+    this.userService.getRole();
   }
 
 

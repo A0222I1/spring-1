@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  //LUANDL
+  // LUANDL
   // firebaseConfig : {
   //   // config của project
   //   apiKey: "AIzaSyAbMuVCgTmCrzoDCN4WFPW1vaF23TvdOvQ",
@@ -16,7 +16,7 @@ export const environment = {
   //   // địa chỉ database
   //   databaseURL: "gs://fire-angular-41bd5.appspot.com"
   // }
-  //TUANLN
+  // TUANLN
   firebaseConfig : {
     // config của project
     apiKey: "AIzaSyD_GZCTGxqPd756XV12-bSlvwqXBAhcx5k",
