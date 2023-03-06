@@ -88,15 +88,15 @@ export class StaticModuleComponent implements OnInit {
             this.toast.warning('Dữ liệu không tìm thấy', 'Thông báo');
           }
           if (null != this.chartdata) {
-            for (let i = 0; i < this.chartdata.length; i++) {
-              this.labelData.push("MB " + this.chartdata[i].plane.id);
-              this.readData.push(this.chartdata[i].total);
+            for (const item of this.chartdata) {
+              this.labelData.push("MB " + item.plane.id);
+              this.readData.push(item.total);
             }
           }
           this.createChart(this.labelData, this.readData);
         },
         error => {
-          this.toast.warning('Lỗi server', 'Thông báo');
+          this.toast.error('Lỗi server', 'Thông báo');
         });
   }
 

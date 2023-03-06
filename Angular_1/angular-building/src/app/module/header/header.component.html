@@ -58,8 +58,8 @@
         </a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" routerLink="plane">Mặt bằng</a></li>
-          <li><a class="dropdown-item" routerLink="employee">Nhân viên</a></li>
-          <li><a class="dropdown-item" routerLink="customer">Khách hàng</a></li>
+          <li><a class="dropdown-item" routerLink="employee" *ngIf="role">Nhân viên</a></li>
+          <li><a class="dropdown-item" routerLink="customer" *ngIf="role">Khách hàng</a></li>
           <li><a class="dropdown-item" routerLink="contract">Hợp đồng</a></li>
         </ul>
       </li>

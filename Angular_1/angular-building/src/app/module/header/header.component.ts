@@ -3,8 +3,8 @@ import {AccountService} from '../../account/service/account.service';
 import {TokenApi} from '../employee-module/model/dto/TokenApi';
 import {EmployeeViewDTO} from '../employee-module/dto/EmployeeViewDTO';
 import {Title} from '@angular/platform-browser';
-import {UserService} from "../../account/service/user.service";
-import {Router} from "@angular/router";
+import {UserService} from '../../account/service/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +17,8 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
   token: TokenApi;
   employee: EmployeeViewDTO;
-  temp = undefined;
+  roleNum: number;
+  role: boolean;
   isLoggedIn: boolean;
   employeeName: string;
 
@@ -29,38 +30,29 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.dataEmployee();
-    this.router.navigate(['/login']).then(() => {
-      this.userService.isLoggedIn.subscribe(data => {
-        this.isLoggedIn = data;
-      });
-      if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
-        this.isLoggedIn = true;
-      }
-      this.userService.employeeName.subscribe(data => {
-        this.employeeName = data;
-      });
-      if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
-        this.userService.getEmployee();
-      }
+    // get login status
+    this.userService.isLoggedIn.subscribe(data => {
+      this.isLoggedIn = data;
     });
-    this.loginByUser();
-  }
-
-  loginByUser(): boolean {
-    if (this.employee) {
-      this.temp = this.employee.maxRole;
+    if (!this.isLoggedIn === this.userService.checkIsLoggedInWithToken()) {
+      this.isLoggedIn = true;
     }
-    return this.temp === 1;
-  }
-
-  dataEmployee() {
-    console.log(1);
-    this.token = JSON.parse(localStorage.getItem('token'));
-    this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-      this.employee = data;
+    // get name employee
+    this.userService.employeeName.subscribe(data => {
+      this.employeeName = data;
+    });
+    if (this.employeeName === '' && this.userService.checkIsLoggedInWithToken()) {
+      this.userService.getNameEmployee();
+    }
+    // get role
+    this.userService.role.subscribe(data => {
+      if (data) {
+        this.roleNum = data;
+        this.role = this.roleNum === 1;
+      }
     });
   }
+
 
   onLogOut() {
     this.userService.logOut();

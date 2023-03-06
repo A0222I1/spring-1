@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    //OK
     if (this.loginForm.value.username.trim() === '' && this.loginForm.value.password.trim() === '') {
       this.loginForm.controls.password.setErrors({userNameAndPassword: true});
       return;
@@ -45,7 +44,8 @@ export class LoginComponent implements OnInit {
       const temp = JSON.stringify(data);
       localStorage.setItem('token', temp);
       this.router.navigate(['/home']).then(r => {
-        this.userService.getEmployee();
+        this.userService.getNameEmployee();
+        this.userService.getRole();
         this.userService.setLoggedIn(true);
         this.toast.success('Đăng nhập thành công !!', 'Thông báo');
       });

@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map, tap} from 'rxjs/operators';
-import {Account} from '../../module/employee-module/model/Account';
+import {HttpClient} from '@angular/common/http';
 import {AccountDTO} from '../../module/employee-module/model/dto/AccountDTO';
 import {TokenApi} from '../../module/employee-module/model/dto/TokenApi';
 import {AccountService} from './account.service';
@@ -16,8 +14,10 @@ const API_URL = 'http://localhost:8080/account';
 export class UserService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private nameEmployee: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  private maxRole: BehaviorSubject<number> = new BehaviorSubject<number>(2);
   private token: TokenApi;
-  private employee: string;
+  private maxRoleSub: number;
+  private nameEmployeeSub: string;
 
   constructor(private http: HttpClient,
               private accountService: AccountService,
@@ -32,12 +32,28 @@ export class UserService {
     localStorage.removeItem('token');
   }
 
-  getEmployee() {
+  getNameEmployee() {
     if (this.checkIsLoggedInWithToken()) {
       this.token = JSON.parse(localStorage.getItem('token'));
       this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
-          this.employee = data.name;
-          this.setEmployeeName(this.employee);
+          this.nameEmployeeSub = data.name;
+          this.setEmployeeName(this.nameEmployeeSub);
+        }, error => {
+          console.log('errors');
+        },
+        () => {
+        });
+    } else {
+      console.log('please login');
+    }
+  }
+
+  getRole() {
+    if (this.checkIsLoggedInWithToken()) {
+      this.token = JSON.parse(localStorage.getItem('token'));
+      this.accountService.parseTokenToEmployee(this.token.token).subscribe(data => {
+          this.maxRoleSub = data.maxRole;
+          this.setRole(this.maxRoleSub);
         }, error => {
           console.log('errors');
         },
@@ -67,5 +83,13 @@ export class UserService {
 
   get employeeName() {
     return this.nameEmployee.asObservable();
+  }
+
+  setRole(num: number) {
+    this.maxRole.next(num);
+  }
+
+  get role() {
+    return this.maxRole.asObservable();
   }
 }

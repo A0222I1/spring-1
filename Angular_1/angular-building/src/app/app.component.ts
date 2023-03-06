@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(filter(e => e instanceof ResolveEnd)).subscribe((e: ResolveEnd) => {
       const {data} = this.getDeepestChildSnapshot(e.state.root);
       if (data?.title) {
-        console.log(data.title);
         this.title.setTitle(data.title);
       }
     });
